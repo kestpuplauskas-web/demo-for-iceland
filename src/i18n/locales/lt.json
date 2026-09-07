@@ -412,7 +412,15 @@
       "empty": "Nėra objektų.",
       "missingDescription": "Be aprašymo",
       "missingPhotos": "Be nuotraukų",
-      "total": "Viso objektų"
+      "total": "Viso objektų",
+      "perProperty": "Objektų veikla pagal laikotarpį",
+      "perPropertyHint": "Kiekvieno objekto užimtumas, pajamos, ADR, ABV ir grynasis rezultatas pasirinktu laikotarpiu.",
+      "colProperty": "Objektas",
+      "colOccupancy": "Užimtumas",
+      "colNights": "Nakvynės",
+      "colBookings": "Rezervacijos",
+      "colNet": "Grynasis",
+      "inactive": "neaktyvus"
     },
     "noRecent": "Naujų rezervacijų nėra.",
     "ops": {
