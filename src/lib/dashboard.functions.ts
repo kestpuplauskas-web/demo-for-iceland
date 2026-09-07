@@ -203,6 +203,7 @@ export const getDashboardStats = createServerFn({ method: "POST" })
         avgPrice,
         missingPhotos,
         missingDescription,
+        perProperty,
       },
       business: {
         netProfit,
