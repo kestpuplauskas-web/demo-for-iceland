@@ -88,7 +88,7 @@ function NewBookingPage() {
         key={`${initial.property_id}-${initial.date_from}-${initial.date_to}-${props.length}`}
         properties={props}
         initial={initial}
-        onSubmit={(v) => m.mutate(v)}
+        onSubmit={(v, rooms) => m.mutate({ values: v, ...(rooms ? { rooms } : {}) })}
         submitting={m.isPending}
       />
       {m.error && (
