@@ -215,6 +215,75 @@ export function BookingForm({
 
   const totals = computeTotals(v);
 
+  // ---- Kambarių parinkimas (tik naujoje rezervacijoje) ----
+  const isNew = !bookingId;
+  const datesValid = Boolean(v.date_from && v.date_to && v.date_to > v.date_from);
+  const roomsEnabled = isNew && datesValid;
+
+  const fetchFreeIds = useServerFn(listFreePropertyIds);
+  const { data: freeIds = [] } = useQuery({
+    queryKey: ["booking-free-props", v.date_from, v.date_to],
+    enabled: roomsEnabled,
+    queryFn: () => fetchFreeIds({ data: { date_from: v.date_from, date_to: v.date_to } }),
+  });
+
+  const freeProperties = useMemo(
+    () => properties.filter((p) => (freeIds as string[]).includes(p.id)),
+    [properties, freeIds],
+  );
+
+  const [roomIds, setRoomIds] = useState<string[]>([]);
+  const [roomsManual, setRoomsManual] = useState(false);
+
+  const autoSuggest = (): string[] =>
+    suggestRooms(
+      freeProperties.map((p) => ({ id: p.id, name: p.name, maxGuests: p.maxGuests })),
+      v.adults_count + v.children_count,
+    ).map((r) => r.id);
+
+  useEffect(() => {
+    if (!roomsEnabled || roomsManual) return;
+    const next = autoSuggest();
+    setRoomIds((prev) => (prev.join(",") === next.join(",") ? prev : next));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomsEnabled, roomsManual, freeProperties, v.adults_count, v.children_count]);
+
+  const roomProps = roomIds
+    .map((id) => properties.find((p) => p.id === id))
+    .filter(Boolean) as Property[];
+
+  const guestSplit = distributeGuests(
+    roomProps,
+    v.adults_count,
+    v.children_count,
+    v.infants_count,
+  );
+
+  const roomAmount = (p: Property) =>
+    nights > 0
+      ? Number(
+          priceForNights({ pricePerNight: p.pricePerNight, priceTiers: p.priceTiers ?? [] }, nights)
+            .total.toFixed(2),
+        )
+      : 0;
+
+  const roomsCapacity = totalCapacity(roomProps);
+  const roomsGuests = v.adults_count + v.children_count;
+  const roomsSum = Number(
+    (roomProps.reduce((s, p) => s + roomAmount(p), 0) + (v.extras_total ?? 0)).toFixed(2),
+  );
+
+  const allocations: RoomAllocation[] = roomProps.map((p, i) => ({
+    propertyId: p.id,
+    adults: guestSplit[i]?.adults ?? 0,
+    children: guestSplit[i]?.children ?? 0,
+    infants: guestSplit[i]?.infants ?? 0,
+    amount: roomAmount(p),
+  }));
+
+  const unusedFree = freeProperties.filter((p) => !roomIds.includes(p.id));
+
+
   const toggleExtra = (name: string, checked: boolean) =>
     setV((s) =>
       recalc({
