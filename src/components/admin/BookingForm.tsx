@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format, parse } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -13,8 +13,15 @@ import {
   BOOKING_SOURCE_VALUES,
   checkBookingConflicts,
   listOccupiedRanges,
+  listFreePropertyIds,
   type BookingInput,
 } from "@/lib/bookings.functions";
+import {
+  distributeGuests,
+  suggestRooms,
+  totalCapacity,
+  type RoomAllocation,
+} from "@/lib/room-allocation";
 import { DateRangePicker } from "@/components/DateRangePicker";
 import { DatePicker } from "@/components/DatePicker";
 import { GuestsPicker } from "@/components/GuestsPicker";
