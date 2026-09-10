@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useTranslation } from "react-i18next";
 import { listAllProperties } from "@/lib/properties.functions";
 import { createBooking } from "@/lib/bookings.functions";
+import type { RoomAllocation } from "@/lib/room-allocation";
 import {
   BookingForm,
   defaultBookingForm,
@@ -40,7 +41,36 @@ function NewBookingPage() {
   const navigate = useNavigate();
   const { data: props = [] } = useQuery({ queryKey: ["admin-props"], queryFn: () => fetchProps() });
   const m = useMutation({
-    mutationFn: (v: BookingFormValues) => create({ data: v }),
+    mutationFn: async ({
+      values,
+      rooms,
+    }: {
+      values: BookingFormValues;
+      rooms?: RoomAllocation[];
+    }) => {
+      if (!rooms || rooms.length === 0) return create({ data: values });
+      // Kiekvienam kambariui — atskira rezervacija; papildomos paslaugos tik pirmam.
+      for (let i = 0; i < rooms.length; i += 1) {
+        const r = rooms[i]!;
+        const guests = r.adults + r.children + r.infants;
+        await create({
+          data: {
+            ...values,
+            property_id: r.propertyId,
+            adults_count: Math.max(1, r.adults),
+            children_count: r.children,
+            infants_count: r.infants,
+            total_guests: Math.max(1, guests),
+            guests: Math.max(1, guests),
+            extras: i === 0 ? values.extras : [],
+            extras_total: i === 0 ? values.extras_total : 0,
+            total_amount:
+              i === 0 ? Number((r.amount + (values.extras_total ?? 0)).toFixed(2)) : r.amount,
+          },
+        });
+      }
+      return { ok: true };
+    },
     onSuccess: () => navigate({ to: "/admin/bookings" }),
   });
   const base = defaultBookingForm(props);
@@ -58,7 +88,7 @@ function NewBookingPage() {
         key={`${initial.property_id}-${initial.date_from}-${initial.date_to}-${props.length}`}
         properties={props}
         initial={initial}
-        onSubmit={(v) => m.mutate(v)}
+        onSubmit={(v, rooms) => m.mutate({ values: v, ...(rooms ? { rooms } : {}) })}
         submitting={m.isPending}
       />
       {m.error && (

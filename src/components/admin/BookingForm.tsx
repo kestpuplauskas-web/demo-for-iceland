@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format, parse } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -13,8 +13,15 @@ import {
   BOOKING_SOURCE_VALUES,
   checkBookingConflicts,
   listOccupiedRanges,
+  listFreePropertyIds,
   type BookingInput,
 } from "@/lib/bookings.functions";
+import {
+  distributeGuests,
+  suggestRooms,
+  totalCapacity,
+  type RoomAllocation,
+} from "@/lib/room-allocation";
 import { DateRangePicker } from "@/components/DateRangePicker";
 import { DatePicker } from "@/components/DatePicker";
 import { GuestsPicker } from "@/components/GuestsPicker";
@@ -117,7 +124,7 @@ export function BookingForm({
 }: {
   properties: Property[];
   initial: BookingFormValues;
-  onSubmit: (v: BookingFormValues) => void;
+  onSubmit: (v: BookingFormValues, rooms?: RoomAllocation[]) => void;
   submitting?: boolean;
   bookingId?: string;
 }) {
@@ -208,6 +215,75 @@ export function BookingForm({
 
   const totals = computeTotals(v);
 
+  // ---- Kambarių parinkimas (tik naujoje rezervacijoje) ----
+  const isNew = !bookingId;
+  const datesValid = Boolean(v.date_from && v.date_to && v.date_to > v.date_from);
+  const roomsEnabled = isNew && datesValid;
+
+  const fetchFreeIds = useServerFn(listFreePropertyIds);
+  const { data: freeIds = [] } = useQuery({
+    queryKey: ["booking-free-props", v.date_from, v.date_to],
+    enabled: roomsEnabled,
+    queryFn: () => fetchFreeIds({ data: { date_from: v.date_from, date_to: v.date_to } }),
+  });
+
+  const freeProperties = useMemo(
+    () => properties.filter((p) => (freeIds as string[]).includes(p.id)),
+    [properties, freeIds],
+  );
+
+  const [roomIds, setRoomIds] = useState<string[]>([]);
+  const [roomsManual, setRoomsManual] = useState(false);
+
+  const autoSuggest = (): string[] =>
+    suggestRooms(
+      freeProperties.map((p) => ({ id: p.id, name: p.name, maxGuests: p.maxGuests })),
+      v.adults_count + v.children_count,
+    ).map((r) => r.id);
+
+  useEffect(() => {
+    if (!roomsEnabled || roomsManual) return;
+    const next = autoSuggest();
+    setRoomIds((prev) => (prev.join(",") === next.join(",") ? prev : next));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomsEnabled, roomsManual, freeProperties, v.adults_count, v.children_count]);
+
+  const roomProps = roomIds
+    .map((id) => properties.find((p) => p.id === id))
+    .filter(Boolean) as Property[];
+
+  const guestSplit = distributeGuests(
+    roomProps,
+    v.adults_count,
+    v.children_count,
+    v.infants_count,
+  );
+
+  const roomAmount = (p: Property) =>
+    nights > 0
+      ? Number(
+          priceForNights({ pricePerNight: p.pricePerNight, priceTiers: p.priceTiers ?? [] }, nights)
+            .total.toFixed(2),
+        )
+      : 0;
+
+  const roomsCapacity = totalCapacity(roomProps);
+  const roomsGuests = v.adults_count + v.children_count;
+  const roomsSum = Number(
+    (roomProps.reduce((s, p) => s + roomAmount(p), 0) + (v.extras_total ?? 0)).toFixed(2),
+  );
+
+  const allocations: RoomAllocation[] = roomProps.map((p, i) => ({
+    propertyId: p.id,
+    adults: guestSplit[i]?.adults ?? 0,
+    children: guestSplit[i]?.children ?? 0,
+    infants: guestSplit[i]?.infants ?? 0,
+    amount: roomAmount(p),
+  }));
+
+  const unusedFree = freeProperties.filter((p) => !roomIds.includes(p.id));
+
+
   const toggleExtra = (name: string, checked: boolean) =>
     setV((s) =>
       recalc({
@@ -227,6 +303,7 @@ export function BookingForm({
           total_guests: v.adults_count + v.children_count + v.infants_count,
           guests: v.adults_count + v.children_count + v.infants_count,
         };
+        const rooms = roomsEnabled && allocations.length > 0 ? allocations : undefined;
         onSubmit(
           v.client_type === "company"
             ? {
@@ -243,6 +320,7 @@ export function BookingForm({
                 is_vat_payer: false,
                 vat_number: "",
               },
+          rooms,
         );
       }}
       className="mx-auto max-w-4xl space-y-6"
@@ -348,6 +426,117 @@ export function BookingForm({
         </CardContent>
       </Card>
 
+      {/* 1b. Kambarių parinkimas */}
+      {roomsEnabled && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">{tr("bookings.form.roomsTitle")}</CardTitle>
+            <CardDescription>{tr("bookings.form.roomsHint")}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            {freeProperties.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{tr("bookings.form.roomsNone")}</p>
+            ) : (
+              <>
+                <div className="grid gap-3">
+                  {roomProps.map((p, i) => (
+                    <div
+                      key={`${p.id}-${i}`}
+                      className="flex flex-wrap items-center gap-3 rounded-lg border p-3"
+                    >
+                      <div className="min-w-[12rem] flex-1">
+                        <Select
+                          value={p.id}
+                          onValueChange={(val) => {
+                            setRoomsManual(true);
+                            setRoomIds((ids) => ids.map((id, idx) => (idx === i ? val : id)));
+                          }}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[p, ...unusedFree].map((op) => (
+                              <SelectItem key={op.id} value={op.id}>
+                                {op.name} · {tr("bookings.form.roomsCapacity", { count: op.maxGuests })}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {tr("bookings.form.roomsGuests", {
+                            adults: guestSplit[i]?.adults ?? 0,
+                            children: guestSplit[i]?.children ?? 0,
+                            infants: guestSplit[i]?.infants ?? 0,
+                          })}
+                        </p>
+                      </div>
+                      <span className="tabular-nums text-sm font-medium">
+                        {roomAmount(p).toFixed(2)} €
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setRoomsManual(true);
+                          setRoomIds((ids) => ids.filter((_, idx) => idx !== i));
+                        }}
+                      >
+                        {tr("bookings.form.roomsRemove")}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={unusedFree.length === 0}
+                    onClick={() => {
+                      const next = unusedFree[0];
+                      if (!next) return;
+                      setRoomsManual(true);
+                      setRoomIds((ids) => [...ids, next.id]);
+                    }}
+                  >
+                    {tr("bookings.form.roomsAdd")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      setRoomsManual(false);
+                      setRoomIds(autoSuggest());
+                    }}
+                  >
+                    {tr("bookings.form.roomsAuto")}
+                  </Button>
+                  <span className="text-xs text-muted-foreground">
+                    {tr("bookings.form.roomsCount", { count: roomProps.length })}
+                  </span>
+                  <span className="ml-auto text-sm font-medium">
+                    {tr("bookings.form.roomsTotal", { amount: roomsSum.toFixed(2) })}
+                  </span>
+                </div>
+
+                {roomsCapacity < roomsGuests && (
+                  <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                    {tr("bookings.form.roomsShort", {
+                      capacity: roomsCapacity,
+                      guests: roomsGuests,
+                    })}
+                  </p>
+                )}
+              </>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* 2. Kliento duomenys */}
       <Card>
         <CardHeader>
@@ -391,7 +580,6 @@ export function BookingForm({
               <Input
                 id="email"
                 type="email"
-                required
                 placeholder={tr("bookings.form.emailPlaceholder")}
                 value={v.customer_email}
                 onChange={(e) => set("customer_email", e.target.value)}
@@ -401,7 +589,6 @@ export function BookingForm({
               <Label htmlFor="phone">{tr("bookings.form.phone")}</Label>
               <Input
                 id="phone"
-                required
                 placeholder={tr("bookings.form.phonePlaceholder")}
                 value={v.customer_phone}
                 onChange={(e) => set("customer_phone", e.target.value)}
