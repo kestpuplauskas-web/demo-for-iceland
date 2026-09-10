@@ -303,6 +303,7 @@ export function BookingForm({
           total_guests: v.adults_count + v.children_count + v.infants_count,
           guests: v.adults_count + v.children_count + v.infants_count,
         };
+        const rooms = roomsEnabled && allocations.length > 0 ? allocations : undefined;
         onSubmit(
           v.client_type === "company"
             ? {
