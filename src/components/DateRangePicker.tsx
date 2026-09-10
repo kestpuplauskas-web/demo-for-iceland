@@ -134,6 +134,9 @@ export function DateRangePicker({
           locale={dateLocale}
           disabled={(d) => {
             if (!allowPast && d < today) return true;
+            // Renkant išvykimo datą užimtos dienos neblokuojamos — tikrąjį
+            // persidengimą tikrina rangeCrossesDisabled pasirinkimo metu.
+            if (value.from && !value.to) return false;
             return disabledKeys.has(format(startOfDay(d), "yyyy-MM-dd"));
           }}
           initialFocus
