@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useTranslation } from "react-i18next";
 import { listAllProperties } from "@/lib/properties.functions";
 import { createBooking } from "@/lib/bookings.functions";
+import type { RoomAllocation } from "@/lib/room-allocation";
 import {
   BookingForm,
   defaultBookingForm,
