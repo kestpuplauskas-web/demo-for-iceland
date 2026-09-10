@@ -56,7 +56,8 @@ export function DateRangePicker({
   const rangeCrossesDisabled = (from: Date, to: Date) => {
     const a = startOfDay(from);
     const b = startOfDay(to);
-    for (let d = new Date(a); d <= b; d.setDate(d.getDate() + 1)) {
+    // Pusiau atviras intervalas [from, to) — išvykimo naktį niekas neapsistoja.
+    for (let d = new Date(a); d < b; d.setDate(d.getDate() + 1)) {
       if (disabledKeys.has(format(d, "yyyy-MM-dd"))) return true;
     }
     return false;
