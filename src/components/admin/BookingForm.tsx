@@ -320,6 +320,7 @@ export function BookingForm({
                 is_vat_payer: false,
                 vat_number: "",
               },
+          rooms,
         );
       }}
       className="mx-auto max-w-4xl space-y-6"
