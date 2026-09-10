@@ -242,6 +242,43 @@ export const listOccupiedRanges = createServerFn({ method: "POST" })
     return rows ?? [];
   });
 
+// Laisvi (aktyvūs) objektai nurodytu laikotarpiu — be persidengiančių ne-atšauktų rezervacijų.
+export const listFreePropertyIds = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z
+      .object({
+        date_from: z.string().min(1),
+        date_to: z.string().min(1),
+        excludeId: z.string().uuid().optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await ensureAdmin(context);
+    if (data.date_to <= data.date_from) return [] as string[];
+    const { data: props, error: pErr } = await context.supabase
+      .from("properties")
+      .select("id")
+      .eq("is_active", true);
+    if (pErr) throw new Error(pErr.message);
+
+    let q = context.supabase
+      .from("bookings")
+      .select("property_id")
+      .neq("status", "cancelled")
+      .lt("date_from", data.date_to)
+      .gt("date_to", data.date_from);
+    if (data.excludeId) q = q.neq("id", data.excludeId);
+    const { data: busy, error: bErr } = await q;
+    if (bErr) throw new Error(bErr.message);
+
+    const taken = new Set((busy ?? []).map((b: { property_id: string }) => b.property_id));
+    return ((props ?? []) as Array<{ id: string }>)
+      .map((p) => p.id)
+      .filter((id) => !taken.has(id));
+  });
+
 export const createBooking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => bookingInput.parse(d))
