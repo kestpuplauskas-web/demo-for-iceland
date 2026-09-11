@@ -116,7 +116,7 @@ export function DateRangeField({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded-md bg-aurora px-4 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
+              className="rounded-full bg-aurora px-4 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
             >
               {common.search.done}
             </button>

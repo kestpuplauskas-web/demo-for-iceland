@@ -93,7 +93,7 @@ export function PropertyError({ onRetry }: { onRetry: () => void }) {
       <button
         type="button"
         onClick={onRetry}
-        className="mt-7 rounded-md bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
+        className="mt-7 rounded-full bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
       >
         {common.stays.retry}
       </button>

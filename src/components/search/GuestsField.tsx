@@ -94,7 +94,7 @@ export function GuestsField({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="mt-5 w-full rounded-md bg-aurora px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
+          className="mt-5 w-full rounded-full bg-aurora px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
         >
           {s.done}
         </button>

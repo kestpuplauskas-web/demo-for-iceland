@@ -76,11 +76,11 @@ export function PropertyCard({
                   { name: property.name },
                 );
               }}
-              className="rounded-md bg-aurora px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
+              className="rounded-full bg-aurora px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
             >
               {common.cta.book}
             </button>
-            <span className="group/link inline-flex items-center gap-1.5 text-sm font-medium text-sage group-hover:text-sage-deep">
+            <span className="group/link inline-flex items-center gap-1.5 text-sm font-medium text-sage group-hover:text-aurora">
               {common.cta.more}
               <ArrowRight className="arrow-nudge h-4 w-4" aria-hidden />
             </span>

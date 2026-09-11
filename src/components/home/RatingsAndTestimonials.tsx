@@ -99,7 +99,7 @@ export function RatingsAndTestimonials() {
                   key={`${item.name}-${item.quote.slice(0, 16)}`}
                   className="flex w-full shrink-0 snap-start flex-col rounded-md border border-border bg-surface p-7 sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
                 >
-                  <p className="text-[0.85rem] font-semibold text-sage-deep">{item.source}</p>
+                  <p className="text-[0.85rem] font-semibold text-aurora">{item.source}</p>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-paper">“{item.quote}”</p>
                   <div className="mt-auto flex items-center gap-3 border-t border-border pt-5">
                     <span

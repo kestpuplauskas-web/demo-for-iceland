@@ -42,7 +42,7 @@ export function LocationSection() {
               href={contact.mapUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex rounded-md border border-sage px-6 py-3 text-sm font-medium text-sage transition-colors hover:bg-aurora hover:text-ink"
+              className="mt-6 inline-flex rounded-full border border-sage px-6 py-3 text-sm font-medium text-sage transition-colors hover:bg-aurora hover:text-ink"
             >
               {common.cta.openMap}
             </a>

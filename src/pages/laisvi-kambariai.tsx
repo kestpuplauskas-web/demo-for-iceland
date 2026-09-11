@@ -113,7 +113,7 @@ function ResultsPage({ locale }: { locale: Locale }) {
                     void availability.refetch();
                     void properties.refetch();
                   }}
-                  className="mt-5 rounded-md bg-aurora px-6 py-2.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
+                  className="mt-5 rounded-full bg-aurora px-6 py-2.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
                 >
                   {common.results.retry}
                 </button>
@@ -240,7 +240,7 @@ function RoomResultCard({
             type="button"
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
-            className="mt-2 self-start text-sm font-medium text-sage underline underline-offset-4 transition-colors hover:text-sage-deep"
+            className="mt-2 self-start text-sm font-medium text-sage underline underline-offset-4 transition-colors hover:text-aurora"
           >
             {expanded ? common.results.lessInfo : common.results.moreInfo}
           </button>
@@ -281,7 +281,7 @@ function RoomResultCard({
           <button
             type="button"
             onClick={() => open(property.id, { checkin, checkout, adults }, { name: property.name })}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-aurora px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep md:mt-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-aurora px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep md:mt-auto"
           >
             {common.cta.book}
             <ArrowRight className="h-4 w-4" aria-hidden />

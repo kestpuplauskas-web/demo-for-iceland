@@ -168,7 +168,7 @@ function ConfirmationPage() {
 
           <LocaleLink
             to="/"
-            className="inline-flex rounded-md bg-aurora px-6 py-3 text-sm font-medium text-ink"
+            className="inline-flex rounded-full bg-aurora px-6 py-3 text-sm font-medium text-ink"
           >
             {rezervacija.back}
           </LocaleLink>

@@ -17,7 +17,7 @@ export function BookingBand() {
         <button
           type="button"
           onClick={() => scrollToId(AVAILABILITY_SECTION_ID)}
-          className="mt-9 rounded-md bg-surface px-8 py-3.5 text-sm font-medium text-sage-deep transition-colors hover:bg-linen"
+          className="mt-9 rounded-md bg-surface px-8 py-3.5 text-sm font-medium text-aurora transition-colors hover:bg-linen"
         >
           {common.cta.checkDates}
         </button>

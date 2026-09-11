@@ -179,7 +179,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-md bg-aurora px-6 py-3.5 text-sm font-medium text-ink transition-opacity disabled:opacity-60"
+        className="w-full rounded-full bg-aurora px-6 py-3.5 text-sm font-medium text-ink transition-opacity disabled:opacity-60"
       >
         {status === "sending" ? kontaktaiForm.submitting : kontaktaiForm.submit}
       </button>

@@ -630,7 +630,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="flex w-full items-center justify-center gap-3 rounded-md bg-aurora px-6 py-3.5 text-sm font-medium text-ink disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-3 rounded-full bg-aurora px-6 py-3.5 text-sm font-medium text-ink disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span

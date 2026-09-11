@@ -245,7 +245,7 @@ export function SiteHeader() {
               setMenuOpen(false);
               goToAvailability();
             }}
-            className="mt-6 w-full rounded-md bg-aurora px-5 py-3.5 text-sm font-medium text-ink"
+            className="mt-6 w-full rounded-full bg-aurora px-5 py-3.5 text-sm font-medium text-ink"
           >
             {common.cta.checkDates}
           </button>

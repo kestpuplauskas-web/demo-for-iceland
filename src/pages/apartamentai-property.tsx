@@ -242,7 +242,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
         <button
           type="button"
           onClick={openBooking}
-          className="rounded-md bg-aurora px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
+          className="rounded-full bg-aurora px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
         >
           {c.common.cta.book}
           {view.priceFrom === null
@@ -291,7 +291,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
               <button
                 type="button"
                 onClick={openBooking}
-                className="w-full rounded-md bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
+                className="w-full rounded-full bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
               >
                 {range?.from && range?.to ? c.common.cta.book : c.common.stays.pickDates}
               </button>
