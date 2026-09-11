@@ -1,6 +1,6 @@
 import { getContent } from "@/content";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/locale";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 import { slugify } from "@/lib/property-slug";
 
 /**

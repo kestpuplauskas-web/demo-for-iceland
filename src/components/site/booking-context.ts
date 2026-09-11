@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import type { ExtraService } from "@/lib/rentivo-schemas";
+import type { ExtraService } from "@/lib/revoo-schemas";
 
 export type BookingDates = { checkin?: string; checkout?: string; adults?: number };
 

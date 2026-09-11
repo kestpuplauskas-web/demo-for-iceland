@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Zod schemas for the Core (Rentivo) booking API. Client-safe: types only, no
+ * Zod schemas for the Core (Revoo) booking API. Client-safe: types only, no
  * secrets. Lenient on optional fields so additive API changes never take a page
  * down, strict on ids and on the response envelope.
  */

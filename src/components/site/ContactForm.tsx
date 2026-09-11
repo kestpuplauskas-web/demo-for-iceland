@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { contact } from "@/data/contact";
-import { sendContactMessageFn } from "@/lib/rentivo.functions";
+import { sendContactMessageFn } from "@/lib/revoo.functions";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
   return z.object({

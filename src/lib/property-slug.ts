@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useLocale } from "@/content";
 import { propertiesQueryFor } from "@/lib/property-queries";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

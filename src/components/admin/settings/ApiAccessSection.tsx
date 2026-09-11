@@ -27,7 +27,7 @@ const API_PATH = "/api/public/v1";
 
 const BASE_URLS = [
   {
-    envVar: "RENTIVO_API_URL_PROD",
+    envVar: "REVOO_API_URL_PROD",
     labelKey: "settings.api.prodLabel",
     url: `https://dharmastay.lovable.app${API_PATH}`,
     hintKey: "settings.api.prodHint",
@@ -37,7 +37,7 @@ const BASE_URLS = [
     },
   },
   {
-    envVar: "RENTIVO_API_URL_DEV",
+    envVar: "REVOO_API_URL_DEV",
     labelKey: "settings.api.devLabel",
     url: `https://project--${LOVABLE_PROJECT_ID}-dev.lovable.app${API_PATH}`,
     hintKey: "settings.api.devHint",

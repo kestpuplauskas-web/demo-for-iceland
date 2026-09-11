@@ -14,18 +14,18 @@ import {
   type LegalDocument,
   type LegalKind,
   type QuoteInput,
-} from "@/lib/rentivo-schemas";
+} from "@/lib/revoo-schemas";
 import { sanitizeHtml } from "@/lib/sanitize-html";
-import { resolveRentivoConfig } from "@/lib/runtime-env.server";
+import { resolveRevooConfig } from "@/lib/runtime-env.server";
 
-/** Server-only Core (Rentivo) API client. The API key never leaves this module. */
-export class RentivoError extends Error {
+/** Server-only Core (Revoo) API client. The API key never leaves this module. */
+export class RevooError extends Error {
   code: string;
   status: number;
 
   constructor(code: string, status: number, message?: string) {
     super(message ?? code);
-    this.name = "RentivoError";
+    this.name = "RevooError";
     this.code = code;
     this.status = status;
   }
@@ -39,8 +39,8 @@ function currentHost(): string | null {
   }
 }
 
-async function rentivoFetch(path: string, init?: RequestInit): Promise<unknown> {
-  const { baseUrl, apiKey } = resolveRentivoConfig(currentHost());
+async function revooFetch(path: string, init?: RequestInit): Promise<unknown> {
+  const { baseUrl, apiKey } = resolveRevooConfig(currentHost());
 
   let response: Response;
   try {
@@ -56,8 +56,8 @@ async function rentivoFetch(path: string, init?: RequestInit): Promise<unknown> 
       },
     });
   } catch (error) {
-    console.error("[rentivo] network error", path, error);
-    throw new RentivoError("network_error", 0);
+    console.error("[revoo] network error", path, error);
+    throw new RevooError("network_error", 0);
   }
 
   const text = await response.text();
@@ -72,8 +72,8 @@ async function rentivoFetch(path: string, init?: RequestInit): Promise<unknown> 
     const code =
       (payload as { error?: { code?: string } } | undefined)?.error?.code ?? "unknown_error";
     const message = (payload as { error?: { message?: string } } | undefined)?.error?.message;
-    console.error("[rentivo] api error", path, response.status, code, message);
-    throw new RentivoError(code, response.status, message);
+    console.error("[revoo] api error", path, response.status, code, message);
+    throw new RevooError(code, response.status, message);
   }
 
   return payload;
@@ -86,8 +86,8 @@ function parseOrThrow<T>(
 ): T {
   const result = schema.safeParse(payload);
   if (!result.success || result.data === undefined) {
-    console.error("[rentivo] invalid response", path, JSON.stringify(result.error));
-    throw new RentivoError("invalid_response", 502);
+    console.error("[revoo] invalid response", path, JSON.stringify(result.error));
+    throw new RevooError("invalid_response", 502);
   }
   return result.data;
 }
@@ -98,12 +98,12 @@ function languageQuery(language?: string): string {
 }
 
 export async function fetchProperties(language?: string) {
-  const payload = await rentivoFetch(`/properties${languageQuery(language)}`);
+  const payload = await revooFetch(`/properties${languageQuery(language)}`);
   return parseOrThrow(propertiesResponseSchema, payload, "/properties").data;
 }
 
 export async function fetchProperty(id: string, language?: string) {
-  const payload = await rentivoFetch(
+  const payload = await revooFetch(
     `/properties/${encodeURIComponent(id)}${languageQuery(language)}`,
   );
   return parseOrThrow(propertyDetailResponseSchema, payload, "/properties/:id").data;
@@ -113,23 +113,23 @@ export async function fetchProperty(id: string, language?: string) {
 
 export async function fetchQuote(input: QuoteInput) {
   const body = quoteInputSchema.parse(input);
-  const payload = await rentivoFetch("/quote", { method: "POST", body: JSON.stringify(body) });
+  const payload = await revooFetch("/quote", { method: "POST", body: JSON.stringify(body) });
   return parseOrThrow(quoteResponseSchema, payload, "/quote").data;
 }
 
 export async function createBooking(input: BookingInput) {
   const body = bookingInputSchema.parse(input);
-  const payload = await rentivoFetch("/bookings", { method: "POST", body: JSON.stringify(body) });
+  const payload = await revooFetch("/bookings", { method: "POST", body: JSON.stringify(body) });
   return parseOrThrow(bookingResponseSchema, payload, "/bookings").data;
 }
 
 export async function fetchPaymentDetails() {
-  const payload = await rentivoFetch("/payment-details");
+  const payload = await revooFetch("/payment-details");
   return parseOrThrow(paymentDetailsResponseSchema, payload, "/payment-details").data;
 }
 
 export async function fetchBookingStatus(bookingNumber: string, email: string) {
-  const payload = await rentivoFetch(
+  const payload = await revooFetch(
     `/bookings/${encodeURIComponent(bookingNumber)}?email=${encodeURIComponent(email)}`,
   );
   return parseOrThrow(bookingStatusResponseSchema, payload, "/bookings/:number").data;
@@ -150,10 +150,10 @@ export type ContactMessage = {
  */
 export async function sendContactMessage(input: ContactMessage): Promise<{ delivered: boolean }> {
   try {
-    await rentivoFetch("/contact", { method: "POST", body: JSON.stringify(input) });
+    await revooFetch("/contact", { method: "POST", body: JSON.stringify(input) });
     return { delivered: true };
   } catch (error) {
-    if (error instanceof RentivoError && (error.status === 404 || error.status === 405)) {
+    if (error instanceof RevooError && (error.status === 404 || error.status === 405)) {
       return { delivered: false };
     }
     throw error;
@@ -179,11 +179,11 @@ export async function fetchLegal(
 
   let payload: unknown;
   try {
-    payload = await rentivoFetch(
+    payload = await revooFetch(
       `/legal?kind=${encodeURIComponent(kind)}&language=${encodeURIComponent(language)}`,
     );
   } catch (error) {
-    const missing = error instanceof RentivoError && error.status === 404;
+    const missing = error instanceof RevooError && error.status === 404;
     if (!missing) throw error;
     return language === "lt" ? null : fetchLegal(kind, "lt");
   }

@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getAvailability } from "@/lib/rentivo.functions";
+import { getAvailability } from "@/lib/revoo.functions";
 
 /** Aggregated availability for a date range — cached per range + guest count. */
 export function availabilityQuery(

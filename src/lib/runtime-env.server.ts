@@ -48,21 +48,21 @@ export function isProductionRequest(host: string | null | undefined): boolean {
   return true;
 }
 
-export type RentivoConfig = { baseUrl: string; apiKey: string };
+export type RevooConfig = { baseUrl: string; apiKey: string };
 
 /**
  * Core API dabar gyvena tame pačiame projekte, todėl numatytasis bazinis adresas —
- * to paties domeno origin. Aplinkos kintamieji (RENTIVO_API_URL_*) leidžia
+ * to paties domeno origin. Aplinkos kintamieji (REVOO_API_URL_*) leidžia
  * nurodyti išorinį Core, jei kada reikėtų.
  */
-export function resolveRentivoConfig(host: string | null | undefined): RentivoConfig {
+export function resolveRevooConfig(host: string | null | undefined): RevooConfig {
   const prod = isProductionRequest(host);
-  const explicitUrl = readEnvOptional(prod ? "RENTIVO_API_URL_PROD" : "RENTIVO_API_URL_DEV");
+  const explicitUrl = readEnvOptional(prod ? "REVOO_API_URL_PROD" : "REVOO_API_URL_DEV");
   const hostname = (host ?? "localhost:8080").toLowerCase();
   const scheme = hostname.startsWith("localhost") || hostname.startsWith("127.") ? "http" : "https";
   const baseUrl = (explicitUrl ?? `${scheme}://${hostname}/api/public/v1`).replace(/\/+$/, "");
   const apiKey =
-    readEnvOptional(prod ? "RENTIVO_API_KEY_PROD" : "RENTIVO_API_KEY_DEV") ??
-    readEnv("RENTIVO_API_KEY");
+    readEnvOptional(prod ? "REVOO_API_KEY_PROD" : "REVOO_API_KEY_DEV") ??
+    readEnv("REVOO_API_KEY");
   return { baseUrl, apiKey };
 }

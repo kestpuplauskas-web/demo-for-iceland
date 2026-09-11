@@ -1,8 +1,8 @@
 import { LegalDocumentPage } from "@/components/site/LegalDocument";
 import { getContent, useContent } from "@/content";
 import type { Locale } from "@/lib/locale";
-import type { LegalDocument } from "@/lib/rentivo-schemas";
-import { getLegal } from "@/lib/rentivo.functions";
+import type { LegalDocument } from "@/lib/revoo-schemas";
+import { getLegal } from "@/lib/revoo.functions";
 import { useLooseLoaderData } from "@/lib/route-data";
 import { pageHead } from "@/lib/seo";
 

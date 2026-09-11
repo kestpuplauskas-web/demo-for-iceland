@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { DEFAULT_LOCALE, type Locale } from "@/lib/locale";
-import { listProperties } from "@/lib/rentivo.functions";
+import { listProperties } from "@/lib/revoo.functions";
 
 /** Shared across the home page and /apartamentai — one cache entry per locale. */
 export function propertiesQueryFor(locale: Locale = DEFAULT_LOCALE) {

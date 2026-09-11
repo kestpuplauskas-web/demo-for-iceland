@@ -2,7 +2,7 @@ import { useContent, useLocale } from "@/content";
 import { contact } from "@/data/contact";
 import { PropertyCard } from "@/components/stay/PropertyCard";
 import { toPropertyView } from "@/lib/property-view";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 
 export function PropertyGrid({
   properties,

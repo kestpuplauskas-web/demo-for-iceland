@@ -1,7 +1,7 @@
 import { PageHero } from "@/components/site/PageHero";
 import { PageSection } from "@/components/site/Prose";
 import { useContent, useLocale } from "@/content";
-import type { LegalDocument as LegalDocumentData } from "@/lib/rentivo-schemas";
+import type { LegalDocument as LegalDocumentData } from "@/lib/revoo-schemas";
 
 /** Renders a legal document served (and sanitized) by the Core backend. */
 export function LegalDocumentPage({
