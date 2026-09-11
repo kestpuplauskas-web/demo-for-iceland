@@ -91,7 +91,7 @@ export function SiteHeader() {
           }}
           className={cn(
             "inline-flex items-center transition-colors",
-            solid ? "text-ink" : "text-warm-white",
+            solid ? "text-paper" : "text-warm-white",
           )}
         >
           <Logo className="h-24 w-24" />
@@ -124,7 +124,7 @@ export function SiteHeader() {
                   </button>
                   {openGroup === entry.label ? (
                     <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-3">
-                      <ul className="overflow-hidden rounded-md border border-border bg-warm-white py-2 shadow-lift">
+                      <ul className="overflow-hidden rounded-md border border-border bg-surface py-2 shadow-lift">
                         {entry.items.map((item) => (
                           <li key={item.to}>
                             <LocaleLink
@@ -159,8 +159,8 @@ export function SiteHeader() {
             className={cn(
               "hidden rounded-md px-5 py-2.5 text-sm font-medium transition-colors lg:inline-flex",
               solid
-                ? "bg-sage text-warm-white hover:bg-sage-deep"
-                : "border border-warm-white/70 text-warm-white hover:bg-warm-white hover:text-ink",
+                ? "bg-aurora text-ink hover:bg-aurora-deep"
+                : "border border-warm-white/70 text-warm-white hover:bg-surface hover:text-paper",
             )}
           >
             {common.cta.checkDates}
@@ -181,7 +181,7 @@ export function SiteHeader() {
             onClick={() => setMenuOpen((value) => !value)}
             aria-expanded={menuOpen}
             aria-label="Menu"
-            className={cn("lg:hidden", solid ? "text-ink" : "text-warm-white")}
+            className={cn("lg:hidden", solid ? "text-paper" : "text-warm-white")}
           >
             {menuOpen ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
           </button>
@@ -200,7 +200,7 @@ export function SiteHeader() {
                     onClick={() =>
                       setMobileGroup((value) => (value === entry.label ? null : entry.label))
                     }
-                    className="flex w-full items-center justify-between py-4 text-base font-medium text-ink"
+                    className="flex w-full items-center justify-between py-4 text-base font-medium text-paper"
                   >
                     {entry.label}
                     <ChevronDown
@@ -232,7 +232,7 @@ export function SiteHeader() {
                   key={entry.to}
                   to={entry.to}
                   onClick={() => setMenuOpen(false)}
-                  className="border-b border-border/60 py-4 text-base font-medium text-ink"
+                  className="border-b border-border/60 py-4 text-base font-medium text-paper"
                 >
                   {entry.label}
                 </LocaleLink>
@@ -245,7 +245,7 @@ export function SiteHeader() {
               setMenuOpen(false);
               goToAvailability();
             }}
-            className="mt-6 w-full rounded-md bg-sage px-5 py-3.5 text-sm font-medium text-warm-white"
+            className="mt-6 w-full rounded-md bg-aurora px-5 py-3.5 text-sm font-medium text-ink"
           >
             {common.cta.checkDates}
           </button>

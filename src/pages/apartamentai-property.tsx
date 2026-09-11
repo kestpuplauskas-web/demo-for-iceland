@@ -242,7 +242,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
         <button
           type="button"
           onClick={openBooking}
-          className="rounded-md bg-sage px-7 py-3.5 text-sm font-medium text-warm-white transition-colors hover:bg-sage-deep"
+          className="rounded-md bg-aurora px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
         >
           {c.common.cta.book}
           {view.priceFrom === null
@@ -256,7 +256,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {grid.map((url, index) => (
               <Reveal key={url} delay={index * 90}>
-                <div className="aspect-[4/3] overflow-hidden rounded-md bg-warm-white shadow-soft">
+                <div className="aspect-[4/3] overflow-hidden rounded-md bg-surface shadow-soft">
                   <img
                     src={url}
                     alt={`${data.name} — ${c.common.brand}`}
@@ -291,7 +291,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
               <button
                 type="button"
                 onClick={openBooking}
-                className="w-full rounded-md bg-sage px-6 py-3 text-sm font-medium text-warm-white transition-colors hover:bg-sage-deep"
+                className="w-full rounded-md bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
               >
                 {range?.from && range?.to ? c.common.cta.book : c.common.stays.pickDates}
               </button>

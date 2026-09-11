@@ -18,14 +18,14 @@ function MapSkeleton() {
 export function LocationSection() {
   const { common, home } = useContent();
   return (
-    <section id="vieta" className="scroll-mt-24 overflow-x-clip bg-warm-white px-6 py-24 lg:px-12 lg:py-32">
+    <section id="vieta" className="scroll-mt-24 overflow-x-clip bg-surface px-6 py-24 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[84rem]">
         <EnsoDivider className="mb-16" />
 
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal direction="left">
             <p className="label-caps text-sage">{home.location.eyebrow}</p>
-            <h2 className="mt-4 font-display text-[clamp(2rem,4.5vw,2.625rem)] leading-tight font-medium text-ink">
+            <h2 className="mt-4 font-display text-[clamp(2rem,4.5vw,2.625rem)] leading-tight font-medium text-paper">
               {home.location.title}
             </h2>
             <div className="mt-6 space-y-4 text-base leading-[1.75] text-stone sm:text-lg">
@@ -42,7 +42,7 @@ export function LocationSection() {
               href={contact.mapUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex rounded-md border border-sage px-6 py-3 text-sm font-medium text-sage transition-colors hover:bg-sage hover:text-warm-white"
+              className="mt-6 inline-flex rounded-md border border-sage px-6 py-3 text-sm font-medium text-sage transition-colors hover:bg-aurora hover:text-ink"
             >
               {common.cta.openMap}
             </a>

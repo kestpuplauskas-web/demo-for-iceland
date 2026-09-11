@@ -9,7 +9,7 @@ export function IntroStrip() {
       <div className="mx-auto max-w-3xl text-center">
         <EnsoDivider />
         <Reveal>
-          <p className="mt-12 font-display text-[clamp(1.5rem,3.2vw,2rem)] leading-[1.45] font-medium text-ink">
+          <p className="mt-12 font-display text-[clamp(1.5rem,3.2vw,2rem)] leading-[1.45] font-medium text-paper">
             {home.intro.title}
           </p>
           <p className="mt-6 text-base leading-[1.75] text-stone sm:text-lg">

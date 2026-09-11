@@ -82,7 +82,7 @@ export function BookingDateRange({
         classNames={{
           root: "w-full",
           month: "flex w-full flex-col gap-3",
-          caption_label: "font-display text-base font-medium capitalize text-ink",
+          caption_label: "font-display text-base font-medium capitalize text-paper",
           weekday: "flex-1 select-none text-[0.65rem] uppercase tracking-[0.12em] text-stone/70",
         }}
       />
@@ -90,11 +90,11 @@ export function BookingDateRange({
       <div className="mt-3 grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
         <div>
           <p className="label-caps text-stone/80">{common.stays.checkin}</p>
-          <p className="mt-1 text-sm text-ink">{checkin || "—"}</p>
+          <p className="mt-1 text-sm text-paper">{checkin || "—"}</p>
         </div>
         <div>
           <p className="label-caps text-stone/80">{common.stays.checkout}</p>
-          <p className="mt-1 text-sm text-ink">{checkout || "—"}</p>
+          <p className="mt-1 text-sm text-paper">{checkout || "—"}</p>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export function BookingDateRange({
         </span>
         {isLoading ? <span>{common.booking.datesLoading}</span> : null}
         {nights > 0 ? (
-          <span aria-live="polite" className="text-ink">
+          <span aria-live="polite" className="text-paper">
             {nights} {nightsLabel(nights, common.stays)}
           </span>
         ) : null}
@@ -113,7 +113,7 @@ export function BookingDateRange({
           <button
             type="button"
             onClick={() => onChange("", "")}
-            className="ml-auto rounded-md border border-border px-3 py-1 text-xs text-stone transition-colors hover:text-ink"
+            className="ml-auto rounded-md border border-border px-3 py-1 text-xs text-stone transition-colors hover:text-paper"
           >
             {common.stays.clearDates}
           </button>

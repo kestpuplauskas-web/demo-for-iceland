@@ -41,7 +41,7 @@ export function PropertyGridSkeleton() {
       {[0, 1, 2].map((index) => (
         <div
           key={index}
-          className="overflow-hidden rounded-md bg-warm-white shadow-soft"
+          className="overflow-hidden rounded-md bg-surface shadow-soft"
           aria-hidden
         >
           <div className="aspect-[4/3] animate-pulse bg-linen" />
@@ -72,8 +72,8 @@ function ContactFallback() {
 export function PropertyEmpty() {
   const { common } = useContent();
   return (
-    <div className="rounded-md bg-warm-white px-8 py-16 text-center shadow-soft">
-      <h2 className="font-display text-2xl font-medium text-ink">{common.stays.emptyTitle}</h2>
+    <div className="rounded-md bg-surface px-8 py-16 text-center shadow-soft">
+      <h2 className="font-display text-2xl font-medium text-paper">{common.stays.emptyTitle}</h2>
       <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-stone">
         {common.stays.emptyText}
       </p>
@@ -85,15 +85,15 @@ export function PropertyEmpty() {
 export function PropertyError({ onRetry }: { onRetry: () => void }) {
   const { common } = useContent();
   return (
-    <div className="rounded-md bg-warm-white px-8 py-16 text-center shadow-soft" role="alert">
-      <h2 className="font-display text-2xl font-medium text-ink">{common.stays.errorTitle}</h2>
+    <div className="rounded-md bg-surface px-8 py-16 text-center shadow-soft" role="alert">
+      <h2 className="font-display text-2xl font-medium text-paper">{common.stays.errorTitle}</h2>
       <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-stone">
         {common.stays.errorText}
       </p>
       <button
         type="button"
         onClick={onRetry}
-        className="mt-7 rounded-md bg-sage px-6 py-3 text-sm font-medium text-warm-white transition-colors hover:bg-sage-deep"
+        className="mt-7 rounded-md bg-aurora px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
       >
         {common.stays.retry}
       </button>

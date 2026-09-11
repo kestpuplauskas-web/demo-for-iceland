@@ -51,7 +51,7 @@ export function LegalDocumentPage({
             </>
           ) : (
             <div className="rounded-md bg-linen p-8">
-              <h2 className="font-display text-2xl font-medium text-ink">
+              <h2 className="font-display text-2xl font-medium text-paper">
                 {legal.unavailableTitle}
               </h2>
               <p className="mt-3 text-base leading-relaxed text-stone">{legal.unavailableText}</p>

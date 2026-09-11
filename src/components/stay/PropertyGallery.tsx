@@ -51,7 +51,7 @@ export function PropertyGallery({
             type="button"
             onClick={(event) => go(event, -1)}
             aria-label="←"
-            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-warm-white/85 p-2 text-ink opacity-0 shadow-soft transition-opacity duration-300 hover:bg-warm-white focus-visible:opacity-100 group-hover/gallery:opacity-100"
+            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-surface/85 p-2 text-paper opacity-0 shadow-soft transition-opacity duration-300 hover:bg-surface focus-visible:opacity-100 group-hover/gallery:opacity-100"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden />
           </button>
@@ -59,7 +59,7 @@ export function PropertyGallery({
             type="button"
             onClick={(event) => go(event, 1)}
             aria-label="→"
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-warm-white/85 p-2 text-ink opacity-0 shadow-soft transition-opacity duration-300 hover:bg-warm-white focus-visible:opacity-100 group-hover/gallery:opacity-100"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-surface/85 p-2 text-paper opacity-0 shadow-soft transition-opacity duration-300 hover:bg-surface focus-visible:opacity-100 group-hover/gallery:opacity-100"
           >
             <ChevronRight className="h-4 w-4" aria-hidden />
           </button>
@@ -76,7 +76,7 @@ export function PropertyGallery({
                   setIndex(i);
                 }}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === index ? "w-5 bg-warm-white" : "w-1.5 bg-warm-white/60 hover:bg-warm-white/85"
+                  i === index ? "w-5 bg-surface" : "w-1.5 bg-surface/60 hover:bg-surface/85"
                 }`}
               />
             ))}

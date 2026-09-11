@@ -76,7 +76,7 @@ export function PageHero({
           <h1
             className={cn(
               "mt-4 font-display text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.12] font-medium",
-              hasImage ? "text-warm-white" : "text-ink",
+              hasImage ? "text-warm-white" : "text-paper",
             )}
           >
             {title}

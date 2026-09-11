@@ -40,7 +40,7 @@ function AboutPage() {
         <div className="mx-auto max-w-3xl space-y-14 text-center">
           {c.apie.sections.map((section, index) => (
             <Reveal key={section.title} delay={index * 80}>
-              <h2 className="font-display text-[clamp(1.6rem,3.2vw,2rem)] font-medium text-ink">
+              <h2 className="font-display text-[clamp(1.6rem,3.2vw,2rem)] font-medium text-paper">
                 {section.title}
               </h2>
               <Prose className="mt-5">
@@ -60,7 +60,7 @@ function AboutPage() {
             className="group flex flex-wrap items-center justify-between gap-4 rounded-md bg-linen p-8 transition-shadow hover:shadow-soft"
           >
             <span>
-              <span className="block font-display text-xl font-semibold text-ink">
+              <span className="block font-display text-xl font-semibold text-paper">
                 {c.apie.rulesLinkTitle}
               </span>
               <span className="mt-2 block text-sm text-stone">{c.apie.rulesLinkText}</span>

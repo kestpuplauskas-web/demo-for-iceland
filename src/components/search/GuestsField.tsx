@@ -55,18 +55,18 @@ export function GuestsField({
           <Users className="h-5 w-5 shrink-0 text-sage" aria-hidden />
           <span className="min-w-0">
             <span className="label-caps block text-stone/80">{s.guestsLabel}</span>
-            <span className="mt-1 block truncate text-sm font-medium text-ink">
+            <span className="mt-1 block truncate text-sm font-medium text-paper">
               {parts.join(" · ")}
             </span>
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-80 rounded-md border-border bg-warm-white p-5">
+      <PopoverContent align="start" className="w-80 rounded-md border-border bg-surface p-5">
         <div className="flex flex-col gap-5">
           {rows.map((row) => (
             <div key={row.key} className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-medium text-ink">{row.label}</p>
+                <p className="text-sm font-medium text-paper">{row.label}</p>
                 <p className="text-xs text-stone/80">{row.hint}</p>
               </div>
               <div className="flex items-center gap-3">
@@ -77,7 +77,7 @@ export function GuestsField({
                 >
                   <Minus className="h-4 w-4" aria-hidden />
                 </Counter>
-                <span className="w-5 text-center text-sm font-medium text-ink">
+                <span className="w-5 text-center text-sm font-medium text-paper">
                   {guests[row.key]}
                 </span>
                 <Counter
@@ -94,7 +94,7 @@ export function GuestsField({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="mt-5 w-full rounded-md bg-sage px-5 py-2.5 text-sm font-medium text-warm-white transition-colors hover:bg-sage-deep"
+          className="mt-5 w-full rounded-md bg-aurora px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep"
         >
           {s.done}
         </button>
