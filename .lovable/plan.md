@@ -1,26 +1,46 @@
-# „Boom" — pakeitimų perkėlimas viena fraze
+# Naujas klientinės dalies dizainas („Mánahlíð" stilius)
 
-Sprendimas: pradėti nuo **A varianto**. Tai greičiausias būdas išbandyti norimą patirtį be didelių struktūrinių pertvarkymų.
+Įkeltas maketas yra tamsi, redakcinio stiliaus svetainė: gili žalsvai juoda spalva, šviesus popierinis atspalvis šviesioms sekcijoms, „šiaurės pašvaistės" žalias akcentas ir žalvarinis antrinis akcentas. Šriftai (Cormorant Garamond + Inter) jau naudojami dabartinėje svetainėje, todėl tipografija tik perderinama.
 
-## Kaip tai veiks
+Pritaikoma **tik viešajai svetainei**. Administravimo skydelis, personalo ekranai, prisijungimas, duomenų bazė ir visa logika nekeičiami.
 
-1. Po kiekvieno užbaigto pakeitimo čia automatiškai išsaugosiu „perkėlimo kortelę" — failą su tiksliais pakeitimais, ribomis ir patikros žingsniais.
-2. Rašote `Boom @projektas` (arba `Boom patogumų ikonos @projektas`).
-3. Aš nuskaitau tikslinio projekto momentinę kopiją, pritaikau kortelės turinį prie jo failų ir paruošiu vieną galutinę žinutę, kurią įklijuojate į kito projekto pokalbį.
-4. Kito projekto asistentas įdiegia pakeitimą identiškai.
+## Spalvos ir stilius
 
-## Ką reikia padaryti dabar
+- Pagrindinis fonas: gili tamsiai žalia-juoda (#07100E / #0B1715), sekcijų paviršiai #0F1D1A.
+- Šviesios („popierinės") sekcijos: #F2EFE8.
+- Akcentas: pašvaistės žalia #7FD3AE; antrinis akcentas — žalvaris #C7A169.
+- Plonos 1 px linijos vietoj šešėlių, apvalinimai beveik nuliniai (2–4 px), mygtukai — pilnai apvalūs kapsulės formos.
+- Antraštės — didelės, plonos, serifinės; smulkios etiketės — didžiosios raidės su plačiais tarpais.
 
-1. Įrašyti į projekto atmintį taisyklę, kad `Boom [raktažodis] @projektas` visada reikštų paskutinio pakeitimo perkėlimą identiškai.
-2. Sukurti perkėlimo kortelę paskutiniam pakeitimui — patogumų ikonoms.
-3. Paruošti ją taip, kad ją įklijavus į Rentivo projektą veiktų be papildomų klausimų.
+## Darbų eiga
 
-## Pirmas testas
+**1. Pagrindas**
+- Naujos spalvų reikšmės ir tipografijos taisyklės viešosios dalies temoje; naujos pagalbinės klasės (etiketės, plonos linijos, kapsuliniai mygtukai, sekcijų tarpai).
+- Mygtukų variantai: šviesus akcentinis, permatomas su rėmeliu, tamsus.
 
-Išbandysime su `@Rentivo for Property rent`. Jei pavyks sklandžiai, vėliau galėsime svarstyti C variantą (vienas projektas su prekės ženklais), jei perkėlimų bus daug ir jie taps varginantys.
+**2. Karkasas**
+- Antraštė: permatoma virš hero, pasislinkus – tamsi su blur ir plona apatine linija; nuoroda su pabraukimo animacija; mobilus pilno ekrano meniu.
+- Poraštė: tamsi, trijų stulpelių, plonos linijos.
+- Hero: viso ekrano nuotrauka su tamsiu gradientu, laipsniškas turinio pasirodymas, slinkimo užuomina šone.
 
-## Techninės detalės
+**3. Paieška ir rezervacija**
+- Paieškos juosta: tamsus stiklo efektas, laukai atskirti plonomis linijomis, akcentinis mygtukas.
+- Kalendorius ir svečių pasirinkimas: tamsūs iškylantys langai, akcentinis pasirinktų dienų ruožas.
+- Rezervacijos dialogas ir suvestinė — tamsi versija.
 
-- Kortelės vieta: `.lovable/transfers/<data>-<pavadinimas>.md`.
-- Kiekvienoje kortelėje: nauji failai, pakeisti fragmentai, ko neliesti, kaip patikrinti.
-- Apribojimai: neliesti `src/routes/api/`, `src/routes/_authenticated/`, `src/components/admin/`, `supabase/`, `src/integrations/`, nekopijuoti `src/routeTree.gen.ts`.
+**4. Sekcijos ir kortelės**
+- Statistikos juosta po hero.
+- Apartamentų / kambarių sąrašas: eilučių tinklelis su kaina, laisvumo ženkleliu ir mygtuku.
+- Šviesios „popierinės" sekcijos su citata, kortelėmis ir faktų sąrašu.
+- Nuotraukų juosta su kvietimu rezervuoti.
+
+**5. Likę puslapiai**
+- Apartamentai (sąrašas, kategorija, konkretus objektas), laisvi kambariai, restobaras, sauna, banketinė salė, dovanų kuponai, apie, taisyklės, kontaktai, teisiniai puslapiai, rezervacijos patvirtinimas — visi pritaikomi tai pačiai temai.
+
+**6. Patikra**
+- Tipų patikra ir build.
+- Peržiūra 1280 px ir 375 px pločiuose: kad nebūtų horizontalaus slinkimo, kontrastas pakankamas, admin skydelis nepakitęs.
+
+## Ką paliekame
+
+Visas turinys (tekstai, nuotraukos, kainos, LT/EN vertimai), maršrutai, rezervacijų logika, API ir admin dalis lieka kaip yra — keičiasi tik išvaizda.
