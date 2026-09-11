@@ -71,13 +71,15 @@ export function SiteHeader() {
   }, []);
 
   const solid = scrolled || menuOpen || !isHeroPage;
-  const linkTone = solid ? "text-stone hover:text-sage" : "text-warm-white/85 hover:text-warm-white";
+  const linkTone = "text-warm-white/70 hover:text-warm-white";
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
-        solid ? "border-b border-border/70 bg-linen/95 backdrop-blur-sm" : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-500",
+        solid
+          ? "border-border bg-ink/90 backdrop-blur-xl"
+          : "border-transparent bg-transparent",
       )}
     >
       <div className="mx-auto grid max-w-[84rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-6 py-2 lg:px-12 lg:py-3">
