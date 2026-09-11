@@ -15,7 +15,7 @@ export function ExtrasSection() {
   }));
 
   return (
-    <section id="papildoma" className="scroll-mt-24 bg-linen px-6 py-20 lg:px-12 lg:py-24">
+    <section id="papildoma" className="on-paper scroll-mt-24 px-6 py-20 lg:px-12 lg:py-24">
       <div className="mx-auto max-w-[84rem]">
         <p className="label-caps text-stone">{home.extras.eyebrow}</p>
 
@@ -28,7 +28,7 @@ export function ExtrasSection() {
                     <extra.icon className="h-7 w-7 text-sage-deep" strokeWidth={1.5} aria-hidden />
                   ) : null}
                 </EnsoFrame>
-                <h3 className="mt-4 font-display text-lg font-semibold text-paper">{extra.title}</h3>
+                <h3 className="mt-4 font-display text-xl text-paper">{extra.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-stone">{extra.text}</p>
               </div>
             </Reveal>
