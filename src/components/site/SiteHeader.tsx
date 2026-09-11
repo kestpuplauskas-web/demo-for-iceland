@@ -158,12 +158,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={goToAvailability}
-            className={cn(
-              "hidden rounded-md px-5 py-2.5 text-sm font-medium transition-colors lg:inline-flex",
-              solid
-                ? "bg-aurora text-ink hover:bg-aurora-deep"
-                : "border border-warm-white/70 text-warm-white hover:bg-surface hover:text-paper",
-            )}
+            className="hidden rounded-full bg-aurora px-6 py-3 text-[0.68rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-[#9be3c4] lg:inline-flex"
           >
             {common.cta.checkDates}
           </button>
