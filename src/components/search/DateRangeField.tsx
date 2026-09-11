@@ -136,7 +136,7 @@ export function DateRangeField({
         <button
           type="button"
           className={cn(
-            "flex w-full items-center gap-3 rounded-md px-5 py-3.5 text-left transition-colors hover:bg-linen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage",
+            "flex w-full items-center gap-3 rounded-sm px-5 py-3.5 text-left transition-colors hover:bg-[rgb(127_211_174/0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage",
             className,
           )}
         >
@@ -154,7 +154,7 @@ export function DateRangeField({
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-auto rounded-md border-border bg-surface p-4">
+      <PopoverContent align="start" className="w-auto rounded-sm border-border bg-surface p-4 shadow-lift">
         {calendar}
       </PopoverContent>
     </Popover>

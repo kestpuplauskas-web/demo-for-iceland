@@ -52,7 +52,7 @@ export function PageHero({
               className="absolute inset-0 h-full w-full object-cover"
             />
           </picture>
-          <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/35 to-ink/65" />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/90" />
         </>
       ) : null}
 

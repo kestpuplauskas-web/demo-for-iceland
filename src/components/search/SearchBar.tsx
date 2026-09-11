@@ -119,7 +119,7 @@ export function SearchBar({
           submit();
         }}
         className={cn(
-          "flex flex-col gap-4 rounded-md border border-border bg-surface p-4 text-left shadow-soft",
+          "flex flex-col gap-4 rounded-sm border border-border bg-surface p-4 text-left shadow-soft",
           className,
         )}
       >
@@ -161,7 +161,7 @@ export function SearchBar({
         submit();
       }}
       className={cn(
-        "grid gap-2 rounded-md bg-surface p-3 shadow-lift sm:grid-cols-[1.4fr_1fr_auto] sm:items-center",
+        "grid gap-px rounded-sm border border-border bg-[rgb(12_25_22/0.72)] p-1.5 shadow-lift backdrop-blur-2xl sm:grid-cols-[1.4fr_1fr_auto] sm:items-center",
         className,
       )}
     >
