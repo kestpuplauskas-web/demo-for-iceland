@@ -13,7 +13,7 @@ import { useContent, useLocale } from "@/content";
 import { HOME_STAYS_LIMIT, propertiesQuery } from "@/lib/property-queries";
 import { CategoryGrid } from "@/components/stay/CategoryCard";
 import { groupByCategory, isGrouped, uncategorized } from "@/lib/property-category";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 import { cn } from "@/lib/utils";
 
 export function StaysSection({

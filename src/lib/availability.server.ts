@@ -4,7 +4,7 @@ import {
   type AvailabilitySummary,
 } from "@/lib/availability-schemas";
 import { normalizeCategory } from "@/lib/property-category";
-import { fetchProperties, fetchProperty, fetchQuote } from "@/lib/rentivo-api.server";
+import { fetchProperties, fetchProperty, fetchQuote } from "@/lib/revoo-api.server";
 
 /** Days between two YYYY-MM-DD dates. */
 function nightsBetween(from: string, to: string): number {

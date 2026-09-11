@@ -21,10 +21,10 @@ import { getContent } from "@/content";
 import { localizePath, type Locale } from "@/lib/locale";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { formatPrice, toPropertyView } from "@/lib/property-view";
-import { getProperty } from "@/lib/rentivo.functions";
+import { getProperty } from "@/lib/revoo.functions";
 import { idForSlug, isUuid, slugForId } from "@/lib/property-slug";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 
 const propertyQuery = (id: string, locale: Locale) =>
   queryOptions({

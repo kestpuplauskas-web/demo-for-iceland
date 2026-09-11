@@ -29,8 +29,8 @@ import { localizePath } from "@/lib/locale";
 import { storeBooking } from "@/lib/booking-storage";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { formatPrice } from "@/lib/property-view";
-import type { ExtraService } from "@/lib/rentivo-schemas";
-import { createBookingFn, getProperty, getQuote } from "@/lib/rentivo.functions";
+import type { ExtraService } from "@/lib/revoo-schemas";
+import { createBookingFn, getProperty, getQuote } from "@/lib/revoo.functions";
 
 export type { BookingDates, BookingProperty } from "@/components/site/booking-context";
 export { useBooking } from "@/components/site/booking-context";

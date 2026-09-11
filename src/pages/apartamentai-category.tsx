@@ -10,7 +10,7 @@ import { localizePath, type Locale } from "@/lib/locale";
 import { categoryLabel, codeForSlug, filterByCategory } from "@/lib/property-category";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 
 type CategorySearch = { nuo?: string; iki?: string; sveciai?: number };
 type CategoryLoaderData = { code: string; label: string };

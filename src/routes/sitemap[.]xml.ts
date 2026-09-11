@@ -5,7 +5,7 @@ import { SITE_URL } from "@/data/nav";
 import { LOCALES, localizePath } from "@/lib/locale";
 import { categorySlug, distinctCategories } from "@/lib/property-category";
 import { buildSlugIndex } from "@/lib/property-slug";
-import { fetchProperties } from "@/lib/rentivo-api.server";
+import { fetchProperties } from "@/lib/revoo-api.server";
 
 const STATIC_PATHS = [
   "/",

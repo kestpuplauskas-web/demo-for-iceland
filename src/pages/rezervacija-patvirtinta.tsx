@@ -9,7 +9,7 @@ import { getContent, useContent, useLocale } from "@/content";
 import { readStoredBooking, type StoredBooking } from "@/lib/booking-storage";
 import type { Locale } from "@/lib/locale";
 import { formatPrice } from "@/lib/property-view";
-import { getPaymentDetails } from "@/lib/rentivo.functions";
+import { getPaymentDetails } from "@/lib/revoo.functions";
 import { useLooseSearch } from "@/lib/route-data";
 import { pageHead } from "@/lib/seo";
 

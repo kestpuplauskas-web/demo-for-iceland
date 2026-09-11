@@ -11,7 +11,7 @@ import { SITE_URL } from "@/data/nav";
 import type { Locale } from "@/lib/locale";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { useLooseLoaderData } from "@/lib/route-data";
-import type { Property } from "@/lib/rentivo-schemas";
+import type { Property } from "@/lib/revoo-schemas";
 import { pageHead } from "@/lib/seo";
 
 type HomeLoaderData = { properties: Property[] | null };
