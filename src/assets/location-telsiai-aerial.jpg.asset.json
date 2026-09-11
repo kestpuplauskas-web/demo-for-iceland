@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "a27062d2-057c-4fad-8491-6f2ecca0ad08",
-  "project_id": "b0a80806-831d-41b1-ae8b-e94ded94143e",
-  "url": "/__l5e/assets-v1/a27062d2-057c-4fad-8491-6f2ecca0ad08/location-telsiai-aerial.jpg",
-  "r2_key": "a/v1/b0a80806-831d-41b1-ae8b-e94ded94143e/a27062d2-057c-4fad-8491-6f2ecca0ad08/location-telsiai-aerial.jpg",
-  "original_filename": "location-telsiai-aerial.jpg",
-  "size": 423172,
   "content_type": "image/jpeg",
-  "created_at": "2026-08-19T11:48:45Z"
+  "created_at": "2026-08-19T11:48:45Z",
+  "original_filename": "location-telsiai-aerial.jpg",
+  "project_id": "63b40bbc-fd88-41c5-b719-907e9e04e47b",
+  "r2_key": "a/v1/63b40bbc-fd88-41c5-b719-907e9e04e47b/a27062d2-057c-4fad-8491-6f2ecca0ad08/location-telsiai-aerial.jpg",
+  "size": 423172,
+  "url": "/__l5e/assets-v1/a27062d2-057c-4fad-8491-6f2ecca0ad08/location-telsiai-aerial.jpg",
+  "version": 1
 }

@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "e49d9ecc-8931-40f2-a658-21d7cb765b53",
-  "project_id": "b0a80806-831d-41b1-ae8b-e94ded94143e",
-  "url": "/__l5e/assets-v1/e49d9ecc-8931-40f2-a658-21d7cb765b53/logo-dharma.png",
-  "r2_key": "a/v1/b0a80806-831d-41b1-ae8b-e94ded94143e/e49d9ecc-8931-40f2-a658-21d7cb765b53/logo-dharma.png",
-  "original_filename": "logo-dharma.png",
-  "size": 67018,
   "content_type": "image/png",
-  "created_at": "2026-08-19T11:48:50Z"
+  "created_at": "2026-08-19T11:48:50Z",
+  "original_filename": "logo-dharma.png",
+  "project_id": "63b40bbc-fd88-41c5-b719-907e9e04e47b",
+  "r2_key": "a/v1/63b40bbc-fd88-41c5-b719-907e9e04e47b/e49d9ecc-8931-40f2-a658-21d7cb765b53/logo-dharma.png",
+  "size": 67018,
+  "url": "/__l5e/assets-v1/e49d9ecc-8931-40f2-a658-21d7cb765b53/logo-dharma.png",
+  "version": 1
 }

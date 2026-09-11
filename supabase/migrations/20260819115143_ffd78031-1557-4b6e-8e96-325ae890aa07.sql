@@ -1,2 +1,0 @@
-insert into public.api_clients (name, key_hash, key_prefix, allowed_origins, is_active)
-values ('Klientinė dalis (vidinė)', 'e731f43764c9ac5b42dbabb03cadf0d7eb6ea3bc5b6a86c11518af840ae71ec5', 'rk_live_61f2bb', array[]::text[], true);

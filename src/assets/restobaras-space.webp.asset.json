@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "4a158696-23b0-4509-95e5-26bcb18f1de8",
-  "project_id": "b0a80806-831d-41b1-ae8b-e94ded94143e",
-  "url": "/__l5e/assets-v1/4a158696-23b0-4509-95e5-26bcb18f1de8/restobaras-space.webp",
-  "r2_key": "a/v1/b0a80806-831d-41b1-ae8b-e94ded94143e/4a158696-23b0-4509-95e5-26bcb18f1de8/restobaras-space.webp",
-  "original_filename": "restobaras-space.webp",
-  "size": 182036,
   "content_type": "image/webp",
-  "created_at": "2026-08-19T11:49:02Z"
+  "created_at": "2026-08-19T11:49:02Z",
+  "original_filename": "restobaras-space.webp",
+  "project_id": "63b40bbc-fd88-41c5-b719-907e9e04e47b",
+  "r2_key": "a/v1/63b40bbc-fd88-41c5-b719-907e9e04e47b/4a158696-23b0-4509-95e5-26bcb18f1de8/restobaras-space.webp",
+  "size": 182036,
+  "url": "/__l5e/assets-v1/4a158696-23b0-4509-95e5-26bcb18f1de8/restobaras-space.webp",
+  "version": 1
 }

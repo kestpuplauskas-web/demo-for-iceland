@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "ef7f1d9b-9065-4e1c-ab19-48bac2690df9",
-  "project_id": "b0a80806-831d-41b1-ae8b-e94ded94143e",
-  "url": "/__l5e/assets-v1/ef7f1d9b-9065-4e1c-ab19-48bac2690df9/banketine-sale.jpg",
-  "r2_key": "a/v1/b0a80806-831d-41b1-ae8b-e94ded94143e/ef7f1d9b-9065-4e1c-ab19-48bac2690df9/banketine-sale.jpg",
-  "original_filename": "banketine-sale.jpg",
-  "size": 283300,
   "content_type": "image/jpeg",
-  "created_at": "2026-08-19T11:48:53Z"
+  "created_at": "2026-08-19T11:48:53Z",
+  "original_filename": "banketine-sale.jpg",
+  "project_id": "63b40bbc-fd88-41c5-b719-907e9e04e47b",
+  "r2_key": "a/v1/63b40bbc-fd88-41c5-b719-907e9e04e47b/ef7f1d9b-9065-4e1c-ab19-48bac2690df9/banketine-sale.jpg",
+  "size": 283300,
+  "url": "/__l5e/assets-v1/ef7f1d9b-9065-4e1c-ab19-48bac2690df9/banketine-sale.jpg",
+  "version": 1
 }
