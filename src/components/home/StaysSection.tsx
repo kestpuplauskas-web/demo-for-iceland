@@ -45,7 +45,7 @@ export function StaysSection({
         {headless ? null : (
           <div className="max-w-2xl">
             <p className="label-caps text-sage">{home.stays.eyebrow}</p>
-            <h2 className="mt-4 font-display text-[clamp(2rem,4.5vw,2.625rem)] leading-tight font-medium text-ink">
+            <h2 className="mt-4 font-display text-[clamp(2rem,4.5vw,2.625rem)] leading-tight font-medium text-paper">
               {home.stays.title}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-stone sm:text-lg">

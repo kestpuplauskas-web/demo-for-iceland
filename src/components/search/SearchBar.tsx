@@ -99,7 +99,7 @@ export function SearchBar({
   const submitButton = (
     <button
       type="submit"
-      className="inline-flex items-center justify-center gap-2 rounded-md bg-clay px-7 py-4 text-sm font-medium text-ink transition-colors hover:bg-sage hover:text-warm-white"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-aurora px-7 py-4 text-[0.72rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-[#9be3c4]"
     >
       <Search className="h-4 w-4" aria-hidden />
       {common.search.submit}
@@ -119,7 +119,7 @@ export function SearchBar({
           submit();
         }}
         className={cn(
-          "flex flex-col gap-4 rounded-md border border-border bg-warm-white p-4 text-left shadow-soft",
+          "flex flex-col gap-4 rounded-sm border border-border bg-surface p-4 text-left shadow-soft",
           className,
         )}
       >
@@ -161,7 +161,7 @@ export function SearchBar({
         submit();
       }}
       className={cn(
-        "grid gap-2 rounded-md bg-warm-white p-3 shadow-lift sm:grid-cols-[1.4fr_1fr_auto] sm:items-center",
+        "grid gap-px rounded-sm border border-border bg-[rgb(12_25_22/0.72)] p-1.5 shadow-lift backdrop-blur-2xl sm:grid-cols-[1.4fr_1fr_auto] sm:items-center",
         className,
       )}
     >
@@ -193,7 +193,7 @@ function Summary({
   return (
     <div className={cn("min-w-0 px-2", align === "right" && "text-right")}>
       <span className="label-caps block text-stone/80">{label}</span>
-      <span className="mt-1 block truncate text-sm font-medium text-ink">
+      <span className="mt-1 block truncate text-sm font-medium text-paper">
         {/* short form avoids truncation on narrow phones */}
         <span className="sm:hidden">{shortValue ?? value}</span>
         <span className="hidden sm:inline">{value}</span>

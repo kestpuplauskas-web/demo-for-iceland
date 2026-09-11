@@ -73,7 +73,7 @@ function ContactsPage() {
             <Reveal>
               <MapPin className="mx-auto h-5 w-5 text-sage" aria-hidden />
               <h2 className="label-caps mt-4 text-stone/80">{kontaktai.addressLabel}</h2>
-              <address className="mt-3 text-base not-italic leading-relaxed text-ink">
+              <address className="mt-3 text-base not-italic leading-relaxed text-paper">
                 {contact.address}
               </address>
               <p className="mt-2 text-sm text-stone">{kontaktai.cottageNote}</p>
@@ -82,7 +82,7 @@ function ContactsPage() {
             <Reveal delay={80}>
               <Phone className="mx-auto h-5 w-5 text-sage" aria-hidden />
               <h2 className="label-caps mt-4 text-stone/80">{kontaktai.phonesLabel}</h2>
-              <div className="mt-3 space-y-2 text-base text-ink">
+              <div className="mt-3 space-y-2 text-base text-paper">
                 {contact.phones.map((phone) => (
                   <p key={phone}>
                     <a className="hover:text-sage" href={`tel:${phone.replace(/\s/g, "")}`}>
@@ -96,7 +96,7 @@ function ContactsPage() {
             <Reveal delay={160}>
               <Mail className="mx-auto h-5 w-5 text-sage" aria-hidden />
               <h2 className="label-caps mt-4 text-stone/80">{kontaktai.emailLabel}</h2>
-              <p className="mt-3 text-base text-ink">
+              <p className="mt-3 text-base text-paper">
                 <a className="hover:text-sage" href={`mailto:${contact.email}`}>
                   {contact.email}
                 </a>

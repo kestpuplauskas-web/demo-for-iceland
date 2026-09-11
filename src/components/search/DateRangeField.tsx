@@ -92,7 +92,7 @@ export function DateRangeField({
         className="pointer-events-auto [--cell-size:2.4rem] sm:[--cell-size:2.6rem]"
         classNames={{
           month: "flex w-full flex-col gap-4",
-          caption_label: "font-display text-lg font-medium capitalize text-ink",
+          caption_label: "font-display text-lg font-medium capitalize text-paper",
           weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-stone/70",
         }}
       />
@@ -108,7 +108,7 @@ export function DateRangeField({
           <button
             type="button"
             onClick={() => onChange(undefined)}
-            className="rounded-md border border-border px-4 py-1.5 text-xs text-stone transition-colors hover:text-ink"
+            className="rounded-md border border-border px-4 py-1.5 text-xs text-stone transition-colors hover:text-paper"
           >
             {common.search.clear}
           </button>
@@ -116,7 +116,7 @@ export function DateRangeField({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded-md bg-sage px-4 py-1.5 text-xs font-medium text-warm-white transition-colors hover:bg-sage-deep"
+              className="rounded-full bg-aurora px-4 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
             >
               {common.search.done}
             </button>
@@ -136,7 +136,7 @@ export function DateRangeField({
         <button
           type="button"
           className={cn(
-            "flex w-full items-center gap-3 rounded-md px-5 py-3.5 text-left transition-colors hover:bg-linen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage",
+            "flex w-full items-center gap-3 rounded-sm px-5 py-3.5 text-left transition-colors hover:bg-[rgb(127_211_174/0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage",
             className,
           )}
         >
@@ -146,7 +146,7 @@ export function DateRangeField({
             <span
               className={cn(
                 "mt-1 block truncate text-sm font-medium",
-                range?.from ? "text-ink" : "text-stone/70",
+                range?.from ? "text-paper" : "text-stone/70",
               )}
             >
               {label}
@@ -154,7 +154,7 @@ export function DateRangeField({
           </span>
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-auto rounded-md border-border bg-warm-white p-4">
+      <PopoverContent align="start" className="w-auto rounded-sm border-border bg-surface p-4 shadow-lift">
         {calendar}
       </PopoverContent>
     </Popover>

@@ -12,7 +12,7 @@ export function StayFacts({ facts, amenities }: { facts: Fact[]; amenities: stri
         {facts.map((fact) => (
           <div key={fact.label}>
             <dt className="label-caps text-stone/80">{fact.label}</dt>
-            <dd className="mt-2 font-display text-xl font-medium text-ink">{fact.value}</dd>
+            <dd className="mt-2 font-display text-xl font-medium text-paper">{fact.value}</dd>
           </div>
         ))}
       </dl>
@@ -28,7 +28,7 @@ export function StayFacts({ facts, amenities }: { facts: Fact[]; amenities: stri
                   key={amenity}
                   className="flex items-center justify-between gap-4 border-b border-border py-4"
                 >
-                  <span className="font-display text-base text-ink">{amenity}</span>
+                  <span className="font-display text-base text-paper">{amenity}</span>
                   <Icon className="h-6 w-6 shrink-0 text-stone" strokeWidth={1.25} aria-hidden />
                 </li>
               );

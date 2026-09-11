@@ -27,7 +27,7 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
         aria-label={group.label}
         className="group block h-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
       >
-      <article className="flex h-full flex-col overflow-hidden rounded-md bg-warm-white shadow-soft transition-shadow duration-500 hover:shadow-lift">
+      <article className="flex h-full flex-col overflow-hidden rounded-md bg-surface shadow-soft transition-shadow duration-500 hover:shadow-lift">
         <div className="aspect-[4/3] overflow-hidden bg-linen">
           {group.image ? (
             <img
@@ -46,7 +46,7 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
               ? common.stays.priceOnRequest
               : `${common.labels.priceFrom} ${formatPrice(group.priceFrom)} €`}
           </p>
-          <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-ink">
+          <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {group.label}
           </h3>
           <p className="mt-4 text-xs tracking-wide text-stone/80">

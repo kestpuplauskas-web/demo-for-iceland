@@ -71,13 +71,15 @@ export function SiteHeader() {
   }, []);
 
   const solid = scrolled || menuOpen || !isHeroPage;
-  const linkTone = solid ? "text-stone hover:text-sage" : "text-warm-white/85 hover:text-warm-white";
+  const linkTone = "text-warm-white/70 hover:text-warm-white";
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
-        solid ? "border-b border-border/70 bg-linen/95 backdrop-blur-sm" : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-500",
+        solid
+          ? "border-border bg-ink/90 backdrop-blur-xl"
+          : "border-transparent bg-transparent",
       )}
     >
       <div className="mx-auto grid max-w-[84rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-6 py-2 lg:px-12 lg:py-3">
@@ -91,7 +93,7 @@ export function SiteHeader() {
           }}
           className={cn(
             "inline-flex items-center transition-colors",
-            solid ? "text-ink" : "text-warm-white",
+            "text-warm-white",
           )}
         >
           <Logo className="h-24 w-24" />
@@ -115,7 +117,7 @@ export function SiteHeader() {
                       setOpenGroup((value) => (value === entry.label ? null : entry.label))
                     }
                     className={cn(
-                      "inline-flex items-center gap-1 text-sm font-medium transition-colors",
+                      "inline-flex items-center gap-1 text-[0.74rem] uppercase tracking-[0.15em] transition-colors",
                       linkTone,
                     )}
                   >
@@ -124,13 +126,13 @@ export function SiteHeader() {
                   </button>
                   {openGroup === entry.label ? (
                     <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-3">
-                      <ul className="overflow-hidden rounded-md border border-border bg-warm-white py-2 shadow-lift">
+                      <ul className="overflow-hidden rounded-md border border-border bg-surface py-2 shadow-lift">
                         {entry.items.map((item) => (
                           <li key={item.to}>
                             <LocaleLink
                               to={item.to}
                               activeProps={{ className: "text-sage" }}
-                              className="block px-5 py-2.5 text-sm text-stone transition-colors hover:bg-linen hover:text-sage"
+                              className="block px-5 py-2.5 text-sm text-stone transition-colors hover:bg-surface-2 hover:text-aurora"
                             >
                               {item.label}
                             </LocaleLink>
@@ -144,8 +146,8 @@ export function SiteHeader() {
                 <LocaleLink
                   key={entry.to}
                   to={entry.to}
-                  activeProps={{ className: solid ? "text-sage" : "text-warm-white" }}
-                  className={cn("text-sm font-medium transition-colors", linkTone)}
+                  activeProps={{ className: "text-aurora" }}
+                  className={cn("text-[0.74rem] uppercase tracking-[0.15em] transition-colors", linkTone)}
                 >
                   {entry.label}
                 </LocaleLink>
@@ -156,24 +158,19 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={goToAvailability}
-            className={cn(
-              "hidden rounded-md px-5 py-2.5 text-sm font-medium transition-colors lg:inline-flex",
-              solid
-                ? "bg-sage text-warm-white hover:bg-sage-deep"
-                : "border border-warm-white/70 text-warm-white hover:bg-warm-white hover:text-ink",
-            )}
+            className="hidden rounded-full bg-aurora px-6 py-3 text-[0.68rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-[#9be3c4] lg:inline-flex"
           >
             {common.cta.checkDates}
           </button>
 
           <LanguageSwitcher
-            className={cn("hidden lg:flex", solid ? "text-stone" : "text-warm-white/85")}
-            tone={solid ? "dark" : "light"}
+            className="hidden text-warm-white/70 lg:flex"
+            tone="light"
           />
 
           <LanguageSwitcher
-            className={cn("flex text-sm lg:hidden", solid ? "text-stone" : "text-warm-white/85")}
-            tone={solid ? "dark" : "light"}
+            className="flex text-sm text-warm-white/70 lg:hidden"
+            tone="light"
           />
 
           <button
@@ -181,7 +178,7 @@ export function SiteHeader() {
             onClick={() => setMenuOpen((value) => !value)}
             aria-expanded={menuOpen}
             aria-label="Menu"
-            className={cn("lg:hidden", solid ? "text-ink" : "text-warm-white")}
+            className="text-warm-white lg:hidden"
           >
             {menuOpen ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
           </button>
@@ -189,7 +186,7 @@ export function SiteHeader() {
       </div>
 
       {menuOpen ? (
-        <div className="max-h-[80vh] overflow-y-auto border-t border-border/70 bg-linen px-6 pb-8 pt-2 lg:hidden">
+        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-ink px-6 pb-8 pt-2 lg:hidden">
           <nav aria-label="Main" className="flex flex-col">
             {nav.map((entry) =>
               isGroup(entry) ? (
@@ -200,7 +197,7 @@ export function SiteHeader() {
                     onClick={() =>
                       setMobileGroup((value) => (value === entry.label ? null : entry.label))
                     }
-                    className="flex w-full items-center justify-between py-4 text-base font-medium text-ink"
+                    className="flex w-full items-center justify-between py-4 text-base font-medium text-paper"
                   >
                     {entry.label}
                     <ChevronDown
@@ -232,7 +229,7 @@ export function SiteHeader() {
                   key={entry.to}
                   to={entry.to}
                   onClick={() => setMenuOpen(false)}
-                  className="border-b border-border/60 py-4 text-base font-medium text-ink"
+                  className="border-b border-border/60 py-4 text-base font-medium text-paper"
                 >
                   {entry.label}
                 </LocaleLink>
@@ -245,7 +242,7 @@ export function SiteHeader() {
               setMenuOpen(false);
               goToAvailability();
             }}
-            className="mt-6 w-full rounded-md bg-sage px-5 py-3.5 text-sm font-medium text-warm-white"
+            className="mt-6 w-full rounded-full bg-aurora px-5 py-3.5 text-sm font-medium text-ink"
           >
             {common.cta.checkDates}
           </button>

@@ -43,7 +43,7 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-border/70 py-3 last:border-0">
       <dt className="label-caps text-stone">{label}</dt>
-      <dd className="text-sm text-ink">{value}</dd>
+      <dd className="text-sm text-paper">{value}</dd>
     </div>
   );
 }
@@ -83,15 +83,15 @@ function ConfirmationPage() {
       <PageSection>
         <Reveal className="mx-auto max-w-3xl space-y-8">
           {nr ? (
-            <div className="rounded-md border border-border bg-warm-white p-6 text-center sm:p-8">
+            <div className="rounded-md border border-border bg-surface p-6 text-center sm:p-8">
               <p className="label-caps text-sage">{rezervacija.numberLabel}</p>
-              <p className="mt-3 font-display text-3xl font-medium tracking-wide text-ink">{nr}</p>
+              <p className="mt-3 font-display text-3xl font-medium tracking-wide text-paper">{nr}</p>
             </div>
           ) : null}
 
           {booking ? (
             <div className="rounded-md border border-border bg-linen p-6 sm:p-8">
-              <h2 className="font-display text-2xl font-medium text-ink">
+              <h2 className="font-display text-2xl font-medium text-paper">
                 {rezervacija.summaryTitle}
               </h2>
               <dl className="mt-4">
@@ -120,15 +120,15 @@ function ConfirmationPage() {
             </div>
           ) : hydrated && !booking ? (
             <div className="rounded-md border border-border bg-linen p-6 sm:p-8">
-              <h2 className="font-display text-2xl font-medium text-ink">
+              <h2 className="font-display text-2xl font-medium text-paper">
                 {rezervacija.missingTitle}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-stone">{rezervacija.missingText}</p>
             </div>
           ) : null}
 
-          <div className="rounded-md border border-border bg-warm-white p-6 sm:p-8">
-            <h2 className="font-display text-2xl font-medium text-ink">
+          <div className="rounded-md border border-border bg-surface p-6 sm:p-8">
+            <h2 className="font-display text-2xl font-medium text-paper">
               {rezervacija.statusTitle}
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-stone">
@@ -139,7 +139,7 @@ function ConfirmationPage() {
           </div>
 
           <div className="rounded-md border border-border bg-linen p-6 sm:p-8">
-            <h2 className="font-display text-2xl font-medium text-ink">
+            <h2 className="font-display text-2xl font-medium text-paper">
               {rezervacija.paymentTitle}
             </h2>
             {payment.isPending ? (
@@ -168,7 +168,7 @@ function ConfirmationPage() {
 
           <LocaleLink
             to="/"
-            className="inline-flex rounded-md bg-sage px-6 py-3 text-sm font-medium text-warm-white"
+            className="inline-flex rounded-full bg-aurora px-6 py-3 text-sm font-medium text-ink"
           >
             {rezervacija.back}
           </LocaleLink>

@@ -27,7 +27,7 @@ export function PageSection({
       id={id}
       className={cn(
         "px-6 py-20 lg:px-12 lg:py-24",
-        tone === "warm" ? "bg-warm-white" : "bg-linen",
+        tone === "warm" ? "bg-surface" : "bg-linen",
         className,
       )}
     >

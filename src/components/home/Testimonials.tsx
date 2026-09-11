@@ -63,7 +63,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-[84rem]">
         <div className="text-center">
           <p className="label-caps text-stone">{common.testimonials.eyebrow}</p>
-          <h2 className="mt-3 font-display text-[clamp(1.9rem,4vw,2.75rem)] font-medium text-ink">
+          <h2 className="mt-3 font-display text-[clamp(1.9rem,4vw,2.75rem)] font-medium text-paper">
             {common.testimonials.title}
           </h2>
         </div>
@@ -75,19 +75,19 @@ export function Testimonials() {
           {items.map((item) => (
             <article
               key={`${item.name}-${item.quote.slice(0, 16)}`}
-              className="flex w-full shrink-0 snap-start flex-col rounded-md border border-border bg-warm-white p-7 sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+              className="flex w-full shrink-0 snap-start flex-col rounded-md border border-border bg-surface p-7 sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
             >
-              <p className="text-[0.85rem] font-semibold text-sage-deep">{item.source}</p>
-              <p className="mt-3 text-[0.95rem] leading-relaxed text-ink">“{item.quote}”</p>
+              <p className="text-[0.85rem] font-semibold text-aurora">{item.source}</p>
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-paper">“{item.quote}”</p>
               <div className="mt-auto flex items-center gap-3 border-t border-border pt-4 pt-5">
                 <span
                   aria-hidden
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-sage text-sm font-semibold text-warm-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-aurora text-sm font-semibold text-ink"
                 >
                   {item.name.slice(0, 1)}
                 </span>
                 <span>
-                  <span className="block text-sm font-semibold text-ink">{item.name}</span>
+                  <span className="block text-sm font-semibold text-paper">{item.name}</span>
                   <span className="block text-xs text-stone">{item.country}</span>
                 </span>
               </div>
@@ -142,7 +142,7 @@ function CarouselButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-warm-white text-stone transition-colors hover:border-clay hover:text-ink"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-stone transition-colors hover:border-clay hover:text-paper"
     >
       {children}
     </button>

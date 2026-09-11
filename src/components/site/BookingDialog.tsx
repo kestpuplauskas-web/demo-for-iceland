@@ -124,7 +124,7 @@ function TextField({
         autoComplete={autoComplete}
         onChange={(event) => onChange(event.target.value)}
         aria-invalid={error ? true : undefined}
-        className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink"
+        className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper"
       />
       {error ? <span className="block text-xs text-stone">{error}</span> : null}
     </label>
@@ -165,7 +165,7 @@ function GuestField({
           const next = Number(event.target.value);
           onChange(Number.isFinite(next) ? Math.min(50, Math.max(min, Math.trunc(next))) : min);
         }}
-        className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink"
+        className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper"
       />
     </label>
   );
@@ -205,7 +205,7 @@ function PriceBreakdown({ quote }: { quote: QuoteData }) {
       ) : null}
       <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
         <dt className="label-caps text-sage">{common.booking.total}</dt>
-        <dd className="font-display text-2xl font-medium text-ink">
+        <dd className="font-display text-2xl font-medium text-paper">
           {formatPrice(quote.total)} {currency}
         </dd>
       </div>
@@ -217,7 +217,7 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-4">
       <dt>{label}</dt>
-      <dd className="text-ink">{value}</dd>
+      <dd className="text-paper">{value}</dd>
     </div>
   );
 }
@@ -400,11 +400,11 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     <BookingContext.Provider value={value}>
       {children}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-lg border-border bg-warm-white p-0 sm:max-w-lg">
+        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-lg border-border bg-surface p-0 sm:max-w-lg">
           <div className="p-6 sm:p-8">
             <DialogHeader className="space-y-3 text-left">
               <Enso className="h-8 w-8" />
-              <DialogTitle className="font-display text-2xl font-medium text-ink">
+              <DialogTitle className="font-display text-2xl font-medium text-paper">
                 {common.booking.dialogTitle}
               </DialogTitle>
               <DialogDescription className="text-stone">
@@ -430,7 +430,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               <div className="block space-y-2">
                 <span className="label-caps text-stone">{common.booking.stayLabel}</span>
                 {property ? (
-                  <p className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink">
+                  <p className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper">
                     {property?.name ?? common.nav.stays}
                   </p>
                 ) : (
@@ -438,7 +438,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                     name="stay"
                     value={stayId}
                     onChange={(event) => setStayId(event.target.value)}
-                    className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink"
+                    className="w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper"
                   >
                     <option value="">{common.stays.pickProperty}</option>
                     {(propertyOptions.data ?? []).map((item) => (
@@ -482,7 +482,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                         key={extra.name}
                         className="flex cursor-pointer items-center justify-between gap-4 rounded-md border border-border bg-linen px-4 py-3"
                       >
-                        <span className="flex items-center gap-3 text-sm text-ink">
+                        <span className="flex items-center gap-3 text-sm text-paper">
                           <input
                             type="checkbox"
                             checked={checked}
@@ -547,7 +547,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 </div>
               </fieldset>
 
-              <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink">
+              <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper">
                 <input
                   type="checkbox"
                   checked={isCompany}
@@ -622,7 +622,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               </label>
 
               {submitError ? (
-                <p role="alert" className="rounded-md bg-linen p-4 text-sm text-ink">
+                <p role="alert" className="rounded-md bg-linen p-4 text-sm text-paper">
                   {submitError}
                 </p>
               ) : null}
@@ -630,7 +630,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="flex w-full items-center justify-center gap-3 rounded-md bg-sage px-6 py-3.5 text-sm font-medium text-warm-white disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-3 rounded-full bg-aurora px-6 py-3.5 text-sm font-medium text-ink disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span

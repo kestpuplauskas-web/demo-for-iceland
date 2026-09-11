@@ -13,7 +13,7 @@ export function SiteFooter() {
   const { common, legal } = useContent();
   const links = footerNav(locale);
   return (
-    <footer id="kontaktai" className="bg-sage-deep text-warm-white">
+    <footer id="kontaktai" className="border-t border-border bg-ink-2 text-warm-white/70">
       <div className="mx-auto max-w-[84rem] px-6 py-20 lg:px-12">
         <div className="grid gap-12 md:grid-cols-3">
           <div>

@@ -72,7 +72,7 @@ export function AvailabilityCalendar({
   return (
     <div
       className={cn(
-        "rounded-md bg-warm-white shadow-soft",
+        "rounded-md bg-surface shadow-soft",
         compact ? "p-4 sm:p-5" : "p-6 sm:p-8",
         className,
       )}
@@ -80,7 +80,7 @@ export function AvailabilityCalendar({
       <div className="flex items-start gap-4">
         <Enso className={cn("mt-1 hidden shrink-0 text-sage sm:block", compact ? "h-6 w-6" : "h-8 w-8")} />
         <div>
-          <h2 className={cn("font-display font-medium text-ink", compact ? "text-xl" : "text-2xl")}>
+          <h2 className={cn("font-display font-medium text-paper", compact ? "text-xl" : "text-2xl")}>
             {common.stays.availabilityTitle}
           </h2>
           <p className="mt-2 max-w-prose text-sm leading-relaxed text-stone">
@@ -112,7 +112,7 @@ export function AvailabilityCalendar({
           classNames={{
             root: "w-full",
             month: "flex w-full flex-col gap-4",
-            caption_label: "font-display text-lg font-medium capitalize text-ink",
+            caption_label: "font-display text-lg font-medium capitalize text-paper",
             weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-stone/70",
           }}
         />
@@ -126,13 +126,13 @@ export function AvailabilityCalendar({
       >
         <div>
           <p className="label-caps text-stone/80">{common.stays.checkin}</p>
-          <p className={cn("mt-1 font-display font-medium text-ink", compact ? "text-base" : "text-lg")}>
+          <p className={cn("mt-1 font-display font-medium text-paper", compact ? "text-base" : "text-lg")}>
             {range?.from ? format(range.from, "yyyy-MM-dd") : "—"}
           </p>
         </div>
         <div>
           <p className="label-caps text-stone/80">{common.stays.checkout}</p>
-          <p className={cn("mt-1 font-display font-medium text-ink", compact ? "text-base" : "text-lg")}>
+          <p className={cn("mt-1 font-display font-medium text-paper", compact ? "text-base" : "text-lg")}>
             {range?.to ? format(range.to, "yyyy-MM-dd") : "—"}
           </p>
         </div>
@@ -142,7 +142,7 @@ export function AvailabilityCalendar({
 
       <div className={cn("flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-stone", compact ? "mt-4" : "mt-5")}>
         <span className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-sage" aria-hidden />
+          <span className="h-2.5 w-2.5 rounded-full bg-aurora" aria-hidden />
           {common.stays.selected}
         </span>
         <span className="flex items-center gap-2">
@@ -150,7 +150,7 @@ export function AvailabilityCalendar({
           {common.stays.occupied}
         </span>
         {nights > 0 ? (
-          <span aria-live="polite" className="text-ink">
+          <span aria-live="polite" className="text-paper">
             {nights} {nightsLabel(nights, common.stays)}
           </span>
         ) : null}
@@ -158,7 +158,7 @@ export function AvailabilityCalendar({
           <button
             type="button"
             onClick={() => onRangeChange(undefined)}
-            className="ml-auto rounded-md border border-border px-4 py-1.5 text-xs text-stone transition-colors hover:text-ink"
+            className="ml-auto rounded-md border border-border px-4 py-1.5 text-xs text-stone transition-colors hover:text-paper"
           >
             {common.stays.clearDates}
           </button>

@@ -63,11 +63,11 @@ function RulesPage() {
         <div className="grid gap-12 sm:grid-cols-2">
           {c.taisykles.groups.map((group, index) => (
             <Reveal key={group.title} delay={index * 80}>
-              <h2 className="font-display text-xl font-semibold text-ink">{group.title}</h2>
+              <h2 className="font-display text-xl font-semibold text-paper">{group.title}</h2>
               <ul className="mt-4 space-y-3 text-sm leading-relaxed text-stone">
                 {group.items.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sage" aria-hidden />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aurora" aria-hidden />
                     {item}
                   </li>
                 ))}

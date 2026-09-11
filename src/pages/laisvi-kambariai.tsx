@@ -82,7 +82,7 @@ function ResultsPage({ locale }: { locale: Locale }) {
         <div className="mx-auto max-w-[84rem] text-center">
           <Enso className="mx-auto h-9 w-9 text-sage/70" />
           <p className="label-caps mt-6 text-sage">{common.results.eyebrow}</p>
-          <h1 className="mt-4 font-display text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.12] font-medium text-ink">
+          <h1 className="mt-4 font-display text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.12] font-medium text-paper">
             {common.results.title}
           </h1>
         </div>
@@ -113,7 +113,7 @@ function ResultsPage({ locale }: { locale: Locale }) {
                     void availability.refetch();
                     void properties.refetch();
                   }}
-                  className="mt-5 rounded-md bg-sage px-6 py-2.5 text-xs font-medium text-warm-white transition-colors hover:bg-sage-deep"
+                  className="mt-5 rounded-full bg-aurora px-6 py-2.5 text-xs font-medium text-ink transition-colors hover:bg-aurora-deep"
                 >
                   {common.results.retry}
                 </button>
@@ -121,14 +121,14 @@ function ResultsPage({ locale }: { locale: Locale }) {
             ) : loading ? (
               <div className="mx-auto max-w-md py-16 text-center">
                 <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-border">
-                  <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-sage animate-[loading-bar_1.2s_ease-in-out_infinite]" />
+                  <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-aurora animate-[loading-bar_1.2s_ease-in-out_infinite]" />
                 </div>
-                <p className="mt-6 font-display text-lg text-ink">{common.results.loadingTitle}</p>
+                <p className="mt-6 font-display text-lg text-paper">{common.results.loadingTitle}</p>
                 <p className="mt-2 text-sm text-stone">{common.results.loadingText}</p>
               </div>
             ) : rooms.length === 0 ? (
               <div className="py-12 text-center">
-                <p className="font-display text-2xl text-ink">{common.results.empty}</p>
+                <p className="font-display text-2xl text-paper">{common.results.empty}</p>
                 <p className="mt-3 text-sm text-stone">{common.results.emptyHint}</p>
               </div>
             ) : (
@@ -197,7 +197,7 @@ function RoomResultCard({
   return (
     <article
       className={cn(
-        "overflow-hidden rounded-lg border bg-warm-white shadow-soft transition-colors",
+        "overflow-hidden rounded-lg border bg-surface shadow-soft transition-colors",
         expanded ? "border-sage/50 shadow-lift" : "border-border hover:border-sage/40",
       )}
     >
@@ -225,7 +225,7 @@ function RoomResultCard({
         </button>
 
         <div className="flex flex-col">
-          <h2 className="font-display text-[1.375rem] leading-snug font-semibold text-ink">
+          <h2 className="font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {view.name}
           </h2>
           {view.meta ? (
@@ -240,7 +240,7 @@ function RoomResultCard({
             type="button"
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
-            className="mt-2 self-start text-sm font-medium text-sage underline underline-offset-4 transition-colors hover:text-sage-deep"
+            className="mt-2 self-start text-sm font-medium text-sage underline underline-offset-4 transition-colors hover:text-aurora"
           >
             {expanded ? common.results.lessInfo : common.results.moreInfo}
           </button>
@@ -264,7 +264,7 @@ function RoomResultCard({
 
         <div className="flex flex-col items-start gap-4 border-t border-border pt-4 md:h-full md:items-end md:border-t-0 md:border-l md:pt-0 md:pl-5 md:text-right">
           <div className="md:text-right">
-            <p className="font-display text-2xl font-semibold text-ink">
+            <p className="font-display text-2xl font-semibold text-paper">
               {total !== null
                 ? `${formatPrice(total)} €`
                 : view.priceFrom !== null
@@ -281,7 +281,7 @@ function RoomResultCard({
           <button
             type="button"
             onClick={() => open(property.id, { checkin, checkout, adults }, { name: property.name })}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-sage px-5 py-3 text-sm font-medium text-warm-white transition-colors hover:bg-sage-deep md:mt-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-aurora px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-aurora-deep md:mt-auto"
           >
             {common.cta.book}
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -299,7 +299,7 @@ function RoomResultCard({
           ) : null}
           {view.amenities.length > 0 ? (
             <>
-              <h4 className="mt-6 font-display text-lg font-semibold text-ink">
+              <h4 className="mt-6 font-display text-lg font-semibold text-paper">
                 {common.results.amenitiesTitle}
               </h4>
               <ul className="mt-3 flex flex-wrap gap-2">
@@ -393,7 +393,7 @@ function Lightbox({
             type="button"
             onClick={() => step(-1)}
             aria-label={common.results.prev}
-            className="absolute left-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-warm-white hover:text-ink sm:-left-4"
+            className="absolute left-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-surface hover:text-paper sm:-left-4"
           >
             <ChevronLeft className="h-6 w-6" aria-hidden />
           </button>
@@ -412,7 +412,7 @@ function Lightbox({
             type="button"
             onClick={() => step(1)}
             aria-label={common.results.next}
-            className="absolute right-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-warm-white hover:text-ink sm:-right-4"
+            className="absolute right-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-surface hover:text-paper sm:-right-4"
           >
             <ChevronRight className="h-6 w-6" aria-hidden />
           </button>

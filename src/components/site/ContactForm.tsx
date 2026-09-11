@@ -40,7 +40,7 @@ function Field({
   onChange: (value: string) => void;
 }) {
   const className =
-    "w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-ink outline-none focus:border-sage";
+    "w-full rounded-md border border-border bg-linen px-4 py-3 text-sm text-paper outline-none focus:border-sage";
   return (
     <label className="block space-y-2">
       <span className="label-caps text-stone">{label}</span>
@@ -125,7 +125,7 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-md bg-linen p-6 sm:p-8">
       <div>
-        <h2 className="font-display text-2xl font-medium text-ink">{kontaktaiForm.title}</h2>
+        <h2 className="font-display text-2xl font-medium text-paper">{kontaktaiForm.title}</h2>
         <p className="mt-2 text-sm text-stone">{kontaktaiForm.lead}</p>
       </div>
 
@@ -164,10 +164,10 @@ export function ContactForm() {
 
       <div aria-live="polite">
         {status === "sent" ? (
-          <p className="rounded-md bg-warm-white p-4 text-sm text-ink">{kontaktaiForm.success}</p>
+          <p className="rounded-md bg-surface p-4 text-sm text-paper">{kontaktaiForm.success}</p>
         ) : null}
         {status === "failed" ? (
-          <p className="rounded-md bg-warm-white p-4 text-sm text-ink">
+          <p className="rounded-md bg-surface p-4 text-sm text-paper">
             {kontaktaiForm.error}{" "}
             <a className="text-sage underline underline-offset-2" href={mailtoHref}>
               {kontaktaiForm.mailFallback}
@@ -179,7 +179,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-md bg-sage px-6 py-3.5 text-sm font-medium text-warm-white transition-opacity disabled:opacity-60"
+        className="w-full rounded-full bg-aurora px-6 py-3.5 text-sm font-medium text-ink transition-opacity disabled:opacity-60"
       >
         {status === "sending" ? kontaktaiForm.submitting : kontaktaiForm.submit}
       </button>
