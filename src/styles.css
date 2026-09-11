@@ -215,15 +215,29 @@
 @theme {
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --color-linen: oklch(0.968 0.007 80.7);
-  --color-warm-white: oklch(0.986 0.006 84.6);
-  --color-ink: oklch(0.285 0.007 95.3);
-  --color-stone: oklch(0.512 0.015 82.4);
-  --color-sage: oklch(0.509 0.03 150.3);
-  --color-sage-deep: oklch(0.395 0.023 150);
-  --color-clay: oklch(0.753 0.057 64.1);
-  --shadow-soft: 0 1px 2px oklch(0.285 0.007 95.3 / 0.04), 0 12px 32px -16px oklch(0.285 0.007 95.3 / 0.16);
-  --shadow-lift: 0 2px 4px oklch(0.285 0.007 95.3 / 0.05), 0 24px 48px -24px oklch(0.285 0.007 95.3 / 0.22);
+
+  /* Tamsi „šiaurės" paletė (viešoji svetainė). */
+  --color-ink: #07100e;
+  --color-ink-2: #0b1715;
+  --color-surface: #0f1d1a;
+  --color-surface-2: #142523;
+  --color-paper: #f2efe8;
+  --color-paper-2: #e6e1d6;
+  --color-paper-3: #d8d2c4;
+  --color-aurora: #7fd3ae;
+  --color-aurora-2: #4e9c7e;
+  --color-brass: #c7a169;
+
+  /* Suderinamumo aliasai su esamu kodu. */
+  --color-linen: var(--color-ink-2);
+  --color-warm-white: var(--color-paper);
+  --color-stone: rgb(242 239 232 / 0.52);
+  --color-sage: var(--color-aurora);
+  --color-sage-deep: var(--color-aurora-2);
+  --color-clay: var(--color-brass);
+
+  --shadow-soft: 0 18px 48px -28px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 34px 90px -40px rgb(0 0 0 / 0.8);
 }
 
 /*
@@ -231,39 +245,76 @@
  * kad administravimo panelės išvaizda nepasikeistų.
  */
 .site-theme {
-  --background: var(--color-linen);
-  --foreground: var(--color-ink);
-  --card: var(--color-warm-white);
-  --card-foreground: var(--color-ink);
-  --popover: var(--color-warm-white);
-  --popover-foreground: var(--color-ink);
-  --primary: var(--color-sage);
-  --primary-foreground: var(--color-warm-white);
-  --secondary: var(--color-warm-white);
-  --secondary-foreground: var(--color-ink);
-  --muted: oklch(0.94 0.008 82);
-  --muted-foreground: var(--color-stone);
-  --accent: oklch(0.94 0.01 150);
-  --accent-foreground: var(--color-sage-deep);
-  --destructive-foreground: var(--color-warm-white);
-  --border: oklch(0.911 0.013 82.4);
-  --input: oklch(0.911 0.013 82.4);
-  --ring: var(--color-sage);
-  /* Svetainės apvalinimų skalė (sm 4px / md 6px / lg 8px); admin lieka 0.875rem. */
-  --radius: 8px;
+  --background: var(--color-ink);
+  --foreground: var(--color-paper);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-paper);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-paper);
+  --primary: var(--color-aurora);
+  --primary-foreground: #06120f;
+  --secondary: var(--color-surface-2);
+  --secondary-foreground: var(--color-paper);
+  --muted: var(--color-surface-2);
+  --muted-foreground: rgb(242 239 232 / 0.52);
+  --accent: var(--color-surface-2);
+  --accent-foreground: var(--color-aurora);
+  --destructive-foreground: var(--color-paper);
+  --border: rgb(242 239 232 / 0.13);
+  --input: rgb(242 239 232 / 0.13);
+  --ring: var(--color-aurora);
+  /* Redakcinis stilius: beveik statūs kampai, mygtukai atskirai apvalinami. */
+  --radius: 3px;
+  color-scheme: dark;
   font-family: var(--font-sans);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }
 
 .site-theme h1,
 .site-theme h2,
-.site-theme h3 {
+.site-theme h3,
+.site-theme h4 {
   font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  color: var(--color-paper);
 }
 
 .site-theme :focus-visible {
-  outline: 2px solid var(--color-sage);
+  outline: 2px solid var(--color-aurora);
   outline-offset: 3px;
+}
+
+.site-theme ::selection {
+  background: var(--color-aurora);
+  color: var(--color-ink);
+}
+
+/* Šviesios („popierinės") sekcijos tamsioje svetainėje. */
+.site-theme .on-paper {
+  --background: var(--color-paper);
+  --foreground: #0b1715;
+  --card: var(--color-paper);
+  --card-foreground: #0b1715;
+  --muted-foreground: rgb(11 23 21 / 0.6);
+  --border: rgb(11 23 21 / 0.14);
+  --input: rgb(11 23 21 / 0.14);
+  --color-paper: #0b1715;
+  --color-stone: rgb(11 23 21 / 0.62);
+  --color-linen: #f2efe8;
+  --color-ink-2: #f2efe8;
+  --color-surface: #f2efe8;
+  --color-sage: var(--color-aurora-2);
+  background-color: #f2efe8;
+  color: rgb(11 23 21 / 0.78);
+}
+
+.site-theme .on-paper h1,
+.site-theme .on-paper h2,
+.site-theme .on-paper h3,
+.site-theme .on-paper h4 {
+  color: #07100e;
 }
 
 @utility label-caps {
