@@ -226,6 +226,7 @@
   --color-paper-3: #d8d2c4;
   --color-aurora: #7fd3ae;
   --color-aurora-2: #4e9c7e;
+  --color-aurora-deep: #4e9c7e;
   --color-brass: #c7a169;
 
   /* Suderinamumo aliasai su esamu kodu. */
@@ -306,6 +307,7 @@
   --color-ink-2: #f2efe8;
   --color-surface: #f2efe8;
   --color-sage: var(--color-aurora-2);
+  --color-aurora: #4e9c7e;
   background-color: #f2efe8;
   color: rgb(11 23 21 / 0.78);
 }
