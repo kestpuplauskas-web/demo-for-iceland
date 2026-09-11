@@ -93,7 +93,7 @@ export function SiteHeader() {
           }}
           className={cn(
             "inline-flex items-center transition-colors",
-            solid ? "text-paper" : "text-warm-white",
+            "text-warm-white",
           )}
         >
           <Logo className="h-24 w-24" />
@@ -117,7 +117,7 @@ export function SiteHeader() {
                       setOpenGroup((value) => (value === entry.label ? null : entry.label))
                     }
                     className={cn(
-                      "inline-flex items-center gap-1 text-sm font-medium transition-colors",
+                      "inline-flex items-center gap-1 text-[0.74rem] uppercase tracking-[0.15em] transition-colors",
                       linkTone,
                     )}
                   >
@@ -132,7 +132,7 @@ export function SiteHeader() {
                             <LocaleLink
                               to={item.to}
                               activeProps={{ className: "text-sage" }}
-                              className="block px-5 py-2.5 text-sm text-stone transition-colors hover:bg-linen hover:text-sage"
+                              className="block px-5 py-2.5 text-sm text-stone transition-colors hover:bg-surface-2 hover:text-aurora"
                             >
                               {item.label}
                             </LocaleLink>
@@ -146,8 +146,8 @@ export function SiteHeader() {
                 <LocaleLink
                   key={entry.to}
                   to={entry.to}
-                  activeProps={{ className: solid ? "text-sage" : "text-warm-white" }}
-                  className={cn("text-sm font-medium transition-colors", linkTone)}
+                  activeProps={{ className: "text-aurora" }}
+                  className={cn("text-[0.74rem] uppercase tracking-[0.15em] transition-colors", linkTone)}
                 >
                   {entry.label}
                 </LocaleLink>
@@ -169,13 +169,13 @@ export function SiteHeader() {
           </button>
 
           <LanguageSwitcher
-            className={cn("hidden lg:flex", solid ? "text-stone" : "text-warm-white/85")}
-            tone={solid ? "dark" : "light"}
+            className="hidden text-warm-white/70 lg:flex"
+            tone="light"
           />
 
           <LanguageSwitcher
-            className={cn("flex text-sm lg:hidden", solid ? "text-stone" : "text-warm-white/85")}
-            tone={solid ? "dark" : "light"}
+            className="flex text-sm text-warm-white/70 lg:hidden"
+            tone="light"
           />
 
           <button
@@ -183,7 +183,7 @@ export function SiteHeader() {
             onClick={() => setMenuOpen((value) => !value)}
             aria-expanded={menuOpen}
             aria-label="Menu"
-            className={cn("lg:hidden", solid ? "text-paper" : "text-warm-white")}
+            className="text-warm-white lg:hidden"
           >
             {menuOpen ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
           </button>
@@ -191,7 +191,7 @@ export function SiteHeader() {
       </div>
 
       {menuOpen ? (
-        <div className="max-h-[80vh] overflow-y-auto border-t border-border/70 bg-linen px-6 pb-8 pt-2 lg:hidden">
+        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-ink px-6 pb-8 pt-2 lg:hidden">
           <nav aria-label="Main" className="flex flex-col">
             {nav.map((entry) =>
               isGroup(entry) ? (
