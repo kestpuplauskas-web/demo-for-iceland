@@ -272,10 +272,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.site-theme h1,
-.site-theme h2,
-.site-theme h3,
-.site-theme h4 {
+:where(.site-theme) :where(h1, h2, h3, h4) {
   font-family: var(--font-display);
   font-weight: 300;
   letter-spacing: -0.015em;
@@ -312,10 +309,7 @@
   color: rgb(11 23 21 / 0.78);
 }
 
-.site-theme .on-paper h1,
-.site-theme .on-paper h2,
-.site-theme .on-paper h3,
-.site-theme .on-paper h4 {
+:where(.site-theme .on-paper) :where(h1, h2, h3, h4) {
   color: #07100e;
 }
 
