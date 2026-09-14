@@ -1,4 +1,3 @@
-import type { Bundle } from "@/content";
 import { apartamentai } from "./apartamentai";
 import { apie } from "./apie";
 import { banketineSale } from "./banketineSale";
@@ -12,7 +11,7 @@ import { rezervacija } from "./rezervacija";
 import { sauna } from "./sauna";
 import { taisykles } from "./taisykles";
 
-export const en: Bundle = {
+export const en = {
   common,
   home,
   apartamentai,
