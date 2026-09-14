@@ -35,7 +35,7 @@ export function categoryLabel(code: string, locale: Locale = DEFAULT_LOCALE): st
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
-/** Lithuanian plural for "variantas" (option). */
+/** Localized option count label. */
 export function optionsLabel(count: number, locale: Locale = DEFAULT_LOCALE): string {
   const { common } = getContent(locale);
   const last = count % 10;
@@ -74,7 +74,7 @@ export function uncategorized(properties: Property[]): Property[] {
   return properties.filter((property) => !normalizeCategory(property.property_type));
 }
 
-/** Compact facts line for a category card: "18–35 m² · iki 4 svečių". */
+/** Compact facts line for a category card. */
 export function categoryFacts(group: CategoryGroup, locale: Locale = DEFAULT_LOCALE): string {
   const { common } = getContent(locale);
   const parts: string[] = [];
@@ -161,17 +161,16 @@ export function hasCategory(properties: Property[], code: string | undefined): b
   return properties.some((property) => normalizeCategory(property.property_type) === key);
 }
 
-/** Pretty URL segment for a category, derived from its Lithuanian label. */
-/** Slugs stay Lithuanian in every locale so both language trees share URLs. */
+/** Stable URL segment for a category, using the English public label. */
 export function categorySlug(code: string): string {
   const key = normalizeCategory(code);
-  return slugify(categoryLabel(key, "lt")) || slugify(key) || "apartamentai";
+  return slugify(categoryLabel(key, "en")) || slugify(key) || "rooms-cabins";
 }
 
 /** Resolves a URL slug back to the raw property_type code found in the data. */
 export function codeForSlug(properties: Property[], slug: string): string | undefined {
   const target = slug.toLowerCase();
-  const known = Object.keys(getContent("lt").common.categories).find(
+  const known = Object.keys(getContent("en").common.categories).find(
     (code) => categorySlug(code) === target,
   );
   const codes = distinctCategories(properties);

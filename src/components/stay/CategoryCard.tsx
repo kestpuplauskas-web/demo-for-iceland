@@ -35,7 +35,7 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
           <p className="label-caps text-stone">
             {group.priceFrom === null
               ? common.stays.priceOnRequest
-              : `${common.labels.priceFrom} ${formatPrice(group.priceFrom)} €`}
+              : `${common.labels.priceFrom} ${formatPrice(group.priceFrom)} kr.`}
           </p>
           <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {group.label}

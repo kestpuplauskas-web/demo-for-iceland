@@ -86,9 +86,9 @@ export function propertyLd(
     address: {
       "@type": "PostalAddress",
       streetAddress: property.address ?? undefined,
-      addressLocality: property.city ?? "Telšiai",
-      addressCountry: "LT",
+      addressLocality: "Ólafsfjörður",
+      addressCountry: "IS",
     },
-    ...(property.price_per_night ? { priceRange: `nuo ${property.price_per_night} €` } : {}),
+    ...(property.price_per_night ? { priceRange: `from ${property.price_per_night} kr.` } : {}),
   };
 }

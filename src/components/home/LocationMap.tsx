@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const COORDS: [number, number] = [22.248996, 55.983649];
+const COORDS: [number, number] = [-18.6505, 66.0726];
 
 /** Client-only monochrome Carto map with a sage ensō marker. */
 export default function LocationMap() {
@@ -44,7 +44,7 @@ export default function LocationMap() {
       map.addControl(new NavigationControl({ showCompass: false }), "bottom-right");
 
       const el = document.createElement("div");
-      el.setAttribute("aria-label", "Dharma Stay – Birutės g. 1, Telšiai");
+       el.setAttribute("aria-label", "Mánahlíð – Tröllaskagi, North Iceland");
       el.style.width = "44px";
       el.style.height = "44px";
       el.innerHTML = `

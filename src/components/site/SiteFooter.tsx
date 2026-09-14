@@ -1,7 +1,6 @@
 import { MapPin } from "lucide-react";
 
 import { Enso } from "@/components/site/Enso";
-import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { useContent, useLocale } from "@/content";
 import { footerNav } from "@/data/nav";
@@ -86,7 +85,6 @@ export function SiteFooter() {
             <LocaleLink to="/privatumo-politika" className="hover:text-warm-white">
               {legal.privacy.title}
             </LocaleLink>
-            <LanguageSwitcher tone="light" className="text-warm-white/70" />
           </nav>
         </div>
       </div>

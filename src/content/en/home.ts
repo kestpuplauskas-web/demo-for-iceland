@@ -1,41 +1,41 @@
 export const home = {
-  seoTitle: "Mánahlíð — apartments and cottage in Telšiai",
+  seoTitle: "Mánahlíð — rooms and cabins in North Iceland",
   seoDescription:
-    "Boutique accommodation in the Telšiai old town: apartments, apartments with a terrace, and a cottage with a sauna and hot tub. Book directly.",
+    "Six rooms and eight cabins on the Tröllaskagi peninsula in North Iceland, with hot tubs, sauna and direct booking.",
   hero: {
-    eyebrow: "Telšiai · Žemaitija",
-    title: "Apartments in the Telšiai old town",
-    lead: "Next to the main square, a few steps from Lake Mastis. A place to stop for a while in the heart of Žemaitija.",
-    imageAlt: "A street in the Telšiai old town with historic buildings on a summer afternoon",
-    secondaryCta: "View apartments",
+    eyebrow: "66°N · North Iceland",
+    title: "A farm at the end of the fjord.",
+    lead: "Six rooms and eight cabins on the Tröllaskagi peninsula. The aurora is not an excursion here — it is what you look at from the tub, with the lights off.",
+    imageAlt: "Aurora over the mountains and fjord at Mánahlíð in North Iceland",
+    secondaryCta: "View rooms & cabins",
   },
   intro: {
-    title: "From home to home.",
-    text: "Mánahlíð apartments are located in the very heart of Telšiai, on Birutės street, next to the main square. We built them so that arriving guests would feel at home — calm, cosy, and worry-free.",
+    title: "Built as a sheep farm in 1908. Empty for nineteen years. Reopened with the same stone, darker timber and considerably better plumbing.",
+    text: "Mánahlíð sits where the valley narrows and the road gives up. The main house holds six rooms under the old roof line. Eight cabins stand along the slope below it, far enough apart that you will not hear your neighbour, close enough that breakfast is still warm when it reaches you.",
   },
   stays: {
-    eyebrow: "Accommodation",
-    title: "Where to stay",
-    lead: "Standard apartments, apartments with a terrace, and a separate cottage with a sauna. Each one has everything you need for a good rest.",
+    eyebrow: "Rooms & cabins",
+    title: "Fourteen ways to spend the night",
+    lead: "Six rooms in the old farmhouse and eight private cabins set along the slope. Select your dates to see what is free and what it costs.",
   },
   location: {
-    eyebrow: "Location",
-    title: "In Telšiai, right by the square",
+    eyebrow: "The place",
+    title: "The road stops here, and so should you",
     body: [
-      "The apartments are on Birutės street, just a few steps from the main Turgaus square, the Church of the Blessed Virgin Mary, and the tourist information centre.",
-      "Lake Mastis is a few hundred metres away. There's no shortage of cafés and restaurants nearby.",
-      "All around — Žemaitija: a quieter town, nature close by, and unhurried time.",
+      "Tröllaskagi is the peninsula between Skagafjörður and Eyjafjörður — the one with mountains that look drawn by someone who had never seen a mountain and simply guessed.",
+      "The tunnels from Siglufjörður cut through the worst of it. Mánahlíð stands where the road gives up, forty minutes from Akureyri.",
+      "Aurora season runs from September to April. The clearest nights are usually the coldest.",
     ],
     imageAlt:
-      "A bird's-eye view of the Telšiai old town: the church, the main square, and red rooftops",
+      "Tröllaskagi mountains descending into a North Iceland fjord",
   },
   extras: {
-    eyebrow: "Extras",
+    eyebrow: "At the house",
     items: [
-      { key: "restobar", title: "Restobar", text: "Breakfast and dinner right where you're staying." },
-      { key: "sauna", title: "Sauna", text: "Warmth after a long day. 40 €." },
-      { key: "tub", title: "Hot tub", text: "A whirlpool bath under the open sky. 50 €." },
-      { key: "vouchers", title: "Gift vouchers", text: "A stay as a gift for someone close to you." },
+      { key: "tub", title: "Hot tubs", text: "Four tubs on the slope, kept at 39°C, with no roof and no lighting." },
+      { key: "sauna", title: "Sauna & cold tub", text: "Wood-fired, seats eight, with a stream-fed cold tub outside. 6,500 kr. per session." },
+      { key: "breakfast", title: "Breakfast", text: "Bread from Ólafsfjörður, skyr, smoked trout and eggs. 3,900 kr. per person." },
+      { key: "mountain", title: "Out of the door", text: "Ski touring, the Herring Era Museum and whale boats from Dalvík." },
     ],
   },
   ratings: {
@@ -54,8 +54,8 @@ export const home = {
     ],
   },
   bookingBand: {
-    title: "Book directly",
-    text: "Book straight from us — the same price, with no intermediaries and no extra fees.",
+    title: "Book with us, not through someone else",
+    text: "The same room costs the same either way. The difference is that here the money stays in the valley, and the person who answers your email is the person who lit the tub.",
   },
   notFound: {
     title: "Page not found",

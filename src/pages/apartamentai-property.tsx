@@ -82,22 +82,6 @@ export function propertyRoute(locale: Locale) {
       }
       const id = idForSlug(properties, params.propertyId);
       if (!id) {
-        // Slugs come from localized property names, so a slug minted in the
-        // other locale won't resolve here (language switch on a room page).
-        // Resolve it against the other locale and redirect to this locale's slug.
-        const otherLocale: Locale = locale === "en" ? "lt" : "en";
-        const otherProperties = (await context.queryClient.ensureQueryData(
-          propertiesQueryFor(otherLocale),
-        )) as Property[];
-        const otherId = idForSlug(otherProperties, params.propertyId);
-        const localSlug = otherId ? slugForId(properties, otherId) : null;
-        if (localSlug && localSlug !== params.propertyId) {
-          throw redirect({
-            to: localizePath("/apartamentai/$propertyId", locale) as never,
-            params: { propertyId: localSlug },
-            search: search as never,
-          });
-        }
         throw notFound();
       }
       const property = (await context.queryClient.ensureQueryData(
@@ -209,7 +193,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
       ? [
           {
             label: c.common.labels.priceFrom,
-            value: `${formatPrice(view.priceFrom)} € / ${c.common.labels.perNight}`,
+            value: `${formatPrice(view.priceFrom)} kr. / ${c.common.labels.perNight}`,
           },
         ]
       : []),
@@ -248,7 +232,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
           {c.common.cta.book}
           {view.priceFrom === null
             ? ""
-            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatPrice(view.priceFrom)} €`}
+            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatPrice(view.priceFrom)} kr.`}
         </button>
       </PageHero>
 

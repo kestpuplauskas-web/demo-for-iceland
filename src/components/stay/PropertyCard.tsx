@@ -46,7 +46,7 @@ export function PropertyCard({
           <p className="label-caps text-stone">
             {property.priceFrom === null
               ? common.stays.priceOnRequest
-              : `${common.labels.priceFrom} ${formatPrice(property.priceFrom)} €`}
+              : `${common.labels.priceFrom} ${formatPrice(property.priceFrom)} kr.`}
           </p>
           <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {property.name}

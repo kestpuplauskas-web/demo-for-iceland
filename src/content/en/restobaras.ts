@@ -1,14 +1,14 @@
 export const restobaras = {
-  seoTitle: "Restobar in Telšiai — Mánahlíð",
+  seoTitle: "Breakfast at Mánahlíð — North Iceland",
   seoDescription:
-    "Mánahlíð restobar in the Telšiai old town: breakfast for guests, dinner, and a place to meet at Birutės g. 1.",
-  eyebrow: "Restobar",
-  title: "Restobar in the courtyard",
-  lead: "A place for breakfast, dinner, and long conversations — in the same courtyard as the apartments.",
+    "Breakfast in the old kitchen at Mánahlíð: local bread, skyr, smoked trout and eggs on the Tröllaskagi peninsula.",
+  eyebrow: "At the house",
+  title: "Breakfast in the old kitchen",
+  lead: "Served from 8–10, with bread from Ólafsfjörður, skyr, smoked trout and eggs.",
   body: [
-    "The menu is small and changes with the season: a few warm dishes, coffee in the morning, and wine in the evening.",
-    "For guests staying at Mánahlíð, the restobar is the nearest table — no need to go anywhere.",
-    "We'll publish the full menu and opening hours here soon. For a table or an event, please contact us by phone.",
+    "Breakfast is deliberately small and local, served around the long table in the old farmhouse kitchen.",
+    "It costs 3,900 kr. per person, per day. Tell us about dietary requirements before arrival.",
+    "For private dinners or a gathering at the house, contact us directly.",
   ],
-  ctaTitle: "Reserve a table",
+  ctaTitle: "Arrange breakfast",
 };

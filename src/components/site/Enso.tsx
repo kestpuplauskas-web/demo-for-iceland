@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Dharma Stay signature element: a thin, slightly open circle (ensō hint).
+ * A thin, slightly open circle used as a restrained editorial marker.
  * Reused as section divider, icon frame and accent — never decoratively religious.
  */
 export function Enso({

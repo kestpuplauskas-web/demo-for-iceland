@@ -1,14 +1,14 @@
 export const banketineSale = {
-  seoTitle: "Banquet hall in Telšiai — Mánahlíð",
+  seoTitle: "Private gatherings — Mánahlíð Iceland",
   seoDescription:
-    "Banquet hall in the Telšiai old town: for birthdays, christenings, company dinners, and small celebrations. Ask about dates.",
-  eyebrow: "Events",
-  title: "Banquet hall",
-  lead: "A cosy hall for small celebrations in the old town courtyard.",
+    "Private dinners and small gatherings in the old farmhouse at Mánahlíð, North Iceland.",
+  eyebrow: "Gatherings",
+  title: "The old dining room",
+  lead: "A long table in the farmhouse for private dinners and small gatherings.",
   body: [
-    "The space suits birthdays, christenings, company dinners, and gatherings where you want to be together but not in a large restaurant.",
-    "Catering is prepared by our restobar, and guests can stay overnight in the same courtyard — in the apartments or the cottage.",
-    "For available dates, hall capacity, and the menu, please contact us by phone or email.",
+    "The room suits family dinners, small celebrations and company gatherings where everyone should fit around one table.",
+    "Food is prepared in the old kitchen, and guests can stay overnight in the house rooms or cabins below the slope.",
+    "For dates, capacity and seasonal menus, contact us by phone or email.",
   ],
   ctaTitle: "Ask about a date",
 };

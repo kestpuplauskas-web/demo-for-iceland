@@ -8,7 +8,7 @@ type AnchorProps = Omit<ComponentPropsWithoutRef<"a">, "href">;
 
 export type LocaleLinkProps = AnchorProps &
   Omit<LinkProps, "to" | "search" | "params"> & {
-    /** Canonical Lithuanian path, e.g. "/apartamentai/tipas/$categorySlug". */
+    /** Canonical public path, e.g. "/apartamentai/tipas/$categorySlug". */
     to: string;
     locale?: Locale;
     /** Loose by design: routes are registered generically, so search/params stay untyped. */

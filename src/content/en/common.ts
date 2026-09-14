@@ -1,76 +1,72 @@
 /**
  * Shared English strings. Plain nested strings only — this whole folder can be
- * serialized to `lt.json` and mirrored as `en.json` / `ru.json` later.
+ * serialized to JSON or mirrored to another market later.
  */
 type Testimonial = { name: string; country: string; quote: string; source: string };
 
 const testimonials: Testimonial[] = [
   {
-    name: "Balys",
-    country: "Lithuania",
-    quote: "The property is at amazing spot, you can reach amazing places on foot.",
-    source: "Booking.com",
+    name: "Anna",
+    country: "Germany",
+    quote: "The silence, the fjord and the hot tub under the northern lights made this a place we did not want to leave.",
+    source: "Guest book",
   },
   {
-    name: "Anilkumar",
-    country: "Switzerland",
-    quote:
-      "1. The apartment is spacious and clean. 2. The check-in process is easy, you just use the code given to you. 3. The owner was kind and refunded part of my stay as I needed to reduce the length of it.",
-    source: "Booking.com",
+    name: "James",
+    country: "United Kingdom",
+    quote: "Breakfast arrived warm, the cabin felt completely private, and the hosts knew exactly where the snow was best.",
+    source: "Guest book",
   },
   {
-    name: "Dominika",
-    country: "Lithuania",
-    quote:
-      "Quiet spacious room, good location. Though they do not have parking it was very easy to find parking next to it. Had all you could need.",
-    source: "Booking.com",
+    name: "Sofia",
+    country: "Denmark",
+    quote: "Beautifully simple, warm and thoughtful. Looking through the skylight from bed was unforgettable.",
+    source: "Guest book",
   },
   {
-    name: "Craig",
-    country: "Lithuania",
-    quote: "Was clean and tidy. Staff was helpful. When we called we got help straight away.",
-    source: "Booking.com",
+    name: "Noah",
+    country: "Canada",
+    quote: "A rare place that feels remote without feeling difficult. We would return in every season.",
+    source: "Guest book",
   },
   {
-    name: "Vesta",
-    country: "Lithuania",
-    quote:
-      "Location, easy self check in, availability to sleep in different beds with a friend!",
-    source: "Booking.com",
+    name: "Mia",
+    country: "Netherlands",
+    quote: "The sauna, cold tub and dark valley sky were exactly why we came north.",
+    source: "Guest book",
   },
   {
-    name: "Marija",
-    country: "Lithuania",
-    quote:
-      "I loved how helpful the owners were - solving one issue upon our arrival immediately. Rooms are modern and clean. There were wide selection of extra items - dental kit, even shaving kit, hot air iron - I was impressed!",
-    source: "Booking.com",
+    name: "Luca",
+    country: "Italy",
+    quote: "Old timber, excellent beds and a host who answered every question without making the place feel managed.",
+    source: "Guest book",
   },
 ];
 
 export const common = {
   brand: "Mánahlíð",
-  tagline: "From home to home.",
+  tagline: "Tröllaskagi · Iceland",
   cta: {
     book: "Book",
     checkDates: "Check available dates",
     more: "Learn more",
     openMap: "Open in map",
     contactUs: "Contact us",
-    allStays: "All apartments",
+    allStays: "All rooms & cabins",
   },
   nav: {
     home: "Home",
-    about: "About",
-    rules: "House rules",
-    stays: "Apartments",
-    standard: "Standard apartments",
-    terrace: "Apartments with a terrace and city-centre view",
-    cottage: "Cottage with sauna and hot tub",
-    restobar: "Restobar",
-    banquet: "Banquet hall",
+    about: "The house",
+    rules: "Practical",
+    stays: "Rooms & cabins",
+    standard: "House rooms",
+    terrace: "Ridge rooms",
+    cottage: "Private cabins",
+    restobar: "Breakfast",
+    banquet: "Gatherings",
     sauna: "Sauna",
-    vouchers: "Gift vouchers",
-    contacts: "Contacts",
+    vouchers: "Gift stays",
+    contacts: "Find us",
     more: "More",
     site: "Site",
   },
@@ -114,7 +110,7 @@ export const common = {
       "The list will be updated soon. For dates and availability, please contact us directly.",
     priceOnRequest: "Price on request",
     pickProperty: "Choose accommodation",
-    galleryTitle: "Photos",
+    galleryTitle: "Gallery",
   },
   booking: {
     adults: "Adults",
@@ -173,8 +169,8 @@ export const common = {
     consentError: "Please confirm your agreement to the terms to continue.",
   },
   footer: {
-    intro: "Accommodation in the Telšiai old town. From home to home.",
-    rights: "Bookings made directly, with no intermediaries.",
+    intro: "Six rooms and eight cabins on the Tröllaskagi peninsula.",
+    rights: "Direct booking. No intermediaries.",
   },
   availabilityBand: {
     eyebrow: "Available dates",
@@ -194,9 +190,9 @@ export const common = {
     reset: "Clear dates",
   },
   categories: {
-    standard: "Standard apartments",
-    terrace: "Apartments with a terrace",
-    cottage: "Cottage with sauna and hot tub",
+    standard: "House rooms",
+    terrace: "Ridge rooms",
+    cottage: "Private cabins",
   },
   categoryCard: {
     viewOptions: "View options",
@@ -205,9 +201,9 @@ export const common = {
     optionsMany: "options",
   },
   search: {
-    eyebrow: "Telsiai · Samogitia",
-    title: "Apartments in the old town of Telsiai",
-    lead: "Pick your dates and guests — we'll show what is available right away.",
+    eyebrow: "66°N · North Iceland",
+    title: "A farm at the end of the fjord.",
+    lead: "Six rooms and eight cabins on the Tröllaskagi peninsula.",
     datesLabel: "Dates",
     datesPlaceholder: "Check-in — check-out",
     guestsLabel: "Guests",
@@ -241,13 +237,13 @@ export const common = {
   results: {
     seoTitle: "Available rooms — Mánahlíð",
     seoDescription:
-      "Mánahlíð apartments and cottage available on your dates in Telsiai. Book directly, without intermediaries.",
+      "Rooms and cabins available at Mánahlíð in North Iceland. Book directly, without intermediaries.",
     eyebrow: "Available rooms",
     title: "Available on your dates",
     missingDates: "Choose check-in and check-out dates and we'll show what is available.",
     loading: "Checking availability…",
     loadingTitle: "One moment…",
-    loadingText: "We are looking for available apartments for your dates.",
+    loadingText: "We are looking for available rooms and cabins for your dates.",
     empty: "No rooms available on these dates",
     emptyHint: "Try other dates or reduce the number of guests.",
     error: "Could not check availability.",

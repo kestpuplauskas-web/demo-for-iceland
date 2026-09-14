@@ -1,11 +1,11 @@
-import { Flame, Gift, UtensilsCrossed, Waves } from "lucide-react";
+import { Flame, MountainSnow, Soup, Waves } from "lucide-react";
 
 import { EnsoFrame } from "@/components/site/Enso";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
 
 // Icons stay in code, in the same order as home.extras.items (restobar/sauna/tub/vouchers).
-const EXTRA_ICONS = [UtensilsCrossed, Flame, Waves, Gift];
+const EXTRA_ICONS = [Waves, Flame, Soup, MountainSnow];
 
 export function ExtrasSection() {
   const { home } = useContent();
@@ -15,15 +15,16 @@ export function ExtrasSection() {
   }));
 
   return (
-    <section id="papildoma" className="on-paper scroll-mt-24 px-6 py-20 lg:px-12 lg:py-24">
+    <section id="at-the-house" className="on-paper scroll-mt-24 px-6 py-24 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[84rem]">
         <p className="label-caps text-stone">{home.extras.eyebrow}</p>
+        <h2 className="mt-4 max-w-md font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-tight text-paper">Things that are actually here</h2>
 
-        <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-4">
           {extras.map((extra, index) => (
             <Reveal key={extra.key} delay={index * 90}>
-              <div>
-                <EnsoFrame className="h-[4.5rem] w-[4.5rem]">
+              <div className="h-full border-b border-r border-border p-7">
+                <EnsoFrame className="h-12 w-12">
                   {extra.icon ? (
                     <extra.icon className="h-7 w-7 text-sage-deep" strokeWidth={1.5} aria-hidden />
                   ) : null}

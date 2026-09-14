@@ -70,7 +70,7 @@ function ConfirmationPage() {
     retry: false,
   });
 
-  const currency = booking?.currency === "EUR" ? "€" : (booking?.currency ?? "");
+  const currency = booking?.currency === "ISK" ? "kr." : (booking?.currency ?? "");
 
   return (
     <>

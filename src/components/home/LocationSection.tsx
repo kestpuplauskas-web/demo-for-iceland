@@ -17,7 +17,7 @@ function MapSkeleton() {
 export function LocationSection() {
   const { common, home } = useContent();
   return (
-    <section id="vieta" className="scroll-mt-24 overflow-x-clip bg-surface px-6 py-24 lg:px-12 lg:py-32">
+    <section id="the-place" className="scroll-mt-24 overflow-x-clip bg-surface px-6 py-24 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[84rem]">
         <EnsoDivider className="mb-16" />
 
@@ -32,6 +32,12 @@ export function LocationSection() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
+            <dl className="mt-10 grid grid-cols-2 gap-8 border-t border-border pt-8 text-sm">
+              <div><dt className="label-caps text-aurora">From Akureyri</dt><dd className="mt-2 text-paper">40 minutes</dd></div>
+              <div><dt className="label-caps text-aurora">From Keflavík</dt><dd className="mt-2 text-paper">4h 30 by car</dd></div>
+              <div><dt className="label-caps text-aurora">Nearest shop</dt><dd className="mt-2 text-paper">12 km · Ólafsfjörður</dd></div>
+              <div><dt className="label-caps text-aurora">Aurora season</dt><dd className="mt-2 text-paper">Sep – Apr</dd></div>
+            </dl>
 
             <div className="mt-8 flex items-start gap-3 text-sm text-stone">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage" aria-hidden />

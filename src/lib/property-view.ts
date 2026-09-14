@@ -4,7 +4,7 @@ import type { Property } from "@/lib/revoo-schemas";
 
 /**
  * Maps an API property onto the shape our cards render.
- * The API owns data; `src/content/lt` owns every word around it.
+ * The API owns data; the English public bundle owns every word around it.
  */
 export type PropertyView = {
   id: string;
@@ -93,12 +93,12 @@ const amenityLabelsEn: AmenityDict = {
   bbq: "Barbecue",
 };
 
-const amenityDicts: Record<Locale, AmenityDict> = { lt: amenityLabelsLt, en: amenityLabelsEn };
+const amenityDicts: Record<Locale, AmenityDict> = { en: amenityLabelsEn };
 
 /** Known amenity label, or null when the engine sends a code we can't translate. */
 export function amenityLabel(code: string, locale: Locale = DEFAULT_LOCALE): string | null {
   const key = code.trim().toLowerCase();
-  return amenityDicts[locale]?.[key] ?? amenityLabelsLt[key] ?? null;
+  return amenityDicts[locale]?.[key] ?? amenityLabelsEn[key] ?? null;
 }
 
 /** Labels for display: unknown codes are dropped, never rendered raw. */
@@ -114,7 +114,6 @@ export function propertyMeta(property: Property, locale: Locale = DEFAULT_LOCALE
   if (property.area_m2) parts.push(`${property.area_m2} m²`);
   if (property.max_guests) parts.push(`${common.labels.upTo} ${property.max_guests} ${common.labels.guestsLower}`);
   if (property.beds) parts.push(`${property.beds} ${common.labels.bedsLower}`);
-  if (property.city) parts.push(property.city);
   return parts.join(" · ");
 }
 
@@ -147,7 +146,7 @@ function dedupeImages(values: Array<string | null | undefined>): string[] {
 }
 
 export function formatPrice(value: number): string {
-  return Number.isInteger(value) ? `${value}` : value.toFixed(2).replace(".", ",");
+  return new Intl.NumberFormat("en-IS", { maximumFractionDigits: 2 }).format(value);
 }
 /** Reverse lookup: translated label -> engine code (both locales). */
 const labelToCode: Record<string, string> = (() => {

@@ -27,7 +27,7 @@ export const rezervacija = {
     "Failed to load the bank details. Please contact us and we'll send them by email.",
   emailNote:
     "You'll soon receive confirmation and all the details by email. If you don't see the email, please check your spam folder.",
-  contactNote: "Have questions? Call +370 659 11 929 or write to info@dharmastay.lt.",
+  contactNote: "Have questions? Call +354 466 0192 or write to stay@manahlid.is.",
   back: "Return home",
   missingTitle: "We can't find the booking details",
   missingText:

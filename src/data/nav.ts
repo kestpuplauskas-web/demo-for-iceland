@@ -1,12 +1,12 @@
 import { getContent } from "@/content";
 import type { Locale } from "@/lib/locale";
 
-/** Canonical (Lithuanian) paths — locale prefixing happens in <LocaleLink>. */
+/** Canonical public paths. The customer-facing site is English-only. */
 export type RoutePath = string;
 export type NavLink = { label: string; to: RoutePath };
 export type NavEntry = NavLink | { label: string; items: NavLink[] };
 
-const FALLBACK_SITE_URL = "https://dharma.revoo.lt";
+const FALLBACK_SITE_URL = "https://manahlid.revoo.site";
 
 /** Canonical site origin; override with VITE_SITE_URL if the domain changes. */
 export const SITE_URL = (
@@ -14,35 +14,20 @@ export const SITE_URL = (
 ).replace(/\/$/, "");
 
 export function mainNav(locale: Locale): NavEntry[] {
-  const { nav } = getContent(locale).common;
   return [
-    { label: nav.home, to: "/" },
-    { label: nav.about, to: "/apie" },
-    { label: nav.stays, to: "/apartamentai" },
-    { label: nav.restobar, to: "/restobaras" },
-    { label: nav.banquet, to: "/banketine-sale" },
-    {
-      label: nav.more,
-      items: [
-        { label: nav.sauna, to: "/sauna" },
-        { label: nav.vouchers, to: "/dovanu-kuponai" },
-        { label: nav.rules, to: "/apie/taisykles" },
-      ],
-    },
-    { label: nav.contacts, to: "/kontaktai" },
+    { label: "Stay", to: "/apartamentai" },
+    { label: "At the house", to: "/#at-the-house" },
+    { label: "The place", to: "/#the-place" },
+    { label: "Practical", to: "/#practical" },
   ];
 }
 
 export function footerNav(locale: Locale): NavLink[] {
   const { nav } = getContent(locale).common;
   return [
-    { label: nav.about, to: "/apie" },
-    { label: nav.stays, to: "/apartamentai" },
-    { label: nav.restobar, to: "/restobaras" },
-    { label: nav.banquet, to: "/banketine-sale" },
-    { label: nav.sauna, to: "/sauna" },
-    { label: nav.vouchers, to: "/dovanu-kuponai" },
-    { label: nav.rules, to: "/apie/taisykles" },
-    { label: nav.contacts, to: "/kontaktai" },
+    { label: "Rooms & cabins", to: "/apartamentai" },
+    { label: "At the house", to: "/#at-the-house" },
+    { label: "The place", to: "/#the-place" },
+    { label: "Practical information", to: "/#practical" },
   ];
 }
