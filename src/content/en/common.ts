@@ -1,6 +1,6 @@
 /**
  * Shared English strings. Plain nested strings only — this whole folder can be
- * serialized to `lt.json` and mirrored as `en.json` / `ru.json` later.
+ * serialized to JSON or mirrored to another market later.
  */
 type Testimonial = { name: string; country: string; quote: string; source: string };
 
