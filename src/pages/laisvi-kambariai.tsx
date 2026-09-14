@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { ArrowRight } from "lucide-react";
 
 
 import { plural } from "@/components/search/plural";
 import { SearchBar, type SearchValues } from "@/components/search/SearchBar";
 import { useBooking } from "@/components/site/booking-context";
 import { Enso } from "@/components/site/Enso";
+import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { getContent, useContent, useLocale } from "@/content";
 import { availabilityQuery } from "@/lib/availability-queries";
 import type { Locale } from "@/lib/locale";
@@ -186,7 +185,6 @@ function RoomResultCard({
 }) {
   const { common } = useContent();
   const { open } = useBooking();
-  const [gallery, setGallery] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const view = toPropertyView(property, locale);
   const images = [view.image, ...property.image_urls].filter(
@@ -202,27 +200,7 @@ function RoomResultCard({
       )}
     >
       <div className="grid gap-4 p-4 md:grid-cols-[13rem_1fr_12rem] md:items-start md:gap-5">
-        <button
-          type="button"
-          onClick={() => setGallery(true)}
-          aria-label={common.results.openGallery}
-          className="group relative aspect-[4/3] w-full overflow-hidden rounded-md bg-linen"
-        >
-          {images[0] ? (
-            <img
-              src={images[0]}
-              alt={view.imageAlt}
-              loading="lazy"
-              decoding="async"
-              className="photo-zoom h-full w-full object-cover"
-            />
-          ) : null}
-          {images.length > 1 ? (
-            <span className="absolute bottom-2 left-2 rounded-md bg-ink/70 px-2.5 py-1 text-[0.7rem] text-warm-white">
-              {common.results.openGallery} · {images.length}
-            </span>
-          ) : null}
-        </button>
+        <ImagePlaceholder label={view.imageAlt} className="aspect-[4/3] rounded-md" />
 
         <div className="flex flex-col">
           <h2 className="font-display text-[1.375rem] leading-snug font-semibold text-paper">
@@ -321,132 +299,6 @@ function RoomResultCard({
         </div>
       ) : null}
 
-      {gallery ? (
-        <Lightbox images={images} alt={view.imageAlt} onClose={() => setGallery(false)} />
-      ) : null}
     </article>
-  );
-}
-
-function Lightbox({
-  images,
-  alt,
-  onClose,
-}: {
-  images: string[];
-  alt: string;
-  onClose: () => void;
-}) {
-  const { common } = useContent();
-  const [index, setIndex] = useState(0);
-  const dialog = useRef<HTMLDivElement>(null);
-  const current = images[index];
-  const count = images.length;
-
-  const step = useCallback(
-    (delta: number) => setIndex((value) => (value + delta + count) % count),
-    [count],
-  );
-
-  useEffect(() => {
-    dialog.current?.focus();
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowRight") step(1);
-      if (event.key === "ArrowLeft") step(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [onClose, step]);
-
-  if (typeof document === "undefined") return null;
-
-  return createPortal(
-    <div
-      ref={dialog}
-      role="dialog"
-      aria-modal="true"
-      tabIndex={-1}
-      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-ink/90 p-6 outline-none"
-      onClick={onClose}
-    >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label={common.results.closeGallery}
-        className="absolute right-6 top-6 text-warm-white/80 transition-colors hover:text-warm-white"
-      >
-        <X className="h-7 w-7" aria-hidden />
-      </button>
-
-      <div
-        className="relative flex w-full max-w-5xl items-center justify-center"
-        onClick={(event) => event.stopPropagation()}
-      >
-        {count > 1 ? (
-          <button
-            type="button"
-            onClick={() => step(-1)}
-            aria-label={common.results.prev}
-            className="absolute left-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-surface hover:text-paper sm:-left-4"
-          >
-            <ChevronLeft className="h-6 w-6" aria-hidden />
-          </button>
-        ) : null}
-
-        {current ? (
-          <img
-            src={current}
-            alt={alt}
-            className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain"
-          />
-        ) : null}
-
-        {count > 1 ? (
-          <button
-            type="button"
-            onClick={() => step(1)}
-            aria-label={common.results.next}
-            className="absolute right-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-warm-white transition-colors hover:bg-surface hover:text-paper sm:-right-4"
-          >
-            <ChevronRight className="h-6 w-6" aria-hidden />
-          </button>
-        ) : null}
-      </div>
-
-      {count > 1 ? (
-        <div
-          className="mt-5 flex w-full max-w-5xl flex-col items-center gap-4"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <span className="text-sm text-warm-white/80">
-            {index + 1} / {count}
-          </span>
-          <div className="flex max-w-full gap-2 overflow-x-auto pb-1">
-            {images.map((src, position) => (
-              <button
-                key={src}
-                type="button"
-                onClick={() => setIndex(position)}
-                aria-label={`${position + 1} / ${count}`}
-                aria-current={position === index}
-                className={cn(
-                  "h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-colors",
-                  position === index ? "border-warm-white" : "border-transparent opacity-70",
-                )}
-              >
-                <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>,
-    document.body,
   );
 }

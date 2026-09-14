@@ -32,7 +32,7 @@ function BanquetPage() {
         lead={c.banketineSale.lead}
         image={banquetImage}
         imageWebp={banquetImageWebp}
-        imageAlt="Banketinė salė Dharma Stay kieme Telšiuose"
+        imageAlt="Mánahlíð event space"
         crumbs={[{ label: c.common.nav.home, to: "/" }, { label: c.banketineSale.title }]}
       />
       <PageSection>
