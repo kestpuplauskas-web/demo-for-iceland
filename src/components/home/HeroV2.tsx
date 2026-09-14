@@ -13,7 +13,7 @@ export function HeroV2() {
 
   return (
     <section id="top" className="relative isolate overflow-hidden bg-ink pb-20 lg:pb-28">
-      <ImagePlaceholder label={home.hero.imageAlt} className="absolute inset-0 h-full" />
+      <ImagePlaceholder label={home.hero.imageAlt} decorative className="absolute inset-0 h-full" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/65 via-ink/25 to-ink/95" />
 
       <div className="relative mx-auto flex min-h-[92vh] max-w-6xl flex-col items-center justify-center px-6 pt-36 text-center lg:px-12">
