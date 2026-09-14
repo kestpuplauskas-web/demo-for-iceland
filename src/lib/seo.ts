@@ -11,18 +11,16 @@ export function pageHead({
   title,
   description,
   type = "website",
-  locale = "lt",
+  locale = "en",
 }: {
-  /** Canonical Lithuanian path, e.g. "/apartamentai". */
+  /** Canonical public path, e.g. "/apartamentai". */
   path: string;
   title: string;
   description: string;
   type?: string;
   locale?: Locale;
 }) {
-  const ltUrl = `${SITE_URL}${localizePath(path, "lt")}`;
-  const enUrl = `${SITE_URL}${localizePath(path, "en")}`;
-  const url = locale === "en" ? enUrl : ltUrl;
+  const url = `${SITE_URL}${localizePath(path, "en")}`;
 
   return {
     meta: [
@@ -37,9 +35,6 @@ export function pageHead({
     ],
     links: [
       { rel: "canonical", href: url },
-      { rel: "alternate", hrefLang: "lt", href: ltUrl },
-      { rel: "alternate", hrefLang: "en", href: enUrl },
-      { rel: "alternate", hrefLang: "x-default", href: ltUrl },
     ],
   };
 }

@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
 import { SITE_URL } from "@/data/nav";
-import { LOCALES, localizePath } from "@/lib/locale";
 import { categorySlug, distinctCategories } from "@/lib/property-category";
 import { buildSlugIndex } from "@/lib/property-slug";
 import { fetchProperties } from "@/lib/revoo-api.server";
@@ -22,19 +21,7 @@ const STATIC_PATHS = [
 ];
 
 function urlEntry(path: string): string {
-  const alternates = LOCALES.map(
-    (locale) =>
-      `    <xhtml:link rel="alternate" hreflang="${locale}" href="${SITE_URL}${localizePath(path, locale)}"/>`,
-  ).join("\n");
-  return LOCALES.map((locale) =>
-    [
-      `  <url>`,
-      `    <loc>${SITE_URL}${localizePath(path, locale)}</loc>`,
-      alternates,
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${path}"/>`,
-      `  </url>`,
-    ].join("\n"),
-  ).join("\n");
+  return [`  <url>`, `    <loc>${SITE_URL}${path}</loc>`, `  </url>`].join("\n");
 }
 
 export const Route = createFileRoute("/sitemap.xml")({
@@ -44,7 +31,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const paths = [...STATIC_PATHS];
 
         try {
-          const properties = await fetchProperties("lt");
+          const properties = await fetchProperties("en");
           for (const code of distinctCategories(properties)) {
             paths.push(`/apartamentai/tipas/${categorySlug(code)}`);
           }
@@ -58,7 +45,7 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
           ...paths.map(urlEntry),
           `</urlset>`,
         ].join("\n");

@@ -17,7 +17,6 @@ export function BookingBand() {
         </div>
       </div>
       <div className="mx-auto flex max-w-3xl flex-col items-center border-t border-border pt-24 text-center">
-      <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
         <Enso className="h-9 w-9 text-aurora/70" />
         <h2 className="mt-8 font-display text-[clamp(1.875rem,4.2vw,2.75rem)] leading-tight">
           {home.bookingBand.title}

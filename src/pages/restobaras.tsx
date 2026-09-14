@@ -1,5 +1,3 @@
-import restobarasImage from "@/assets/restobaras-space.jpg";
-import restobarasImageWebp from "@/assets/restobaras-space.webp";
 import { ContactCta } from "@/components/site/ContactCta";
 import { PageHero } from "@/components/site/PageHero";
 import { PageSection, Prose } from "@/components/site/Prose";
@@ -32,13 +30,13 @@ export function restobarasRoute(locale: Locale) {
             telephone: (contact.phones[0] ?? "").replace(/\s/g, ""),
             address: {
               "@type": "PostalAddress",
-              streetAddress: "Birutės g. 1",
-              addressLocality: "Telšiai",
-              postalCode: "87130",
-              addressCountry: "LT",
+              streetAddress: "Ólafsfjarðarvegur 625",
+              addressLocality: "Ólafsfjörður",
+              postalCode: "626",
+              addressCountry: "IS",
             },
-            servesCuisine: "Lietuviška",
-            priceRange: "€€",
+            servesCuisine: "Icelandic",
+            priceRange: "ISK",
           }),
         },
       ],
@@ -55,8 +53,6 @@ function RestobarPage() {
         eyebrow={c.restobaras.eyebrow}
         title={c.restobaras.title}
         lead={c.restobaras.lead}
-        image={restobarasImage}
-        imageWebp={restobarasImageWebp}
         imageAlt="Mánahlíð restaurant"
         crumbs={[{ label: c.common.nav.home, to: "/" }, { label: c.restobaras.title }]}
       />

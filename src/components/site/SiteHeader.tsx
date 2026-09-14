@@ -1,6 +1,6 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { useContent, useLocale } from "@/content";

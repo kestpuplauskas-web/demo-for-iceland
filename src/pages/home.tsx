@@ -4,10 +4,10 @@ import { ExtrasSection } from "@/components/home/ExtrasSection";
 import { HeroV2 } from "@/components/home/HeroV2";
 import { IntroStrip } from "@/components/home/IntroStrip";
 import { LocationSection } from "@/components/home/LocationSection";
-import { RatingsAndTestimonials } from "@/components/home/RatingsAndTestimonials";
 import { StaysSection } from "@/components/home/StaysSection";
 import { getContent } from "@/content";
 import { SITE_URL } from "@/data/nav";
+import { contact } from "@/data/contact";
 import type { Locale } from "@/lib/locale";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { useLooseLoaderData } from "@/lib/route-data";
@@ -33,16 +33,16 @@ export function homeRoute(locale: Locale) {
             name: "Mánahlíð",
             url: SITE_URL,
             description,
-            email: "info@dharmastay.lt",
-            telephone: "+37065911929",
+            email: contact.email,
+            telephone: contact.phones[0],
             address: {
               "@type": "PostalAddress",
-              streetAddress: "Birutės g. 1",
-              addressLocality: "Telšiai",
-              postalCode: "87130",
-              addressCountry: "LT",
+              streetAddress: "Ólafsfjarðarvegur 625",
+              addressLocality: "Ólafsfjörður",
+              postalCode: "626",
+              addressCountry: "IS",
             },
-            priceRange: "€€",
+            priceRange: "ISK 28,900–68,900",
           }),
         },
       ],
@@ -73,9 +73,8 @@ function Index() {
       <HeroV2 />
       <IntroStrip />
       <StaysSection {...(properties ? { initialProperties: properties } : {})} />
-      <LocationSection />
       <ExtrasSection />
-      <RatingsAndTestimonials />
+      <LocationSection />
       <BookingBand />
     </>
   );

@@ -17,8 +17,6 @@ import { BookingProvider } from "@/components/site/BookingDialog";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 
-import { useLocale } from "@/content";
-import { htmlLang } from "@/lib/locale";
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
 const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
@@ -109,9 +107,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
-  const locale = useLocale();
   return (
-    <html lang={htmlLang[locale]}>
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
