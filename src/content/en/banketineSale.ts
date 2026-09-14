@@ -1,5 +1,5 @@
 export const banketineSale = {
-  seoTitle: "Banquet hall in Telšiai — Dharma Stay",
+  seoTitle: "Banquet hall in Telšiai — Mánahlíð",
   seoDescription:
     "Banquet hall in the Telšiai old town: for birthdays, christenings, company dinners, and small celebrations. Ask about dates.",
   eyebrow: "Events",

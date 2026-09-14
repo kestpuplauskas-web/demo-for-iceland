@@ -1,10 +1,10 @@
 export const apie = {
-  seoTitle: "Apie Dharma Stay — apgyvendinimas Telšių senamiestyje",
+  seoTitle: "Apie Mánahlíð — apgyvendinimas Telšių senamiestyje",
   seoDescription:
-    "Dharma Stay istorija: senamiesčio namas Birutės gatvėje, apartamentai, namelis su pirtimi ir svetingumas iš namų į namus.",
+    "Mánahlíð istorija: senamiesčio namas Birutės gatvėje, apartamentai, namelis su pirtimi ir svetingumas iš namų į namus.",
   eyebrow: "Apie",
   title: "Iš namų į namus",
-  lead: "Dharma Stay – nedidelė vieta Telšių senamiestyje, kurioje svečias jaučiasi kaip pas savus.",
+  lead: "Mánahlíð – nedidelė vieta Telšių senamiestyje, kurioje svečias jaučiasi kaip pas savus.",
   sections: [
     {
       title: "Namas prie aikštės",

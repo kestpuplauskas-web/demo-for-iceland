@@ -1,5 +1,5 @@
 export const home = {
-  seoTitle: "Dharma Stay — apartamentai ir namelis Telšiuose",
+  seoTitle: "Mánahlíð — apartamentai ir namelis Telšiuose",
   seoDescription:
     "Boutique apgyvendinimas Telšių senamiestyje: apartamentai, apartamentai su terasa ir namelis su pirtimi bei kubilu. Rezervuokite tiesiogiai.",
   hero: {
@@ -11,7 +11,7 @@ export const home = {
   },
   intro: {
     title: "Iš namų į namus.",
-    text: "Dharma Stay apartamentai įsikūrę pačioje Telšių širdyje, Birutės gatvėje, šalia pagrindinės aikštės. Juos kūrėme taip, kad atvykę svečiai pasijustų lyg namuose — ramiai, jaukiai ir be rūpesčių.",
+    text: "Mánahlíð apartamentai įsikūrę pačioje Telšių širdyje, Birutės gatvėje, šalia pagrindinės aikštės. Juos kūrėme taip, kad atvykę svečiai pasijustų lyg namuose — ramiai, jaukiai ir be rūpesčių.",
   },
   stays: {
     eyebrow: "Apgyvendinimas",

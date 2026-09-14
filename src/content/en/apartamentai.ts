@@ -1,5 +1,5 @@
 export const apartamentai = {
-  seoTitle: "Apartments in Telšiai — Dharma Stay",
+  seoTitle: "Apartments in Telšiai — Mánahlíð",
   seoDescription:
     "Three accommodation options in Telšiai: standard apartments, apartments with a terrace, and a cottage with a sauna and hot tub. From 40 €.",
   eyebrow: "Accommodation",
@@ -9,7 +9,7 @@ export const apartamentai = {
   clearFilter: "All apartments",
   filteredLead: (label: string) =>
     `All "${label}" options in Telšiai — choose the one that suits you and book directly.`,
-  filteredSeoTitle: (label: string) => `${label} in Telšiai — Dharma Stay`,
+  filteredSeoTitle: (label: string) => `${label} in Telšiai — Mánahlíð`,
   filteredSeoDescription: (label: string) =>
-    `${label} at Dharma Stay in Telšiai. Check available dates and book directly, with no intermediaries.`,
+    `${label} at Mánahlíð in Telšiai. Check available dates and book directly, with no intermediaries.`,
 };

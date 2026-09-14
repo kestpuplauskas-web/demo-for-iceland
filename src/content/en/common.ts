@@ -167,7 +167,7 @@ export const common = {
     datesLoading: "Checking availability…",
     dialogTitle: "Check availability",
     dialogDescription:
-      "You are booking directly on the Dharma Stay website. Payment is by bank transfer — we show the details right after your booking.",
+      "You are booking directly on the Mánahlíð website. Payment is by bank transfer — we show the details right after your booking.",
     stayLabel: "Accommodation",
     noCommissionNote: "Direct booking — no agents, no Booking.com commission.",
     consentError: "Please confirm your agreement to the terms to continue.",
@@ -239,9 +239,9 @@ export const common = {
 
   },
   results: {
-    seoTitle: "Available rooms — Dharma Stay",
+    seoTitle: "Available rooms — Mánahlíð",
     seoDescription:
-      "Dharma Stay apartments and cottage available on your dates in Telsiai. Book directly, without intermediaries.",
+      "Mánahlíð apartments and cottage available on your dates in Telsiai. Book directly, without intermediaries.",
     eyebrow: "Available rooms",
     title: "Available on your dates",
     missingDates: "Choose check-in and check-out dates and we'll show what is available.",

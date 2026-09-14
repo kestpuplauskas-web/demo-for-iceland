@@ -1,7 +1,7 @@
 export const taisykles = {
-  seoTitle: "Apgyvendinimo taisyklės — Dharma Stay Telšiai",
+  seoTitle: "Apgyvendinimo taisyklės — Mánahlíð Telšiai",
   seoDescription:
-    "Dharma Stay apgyvendinimo taisyklės: atvykimo ir išvykimo laikas, rezervacijos sąlygos, tyla, rūkymas, gyvūnai ir atsiskaitymas.",
+    "Mánahlíð apgyvendinimo taisyklės: atvykimo ir išvykimo laikas, rezervacijos sąlygos, tyla, rūkymas, gyvūnai ir atsiskaitymas.",
   eyebrow: "Apie",
   title: "Apgyvendinimo taisyklės",
   lead: "Kelios paprastos sąlygos, kad visiems būtų ramu.",

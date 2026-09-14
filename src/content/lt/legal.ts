@@ -1,18 +1,18 @@
 export const legal = {
   rental: {
     path: "/taisykles",
-    seoTitle: "Paslaugų teikimo taisyklės — Dharma Stay",
+    seoTitle: "Paslaugų teikimo taisyklės — Mánahlíð",
     seoDescription:
-      "Dharma Stay nuomos ir paslaugų teikimo taisyklės: rezervacija, apmokėjimas, atšaukimas ir svečių atsakomybė.",
+      "Mánahlíð nuomos ir paslaugų teikimo taisyklės: rezervacija, apmokėjimas, atšaukimas ir svečių atsakomybė.",
     eyebrow: "Taisyklės",
     title: "Paslaugų teikimo taisyklės",
-    lead: "Sąlygos, kurios galioja rezervuojant apgyvendinimą Dharma Stay.",
+    lead: "Sąlygos, kurios galioja rezervuojant apgyvendinimą Mánahlíð.",
   },
   privacy: {
     path: "/privatumo-politika",
-    seoTitle: "Privatumo politika — Dharma Stay",
+    seoTitle: "Privatumo politika — Mánahlíð",
     seoDescription:
-      "Kaip Dharma Stay renka, naudoja ir saugo svečių asmens duomenis rezervacijos ir apgyvendinimo metu.",
+      "Kaip Mánahlíð renka, naudoja ir saugo svečių asmens duomenis rezervacijos ir apgyvendinimo metu.",
     eyebrow: "Privatumas",
     title: "Privatumo politika",
     lead: "Kaip tvarkome jūsų asmens duomenis.",

@@ -1,7 +1,7 @@
 export const rezervacija = {
-  seoTitle: "Rezervacija gauta — Dharma Stay",
+  seoTitle: "Rezervacija gauta — Mánahlíð",
   seoDescription:
-    "Jūsų rezervacija Dharma Stay gauta. Rezervacijos numeris, apmokėjimo pavedimu duomenys ir kontaktai.",
+    "Jūsų rezervacija Mánahlíð gauta. Rezervacijos numeris, apmokėjimo pavedimu duomenys ir kontaktai.",
   eyebrow: "Rezervacija",
   title: "Ačiū, jūsų rezervacija gauta",
   lead: "Rezervaciją laikome jums, kol gausime apmokėjimą pavedimu.",

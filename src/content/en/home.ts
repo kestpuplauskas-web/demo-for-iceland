@@ -1,5 +1,5 @@
 export const home = {
-  seoTitle: "Dharma Stay — apartments and cottage in Telšiai",
+  seoTitle: "Mánahlíð — apartments and cottage in Telšiai",
   seoDescription:
     "Boutique accommodation in the Telšiai old town: apartments, apartments with a terrace, and a cottage with a sauna and hot tub. Book directly.",
   hero: {
@@ -11,7 +11,7 @@ export const home = {
   },
   intro: {
     title: "From home to home.",
-    text: "Dharma Stay apartments are located in the very heart of Telšiai, on Birutės street, next to the main square. We built them so that arriving guests would feel at home — calm, cosy, and worry-free.",
+    text: "Mánahlíð apartments are located in the very heart of Telšiai, on Birutės street, next to the main square. We built them so that arriving guests would feel at home — calm, cosy, and worry-free.",
   },
   stays: {
     eyebrow: "Accommodation",
