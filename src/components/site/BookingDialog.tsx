@@ -139,7 +139,7 @@ function extraHint(extra: ExtraService, common: Common): string | null {
       : extra.calc === "per_child"
         ? common.booking.perChild
         : common.booking.flatPerDay;
-  return `${formatPrice(extra.pricePerDay)} € ${unit}`;
+  return `${formatPrice(extra.pricePerDay)} kr. ${unit}`;
 }
 
 function GuestField({
@@ -183,7 +183,7 @@ type QuoteData = {
 
 function PriceBreakdown({ quote }: { quote: QuoteData }) {
   const { common } = useContent();
-  const currency = quote.currency === "EUR" ? "€" : quote.currency;
+  const currency = quote.currency === "ISK" ? "kr." : quote.currency;
   return (
     <dl className="space-y-2 text-sm text-stone">
       <Row

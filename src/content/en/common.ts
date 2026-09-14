@@ -190,9 +190,9 @@ export const common = {
     reset: "Clear dates",
   },
   categories: {
-    standard: "Standard apartments",
-    terrace: "Apartments with a terrace",
-    cottage: "Cottage with sauna and hot tub",
+    standard: "House rooms",
+    terrace: "Ridge rooms",
+    cottage: "Private cabins",
   },
   categoryCard: {
     viewOptions: "View options",

@@ -242,15 +242,15 @@ function RoomResultCard({
           <div className="md:text-right">
             <p className="font-display text-2xl font-semibold text-paper">
               {total !== null
-                ? `${formatPrice(total)} €`
+                ? `${formatPrice(total)} kr.`
                 : view.priceFrom !== null
-                  ? `${common.labels.priceFrom} ${formatPrice(view.priceFrom)} €`
+                  ? `${common.labels.priceFrom} ${formatPrice(view.priceFrom)} kr.`
                   : common.stays.priceOnRequest}
             </p>
             <p className="mt-1 text-xs text-stone">
               {total !== null ? common.results.forStay : ""}
               {perNight !== null && perNight !== undefined
-                ? `${total !== null ? " · " : ""}${common.labels.priceFrom} ${formatPrice(Math.round(perNight))} € / ${common.results.perNight}`
+                ? `${total !== null ? " · " : ""}${common.labels.priceFrom} ${formatPrice(Math.round(perNight))} kr. / ${common.results.perNight}`
                 : ""}
             </p>
           </div>

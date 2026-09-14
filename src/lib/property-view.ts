@@ -146,7 +146,7 @@ function dedupeImages(values: Array<string | null | undefined>): string[] {
 }
 
 export function formatPrice(value: number): string {
-  return Number.isInteger(value) ? `${value}` : value.toFixed(2).replace(".", ",");
+  return new Intl.NumberFormat("en-IS", { maximumFractionDigits: 2 }).format(value);
 }
 /** Reverse lookup: translated label -> engine code (both locales). */
 const labelToCode: Record<string, string> = (() => {
