@@ -2,4 +2,4 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { legalRoute } from "@/pages/legal";
 
-export const Route = createFileRoute("/taisykles")(legalRoute("lt", "rental") as never);
+export const Route = createFileRoute("/taisykles")(legalRoute("en", "rental") as never);
