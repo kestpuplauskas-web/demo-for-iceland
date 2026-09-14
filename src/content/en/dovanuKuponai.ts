@@ -1,7 +1,7 @@
 export const dovanuKuponai = {
-  seoTitle: "Gift vouchers — Dharma Stay Telšiai",
+  seoTitle: "Gift vouchers — Mánahlíð Telšiai",
   seoDescription:
-    "Gift vouchers for a stay in Dharma Stay apartments or the cottage with a sauna in Telšiai. Choose the value, valid for 12 months.",
+    "Gift vouchers for a stay in Mánahlíð apartments or the cottage with a sauna in Telšiai. Choose the value, valid for 12 months.",
   eyebrow: "Gift vouchers",
   title: "A stay as a gift",
   lead: "A voucher can be given for a stay, the sauna with hot tub, or dinner at the restobar.",

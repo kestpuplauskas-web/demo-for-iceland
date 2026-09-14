@@ -30,7 +30,7 @@ export function homeRoute(locale: Locale) {
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LodgingBusiness",
-            name: "Dharma Stay",
+            name: "Mánahlíð",
             url: SITE_URL,
             description,
             email: "info@dharmastay.lt",

@@ -1,7 +1,7 @@
 export const sauna = {
-  seoTitle: "Sauna — Dharma Stay Telšiai",
+  seoTitle: "Sauna — Mánahlíð Telšiai",
   seoDescription:
-    "Dharma Stay sauna Telšiuose – netrukus. Kol kas pirtis ir lauko kubilas prieinami namelio svečiams Gražinos g. 1.",
+    "Mánahlíð sauna Telšiuose – netrukus. Kol kas pirtis ir lauko kubilas prieinami namelio svečiams Gražinos g. 1.",
   eyebrow: "Sauna",
   title: "Netrukus",
   lead: "Sauna dar ruošiama – norime, kad būtų padaryta iki galo.",

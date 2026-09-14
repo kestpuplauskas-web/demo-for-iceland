@@ -1,7 +1,7 @@
 export const rezervacija = {
-  seoTitle: "Booking received — Dharma Stay",
+  seoTitle: "Booking received — Mánahlíð",
   seoDescription:
-    "Your booking at Dharma Stay has been received. Booking number, bank transfer payment details, and contacts.",
+    "Your booking at Mánahlíð has been received. Booking number, bank transfer payment details, and contacts.",
   eyebrow: "Booking",
   title: "Thank you, your booking has been received",
   lead: "We're holding your booking until we receive payment by bank transfer.",

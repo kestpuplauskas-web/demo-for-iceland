@@ -3,7 +3,6 @@ import { MapPin } from "lucide-react";
 import { Enso } from "@/components/site/Enso";
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { LocaleLink } from "@/components/site/LocaleLink";
-import { Logo } from "@/components/site/Logo";
 import { useContent, useLocale } from "@/content";
 import { footerNav } from "@/data/nav";
 import { contact } from "@/data/contact";
@@ -18,8 +17,13 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-3">
           <div>
             <Enso className="h-9 w-9 text-warm-white/60" />
-            <LocaleLink to="/" aria-label={common.brand} className="mt-5 inline-flex">
-              <Logo className="h-24 w-24 text-warm-white" />
+            <LocaleLink to="/" aria-label={common.brand} className="mt-5 inline-flex flex-col leading-none">
+              <span className="font-display text-2xl font-normal uppercase tracking-[0.16em] text-warm-white">
+                Mánahlíð
+              </span>
+              <span className="mt-2 text-[0.55rem] uppercase tracking-[0.28em] text-warm-white/55">
+                Tröllaskagi · Iceland
+              </span>
             </LocaleLink>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-warm-white/70">
               {common.footer.intro}

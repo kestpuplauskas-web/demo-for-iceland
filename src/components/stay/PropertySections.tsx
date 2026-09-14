@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { PageSection, Prose } from "@/components/site/Prose";
+import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
 import { StayFacts, type Fact } from "@/components/stay/StayFacts";
 
@@ -39,15 +40,7 @@ export function PropertyIntro({
         {image ? (
           <Reveal direction="right" delay={100}>
             <div className="overflow-hidden rounded-md shadow-soft">
-              <img
-                src={image}
-                alt={imageAlt}
-                loading="lazy"
-                decoding="async"
-                width={1200}
-                height={900}
-                className="photo-zoom h-full w-full object-cover"
-              />
+              <ImagePlaceholder label={imageAlt} className="aspect-[4/3]" />
             </div>
           </Reveal>
         ) : null}

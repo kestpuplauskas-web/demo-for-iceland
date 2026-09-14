@@ -1,10 +1,10 @@
 export const apie = {
-  seoTitle: "About Dharma Stay — accommodation in Telšiai old town",
+  seoTitle: "About Mánahlíð — accommodation in Telšiai old town",
   seoDescription:
-    "The Dharma Stay story: a house in the old town on Birutės street, apartments, a cottage with a sauna, and hospitality from home to home.",
+    "The Mánahlíð story: a house in the old town on Birutės street, apartments, a cottage with a sauna, and hospitality from home to home.",
   eyebrow: "About",
   title: "From home to home",
-  lead: "Dharma Stay — a small place in the Telšiai old town, where guests feel like they're among their own.",
+  lead: "Mánahlíð — a small place in the Telšiai old town, where guests feel like they're among their own.",
   sections: [
     {
       title: "A house by the square",

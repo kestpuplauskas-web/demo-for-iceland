@@ -1,7 +1,7 @@
 export const taisykles = {
-  seoTitle: "House rules — Dharma Stay Telšiai",
+  seoTitle: "House rules — Mánahlíð Telšiai",
   seoDescription:
-    "Dharma Stay house rules: check-in and check-out times, booking conditions, quiet hours, smoking, pets, and payment.",
+    "Mánahlíð house rules: check-in and check-out times, booking conditions, quiet hours, smoking, pets, and payment.",
   eyebrow: "About",
   title: "House rules",
   lead: "A few simple conditions so that everyone can feel at ease.",

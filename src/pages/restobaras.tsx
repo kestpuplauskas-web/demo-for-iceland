@@ -26,7 +26,7 @@ export function restobarasRoute(locale: Locale) {
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Restaurant",
-            name: "Dharma Stay restobaras",
+            name: "Mánahlíð restaurant",
             description: c.restobaras.seoDescription,
             url: `${SITE_URL}${localizePath("/restobaras", locale)}`,
             telephone: (contact.phones[0] ?? "").replace(/\s/g, ""),
@@ -57,7 +57,7 @@ function RestobarPage() {
         lead={c.restobaras.lead}
         image={restobarasImage}
         imageWebp={restobarasImageWebp}
-        imageAlt="Dharma Stay restobaras"
+        imageAlt="Mánahlíð restaurant"
         crumbs={[{ label: c.common.nav.home, to: "/" }, { label: c.restobaras.title }]}
       />
       <PageSection>

@@ -1,5 +1,5 @@
 export const banketineSale = {
-  seoTitle: "Banketinė salė Telšiuose — Dharma Stay",
+  seoTitle: "Banketinė salė Telšiuose — Mánahlíð",
   seoDescription:
     "Banketinė salė Telšių senamiestyje: gimtadieniams, krikštynoms, įmonių vakarienėms ir mažoms šventėms. Teiraukitės dėl datų.",
   eyebrow: "Renginiai",

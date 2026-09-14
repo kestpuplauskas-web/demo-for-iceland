@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
 ];
 
 export const common = {
-  brand: "Dharma Stay",
+  brand: "Mánahlíð",
   tagline: "Iš namų į namus.",
   cta: {
     book: "Rezervuoti",
@@ -149,7 +149,7 @@ export const common = {
     datesLoading: "Tikriname laisvas datas…",
     dialogTitle: "Tikrinti laisvas datas",
     dialogDescription:
-      "Rezervacija vyksta čia, Dharma Stay svetainėje. Apmokėjimas – banko pavedimu, rekvizitus parodysime iš karto po rezervacijos.",
+      "Rezervacija vyksta čia, Mánahlíð svetainėje. Apmokėjimas – banko pavedimu, rekvizitus parodysime iš karto po rezervacijos.",
     stayLabel: "Apgyvendinimas",
     noCommissionNote: "Be tarpininkų ir be Booking.com komisinių.",
   },
@@ -220,9 +220,9 @@ export const common = {
 
   },
   results: {
-    seoTitle: "Laisvi kambariai — Dharma Stay",
+    seoTitle: "Laisvi kambariai — Mánahlíð",
     seoDescription:
-      "Pasirinktomis datomis laisvi Dharma Stay apartamentai ir namelis Telšiuose. Rezervuokite tiesiogiai, be tarpininkų.",
+      "Pasirinktomis datomis laisvi Mánahlíð apartamentai ir namelis Telšiuose. Rezervuokite tiesiogiai, be tarpininkų.",
     eyebrow: "Laisvi numeriai",
     title: "Laisvi pasirinktomis datomis",
     missingDates: "Pasirinkite atvykimo ir išvykimo datas — parodysime, kas laisva.",

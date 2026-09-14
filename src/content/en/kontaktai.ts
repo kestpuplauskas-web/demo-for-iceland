@@ -1,7 +1,7 @@
 export const kontaktai = {
-  seoTitle: "Contacts — Dharma Stay Telšiai",
+  seoTitle: "Contacts — Mánahlíð Telšiai",
   seoDescription:
-    "Dharma Stay contacts: Birutės g. 1, Telšiai 87130, tel. +370 659 11 929, +370 604 98 915, info@dharmastay.lt.",
+    "Mánahlíð contacts: Birutės g. 1, Telšiai 87130, tel. +370 659 11 929, +370 604 98 915, info@dharmastay.lt.",
   eyebrow: "Contacts",
   title: "Get in touch",
   lead: "Bookings, questions about the sauna, the hall, or vouchers — we reply every day.",
