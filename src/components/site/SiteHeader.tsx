@@ -81,7 +81,7 @@ export function SiteHeader() {
           : "border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto grid max-w-[84rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-6 py-2 lg:px-12 lg:py-3">
+      <div className="mx-auto flex max-w-[84rem] items-center justify-between gap-5 px-6 py-3 lg:px-8 xl:px-12">
         <LocaleLink
           to="/"
           aria-label={`${common.brand} — ${common.nav.home}`}
@@ -96,7 +96,7 @@ export function SiteHeader() {
           )}
         >
           <span className="flex flex-col leading-none">
-            <span className="font-display text-xl font-normal uppercase tracking-[0.16em] sm:text-2xl">
+            <span className="font-display text-lg font-normal uppercase tracking-[0.14em] xl:text-xl">
               Mánahlíð
             </span>
             <span className="mt-1 text-[0.52rem] uppercase tracking-[0.28em] text-warm-white/60">
@@ -105,8 +105,8 @@ export function SiteHeader() {
           </span>
         </LocaleLink>
 
-        <div ref={navRef} className="flex items-center gap-6">
-          <nav aria-label="Main" className="hidden items-center gap-6 lg:flex">
+        <div ref={navRef} className="flex items-center gap-4 xl:gap-6">
+          <nav aria-label="Main" className="hidden items-center gap-4 xl:gap-6 lg:flex">
             {nav.map((entry) =>
               isGroup(entry) ? (
                 <div
@@ -164,7 +164,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={goToAvailability}
-            className="hidden rounded-full bg-aurora px-6 py-3 text-[0.68rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-[#9be3c4] lg:inline-flex"
+            className="hidden rounded-full bg-aurora px-4 py-3 text-[0.64rem] font-medium uppercase tracking-[0.12em] text-ink transition-colors hover:bg-aurora-deep xl:px-6 lg:inline-flex"
           >
             {common.cta.checkDates}
           </button>
