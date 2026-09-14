@@ -40,7 +40,7 @@ export function StaysSection({
     : properties.length > HOME_STAYS_LIMIT;
 
   return (
-    <section id="apartamentai" className="scroll-mt-24 bg-linen px-6 pb-24 lg:px-12 lg:pb-32">
+    <section id="stay" className="scroll-mt-24 bg-linen px-6 py-24 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-[84rem]">
         {headless ? null : (
           <div className="max-w-2xl">

@@ -1,8 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { useContent, useLocale } from "@/content";
 import { mainNav, type NavEntry, type NavLink } from "@/data/nav";
@@ -17,9 +16,6 @@ function isGroup(entry: NavEntry): entry is { label: string; items: NavLink[] } 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const [mobileGroup, setMobileGroup] = useState<string | null>(null);
-  const navRef = useRef<HTMLDivElement | null>(null);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const navigate = useNavigate();
   const locale = useLocale();
@@ -50,24 +46,7 @@ export function SiteHeader() {
   // Close every menu after a route change.
   useEffect(() => {
     setMenuOpen(false);
-    setOpenGroup(null);
-    setMobileGroup(null);
   }, [pathname]);
-
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpenGroup(null);
-    };
-    const onClick = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenGroup(null);
-    };
-    document.addEventListener("keydown", onKey);
-    document.addEventListener("mousedown", onClick);
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.removeEventListener("mousedown", onClick);
-    };
-  }, []);
 
   const solid = scrolled || menuOpen || !isHeroPage;
   const linkTone = "text-warm-white/70 hover:text-warm-white";
@@ -105,50 +84,10 @@ export function SiteHeader() {
           </span>
         </LocaleLink>
 
-        <div ref={navRef} className="flex items-center gap-4 xl:gap-6">
+        <div className="flex items-center gap-4 xl:gap-6">
           <nav aria-label="Main" className="hidden items-center gap-4 xl:gap-6 lg:flex">
             {nav.map((entry) =>
-              isGroup(entry) ? (
-                <div
-                  key={entry.label}
-                  className="relative"
-                  onMouseEnter={() => setOpenGroup(entry.label)}
-                  onMouseLeave={() => setOpenGroup((value) => (value === entry.label ? null : value))}
-                >
-                  <button
-                    type="button"
-                    aria-expanded={openGroup === entry.label}
-                    aria-haspopup="true"
-                    onClick={() =>
-                      setOpenGroup((value) => (value === entry.label ? null : entry.label))
-                    }
-                    className={cn(
-                      "inline-flex items-center gap-1 text-[0.74rem] uppercase tracking-[0.15em] transition-colors",
-                      linkTone,
-                    )}
-                  >
-                    {entry.label}
-                    <ChevronDown className="h-3.5 w-3.5" aria-hidden />
-                  </button>
-                  {openGroup === entry.label ? (
-                    <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-3">
-                      <ul className="overflow-hidden rounded-md border border-border bg-surface py-2 shadow-lift">
-                        {entry.items.map((item) => (
-                          <li key={item.to}>
-                            <LocaleLink
-                              to={item.to}
-                              activeProps={{ className: "text-sage" }}
-                              className="block px-5 py-2.5 text-sm text-stone transition-colors hover:bg-surface-2 hover:text-aurora"
-                            >
-                              {item.label}
-                            </LocaleLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                </div>
-              ) : (
+              isGroup(entry) ? null : (
                 <LocaleLink
                   key={entry.to}
                   to={entry.to}
@@ -169,16 +108,6 @@ export function SiteHeader() {
             {common.cta.checkDates}
           </button>
 
-          <LanguageSwitcher
-            className="hidden text-warm-white/70 lg:flex"
-            tone="light"
-          />
-
-          <LanguageSwitcher
-            className="flex text-sm text-warm-white/70 lg:hidden"
-            tone="light"
-          />
-
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
@@ -195,42 +124,7 @@ export function SiteHeader() {
         <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-ink px-6 pb-8 pt-2 lg:hidden">
           <nav aria-label="Main" className="flex flex-col">
             {nav.map((entry) =>
-              isGroup(entry) ? (
-                <div key={entry.label} className="border-b border-border/60">
-                  <button
-                    type="button"
-                    aria-expanded={mobileGroup === entry.label}
-                    onClick={() =>
-                      setMobileGroup((value) => (value === entry.label ? null : entry.label))
-                    }
-                    className="flex w-full items-center justify-between py-4 text-base font-medium text-paper"
-                  >
-                    {entry.label}
-                    <ChevronDown
-                      className={cn(
-                        "h-4 w-4 transition-transform",
-                        mobileGroup === entry.label && "rotate-180",
-                      )}
-                      aria-hidden
-                    />
-                  </button>
-                  {mobileGroup === entry.label ? (
-                    <ul className="pb-3 pl-4">
-                      {entry.items.map((item) => (
-                        <li key={item.to}>
-                          <LocaleLink
-                            to={item.to}
-                            onClick={() => setMenuOpen(false)}
-                            className="block py-2.5 text-sm text-stone"
-                          >
-                            {item.label}
-                          </LocaleLink>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </div>
-              ) : (
+              isGroup(entry) ? null : (
                 <LocaleLink
                   key={entry.to}
                   to={entry.to}

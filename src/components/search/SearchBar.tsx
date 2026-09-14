@@ -99,7 +99,7 @@ export function SearchBar({
   const submitButton = (
     <button
       type="submit"
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-aurora px-7 py-4 text-[0.72rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-[#9be3c4]"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-aurora px-7 py-4 text-[0.72rem] font-medium uppercase tracking-[0.15em] text-ink transition-colors hover:bg-aurora-deep"
     >
       <Search className="h-4 w-4" aria-hidden />
       {common.search.submit}
