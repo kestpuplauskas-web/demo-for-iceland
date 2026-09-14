@@ -1,10 +1,9 @@
 import { useRouterState } from "@tanstack/react-router";
 
-import { lt } from "./lt";
 import { en } from "./en";
 import { DEFAULT_LOCALE, localeFromPath, type Locale } from "@/lib/locale";
 
-/** Mutable, widened mirror of the Lithuanian bundle — the contract every locale meets. */
+/** Mutable, widened mirror of the English bundle — the public content contract. */
 export type Loose<T> = T extends string
   ? string
   : T extends number
@@ -17,15 +16,13 @@ export type Loose<T> = T extends string
           ? Loose<U>[]
           : { -readonly [K in keyof T]: Loose<T[K]> };
 
-export type Bundle = Loose<typeof lt>;
-
-const bundles: Record<Locale, Bundle> = { lt, en };
+export type Bundle = Loose<typeof en>;
 
 export function getContent(locale: Locale = DEFAULT_LOCALE): Bundle {
-  return bundles[locale] ?? bundles[DEFAULT_LOCALE];
+  return en;
 }
 
-/** Locale of the current route (`/en/...` → en). */
+/** The public site is English-only. */
 export function useLocale(): Locale {
   return useRouterState({ select: (state) => localeFromPath(state.location.pathname) });
 }

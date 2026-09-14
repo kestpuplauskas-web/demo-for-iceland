@@ -93,7 +93,7 @@ const amenityLabelsEn: AmenityDict = {
   bbq: "Barbecue",
 };
 
-const amenityDicts: Record<Locale, AmenityDict> = { lt: amenityLabelsLt, en: amenityLabelsEn };
+const amenityDicts: Record<Locale, AmenityDict> = { en: amenityLabelsEn };
 
 /** Known amenity label, or null when the engine sends a code we can't translate. */
 export function amenityLabel(code: string, locale: Locale = DEFAULT_LOCALE): string | null {
