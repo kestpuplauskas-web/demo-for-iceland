@@ -1,15 +1,15 @@
 export const apartamentai = {
-  seoTitle: "Apartments in Telšiai — Mánahlíð",
+  seoTitle: "Rooms and cabins in North Iceland — Mánahlíð",
   seoDescription:
-    "Three accommodation options in Telšiai: standard apartments, apartments with a terrace, and a cottage with a sauna and hot tub. From 40 €.",
-  eyebrow: "Accommodation",
-  title: "Apartments and cottage",
-  lead: "Three different ways to stay in Telšiai — from a quiet flat in the old town to a cottage with a sauna.",
+    "Six rooms and eight cabins on the Tröllaskagi peninsula, with fjord views, hot tubs and direct booking.",
+  eyebrow: "Rooms & cabins",
+  title: "Fourteen ways to spend the night",
+  lead: "Rooms under the old farmhouse roof and private cabins along the slope above the fjord.",
   note: "All bookings are made directly, with no intermediaries and no extra commission.",
-  clearFilter: "All apartments",
+  clearFilter: "All rooms & cabins",
   filteredLead: (label: string) =>
-    `All "${label}" options in Telšiai — choose the one that suits you and book directly.`,
-  filteredSeoTitle: (label: string) => `${label} in Telšiai — Mánahlíð`,
+    `All ${label} options at Mánahlíð — choose the one that suits you and book directly.`,
+  filteredSeoTitle: (label: string) => `${label} in North Iceland — Mánahlíð`,
   filteredSeoDescription: (label: string) =>
-    `${label} at Mánahlíð in Telšiai. Check available dates and book directly, with no intermediaries.`,
+    `${label} at Mánahlíð on the Tröllaskagi peninsula. Check dates and book directly.`,
 };

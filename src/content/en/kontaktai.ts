@@ -1,14 +1,14 @@
 export const kontaktai = {
-  seoTitle: "Contacts — Mánahlíð Telšiai",
+  seoTitle: "Find Mánahlíð — Tröllaskagi, Iceland",
   seoDescription:
-    "Mánahlíð contacts: Birutės g. 1, Telšiai 87130, tel. +370 659 11 929, +370 604 98 915, info@dharmastay.lt.",
-  eyebrow: "Contacts",
-  title: "Get in touch",
-  lead: "Bookings, questions about the sauna, the hall, or vouchers — we reply every day.",
-  phonesLabel: "Phones",
+    "Contact Mánahlíð on the Tröllaskagi peninsula in North Iceland for rooms, cabins, sauna and direct bookings.",
+  eyebrow: "Find us",
+  title: "At the end of the road",
+  lead: "Forty minutes from Akureyri, between Ólafsfjörður and the mountains of Tröllaskagi.",
+  phonesLabel: "Phone",
   emailLabel: "Email",
   addressLabel: "Address",
-  cottageNote: "Cottage with sauna and hot tub: Gražinos g. 1, Telšiai.",
+  cottageNote: "Route 1, then Route 82. The nearest shop is 12 km away in Ólafsfjörður.",
 };
 
 export const kontaktaiForm = {

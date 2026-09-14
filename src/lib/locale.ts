@@ -1,9 +1,9 @@
-/** Locale plumbing: LT lives at the root, EN under /en. Slugs stay Lithuanian. */
+/** The public website is English-only. Legacy locale helpers stay for route compatibility. */
 export const LOCALES = ["lt", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
 
-export const DEFAULT_LOCALE: Locale = "lt";
-export const LOCALE_COOKIE = "dharma_locale";
+export const DEFAULT_LOCALE: Locale = "en";
+export const LOCALE_COOKIE = "manahlid_locale";
 export const LOCALE_PREFIX = "/en";
 
 export const htmlLang: Record<Locale, string> = { lt: "lt", en: "en" };
@@ -16,7 +16,7 @@ export function isLocale(value: string | undefined | null): value is Locale {
 
 /** Locale implied by a pathname (`/en/...` → en, everything else → lt). */
 export function localeFromPath(pathname: string): Locale {
-  return pathname === LOCALE_PREFIX || pathname.startsWith(`${LOCALE_PREFIX}/`) ? "en" : "lt";
+  return "en";
 }
 
 /** Strips the locale prefix, always returning the canonical Lithuanian path. */
@@ -29,8 +29,7 @@ export function stripLocale(pathname: string): string {
 /** Adds the locale prefix to a canonical Lithuanian path. */
 export function localizePath(path: string, locale: Locale): string {
   const base = stripLocale(path.startsWith("/") ? path : `/${path}`);
-  if (locale === "lt") return base;
-  return base === "/" ? LOCALE_PREFIX : `${LOCALE_PREFIX}${base}`;
+  return base;
 }
 
 /**

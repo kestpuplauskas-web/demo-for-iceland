@@ -20,5 +20,5 @@ export const legal = {
   updatedAt: "Updated",
   unavailableTitle: "Content currently unavailable",
   unavailableText:
-    "The document could not be loaded. Write to info@dharmastay.lt — we'll send it to you by email.",
+    "The document could not be loaded. Write to stay@manahlid.is — we'll send it to you by email.",
 };
