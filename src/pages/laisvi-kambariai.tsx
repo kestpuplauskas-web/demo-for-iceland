@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { useState } from "react";
 
 
 import { plural } from "@/components/search/plural";
@@ -187,9 +188,6 @@ function RoomResultCard({
   const { open } = useBooking();
   const [expanded, setExpanded] = useState(false);
   const view = toPropertyView(property, locale);
-  const images = [view.image, ...property.image_urls].filter(
-    (src, index, all): src is string => Boolean(src) && all.indexOf(src) === index,
-  );
   const perNight = total !== null && nights > 0 ? total / nights : view.priceFrom;
 
   return (
