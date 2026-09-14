@@ -48,7 +48,7 @@ const testimonials: Testimonial[] = [
 ];
 
 export const common = {
-  brand: "Dharma Stay",
+  brand: "Mánahlíð",
   tagline: "From home to home.",
   cta: {
     book: "Book",

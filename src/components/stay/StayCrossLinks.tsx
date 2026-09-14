@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent, useLocale } from "@/content";
 import { propertiesQueryFor } from "@/lib/property-queries";
@@ -32,19 +33,7 @@ export function StayCrossLinks({ currentId }: { currentId: string }) {
               params={{ propertyId: slugFor(stay.id) }}
               className="group block overflow-hidden rounded-md bg-surface shadow-soft transition-shadow duration-500 hover:shadow-lift"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-linen">
-                {stay.image ? (
-                  <img
-                    src={stay.image}
-                    alt={stay.imageAlt}
-                    loading="lazy"
-                    decoding="async"
-                    width={1200}
-                    height={900}
-                    className="photo-zoom h-full w-full object-cover"
-                  />
-                ) : null}
-              </div>
+              <ImagePlaceholder label={stay.imageAlt} className="aspect-[4/3]" />
               <div className="p-7">
                 <h3 className="font-display text-xl font-semibold text-paper">{stay.name}</h3>
                 {stay.description ? (

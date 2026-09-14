@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { LocaleLink } from "@/components/site/LocaleLink";
-import { Logo } from "@/components/site/Logo";
 import { useContent, useLocale } from "@/content";
 import { mainNav, type NavEntry, type NavLink } from "@/data/nav";
 import { localizePath } from "@/lib/locale";
@@ -96,7 +95,14 @@ export function SiteHeader() {
             "text-warm-white",
           )}
         >
-          <Logo className="h-24 w-24" />
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-xl font-normal uppercase tracking-[0.16em] sm:text-2xl">
+              Mánahlíð
+            </span>
+            <span className="mt-1 text-[0.52rem] uppercase tracking-[0.28em] text-warm-white/60">
+              Tröllaskagi · Iceland
+            </span>
+          </span>
         </LocaleLink>
 
         <div ref={navRef} className="flex items-center gap-6">

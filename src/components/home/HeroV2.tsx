@@ -1,7 +1,6 @@
-import heroImage from "@/assets/hero-telsiai-lake.jpg";
-import heroImageWebp from "@/assets/hero-telsiai-lake.webp";
 import { SearchBar } from "@/components/search/SearchBar";
 import { Enso } from "@/components/site/Enso";
+import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { useContent } from "@/content";
 import { AVAILABILITY_SECTION_ID } from "@/lib/scroll-to";
 
@@ -14,18 +13,7 @@ export function HeroV2() {
 
   return (
     <section id="top" className="relative isolate overflow-hidden bg-ink pb-20 lg:pb-28">
-      <picture>
-        <source srcSet={heroImageWebp} type="image/webp" />
-        <img
-          src={heroImage}
-          alt={home.hero.imageAlt}
-          width={2560}
-          height={1440}
-          fetchPriority="high"
-          decoding="async"
-          className="hero-kenburns absolute inset-0 h-full w-full object-cover"
-        />
-      </picture>
+      <ImagePlaceholder label={home.hero.imageAlt} className="absolute inset-0 h-full" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/65 via-ink/25 to-ink/95" />
 
       <div className="relative mx-auto flex min-h-[92vh] max-w-6xl flex-col items-center justify-center px-6 pt-36 text-center lg:px-12">

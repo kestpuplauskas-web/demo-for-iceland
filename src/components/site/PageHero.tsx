@@ -2,6 +2,7 @@ import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Enso } from "@/components/site/Enso";
+import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
@@ -19,7 +20,7 @@ export function PageHero({
   title,
   lead,
   image,
-  imageWebp,
+  imageWebp: _imageWebp,
   imageAlt,
   crumbs,
   children,
@@ -40,18 +41,7 @@ export function PageHero({
     <section className={cn("relative isolate overflow-hidden", hasImage ? "bg-ink" : "bg-linen")}>
       {hasImage ? (
         <>
-          <picture>
-            {imageWebp ? <source srcSet={imageWebp} type="image/webp" /> : null}
-            <img
-              src={image}
-              alt={imageAlt ?? ""}
-              width={1600}
-              height={900}
-              fetchPriority="high"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </picture>
+          <ImagePlaceholder label={imageAlt} className="absolute inset-0 h-full" />
           <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/90" />
         </>
       ) : null}

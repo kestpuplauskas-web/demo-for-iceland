@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
 ];
 
 export const common = {
-  brand: "Dharma Stay",
+  brand: "Mánahlíð",
   tagline: "Iš namų į namus.",
   cta: {
     book: "Rezervuoti",
