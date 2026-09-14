@@ -1,13 +1,13 @@
 export const sauna = {
-  seoTitle: "Sauna — Mánahlíð Telšiai",
+  seoTitle: "Sauna and cold tub — Mánahlíð Iceland",
   seoDescription:
-    "Mánahlíð sauna in Telšiai — coming soon. For now, the sauna and outdoor hot tub are available to cottage guests at Gražinos g. 1.",
-  eyebrow: "Sauna",
-  title: "Coming soon",
-  lead: "The sauna is still being prepared — we want it to be done properly.",
+    "Wood-fired sauna and stream-fed cold tub at Mánahlíð on the Tröllaskagi peninsula in North Iceland.",
+  eyebrow: "At the house",
+  title: "Sauna & cold tub",
+  lead: "Wood-fired, seats eight, and a cold tub outside fed straight from the stream.",
   body: [
-    "For now, warmth is available at the cottage on Gražinos street: the sauna (40 €) and outdoor hot tub (50 €) are booked together with a stay.",
-    "When the sauna opens, we'll announce it here. If you'd like to be among the first to know — write to us.",
+    "The sauna is booked by the hour so it is never crowded. A session costs 6,500 kr.",
+    "Four outdoor hot tubs on the slope are kept at 39°C during the winter season and are included with every cabin.",
   ],
-  cottageLink: "Cottage with sauna and hot tub",
+  cottageLink: "View rooms & cabins",
 };
