@@ -1,18 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertDeveloper } from "./users.server";
 
-async function assertAdmin(supabase: {
-  rpc: (fn: "has_role", args: { _user_id: string; _role: "admin" }) => Promise<{ data: unknown }>;
-}, userId: string) {
-  const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (data !== true) throw new Error("Neturite administratoriaus teisių.");
-}
+
 
 export const listApiClients = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context.supabase as never, context.userId);
+    await assertDeveloper({ supabase: context.supabase, userId: context.userId });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("api_clients")
@@ -33,7 +29,7 @@ export const createApiClient = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await assertAdmin(context.supabase as never, context.userId);
+    await assertDeveloper({ supabase: context.supabase, userId: context.userId });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { generateApiKey, hashApiKey } = await import("./api-auth.server");
     const { raw, prefix } = generateApiKey();
@@ -56,7 +52,7 @@ export const setApiClientActive = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ id: z.string().uuid(), isActive: z.boolean() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context.supabase as never, context.userId);
+    await assertDeveloper({ supabase: context.supabase, userId: context.userId });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
       .from("api_clients")
@@ -70,7 +66,7 @@ export const deleteApiClient = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context.supabase as never, context.userId);
+    await assertDeveloper({ supabase: context.supabase, userId: context.userId });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("api_clients").delete().eq("id", data.id);
     if (error) throw new Error("Nepavyko ištrinti API rakto.");

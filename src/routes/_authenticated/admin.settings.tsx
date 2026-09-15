@@ -170,7 +170,7 @@ function PropertySettingsPage() {
   const navItems: { id: NavId; icon: string; title: string }[] = [
     ...SETTINGS_SECTIONS.map((s) => ({ id: s.id as NavId, icon: s.icon, title: t(s.titleKey) })),
     { id: "integrations", icon: "🔌", title: t("settings.nav.integrations") },
-    { id: "api", icon: "🔑", title: t("settings.nav.api") },
+    ...(isDeveloper ? [{ id: "api" as NavId, icon: "🔑", title: t("settings.nav.api") }] : []),
     { id: "users", icon: "👥", title: t("settings.nav.users") },
     ...(isDeveloper ? [{ id: "system" as NavId, icon: "🛠️", title: t("settings.nav.system") }] : []),
   ];
@@ -226,7 +226,7 @@ function PropertySettingsPage() {
               <UsersSection canEdit={canEdit} canManage={isDeveloper} />
             ) : active === "system" && isDeveloper ? (
               <SystemSection />
-            ) : active === "api" ? (
+            ) : active === "api" && isDeveloper ? (
               <ApiAccessSection canEdit={canEdit} />
             ) : active === "integrations" ? (
               <div className="space-y-4">
