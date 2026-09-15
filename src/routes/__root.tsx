@@ -16,6 +16,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { BookingProvider } from "@/components/site/BookingDialog";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { usePageTracking } from "@/hooks/usePageTracking";
 
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
