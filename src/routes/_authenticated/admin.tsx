@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useRouterState, Navigate } from "@tansta
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { BarChart3, Building2, Calendar, FileEdit, FileText, Globe, Home, LayoutDashboard, LogOut, Menu, Settings2, Sparkles, Wallet } from "lucide-react";
+import { BarChart3, Building2, Calendar, FileEdit, FileText, Globe, Home, Inbox, LayoutDashboard, LogOut, Menu, Settings2, Sparkles, Wallet } from "lucide-react";
 import { getMyRole } from "@/lib/properties.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
@@ -56,16 +56,33 @@ function AdminLayout() {
       ? t("settings.users.roleAdmin")
       : t("settings.users.roleViewer");
 
-  const links = [
-    { to: "/admin", label: t("nav.dashboard"), icon: LayoutDashboard },
-    { to: "/admin/bookings", label: t("nav.bookings"), icon: Calendar },
-    { to: "/admin/analytics", label: t("nav.analytics"), icon: BarChart3 },
-    { to: "/admin/properties", label: t("nav.properties"), icon: Home },
-    { to: "/admin/housekeeping", label: t("nav.housekeeping"), icon: Sparkles },
-    { to: "/admin/contracts", label: t("nav.contracts"), icon: FileText },
-    { to: "/admin/expenses", label: t("nav.expenses"), icon: Wallet },
-    { to: "/admin/settings", label: t("nav.settings"), icon: Settings2 },
-    { to: "/admin/content", label: t("nav.content"), icon: FileEdit },
+  // Grouped from most to least frequently used.
+  const groups = [
+    {
+      label: t("nav.groupWorkspace"),
+      links: [
+        { to: "/admin", label: t("nav.dashboard"), icon: LayoutDashboard },
+        { to: "/admin/bookings", label: t("nav.bookings"), icon: Calendar },
+        { to: "/admin/housekeeping", label: t("nav.housekeeping"), icon: Sparkles },
+        { to: "/admin/inquiries", label: t("nav.inquiries"), icon: Inbox },
+        { to: "/admin/analytics", label: t("nav.analytics"), icon: BarChart3 },
+      ],
+    },
+    {
+      label: t("nav.groupManage"),
+      links: [
+        { to: "/admin/properties", label: t("nav.properties"), icon: Home },
+        { to: "/admin/expenses", label: t("nav.finances"), icon: Wallet },
+        { to: "/admin/content", label: t("nav.content"), icon: FileEdit },
+      ],
+    },
+    {
+      label: t("nav.groupSettings"),
+      links: [
+        { to: "/admin/settings", label: t("nav.generalSettings"), icon: Settings2 },
+        { to: "/admin/contracts", label: t("nav.contracts"), icon: FileText },
+      ],
+    },
   ] as const;
 
   const navContent = (
@@ -74,26 +91,33 @@ function AdminLayout() {
         <Building2 className="h-5 w-5 text-sidebar-foreground/80" />
         <span>{brandName}</span>
       </div>
-      <nav className="flex-1 space-y-1 px-2">
-          {links.map((l) => {
-            const Icon = l.icon;
-            const active = location.pathname === l.to;
-            return (
-              <Link
-                key={l.to}
-                to={l.to}
-                onClick={() => setNavOpen(false)}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
-                  active
-                    ? "bg-sidebar-primary font-medium text-sidebar-primary-foreground"
-                    : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {l.label}
-              </Link>
-            );
-          })}
+      <nav className="flex-1 space-y-4 px-2">
+        {groups.map((group) => (
+          <div key={group.label} className="space-y-1">
+            <p className="px-3 pt-1 text-[11px] font-semibold uppercase tracking-wider text-sidebar-foreground/45">
+              {group.label}
+            </p>
+            {group.links.map((l) => {
+              const Icon = l.icon;
+              const active = location.pathname === l.to;
+              return (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setNavOpen(false)}
+                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
+                    active
+                      ? "bg-sidebar-primary font-medium text-sidebar-primary-foreground"
+                      : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {l.label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
       <div className="mt-auto space-y-1 border-t border-sidebar-border px-2 py-3 text-sidebar-foreground">
           <div className="px-3 pb-2">
