@@ -33,6 +33,7 @@ import { Route as ApartamentaiIndexRouteImport } from './routes/apartamentai.ind
 import { Route as ApartamentaiPropertyIdRouteImport } from './routes/apartamentai.$propertyId'
 import { Route as ApartamentaiStandartiniaiRouteImport } from './routes/apartamentai.standartiniai'
 import { Route as ApartamentaiSuTerasaRouteImport } from './routes/apartamentai.su-terasa'
+import { Route as ApiTrackViewRouteImport } from './routes/api/track-view'
 import { Route as ApieIndexRouteImport } from './routes/apie.index'
 import { Route as ApieTaisyklesRouteImport } from './routes/apie.taisykles'
 import { Route as EnIndexRouteImport } from './routes/en/index'
@@ -209,6 +210,11 @@ const ApartamentaiSuTerasaRoute = ApartamentaiSuTerasaRouteImport.update({
   id: '/su-terasa',
   path: '/su-terasa',
   getParentRoute: () => ApartamentaiRoute,
+} as any)
+const ApiTrackViewRoute = ApiTrackViewRouteImport.update({
+  id: '/api/track-view',
+  path: '/api/track-view',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApieIndexRoute = ApieIndexRouteImport.update({
   id: '/',
@@ -535,6 +541,7 @@ export interface FileRoutesByFullPath {
   '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
   '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
   '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/api/track-view': typeof ApiTrackViewRoute
   '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/apartamentai': typeof EnApartamentaiRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -611,6 +618,7 @@ export interface FileRoutesByTo {
   '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
   '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
   '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/api/track-view': typeof ApiTrackViewRoute
   '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/banketine-sale': typeof EnBanketineSaleRoute
   '/en/dovanu-kuponai': typeof EnDovanuKuponaiRoute
@@ -692,6 +700,7 @@ export interface FileRoutesById {
   '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
   '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
   '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/api/track-view': typeof ApiTrackViewRoute
   '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/apartamentai': typeof EnApartamentaiRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -775,6 +784,7 @@ export interface FileRouteTypes {
     | '/apartamentai/$propertyId'
     | '/apartamentai/standartiniai'
     | '/apartamentai/su-terasa'
+    | '/api/track-view'
     | '/apie/taisykles'
     | '/en/apartamentai'
     | '/en/apie'
@@ -851,6 +861,7 @@ export interface FileRouteTypes {
     | '/apartamentai/$propertyId'
     | '/apartamentai/standartiniai'
     | '/apartamentai/su-terasa'
+    | '/api/track-view'
     | '/apie/taisykles'
     | '/en/banketine-sale'
     | '/en/dovanu-kuponai'
@@ -931,6 +942,7 @@ export interface FileRouteTypes {
     | '/apartamentai/$propertyId'
     | '/apartamentai/standartiniai'
     | '/apartamentai/su-terasa'
+    | '/api/track-view'
     | '/apie/taisykles'
     | '/en/apartamentai'
     | '/en/apie'
@@ -1009,6 +1021,7 @@ export interface RootRouteChildren {
   SaunaRoute: typeof SaunaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TaisyklesRoute: typeof TaisyklesRoute
+  ApiTrackViewRoute: typeof ApiTrackViewRoute
   RezervacijaPatvirtintaRoute: typeof RezervacijaPatvirtintaRoute
   ApiAssistantChatRoute: typeof ApiAssistantChatRoute
   ApiPublicIcalSyncRoute: typeof ApiPublicIcalSyncRoute
@@ -1191,6 +1204,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/apartamentai/su-terasa'
       preLoaderRoute: typeof ApartamentaiSuTerasaRouteImport
       parentRoute: typeof ApartamentaiRoute
+    }
+    '/api/track-view': {
+      id: '/api/track-view'
+      path: '/api/track-view'
+      fullPath: '/api/track-view'
+      preLoaderRoute: typeof ApiTrackViewRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/apie/': {
       id: '/apie/'
@@ -1813,6 +1833,7 @@ const rootRouteChildren: RootRouteChildren = {
   SaunaRoute: SaunaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TaisyklesRoute: TaisyklesRoute,
+  ApiTrackViewRoute: ApiTrackViewRoute,
   RezervacijaPatvirtintaRoute: RezervacijaPatvirtintaRoute,
   ApiAssistantChatRoute: ApiAssistantChatRoute,
   ApiPublicIcalSyncRoute: ApiPublicIcalSyncRoute,
