@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 
 import { plural } from "@/components/search/plural";
