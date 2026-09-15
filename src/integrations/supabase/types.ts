@@ -778,7 +778,6 @@ export type Database = {
           created_at: string
           currency: string
           description: string
-          door_code: string | null
           extra_services: Json
           features: Json
           ical_import_url: string | null
@@ -813,7 +812,6 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string
-          door_code?: string | null
           extra_services?: Json
           features?: Json
           ical_import_url?: string | null
@@ -848,7 +846,6 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string
-          door_code?: string | null
           extra_services?: Json
           features?: Json
           ical_import_url?: string | null
@@ -1053,6 +1050,35 @@ export type Database = {
             foreignKeyName: "property_maintenance_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_secrets: {
+        Row: {
+          created_at: string
+          door_code: string | null
+          property_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          door_code?: string | null
+          property_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          door_code?: string | null
+          property_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_secrets_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
             referencedRelation: "properties"
             referencedColumns: ["id"]
           },
