@@ -49,6 +49,14 @@ export const BED_TYPES = [
   { value: "sofa_bed", label: "Miegamoji sofa", labelKey: "enums.bedType.sofa_bed" },
 ] as const;
 
+export const CURRENCIES = ["EUR", "ISK"] as const;
+export type PropertyCurrency = (typeof CURRENCIES)[number];
+
+/** Short display symbol shown next to prices. */
+export function currencySymbol(c: string | null | undefined): string {
+  return c === "ISK" ? "kr." : "€";
+}
+
 export type RoomConfig = { kind: string; beds: number; bedType: string };
 
 export type PriceTier = {
@@ -130,6 +138,7 @@ export type Property = {
   rooms: Rooms;
   amenities: string[];
   pricePerNight: number;
+  currency: PropertyCurrency;
   priceTiers: PriceTier[];
   extraServices: ExtraService[];
   image: string;

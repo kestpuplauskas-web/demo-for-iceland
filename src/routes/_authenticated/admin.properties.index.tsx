@@ -371,7 +371,7 @@ function GridView({
               ) : null}
             </div>
             <div className="text-lg font-bold">
-              {p.pricePerNight.toFixed(0)} €{" "}
+              {p.pricePerNight.toFixed(0)} {currencySymbol(p.currency)}{" "}
               <span className="text-xs font-normal text-muted-foreground">{t("properties.perNight")}</span>
             </div>
           </CardContent>
@@ -445,7 +445,7 @@ function TableView({
                 </div>
               </TableCell>
               <TableCell className="text-right font-medium">
-                {p.pricePerNight.toFixed(0)} €
+                {p.pricePerNight.toFixed(0)} {currencySymbol(p.currency)}
               </TableCell>
               <TableCell>
                 <StatusBadge active={p.isActive} />
