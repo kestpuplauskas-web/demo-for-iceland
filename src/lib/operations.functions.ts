@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 
 export const MAINTENANCE_TYPES = ["cleaning", "inspection", "renovation", "insurance", "utilities"] as const;
 export const EXPENSE_CATEGORIES = [

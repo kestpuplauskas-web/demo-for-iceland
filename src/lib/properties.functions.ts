@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 import type { Property, PriceTier, Rooms, Booking, ExtraService } from "./properties";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -145,7 +146,7 @@ export const getPropertyForEdit = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { data: prop, error } = await context.supabase
       .from("properties")
       .select(PROPERTY_PUBLIC_COLUMNS)
@@ -168,7 +169,7 @@ export const getPropertyForEdit = createServerFn({ method: "GET" })
 export const listAllProperties = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { supabase } = context;
     const { data, error } = await supabase
       .from("properties")

@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 import { SUPPORTED_LANGUAGES } from "@/lib/languages";
 import { isAllowedField } from "@/lib/translations";
 import type { TranslationMap } from "@/lib/translations";
@@ -19,12 +20,7 @@ export const getTranslations = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }): Promise<TranslationMap> => {
-    const { data: isAdmin, error: roleError } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    if (roleError) throw new Error(roleError.message);
-    if (!isAdmin) throw new Error("Forbidden");
+    await assertCanView(context);
 
     const { data: rows, error } = await context.supabase
       .from("content_translations")

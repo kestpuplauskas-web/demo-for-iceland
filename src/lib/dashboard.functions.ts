@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 
 const rangeInput = z.object({
   from: z.string().nullable().optional(),
@@ -32,7 +33,7 @@ export const getDashboardStats = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => rangeInput.parse(d ?? {}))
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { supabase } = context;
     const today = new Date().toISOString().slice(0, 10);
     const in30 = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);

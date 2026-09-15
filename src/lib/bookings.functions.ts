@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 import { recalcExtras, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
 
 export const BOOKING_SOURCES = ["phone", "whatsapp", "website", "booking", "airbnb", "other"] as const;
@@ -164,7 +165,7 @@ export const listBookings = createServerFn({ method: "POST" })
       .parse(d ?? {}),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     let q = context.supabase
       .from("bookings")
       .select("*, properties(id, name)")
@@ -182,7 +183,7 @@ export const getBooking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data: row, error } = await context.supabase
       .from("bookings")
       .select("*, properties(id, name)")
@@ -205,7 +206,7 @@ export const checkBookingConflicts = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     let q = context.supabase
       .from("bookings")
       .select("id, date_from, date_to, customer_name, status")
@@ -230,7 +231,7 @@ export const listOccupiedRanges = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     let q = context.supabase
       .from("bookings")
       .select("id, date_from, date_to")
@@ -255,7 +256,7 @@ export const listFreePropertyIds = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     if (data.date_to <= data.date_from) return [] as string[];
     const { data: props, error: pErr } = await context.supabase
       .from("properties")
