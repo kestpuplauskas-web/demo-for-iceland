@@ -1,7 +1,8 @@
 {
   "admin": {
     "noAdminText": "Please contact the system administrator to be granted access.",
-    "noAdminTitle": "You don't have administrator rights"
+    "noAdminTitle": "You don't have administrator rights",
+    "readOnlyBanner": "View-only mode — you cannot change any data."
   },
   "analytics": {
     "title": "Analytics",
@@ -1231,7 +1232,8 @@
       "saveName": "Save",
       "sending": "Sending…",
       "roleDeveloper": "Developer",
-      "developerOnlyHint": "Only a developer can invite or remove users."
+      "developerOnlyHint": "Only a developer can invite or remove users.",
+      "roleViewer": "Viewer"
     },
     "validation": {
       "email": "Invalid email format",

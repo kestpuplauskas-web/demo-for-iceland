@@ -1,7 +1,8 @@
 {
   "admin": {
     "noAdminText": "Susisiekite su sistemos administratoriumi, kad jums būtų suteiktos teisės.",
-    "noAdminTitle": "Neturite administratoriaus teisių"
+    "noAdminTitle": "Neturite administratoriaus teisių",
+    "readOnlyBanner": "Peržiūros režimas — keisti duomenų negalite."
   },
   "analytics": {
     "title": "Analitika",
@@ -1233,7 +1234,8 @@
       "saveName": "Išsaugoti",
       "sending": "Siunčiama…",
       "roleDeveloper": "Programuotojas",
-      "developerOnlyHint": "Kviesti ir šalinti vartotojus gali tik programuotojas."
+      "developerOnlyHint": "Kviesti ir šalinti vartotojus gali tik programuotojas.",
+      "roleViewer": "Peržiūrėtojas"
     },
     "validation": {
       "email": "Neteisingas el. pašto formatas",
