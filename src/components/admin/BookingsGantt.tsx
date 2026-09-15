@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { BOOKING_STATUS_LABEL_KEYS } from "@/lib/bookings.functions";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 type Booking = {
   id: string;
@@ -87,6 +88,7 @@ export function BookingsGantt({
   onReschedule?: (input: RescheduleInput) => void;
   rescheduling?: boolean;
 }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);

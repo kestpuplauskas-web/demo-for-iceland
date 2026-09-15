@@ -22,6 +22,7 @@ import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableC
 import { Plus, Pencil, Trash2, LayoutGrid, List, Eye, Filter, ArrowUp, ArrowDown } from "lucide-react";
 import { toast } from "sonner";
 import { BookingsGantt } from "@/components/admin/BookingsGantt";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export const Route = createFileRoute("/_authenticated/admin/bookings/")({
   component: BookingsPage,
@@ -177,6 +178,7 @@ function isFilterActive(f?: AnyFilter) {
 }
 
 function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: boolean; onDelete: (id: string, name: string) => void }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   const [sort, setSort] = useState<{ key: ColKey; dir: "asc" | "desc" } | null>(null);
   const [filters, setFilters] = useState<Record<string, AnyFilter>>({});
@@ -468,6 +470,7 @@ function ColumnFilter({ col, rows, filter, onChange }: {
 }
 
 function BookingViewDialog({ row, onClose }: { row: Row | null; onClose: () => void }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   return (
     <Dialog open={!!row} onOpenChange={(o) => { if (!o) onClose(); }}>

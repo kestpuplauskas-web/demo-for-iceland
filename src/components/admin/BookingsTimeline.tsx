@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export function BookingsTimeline({
   title,
@@ -15,6 +16,7 @@ export function BookingsTimeline({
   empty?: string;
   showAmount?: boolean;
 }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   return (
     <div className="rounded-lg border bg-card p-4 shadow-sm">

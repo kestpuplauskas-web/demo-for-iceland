@@ -12,12 +12,14 @@ import {
 import { listAllProperties } from "@/lib/properties.functions";
 import { DatePicker } from "@/components/DatePicker";
 import { NumberInput } from "@/components/NumberInput";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export const Route = createFileRoute("/_authenticated/admin/expenses")({
   component: ExpensesPage,
 });
 
 function ExpensesPage() {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   const fetchExp = useServerFn(listExpenses);
   const create = useServerFn(createExpense);
