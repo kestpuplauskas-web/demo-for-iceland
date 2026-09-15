@@ -11,6 +11,7 @@ import { BookingsTimeline } from "@/components/admin/BookingsTimeline";
 import { getDashboardStats } from "@/lib/dashboard.functions";
 import { resolvePeriod, type PeriodKey } from "@/lib/dashboard-period";
 import { propertyTypeLabelKey } from "@/lib/properties";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -23,6 +24,7 @@ function AdminDashboard() {
     return { period: "mtd", from: r.from, to: r.to };
   });
 
+  const { symbol: cur } = useAdminCurrency();
   const fetchStats = useServerFn(getDashboardStats);
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard-stats", period.from, period.to],
@@ -53,7 +55,7 @@ function AdminDashboard() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <KpiCard
               label={t("dashboard.ops.revenue")}
-              value={`${(data?.operations.revenue ?? 0).toFixed(0)} €`}
+              value={`${(data?.operations.revenue ?? 0).toFixed(0)} ${cur}`}
               hint={t("dashboard.ops.revenueHint")}
             />
             <KpiCard
@@ -72,14 +74,14 @@ function AdminDashboard() {
             />
             <KpiCard
               label={t("dashboard.ops.awaitingPayment")}
-              value={`${(data?.operations.awaitingPayment.total ?? 0).toFixed(0)} €`}
+              value={`${(data?.operations.awaitingPayment.total ?? 0).toFixed(0)} ${cur}`}
               hint={t("dashboard.ops.awaitingPaymentHint", {
                 count: data?.operations.awaitingPayment.count ?? 0,
               })}
             />
             <KpiCard
               label={t("dashboard.ops.abv")}
-              value={`${(data?.operations.avgBookingValue ?? 0).toFixed(0)} €`}
+              value={`${(data?.operations.avgBookingValue ?? 0).toFixed(0)} ${cur}`}
               hint={t("dashboard.ops.abvHint")}
             />
           </div>
@@ -92,7 +94,7 @@ function AdminDashboard() {
               value={data?.fleet.total ?? 0}
               hint={t("dashboard.fleet.activeHint", { count: data?.fleet.active ?? 0 })}
             />
-            <KpiCard label={t("dashboard.fleet.avgPrice")} value={`${(data?.fleet.avgPrice ?? 0).toFixed(0)} €`} />
+            <KpiCard label={t("dashboard.fleet.avgPrice")} value={`${(data?.fleet.avgPrice ?? 0).toFixed(0)} ${cur}`} />
             <KpiCard label={t("dashboard.fleet.missingPhotos")} value={data?.fleet.missingPhotos ?? 0} />
             <KpiCard label={t("dashboard.fleet.missingDescription")} value={data?.fleet.missingDescription ?? 0} />
           </div>
@@ -145,12 +147,12 @@ function AdminDashboard() {
                       </td>
                       <td className="py-2 pr-3 text-right">{p.nights}</td>
                       <td className="py-2 pr-3 text-right">{p.bookings}</td>
-                      <td className="py-2 pr-3 text-right font-medium">{p.revenue.toFixed(0)} €</td>
-                      <td className="py-2 pr-3 text-right">{p.adr.toFixed(0)} €</td>
-                      <td className="py-2 pr-3 text-right">{p.abv.toFixed(0)} €</td>
-                      <td className="py-2 pr-3 text-right">{p.expenses.toFixed(0)} €</td>
+                      <td className="py-2 pr-3 text-right font-medium">{p.revenue.toFixed(0)} {cur}</td>
+                      <td className="py-2 pr-3 text-right">{p.adr.toFixed(0)} {cur}</td>
+                      <td className="py-2 pr-3 text-right">{p.abv.toFixed(0)} {cur}</td>
+                      <td className="py-2 pr-3 text-right">{p.expenses.toFixed(0)} {cur}</td>
                       <td className={`py-2 text-right font-medium ${p.net < 0 ? "text-destructive" : ""}`}>
-                        {p.net.toFixed(0)} €
+                        {p.net.toFixed(0)} {cur}
                       </td>
                     </tr>
                   ))}
@@ -169,9 +171,9 @@ function AdminDashboard() {
 
         <TabsContent value="biz" className="mt-4">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <KpiCard label={t("dashboard.biz.netProfit")} value={`${(data?.business.netProfit ?? 0).toFixed(0)} €`} />
-            <KpiCard label={t("dashboard.biz.revenue")} value={`${(data?.business.revenue ?? 0).toFixed(0)} €`} />
-            <KpiCard label={t("dashboard.biz.expenses")} value={`${(data?.business.expensesTotal ?? 0).toFixed(0)} €`} />
+            <KpiCard label={t("dashboard.biz.netProfit")} value={`${(data?.business.netProfit ?? 0).toFixed(0)} ${cur}`} />
+            <KpiCard label={t("dashboard.biz.revenue")} value={`${(data?.business.revenue ?? 0).toFixed(0)} ${cur}`} />
+            <KpiCard label={t("dashboard.biz.expenses")} value={`${(data?.business.expensesTotal ?? 0).toFixed(0)} ${cur}`} />
             <KpiCard
               label={t("dashboard.biz.avgStay")}
               value={t("dashboard.biz.days", { value: (data?.business.avgStayNights ?? 0).toFixed(1) })}
@@ -183,7 +185,7 @@ function AdminDashboard() {
               {Object.entries(data?.business.expensesByCategory ?? {}).map(([k, v]) => (
                 <div key={k} className="flex items-center justify-between border-b pb-1 last:border-none">
                   <span>{k}</span>
-                  <span className="font-medium">{(v as number).toFixed(0)} €</span>
+                  <span className="font-medium">{(v as number).toFixed(0)} {cur}</span>
                 </div>
               ))}
               {Object.keys(data?.business.expensesByCategory ?? {}).length === 0 ? (
@@ -241,7 +243,7 @@ function AdminDashboard() {
                 </div>
                 <div className="ml-2 flex shrink-0 items-center gap-2 text-xs">
                   <span className="rounded-full border px-2 py-0.5">{b.status}</span>
-                  <span>{Number(b.total_amount ?? 0).toFixed(0)} €</span>
+                  <span>{Number(b.total_amount ?? 0).toFixed(0)} {cur}</span>
                 </div>
               </Link>
             ))
