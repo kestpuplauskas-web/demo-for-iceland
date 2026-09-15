@@ -257,7 +257,7 @@ async function buildTokens(
     "{{check_in_until}}": String(settings.checkinUntil ?? ""),
     "{{quiet_hours_from}}": String(settings.quietHoursFrom ?? ""),
     "{{quiet_hours_to}}": String(settings.quietHoursTo ?? ""),
-    "{{door_code}}": isPaid ? String((prop as any)?.door_code ?? "") : "",
+    "{{door_code}}": isPaid ? String((secrets as any)?.door_code ?? "") : "",
     "{{location}}": String((prop as any)?.location_note ?? ""),
     "{{wifi_name}}": wifi["wifiName"] ?? "",
     "{{wifi_password}}": wifi["wifiPassword"] ?? "",
