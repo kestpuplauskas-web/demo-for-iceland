@@ -20,7 +20,7 @@ export function PageHero({
   title,
   lead,
   image,
-  imageWebp: _imageWebp,
+  imageWebp,
   imageAlt,
   crumbs,
   children,
@@ -41,7 +41,16 @@ export function PageHero({
     <section className={cn("relative isolate overflow-hidden", hasImage ? "bg-ink" : "bg-linen")}>
       {hasImage ? (
         <>
-          <ImagePlaceholder label={imageAlt} decorative className="absolute inset-0 h-full" />
+          <picture>
+            {imageWebp ? <source srcSet={imageWebp} type="image/webp" /> : null}
+            <img
+              src={image}
+              alt={imageAlt ?? ""}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/90" />
         </>
       ) : null}
