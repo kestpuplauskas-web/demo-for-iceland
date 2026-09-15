@@ -716,6 +716,7 @@ export type Database = {
           country: string
           cover_image_url: string
           created_at: string
+          currency: string
           description: string
           door_code: string | null
           extra_services: Json
@@ -750,6 +751,7 @@ export type Database = {
           country?: string
           cover_image_url?: string
           created_at?: string
+          currency?: string
           description?: string
           door_code?: string | null
           extra_services?: Json
@@ -784,6 +786,7 @@ export type Database = {
           country?: string
           cover_image_url?: string
           created_at?: string
+          currency?: string
           description?: string
           door_code?: string | null
           extra_services?: Json
