@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { formatNumber } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -224,7 +225,7 @@ function HousekeepingPage() {
                             {c.comment_count > 0 && (
                               <span className="inline-flex items-center gap-0.5">
                                 <MessageCircle className="h-3.5 w-3.5" />
-                                {c.comment_count}
+                                {formatNumber(c.comment_count)}
                               </span>
                             )}
                           </span>
