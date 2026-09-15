@@ -1,6 +1,7 @@
 import { getContent } from "@/content";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/locale";
 import type { Property } from "@/lib/revoo-schemas";
+import { formatNumber } from "@/lib/utils";
 
 /**
  * Maps an API property onto the shape our cards render.
@@ -148,7 +149,7 @@ function dedupeImages(values: Array<string | null | undefined>): string[] {
 }
 
 export function formatPrice(value: number): string {
-  return new Intl.NumberFormat("en-IS", { maximumFractionDigits: 2 }).format(value);
+  return formatNumber(value, { maximumFractionDigits: 2 });
 }
 
 /** Price with the property's own currency symbol (ISK "kr." or EUR "€"). */

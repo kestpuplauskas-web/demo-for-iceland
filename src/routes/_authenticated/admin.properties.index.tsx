@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { listAllProperties, deleteProperty } from "@/lib/properties.functions";
 import { PROPERTY_TYPES, propertyTypeLabelKey, hasOnlySingleBeds, currencySymbol, type Property } from "@/lib/properties";
+import { formatNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -357,21 +358,21 @@ function GridView({
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-1">
                 <Users className="h-4 w-4" />
-                {p.maxGuests}
+                {formatNumber(p.maxGuests)}
               </span>
               <span className="inline-flex items-center gap-1">
                 {hasOnlySingleBeds(p.rooms) ? <Bed className="h-4 w-4" /> : <BedDouble className="h-4 w-4" />}
-                {p.beds}
+                {formatNumber(p.beds)}
               </span>
               {p.areaM2 ? (
                 <span className="inline-flex items-center gap-1">
                   <Ruler className="h-4 w-4" />
-                  {p.areaM2} m²
+                  {formatNumber(p.areaM2)} m²
                 </span>
               ) : null}
             </div>
             <div className="text-lg font-bold">
-              {p.pricePerNight.toFixed(0)} {currencySymbol(p.currency)}{" "}
+              {formatNumber(p.pricePerNight)} {currencySymbol(p.currency)}{" "}
               <span className="text-xs font-normal text-muted-foreground">{t("properties.perNight")}</span>
             </div>
           </CardContent>
@@ -436,16 +437,16 @@ function TableView({
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <Users className="h-4 w-4" />
-                    {p.maxGuests}
+                    {formatNumber(p.maxGuests)}
                   </span>
                   <span className="inline-flex items-center gap-1">
                     {hasOnlySingleBeds(p.rooms) ? <Bed className="h-4 w-4" /> : <BedDouble className="h-4 w-4" />}
-                    {p.beds}
+                    {formatNumber(p.beds)}
                   </span>
                 </div>
               </TableCell>
               <TableCell className="text-right font-medium">
-                {p.pricePerNight.toFixed(0)} {currencySymbol(p.currency)}
+                {formatNumber(p.pricePerNight)} {currencySymbol(p.currency)}
               </TableCell>
               <TableCell>
                 <StatusBadge active={p.isActive} />

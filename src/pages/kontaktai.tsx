@@ -42,7 +42,7 @@ export function contactsRoute(locale: Locale) {
               postalCode: "626",
               addressCountry: "IS",
             },
-            priceRange: "ISK 28,900–68,900",
+            priceRange: "ISK 28 900–68 900",
           }),
         },
       ],

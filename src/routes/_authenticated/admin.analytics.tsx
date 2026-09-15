@@ -15,6 +15,7 @@ import {
 import { Eye, Inbox, TrendingDown, TrendingUp, Users } from "lucide-react";
 
 import { Progress } from "@/components/ui/progress";
+import { formatNumber } from "@/lib/utils";
 import {
   getAnalyticsSummary,
   percentChange,
@@ -60,7 +61,7 @@ function StatCard({
         <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
       </div>
       <p className="mt-3 text-3xl font-semibold tabular-nums">
-        {value}
+        {typeof value === "number" ? formatNumber(value) : value}
         {suffix ? <span className="text-lg text-muted-foreground">{suffix}</span> : null}
       </p>
       {change !== undefined && change !== null ? (
@@ -73,7 +74,7 @@ function StatCard({
             <TrendingDown className="h-3.5 w-3.5" aria-hidden="true" />
           )}
           {positive ? "+" : ""}
-          {change}% {changeHint}
+          {formatNumber(change, { maximumFractionDigits: 1 })}% {changeHint}
         </p>
       ) : null}
     </div>
@@ -102,7 +103,7 @@ function BreakdownList({
             <li key={row.label}>
               <div className="flex items-center justify-between text-sm">
                 <span className="truncate pr-3 text-muted-foreground">{row.label}</span>
-                <span className="shrink-0 tabular-nums">{row.views}</span>
+                <span className="shrink-0 tabular-nums">{formatNumber(row.views)}</span>
               </div>
               <Progress value={total ? (row.views / total) * 100 : 0} className="mt-1.5 h-1" />
             </li>
@@ -172,7 +173,7 @@ function AnalyticsPage() {
           <p className="mt-1 text-sm text-muted-foreground">{t("analytics.subtitle")}</p>
           <p className="mt-1 text-xs text-muted-foreground">
             {t("analytics.botsNote")}
-            {isLoading ? "" : ` (${bots})`}
+            {isLoading ? "" : ` (${formatNumber(bots)})`}
           </p>
         </div>
         <div className="flex gap-2">
@@ -187,7 +188,7 @@ function AnalyticsPage() {
                   : "border text-foreground hover:bg-accent"
               }`}
             >
-              {t("analytics.rangeDays", { count: value })}
+              {t("analytics.rangeDays", { count: formatNumber(value) })}
             </button>
           ))}
         </div>
@@ -257,8 +258,12 @@ function AnalyticsPage() {
                     tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                     tickLine={false}
                     axisLine={false}
+                    tickFormatter={(value) => formatNumber(Number(value))}
                   />
-                  <Tooltip contentStyle={{ fontSize: 12, borderRadius: 12 }} />
+                  <Tooltip
+                    contentStyle={{ fontSize: 12, borderRadius: 12 }}
+                    formatter={(value) => formatNumber(Number(value))}
+                  />
                   <Area
                     type="monotone"
                     dataKey="views"

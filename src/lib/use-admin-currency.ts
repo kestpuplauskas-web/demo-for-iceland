@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getPropertySettings } from "@/lib/property-settings.functions";
 import { currencySymbol } from "@/lib/properties";
+import { formatNumber } from "@/lib/utils";
 
 /**
  * Globali skydelio valiuta iš Nustatymų (scope=global).
@@ -19,7 +20,7 @@ export function useAdminCurrency() {
   const symbol = currencySymbol(code);
 
   const format = (value: number | null | undefined, digits = 0) =>
-    `${Number(value ?? 0).toFixed(digits)} ${symbol}`;
+    `${formatNumber(value, { minimumFractionDigits: digits, maximumFractionDigits: digits })} ${symbol}`;
 
   return { code, symbol, format };
 }

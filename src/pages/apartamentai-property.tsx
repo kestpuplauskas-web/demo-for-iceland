@@ -22,6 +22,7 @@ import { getContent } from "@/content";
 import { localizePath, type Locale } from "@/lib/locale";
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { formatMoney, toPropertyView } from "@/lib/property-view";
+import { formatNumber } from "@/lib/utils";
 import { getProperty } from "@/lib/revoo.functions";
 import { idForSlug, isUuid, slugForId } from "@/lib/property-slug";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
@@ -177,12 +178,12 @@ function PropertyPage({ locale }: { locale: Locale }) {
     .filter(Boolean);
 
   const facts = [
-    ...(data.area_m2 ? [{ label: c.common.labels.size, value: `${data.area_m2} m²` }] : []),
+    ...(data.area_m2 ? [{ label: c.common.labels.size, value: `${formatNumber(data.area_m2)} m²` }] : []),
     ...(data.max_guests
       ? [
           {
             label: c.common.labels.guests,
-            value: `${c.common.labels.upTo} ${data.max_guests} ${c.common.labels.guestsLower}`,
+            value: `${c.common.labels.upTo} ${formatNumber(data.max_guests)} ${c.common.labels.guestsLower}`,
           },
         ]
       : []),

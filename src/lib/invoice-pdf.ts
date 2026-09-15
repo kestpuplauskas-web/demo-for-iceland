@@ -130,7 +130,11 @@ function curSymbol(code: string) {
 }
 
 function money(n: number) {
-  return (Number(n) || 0).toFixed(2).replace(".", ",");
+  return new Intl.NumberFormat("lt-LT", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: true,
+  }).format(Number(n) || 0);
 }
 
 async function loadImageAsDataUrl(url: string): Promise<string | null> {
