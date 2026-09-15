@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { PageHero } from "@/components/site/PageHero";
-import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
+
 import { PageSection } from "@/components/site/Prose";
 import { Reveal } from "@/components/site/Reveal";
 import { useBooking } from "@/components/site/booking-context";
