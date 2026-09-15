@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdmin, assertDeveloper } from "./users.server";
+import { assertAdmin, assertCanView, assertDeveloper } from "./users.server";
 
 export const inviteUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -9,7 +9,7 @@ export const inviteUser = createServerFn({ method: "POST" })
     z
       .object({
         email: z.string().trim().email(),
-        role: z.enum(["admin", "housekeeper", "developer"]),
+        role: z.enum(["admin", "housekeeper", "developer", "viewer"]),
         fullName: z.string().trim().max(120).optional(),
         redirectTo: z.string().url().optional(),
       })
@@ -63,7 +63,9 @@ export const inviteUser = createServerFn({ method: "POST" })
         ? "administratoriaus"
         : data.role === "developer"
           ? "programuotojo"
-          : "kambarių tvarkytojos";
+          : data.role === "viewer"
+            ? "peržiūrėtojo"
+            : "kambarių tvarkytojos";
       await sendEmail({
         to: data.email,
         subject: "Kvietimas prisijungti prie Dharma Stay sistemos",
@@ -85,7 +87,7 @@ export const inviteUser = createServerFn({ method: "POST" })
 export const listUsersWithRoles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("user_roles")

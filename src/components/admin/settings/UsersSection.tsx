@@ -37,6 +37,7 @@ const ROLE_LABEL_KEYS: Record<string, string> = {
   developer: "settings.users.roleDeveloper",
   admin: "settings.users.roleAdmin",
   housekeeper: "settings.users.roleHousekeeper",
+  viewer: "settings.users.roleViewer",
   user: "settings.users.roleUser",
 };
 
@@ -58,7 +59,7 @@ export function UsersSection({ canEdit, canManage }: { canEdit: boolean; canMana
 
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
-  const [role, setRole] = useState<"admin" | "housekeeper" | "developer">("housekeeper");
+  const [role, setRole] = useState<"admin" | "housekeeper" | "developer" | "viewer">("housekeeper");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
 
@@ -147,7 +148,7 @@ export function UsersSection({ canEdit, canManage }: { canEdit: boolean; canMana
               <Label>{t("settings.users.role")}</Label>
               <Select
                 value={role}
-                onValueChange={(v) => setRole(v as "admin" | "housekeeper" | "developer")}
+                onValueChange={(v) => setRole(v as "admin" | "housekeeper" | "developer" | "viewer")}
                 disabled={!canManage}
               >
                 <SelectTrigger>
@@ -156,6 +157,7 @@ export function UsersSection({ canEdit, canManage }: { canEdit: boolean; canMana
                 <SelectContent>
                   <SelectItem value="admin">{t("settings.users.roleAdmin")}</SelectItem>
                   <SelectItem value="housekeeper">{t("settings.users.roleHousekeeper")}</SelectItem>
+                  <SelectItem value="viewer">{t("settings.users.roleViewer")}</SelectItem>
                   <SelectItem value="developer">{t("settings.users.roleDeveloper")}</SelectItem>
                 </SelectContent>
               </Select>

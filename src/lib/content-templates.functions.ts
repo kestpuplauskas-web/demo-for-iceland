@@ -4,11 +4,12 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { contentTemplateSchema, renderPreview } from "./content-templates";
 import { assertAdmin, rowToRecord } from "./content-templates.server";
 import { resolveFromAddress } from "./email-from";
+import { assertCanView } from "./users.server";
 
 export const listContentTemplates = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin({ supabase: context.supabase, userId: context.userId });
+    await assertCanView({ supabase: context.supabase, userId: context.userId });
     const { data: rows, error } = await context.supabase
       .from("content_templates")
       .select("*");

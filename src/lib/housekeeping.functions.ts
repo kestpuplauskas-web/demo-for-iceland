@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdmin } from "./users.server";
+import { assertAdmin, assertCanView } from "./users.server";
 
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -9,7 +9,7 @@ export const getHousekeepingWeek = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ startDate: dateSchema.optional() }).parse(d ?? {}))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { loadGlobalSettings } = await import("@/lib/notifications.server");
     const { localToday, addDays, computeDayWork } = await import("@/lib/housekeeping.server");
@@ -108,7 +108,7 @@ export const getHousekeepingDay = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ date: dateSchema.optional() }).parse(d ?? {}))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { loadGlobalSettings } = await import("@/lib/notifications.server");
     const { localToday, computeDayWork } = await import("@/lib/housekeeping.server");
@@ -325,7 +325,7 @@ export const setHousekeepingIssue = createServerFn({ method: "POST" })
 export const listHousekeepers = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context);
+    await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: roles } = await supabaseAdmin
       .from("user_roles")
