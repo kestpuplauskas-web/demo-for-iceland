@@ -341,19 +341,23 @@ export const getMyRole = createServerFn({ method: "GET" })
       { data: isAdmin, error: adminError },
       { data: isHousekeeper, error: staffError },
       { data: isDeveloper, error: devError },
+      { data: isViewer, error: viewerError },
     ] = await Promise.all([
       supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
       supabase.rpc("has_role", { _user_id: userId, _role: "housekeeper" }),
       supabase.rpc("has_role", { _user_id: userId, _role: "developer" }),
+      supabase.rpc("has_role", { _user_id: userId, _role: "viewer" }),
     ]);
+    if (viewerError) throw new Error(viewerError.message);
     if (adminError) throw new Error(adminError.message);
     if (staffError) throw new Error(staffError.message);
     if (devError) throw new Error(devError.message);
 
-    const roles: Array<"admin" | "housekeeper" | "developer"> = [];
+    const roles: Array<"admin" | "housekeeper" | "developer" | "viewer"> = [];
     if (isDeveloper) roles.push("developer");
     if (isAdmin) roles.push("admin");
     if (isHousekeeper) roles.push("housekeeper");
+    if (isViewer) roles.push("viewer");
     const email =
       typeof (claims as { email?: unknown } | null)?.email === "string"
         ? ((claims as { email: string }).email)
@@ -363,6 +367,8 @@ export const getMyRole = createServerFn({ method: "GET" })
       email,
       isAdmin: Boolean(isAdmin),
       isDeveloper: Boolean(isDeveloper),
+      isViewer: Boolean(isViewer),
+      canEdit: Boolean(isAdmin),
       roles,
     };
   });
