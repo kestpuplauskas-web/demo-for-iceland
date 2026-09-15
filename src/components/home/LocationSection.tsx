@@ -55,7 +55,12 @@ export function LocationSection() {
 
           <Reveal delay={120} direction="right">
             <div className="overflow-hidden rounded-md shadow-soft">
-              <ImagePlaceholder label={home.location.imageAlt} className="aspect-[4/3]" />
+              <img
+                src={locationWinter.url}
+                alt={home.location.imageAlt}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover"
+              />
             </div>
           </Reveal>
         </div>
