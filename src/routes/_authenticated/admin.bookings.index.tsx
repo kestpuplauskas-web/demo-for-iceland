@@ -266,7 +266,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
         ))}
         {!loading && filtered.length > 0 && (
           <div className="rounded-lg border bg-muted p-3 text-right text-sm font-medium">
-            {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatNumber(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
+            {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatCurrency(total, 2) })}
           </div>
         )}
       </div>
@@ -283,7 +283,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                       className="inline-flex items-center gap-1 font-medium hover:text-primary"
                       onClick={() => toggleSort(c.key)}
                     >
-                      {t(c.labelKey)}
+                      {c.key === "total_amount" ? `${t(c.labelKey)} (${cur})` : t(c.labelKey)}
                       {sort?.key === c.key && (sort.dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
                     </button>
                     <ColumnFilter
@@ -324,7 +324,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                 <TableCell className="whitespace-nowrap">{b.date_from}{b.check_in_time ? ` ${b.check_in_time}` : ""}</TableCell>
                 <TableCell className="whitespace-nowrap">{b.date_to}{b.check_out_time ? ` ${b.check_out_time}` : ""}</TableCell>
                 <TableCell className="text-right">{durationDays(b.date_from, b.date_to)}</TableCell>
-                <TableCell className="text-right font-semibold text-primary">{formatNumber(b.total_amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
+                <TableCell className="text-right font-semibold text-primary">{formatCurrency(b.total_amount, 2)}</TableCell>
                 <TableCell className="text-right">
                   <div className="inline-flex items-center gap-1">
                     <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setViewRow(b)} title={t("bookings.view")}>
@@ -344,7 +344,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
           <TableFooter className="bg-muted">
             <TableRow>
               <TableCell colSpan={COLUMNS.length + 1} className="text-right font-medium">
-                {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatNumber(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
+                {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatCurrency(total, 2) })}
               </TableCell>
             </TableRow>
           </TableFooter>
