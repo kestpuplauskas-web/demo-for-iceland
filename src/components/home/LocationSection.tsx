@@ -3,10 +3,10 @@ import { ClientOnly } from "@tanstack/react-router";
 import { MapPin } from "lucide-react";
 
 import { EnsoDivider } from "@/components/site/Enso";
-import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
 import { contact } from "@/data/contact";
+import locationWinter from "@/assets/location-winter.jpg.asset.json";
 
 const LocationMap = lazy(() => import("@/components/home/LocationMap"));
 
