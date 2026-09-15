@@ -15,7 +15,7 @@ import type { Locale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 import { propertiesQueryFor } from "@/lib/property-queries";
-import { formatPrice, toPropertyView } from "@/lib/property-view";
+import { formatMoney, toPropertyView } from "@/lib/property-view";
 import type { Property } from "@/lib/revoo-schemas";
 import { pageHead } from "@/lib/seo";
 import { amenityIconForLabel } from "@/lib/amenity-icons";
