@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/select";
 import { EXTRA_CALC_LABEL_KEYS, priceForNights } from "@/lib/properties";
 import { extraLineTotal, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export type BookingFormValues = Omit<BookingInput, "source" | "status"> & {
   source: (typeof BOOKING_SOURCE_VALUES)[number];
@@ -128,6 +129,7 @@ export function BookingForm({
   submitting?: boolean;
   bookingId?: string;
 }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t: tr } = useTranslation();
   const [v, setV] = useState<BookingFormValues>(() => {
     if (Number(initial.total_amount) > 0) return initial;
@@ -472,7 +474,7 @@ export function BookingForm({
                         </p>
                       </div>
                       <span className="tabular-nums text-sm font-medium">
-                        {roomAmount(p).toFixed(2)} €
+                        {roomAmount(p).toFixed(2)} {cur}
                       </span>
                       <Button
                         type="button"
@@ -704,7 +706,7 @@ export function BookingForm({
                         {EXTRA_CALC_LABEL_KEYS[svc.calc] ? tr(EXTRA_CALC_LABEL_KEYS[svc.calc]) : svc.calc} ·{" "}
                         {Number(svc.pricePerDay).toFixed(2)} {tr("bookings.form.perDay")}
                       </span>
-                      <span className="ml-auto tabular-nums">{lineAmount(svc).toFixed(2)} €</span>
+                      <span className="ml-auto tabular-nums">{lineAmount(svc).toFixed(2)} {cur}</span>
                     </label>
                   );
                 })}
@@ -754,7 +756,7 @@ export function BookingForm({
             <Label htmlFor="total">{tr("bookings.form.total")}</Label>
             <div className="relative">
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                €
+                {cur}
               </span>
               <NumberInput
                 id="total"

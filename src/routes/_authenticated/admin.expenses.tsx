@@ -12,12 +12,14 @@ import {
 import { listAllProperties } from "@/lib/properties.functions";
 import { DatePicker } from "@/components/DatePicker";
 import { NumberInput } from "@/components/NumberInput";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 export const Route = createFileRoute("/_authenticated/admin/expenses")({
   component: ExpensesPage,
 });
 
 function ExpensesPage() {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   const fetchExp = useServerFn(listExpenses);
   const create = useServerFn(createExpense);
@@ -128,7 +130,7 @@ function ExpensesPage() {
               <tr key={e.id} className="border-t">
                 <td className="p-2 text-xs">{e.expense_date}</td>
                 <td className="p-2">{t(`expenses.categories.${e.category}`)}</td>
-                <td className="p-2">{Number(e.amount ?? 0).toFixed(2)} €</td>
+                <td className="p-2">{Number(e.amount ?? 0).toFixed(2)} {cur}</td>
                 <td className="p-2">{e.properties?.name ?? "—"}</td>
                 <td className="p-2 text-xs text-muted-foreground">{e.note}</td>
                 <td className="p-2 text-right">

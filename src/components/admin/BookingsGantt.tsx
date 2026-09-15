@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { BOOKING_STATUS_LABEL_KEYS } from "@/lib/bookings.functions";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 
 type Booking = {
   id: string;
@@ -87,6 +88,7 @@ export function BookingsGantt({
   onReschedule?: (input: RescheduleInput) => void;
   rescheduling?: boolean;
 }) {
+  const { symbol: cur } = useAdminCurrency();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -461,7 +463,7 @@ export function BookingsGantt({
                 {selected.date_from} {selected.check_in_time} → {selected.date_to} {selected.check_out_time}
               </div>
               {selected.location && <div><span className="text-muted-foreground">{t("gantt.location")}:</span> {selected.location}</div>}
-              <div><span className="text-muted-foreground">{t("gantt.amount")}:</span> <span className="font-semibold text-primary">{Number(selected.total_amount).toFixed(2)}€</span></div>
+              <div><span className="text-muted-foreground">{t("gantt.amount")}:</span> <span className="font-semibold text-primary">{Number(selected.total_amount).toFixed(2)} {cur}</span></div>
               {selected.note && <div className="italic text-muted-foreground">„{selected.note}"</div>}
             </div>
           )}
