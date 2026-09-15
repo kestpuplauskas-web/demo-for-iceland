@@ -103,28 +103,35 @@ export function ContactForm() {
     setErrors({});
     setStatus("sending");
 
-    // The inquiry is stored in the admin inbox first; the e-mail relay is a bonus.
+    // The inquiry is stored in the admin inbox first; the e-mail relay is a
+    // bonus. Either channel succeeding counts as a delivered message.
+    const payload = {
+      name: parsed.data.name,
+      email: parsed.data.email,
+      ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
+      message: parsed.data.message,
+    };
+
+    let stored = false;
     try {
-      await submitInquiry({
-        data: {
-          name: parsed.data.name,
-          email: parsed.data.email,
-          ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
-          message: parsed.data.message,
-          lang: "en",
-        },
-      });
+      await submitInquiry({ data: { ...payload, lang: "en" } });
+      stored = true;
+    } catch (error) {
+      console.error("submitInquiry failed", error);
+    }
+
+    let mailed = false;
+    try {
+      const result = await sendContactMessageFn({ data: payload });
+      mailed = result?.delivered === true;
+    } catch (error) {
+      console.error("sendContactMessage failed", error);
+    }
+
+    if (stored || mailed) {
       setStatus("sent");
       setValues({ name: "", email: "", phone: "", message: "" });
-      void sendContactMessageFn({
-        data: {
-          name: parsed.data.name,
-          email: parsed.data.email,
-          ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
-          message: parsed.data.message,
-        },
-      }).catch(() => undefined);
-    } catch {
+    } else {
       setStatus("failed");
     }
   };
