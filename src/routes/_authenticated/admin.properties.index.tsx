@@ -19,7 +19,7 @@ import {
   Plus,
 } from "lucide-react";
 import { listAllProperties, deleteProperty } from "@/lib/properties.functions";
-import { PROPERTY_TYPES, propertyTypeLabelKey, hasOnlySingleBeds, type Property } from "@/lib/properties";
+import { PROPERTY_TYPES, propertyTypeLabelKey, hasOnlySingleBeds, currencySymbol, type Property } from "@/lib/properties";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";

@@ -727,7 +727,8 @@
       "tierLabel": "Label",
       "tiersTitle": "Seasonal prices (by number of nights)",
       "totalBeds": "Total beds: {{count}}",
-      "type": "Type"
+      "type": "Type",
+      "currency": "Currency"
     },
     "images": {
       "alt": "Photo {{index}}",

@@ -729,7 +729,8 @@
       "tierLabel": "Etiketė",
       "tiersTitle": "Sezoninės kainos (pagal naktų skaičių)",
       "totalBeds": "Iš viso lovų: {{count}}",
-      "type": "Tipas"
+      "type": "Tipas",
+      "currency": "Valiuta"
     },
     "images": {
       "alt": "Nuotrauka {{index}}",
