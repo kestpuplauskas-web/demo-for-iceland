@@ -16,7 +16,7 @@ export function BookingsTimeline({
   empty?: string;
   showAmount?: boolean;
 }) {
-  const { symbol: cur } = useAdminCurrency();
+  const { format: formatCurrency } = useAdminCurrency();
   const { t } = useTranslation();
   return (
     <div className="rounded-lg border bg-card p-4 shadow-sm">
@@ -26,7 +26,7 @@ export function BookingsTimeline({
           {title}
         </h3>
         <span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
-          {bookings.length}
+          {bookings.length.toLocaleString("lt-LT")}
         </span>
       </div>
       <div className="mt-3 space-y-2">
@@ -49,7 +49,7 @@ export function BookingsTimeline({
                 </div>
               </div>
               {showAmount ? (
-                <div className="ml-2 shrink-0 text-sm">{Number(b.total_amount ?? 0).toFixed(0)} {cur}</div>
+                <div className="ml-2 shrink-0 text-sm">{formatCurrency(b.total_amount)}</div>
               ) : null}
             </Link>
           ))

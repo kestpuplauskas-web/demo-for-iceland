@@ -12,6 +12,7 @@ import { getDashboardStats } from "@/lib/dashboard.functions";
 import { resolvePeriod, type PeriodKey } from "@/lib/dashboard-period";
 import { propertyTypeLabelKey } from "@/lib/properties";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
+import { formatNumber } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -24,7 +25,7 @@ function AdminDashboard() {
     return { period: "mtd", from: r.from, to: r.to };
   });
 
-  const { symbol: cur } = useAdminCurrency();
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const fetchStats = useServerFn(getDashboardStats);
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard-stats", period.from, period.to],
@@ -55,7 +56,7 @@ function AdminDashboard() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <KpiCard
               label={t("dashboard.ops.revenue")}
-              value={`${(data?.operations.revenue ?? 0).toFixed(0)} ${cur}`}
+              value={formatCurrency(data?.operations.revenue)}
               hint={t("dashboard.ops.revenueHint")}
             />
             <KpiCard
@@ -65,23 +66,23 @@ function AdminDashboard() {
             />
             <KpiCard
               label={t("dashboard.ops.freeToday")}
-              value={`${data?.operations.freeToday ?? 0} / ${data?.operations.totalActive ?? 0}`}
+              value={`${formatNumber(data?.operations.freeToday)} / ${formatNumber(data?.operations.totalActive)}`}
             />
             <KpiCard
               label={t("dashboard.ops.confirmed30d")}
-              value={data?.operations.confirmed30d ?? 0}
+              value={formatNumber(data?.operations.confirmed30d)}
               hint={t("dashboard.ops.confirmed30dHint")}
             />
             <KpiCard
               label={t("dashboard.ops.awaitingPayment")}
-              value={`${(data?.operations.awaitingPayment.total ?? 0).toFixed(0)} ${cur}`}
+              value={formatCurrency(data?.operations.awaitingPayment.total)}
               hint={t("dashboard.ops.awaitingPaymentHint", {
                 count: data?.operations.awaitingPayment.count ?? 0,
               })}
             />
             <KpiCard
               label={t("dashboard.ops.abv")}
-              value={`${(data?.operations.avgBookingValue ?? 0).toFixed(0)} ${cur}`}
+              value={formatCurrency(data?.operations.avgBookingValue)}
               hint={t("dashboard.ops.abvHint")}
             />
           </div>
@@ -91,19 +92,19 @@ function AdminDashboard() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <KpiCard
               label={t("dashboard.fleet.total")}
-              value={data?.fleet.total ?? 0}
+              value={formatNumber(data?.fleet.total)}
               hint={t("dashboard.fleet.activeHint", { count: data?.fleet.active ?? 0 })}
             />
-            <KpiCard label={t("dashboard.fleet.avgPrice")} value={`${(data?.fleet.avgPrice ?? 0).toFixed(0)} ${cur}`} />
-            <KpiCard label={t("dashboard.fleet.missingPhotos")} value={data?.fleet.missingPhotos ?? 0} />
-            <KpiCard label={t("dashboard.fleet.missingDescription")} value={data?.fleet.missingDescription ?? 0} />
+            <KpiCard label={t("dashboard.fleet.avgPrice")} value={formatCurrency(data?.fleet.avgPrice)} />
+            <KpiCard label={t("dashboard.fleet.missingPhotos")} value={formatNumber(data?.fleet.missingPhotos)} />
+            <KpiCard label={t("dashboard.fleet.missingDescription")} value={formatNumber(data?.fleet.missingDescription)} />
           </div>
           <div className="mt-4 rounded-lg border bg-card p-4">
             <h3 className="text-sm font-medium">{t("dashboard.fleet.byType")}</h3>
             <div className="mt-3 flex flex-wrap gap-2 text-sm">
               {Object.entries(data?.fleet.byType ?? {}).map(([k, v]) => (
                 <span key={k} className="rounded-full border px-3 py-1">
-                  {t(propertyTypeLabelKey(k))}: <strong>{v as number}</strong>
+                  {t(propertyTypeLabelKey(k))}: <strong>{formatNumber(v as number)}</strong>
                 </span>
               ))}
               {Object.keys(data?.fleet.byType ?? {}).length === 0 ? (
@@ -145,14 +146,14 @@ function AdminDashboard() {
                       <td className="py-2 pr-3 text-right">
                         {p.occupancy === null ? "—" : `${Math.round(p.occupancy * 100)}%`}
                       </td>
-                      <td className="py-2 pr-3 text-right">{p.nights}</td>
-                      <td className="py-2 pr-3 text-right">{p.bookings}</td>
-                      <td className="py-2 pr-3 text-right font-medium">{p.revenue.toFixed(0)} {cur}</td>
-                      <td className="py-2 pr-3 text-right">{p.adr.toFixed(0)} {cur}</td>
-                      <td className="py-2 pr-3 text-right">{p.abv.toFixed(0)} {cur}</td>
-                      <td className="py-2 pr-3 text-right">{p.expenses.toFixed(0)} {cur}</td>
+                      <td className="py-2 pr-3 text-right">{formatNumber(p.nights)}</td>
+                      <td className="py-2 pr-3 text-right">{formatNumber(p.bookings)}</td>
+                      <td className="py-2 pr-3 text-right font-medium">{formatCurrency(p.revenue)}</td>
+                      <td className="py-2 pr-3 text-right">{formatCurrency(p.adr)}</td>
+                      <td className="py-2 pr-3 text-right">{formatCurrency(p.abv)}</td>
+                      <td className="py-2 pr-3 text-right">{formatCurrency(p.expenses)}</td>
                       <td className={`py-2 text-right font-medium ${p.net < 0 ? "text-destructive" : ""}`}>
-                        {p.net.toFixed(0)} {cur}
+                        {formatCurrency(p.net)}
                       </td>
                     </tr>
                   ))}
@@ -171,12 +172,12 @@ function AdminDashboard() {
 
         <TabsContent value="biz" className="mt-4">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <KpiCard label={t("dashboard.biz.netProfit")} value={`${(data?.business.netProfit ?? 0).toFixed(0)} ${cur}`} />
-            <KpiCard label={t("dashboard.biz.revenue")} value={`${(data?.business.revenue ?? 0).toFixed(0)} ${cur}`} />
-            <KpiCard label={t("dashboard.biz.expenses")} value={`${(data?.business.expensesTotal ?? 0).toFixed(0)} ${cur}`} />
+            <KpiCard label={t("dashboard.biz.netProfit")} value={formatCurrency(data?.business.netProfit)} />
+            <KpiCard label={t("dashboard.biz.revenue")} value={formatCurrency(data?.business.revenue)} />
+            <KpiCard label={t("dashboard.biz.expenses")} value={formatCurrency(data?.business.expensesTotal)} />
             <KpiCard
               label={t("dashboard.biz.avgStay")}
-              value={t("dashboard.biz.days", { value: (data?.business.avgStayNights ?? 0).toFixed(1) })}
+              value={t("dashboard.biz.days", { value: formatNumber(data?.business.avgStayNights, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) })}
             />
           </div>
           <div className="mt-4 rounded-lg border bg-card p-4">
@@ -185,7 +186,7 @@ function AdminDashboard() {
               {Object.entries(data?.business.expensesByCategory ?? {}).map(([k, v]) => (
                 <div key={k} className="flex items-center justify-between border-b pb-1 last:border-none">
                   <span>{k}</span>
-                  <span className="font-medium">{(v as number).toFixed(0)} {cur}</span>
+                  <span className="font-medium">{formatCurrency(v as number)}</span>
                 </div>
               ))}
               {Object.keys(data?.business.expensesByCategory ?? {}).length === 0 ? (
@@ -243,7 +244,7 @@ function AdminDashboard() {
                 </div>
                 <div className="ml-2 flex shrink-0 items-center gap-2 text-xs">
                   <span className="rounded-full border px-2 py-0.5">{b.status}</span>
-                  <span>{Number(b.total_amount ?? 0).toFixed(0)} {cur}</span>
+                  <span>{formatCurrency(b.total_amount)}</span>
                 </div>
               </Link>
             ))

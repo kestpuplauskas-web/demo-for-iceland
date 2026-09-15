@@ -23,6 +23,7 @@ import { Plus, Pencil, Trash2, LayoutGrid, List, Eye, Filter, ArrowUp, ArrowDown
 import { toast } from "sonner";
 import { BookingsGantt } from "@/components/admin/BookingsGantt";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
+import { formatNumber } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin/bookings/")({
   component: BookingsPage,
@@ -178,7 +179,7 @@ function isFilterActive(f?: AnyFilter) {
 }
 
 function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: boolean; onDelete: (id: string, name: string) => void }) {
-  const { symbol: cur } = useAdminCurrency();
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const { t } = useTranslation();
   const [sort, setSort] = useState<{ key: ColKey; dir: "asc" | "desc" } | null>(null);
   const [filters, setFilters] = useState<Record<string, AnyFilter>>({});
@@ -259,13 +260,13 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
             <div className="text-sm text-muted-foreground">{b.properties?.name ?? "—"}</div>
             <div className="mt-1 flex items-center justify-between gap-2 text-sm">
               <span className="text-muted-foreground">{b.date_from} – {b.date_to}</span>
-              <span className="font-semibold text-primary">{Number(b.total_amount ?? 0).toFixed(2)} {cur}</span>
+              <span className="font-semibold text-primary">{formatCurrency(b.total_amount, 2)}</span>
             </div>
           </Link>
         ))}
         {!loading && filtered.length > 0 && (
           <div className="rounded-lg border bg-muted p-3 text-right text-sm font-medium">
-            {t("bookings.totalRow", { count: filtered.length, sum: total.toFixed(2) })}
+            {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatNumber(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
           </div>
         )}
       </div>
@@ -323,7 +324,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                 <TableCell className="whitespace-nowrap">{b.date_from}{b.check_in_time ? ` ${b.check_in_time}` : ""}</TableCell>
                 <TableCell className="whitespace-nowrap">{b.date_to}{b.check_out_time ? ` ${b.check_out_time}` : ""}</TableCell>
                 <TableCell className="text-right">{durationDays(b.date_from, b.date_to)}</TableCell>
-                <TableCell className="text-right font-semibold text-primary">{Number(b.total_amount ?? 0).toFixed(2)}</TableCell>
+                <TableCell className="text-right font-semibold text-primary">{formatNumber(b.total_amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
                 <TableCell className="text-right">
                   <div className="inline-flex items-center gap-1">
                     <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setViewRow(b)} title={t("bookings.view")}>
@@ -343,7 +344,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
           <TableFooter className="bg-muted">
             <TableRow>
               <TableCell colSpan={COLUMNS.length + 1} className="text-right font-medium">
-                {t("bookings.totalRow", { count: filtered.length, sum: total.toFixed(2) })}
+                {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatNumber(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -499,8 +500,8 @@ function BookingViewDialog({ row, onClose }: { row: Row | null; onClose: () => v
             <FieldRow label={t("bookings.dialog.to")} value={`${row.date_to}${row.check_out_time ? ` ${row.check_out_time}` : ""}`} />
             <FieldRow label={t("bookings.dialog.duration")} value={t("bookings.dialog.days", { value: durationDays(row.date_from, row.date_to) })} />
             <FieldRow label={t("bookings.dialog.location")} value={row.location || "—"} />
-            <FieldRow label={t("bookings.dialog.guests")} value={String(row.guests ?? "—")} />
-            <FieldRow label={t("bookings.dialog.amount")} value={`${Number(row.total_amount ?? 0).toFixed(2)} ${cur}`} />
+            <FieldRow label={t("bookings.dialog.guests")} value={row.guests == null ? "—" : formatNumber(row.guests)} />
+            <FieldRow label={t("bookings.dialog.amount")} value={formatCurrency(row.total_amount, 2)} />
             {row.note && <div className="pt-2 border-t italic text-muted-foreground">„{row.note}"</div>}
           </div>
         )}
