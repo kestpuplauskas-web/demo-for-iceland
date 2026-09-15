@@ -471,7 +471,7 @@ function ColumnFilter({ col, rows, filter, onChange }: {
 }
 
 function BookingViewDialog({ row, onClose }: { row: Row | null; onClose: () => void }) {
-  const { symbol: cur } = useAdminCurrency();
+  const { format: formatCurrency } = useAdminCurrency();
   const { t } = useTranslation();
   return (
     <Dialog open={!!row} onOpenChange={(o) => { if (!o) onClose(); }}>

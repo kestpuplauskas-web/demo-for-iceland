@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 
 import { propertiesQueryFor } from "@/lib/property-queries";
 import { formatMoney, toPropertyView } from "@/lib/property-view";
+import { formatNumber } from "@/lib/utils";
 import type { Property } from "@/lib/revoo-schemas";
 import { pageHead } from "@/lib/seo";
 import { amenityIconForLabel } from "@/lib/amenity-icons";
@@ -135,7 +136,7 @@ function ResultsPage({ locale }: { locale: Locale }) {
             ) : (
               <>
                 <p className="pb-4 text-sm text-stone">
-                  {rooms.length}{" "}
+                  {formatNumber(rooms.length)}{" "}
                   {plural(
                     rooms.length,
                     common.results.foundOne,

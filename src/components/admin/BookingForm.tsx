@@ -44,6 +44,7 @@ import {
 import { EXTRA_CALC_LABEL_KEYS, priceForNights } from "@/lib/properties";
 import { extraLineTotal, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
+import { formatNumber } from "@/lib/utils";
 
 export type BookingFormValues = Omit<BookingInput, "source" | "status"> & {
   source: (typeof BOOKING_SOURCE_VALUES)[number];
@@ -129,7 +130,7 @@ export function BookingForm({
   submitting?: boolean;
   bookingId?: string;
 }) {
-  const { symbol: cur } = useAdminCurrency();
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const { t: tr } = useTranslation();
   const [v, setV] = useState<BookingFormValues>(() => {
     if (Number(initial.total_amount) > 0) return initial;
@@ -474,7 +475,7 @@ export function BookingForm({
                         </p>
                       </div>
                       <span className="tabular-nums text-sm font-medium">
-                        {roomAmount(p).toFixed(2)} {cur}
+                        {formatCurrency(roomAmount(p), 2)}
                       </span>
                       <Button
                         type="button"
@@ -521,7 +522,7 @@ export function BookingForm({
                     {tr("bookings.form.roomsCount", { count: roomProps.length })}
                   </span>
                   <span className="ml-auto text-sm font-medium">
-                    {tr("bookings.form.roomsTotal", { amount: roomsSum.toFixed(2) })}
+                    {tr("bookings.form.roomsTotal", { amount: formatNumber(roomsSum, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
                   </span>
                 </div>
 
@@ -704,15 +705,15 @@ export function BookingForm({
                       <span className="font-medium">{svc.name}</span>
                       <span className="text-xs text-muted-foreground">
                         {EXTRA_CALC_LABEL_KEYS[svc.calc] ? tr(EXTRA_CALC_LABEL_KEYS[svc.calc]) : svc.calc} ·{" "}
-                        {Number(svc.pricePerDay).toFixed(2)} {tr("bookings.form.perDay")}
+                        {formatNumber(svc.pricePerDay, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {tr("bookings.form.perDay")}
                       </span>
-                      <span className="ml-auto tabular-nums">{lineAmount(svc).toFixed(2)} {cur}</span>
+                      <span className="ml-auto tabular-nums">{formatCurrency(lineAmount(svc), 2)}</span>
                     </label>
                   );
                 })}
               </div>
               <div className="mt-2 text-right text-sm font-medium">
-                {tr("bookings.form.extrasTotal", { amount: (v.extras_total ?? 0).toFixed(2) })}
+                {tr("bookings.form.extrasTotal", { amount: formatNumber(v.extras_total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
               </div>
             </div>
           )}
@@ -775,14 +776,14 @@ export function BookingForm({
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <span>
                 {tr("bookings.form.computed", {
-                  total: totals.computed.toFixed(2),
-                  stay: totals.stayTotal.toFixed(2),
-                  nightly: Number(totals.nightly || 0).toFixed(2),
-                  days: totals.days,
+                  total: formatNumber(totals.computed, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  stay: formatNumber(totals.stayTotal, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  nightly: formatNumber(totals.nightly, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  days: formatNumber(totals.days),
                   extras:
                     totals.extras_total > 0
                       ? tr("bookings.form.computedExtras", {
-                          amount: totals.extras_total.toFixed(2),
+                          amount: formatNumber(totals.extras_total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                         })
                       : "",
                 })}
