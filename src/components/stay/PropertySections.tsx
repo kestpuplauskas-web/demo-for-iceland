@@ -73,6 +73,7 @@ export function propertyLd(
     address?: string | null | undefined;
     city?: string | null | undefined;
     price_per_night?: number | null | undefined;
+    currency?: string | null | undefined;
   },
   amenities: string[],
   url: string,
