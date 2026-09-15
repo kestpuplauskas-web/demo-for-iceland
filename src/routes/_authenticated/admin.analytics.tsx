@@ -74,7 +74,7 @@ function StatCard({
             <TrendingDown className="h-3.5 w-3.5" aria-hidden="true" />
           )}
           {positive ? "+" : ""}
-          {change}% {changeHint}
+          {formatNumber(change, { maximumFractionDigits: 1 })}% {changeHint}
         </p>
       ) : null}
     </div>
@@ -188,7 +188,7 @@ function AnalyticsPage() {
                   : "border text-foreground hover:bg-accent"
               }`}
             >
-              {t("analytics.rangeDays", { count: value })}
+              {t("analytics.rangeDays", { count: formatNumber(value) })}
             </button>
           ))}
         </div>

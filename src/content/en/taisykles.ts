@@ -34,7 +34,7 @@ export const taisykles = {
       title: "Sauna and hot tub",
       items: [
         "Four outdoor hot tubs are included with every cabin during the winter season.",
-        "The wood-fired sauna and cold tub are booked by the hour for 6,500 kr. per session.",
+        "The wood-fired sauna and cold tub are booked by the hour for 6 500 kr. per session.",
       ],
     },
   ],

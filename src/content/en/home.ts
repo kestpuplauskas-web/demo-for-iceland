@@ -33,8 +33,8 @@ export const home = {
     eyebrow: "At the house",
     items: [
       { key: "tub", title: "Hot tubs", text: "Four tubs on the slope, kept at 39°C, with no roof and no lighting." },
-      { key: "sauna", title: "Sauna & cold tub", text: "Wood-fired, seats eight, with a stream-fed cold tub outside. 6,500 kr. per session." },
-      { key: "breakfast", title: "Breakfast", text: "Bread from Ólafsfjörður, skyr, smoked trout and eggs. 3,900 kr. per person." },
+      { key: "sauna", title: "Sauna & cold tub", text: "Wood-fired, seats eight, with a stream-fed cold tub outside. 6 500 kr. per session." },
+      { key: "breakfast", title: "Breakfast", text: "Bread from Ólafsfjörður, skyr, smoked trout and eggs. 3 900 kr. per person." },
       { key: "mountain", title: "Out of the door", text: "Ski touring, the Herring Era Museum and whale boats from Dalvík." },
     ],
   },

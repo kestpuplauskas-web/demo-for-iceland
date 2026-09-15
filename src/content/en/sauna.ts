@@ -6,7 +6,7 @@ export const sauna = {
   title: "Sauna & cold tub",
   lead: "Wood-fired, seats eight, and a cold tub outside fed straight from the stream.",
   body: [
-    "The sauna is booked by the hour so it is never crowded. A session costs 6,500 kr.",
+    "The sauna is booked by the hour so it is never crowded. A session costs 6 500 kr.",
     "Four outdoor hot tubs on the slope are kept at 39°C during the winter season and are included with every cabin.",
   ],
   cottageLink: "View rooms & cabins",
