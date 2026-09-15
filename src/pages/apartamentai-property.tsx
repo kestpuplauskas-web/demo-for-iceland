@@ -92,7 +92,7 @@ export function propertyRoute(locale: Locale) {
         id,
         name: property.name,
         description: (property.description ?? "").slice(0, 155),
-        image: null,
+        image: view.image,
         ld: JSON.stringify(
           propertyLd(
             property,
@@ -241,8 +241,14 @@ function PropertyPage({ locale }: { locale: Locale }) {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {grid.map((url, index) => (
               <Reveal key={url} delay={index * 90}>
-                <div className="aspect-[4/3] overflow-hidden rounded-md bg-surface shadow-soft">
-                  <ImagePlaceholder label={`${data.name} — ${c.common.brand}`} className="aspect-[4/3]" />
+                <div className="aspect-[4/3] overflow-hidden rounded-md bg-surface-2 shadow-soft">
+                  <img
+                    src={url}
+                    alt={`${data.name} — ${c.common.brand}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </Reveal>
             ))}
