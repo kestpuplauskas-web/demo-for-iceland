@@ -2,7 +2,7 @@ import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Enso } from "@/components/site/Enso";
-import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
+
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
