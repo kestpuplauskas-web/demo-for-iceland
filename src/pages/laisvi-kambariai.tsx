@@ -198,7 +198,19 @@ function RoomResultCard({
       )}
     >
       <div className="grid gap-4 p-4 md:grid-cols-[13rem_1fr_12rem] md:items-start md:gap-5">
-        <ImagePlaceholder label={view.imageAlt} className="aspect-[4/3] rounded-md" />
+        {view.image ? (
+          <div className="aspect-[4/3] overflow-hidden rounded-md bg-surface-2">
+            <img
+              src={view.image}
+              alt={view.imageAlt}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        ) : (
+          <ImagePlaceholder label={view.imageAlt} className="aspect-[4/3] rounded-md" />
+        )}
 
         <div className="flex flex-col">
           <h2 className="font-display text-[1.375rem] leading-snug font-semibold text-paper">
