@@ -56,6 +56,7 @@ import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminContractsRouteImport } from './routes/_authenticated/admin.contracts'
 import { Route as AuthenticatedAdminExpensesRouteImport } from './routes/_authenticated/admin.expenses'
 import { Route as AuthenticatedAdminHousekeepingRouteImport } from './routes/_authenticated/admin.housekeeping'
+import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedStaffIndexRouteImport } from './routes/_authenticated/staff.index'
 import { Route as AuthenticatedStaffIdRouteImport } from './routes/_authenticated/staff.$id'
@@ -332,6 +333,12 @@ const AuthenticatedAdminHousekeepingRoute =
     path: '/housekeeping',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminInquiriesRoute =
+  AuthenticatedAdminInquiriesRouteImport.update({
+    id: '/inquiries',
+    path: '/inquiries',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
@@ -571,6 +578,7 @@ export interface FileRoutesByFullPath {
   '/admin/contracts': typeof AuthenticatedAdminContractsRoute
   '/admin/expenses': typeof AuthenticatedAdminExpensesRoute
   '/admin/housekeeping': typeof AuthenticatedAdminHousekeepingRoute
+  '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/staff/$id': typeof AuthenticatedStaffIdRoute
   '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
@@ -647,6 +655,7 @@ export interface FileRoutesByTo {
   '/admin/contracts': typeof AuthenticatedAdminContractsRoute
   '/admin/expenses': typeof AuthenticatedAdminExpensesRoute
   '/admin/housekeeping': typeof AuthenticatedAdminHousekeepingRoute
+  '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/staff/$id': typeof AuthenticatedStaffIdRoute
   '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
@@ -732,6 +741,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/contracts': typeof AuthenticatedAdminContractsRoute
   '/_authenticated/admin/expenses': typeof AuthenticatedAdminExpensesRoute
   '/_authenticated/admin/housekeeping': typeof AuthenticatedAdminHousekeepingRoute
+  '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/staff/$id': typeof AuthenticatedStaffIdRoute
   '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
@@ -817,6 +827,7 @@ export interface FileRouteTypes {
     | '/admin/contracts'
     | '/admin/expenses'
     | '/admin/housekeeping'
+    | '/admin/inquiries'
     | '/admin/settings'
     | '/staff/$id'
     | '/apartamentai/tipas/$categorySlug'
@@ -893,6 +904,7 @@ export interface FileRouteTypes {
     | '/admin/contracts'
     | '/admin/expenses'
     | '/admin/housekeeping'
+    | '/admin/inquiries'
     | '/admin/settings'
     | '/staff/$id'
     | '/apartamentai/tipas/$categorySlug'
@@ -977,6 +989,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/contracts'
     | '/_authenticated/admin/expenses'
     | '/_authenticated/admin/housekeeping'
+    | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
     | '/_authenticated/staff/$id'
     | '/apartamentai/tipas/$categorySlug'
@@ -1379,6 +1392,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminHousekeepingRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/inquiries': {
+      id: '/_authenticated/admin/inquiries'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AuthenticatedAdminInquiriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
@@ -1633,6 +1653,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminContractsRoute: typeof AuthenticatedAdminContractsRoute
   AuthenticatedAdminExpensesRoute: typeof AuthenticatedAdminExpensesRoute
   AuthenticatedAdminHousekeepingRoute: typeof AuthenticatedAdminHousekeepingRoute
+  AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminBookingsIdRoute: typeof AuthenticatedAdminBookingsIdRoute
@@ -1649,6 +1670,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminContractsRoute: AuthenticatedAdminContractsRoute,
   AuthenticatedAdminExpensesRoute: AuthenticatedAdminExpensesRoute,
   AuthenticatedAdminHousekeepingRoute: AuthenticatedAdminHousekeepingRoute,
+  AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminBookingsIdRoute: AuthenticatedAdminBookingsIdRoute,
