@@ -208,8 +208,13 @@ async function buildTokens(
   const db = await admin();
   const { data: prop } = await db
     .from("properties")
-    .select("name, door_code, location_note, rooms")
+    .select("name, location_note, rooms")
     .eq("id", booking["property_id"])
+    .maybeSingle();
+  const { data: secrets } = await db
+    .from("property_secrets" as never)
+    .select("door_code")
+    .eq("property_id", booking["property_id"])
     .maybeSingle();
   const wifi = await loadGuestInfoFields("wifi");
 
@@ -252,7 +257,7 @@ async function buildTokens(
     "{{check_in_until}}": String(settings.checkinUntil ?? ""),
     "{{quiet_hours_from}}": String(settings.quietHoursFrom ?? ""),
     "{{quiet_hours_to}}": String(settings.quietHoursTo ?? ""),
-    "{{door_code}}": isPaid ? String((prop as any)?.door_code ?? "") : "",
+    "{{door_code}}": isPaid ? String((secrets as any)?.door_code ?? "") : "",
     "{{location}}": String((prop as any)?.location_note ?? ""),
     "{{wifi_name}}": wifi["wifiName"] ?? "",
     "{{wifi_password}}": wifi["wifiPassword"] ?? "",
