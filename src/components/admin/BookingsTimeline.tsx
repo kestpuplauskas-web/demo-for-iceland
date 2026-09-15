@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
+import { formatNumber } from "@/lib/utils";
 
 export function BookingsTimeline({
   title,
@@ -26,7 +27,7 @@ export function BookingsTimeline({
           {title}
         </h3>
         <span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
-          {bookings.length.toLocaleString("lt-LT")}
+          {formatNumber(bookings.length)}
         </span>
       </div>
       <div className="mt-3 space-y-2">
