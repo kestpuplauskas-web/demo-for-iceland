@@ -324,7 +324,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                 <TableCell className="whitespace-nowrap">{b.date_from}{b.check_in_time ? ` ${b.check_in_time}` : ""}</TableCell>
                 <TableCell className="whitespace-nowrap">{b.date_to}{b.check_out_time ? ` ${b.check_out_time}` : ""}</TableCell>
                 <TableCell className="text-right">{durationDays(b.date_from, b.date_to)}</TableCell>
-                <TableCell className="text-right font-semibold text-primary">{formatNumber(b.total_amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
+                <TableCell className="text-right font-semibold text-primary">{formatCurrency(b.total_amount, 2)}</TableCell>
                 <TableCell className="text-right">
                   <div className="inline-flex items-center gap-1">
                     <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setViewRow(b)} title={t("bookings.view")}>
