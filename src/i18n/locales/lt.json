@@ -103,7 +103,7 @@
       "duration": "Trukmė (d.)",
       "property": "Objektas",
       "status": "Statusas",
-      "total_amount": "Suma (€)"
+      "total_amount": "Suma"
     },
     "confirmDelete": "Ištrinti rezervaciją {{name}}?",
     "delete": "Trinti",
@@ -216,7 +216,7 @@
     "rescheduled": "Rezervacija perkelta",
     "title": "Rezervacijos",
     "to": "Iki",
-    "totalRow": "Viso: {{count}} rezervacijų | {{sum}}€",
+    "totalRow": "Viso: {{count}} rezervacijų | {{sum}}",
     "view": "Peržiūrėti",
     "viewCalendar": "Kalendorius",
     "viewList": "Sąrašas"

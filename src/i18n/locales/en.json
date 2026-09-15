@@ -103,7 +103,7 @@
       "duration": "Nights",
       "property": "Property",
       "status": "Status",
-      "total_amount": "Amount (€)"
+      "total_amount": "Amount"
     },
     "confirmDelete": "Delete booking {{name}}?",
     "delete": "Delete",
@@ -214,7 +214,7 @@
     "rescheduled": "Booking moved",
     "title": "Bookings",
     "to": "To",
-    "totalRow": "Total: {{count}} bookings | {{sum}}€",
+    "totalRow": "Total: {{count}} bookings | {{sum}}",
     "view": "View",
     "viewCalendar": "Calendar",
     "viewList": "List"
