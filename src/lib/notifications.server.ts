@@ -208,8 +208,13 @@ async function buildTokens(
   const db = await admin();
   const { data: prop } = await db
     .from("properties")
-    .select("name, door_code, location_note, rooms")
+    .select("name, location_note, rooms")
     .eq("id", booking["property_id"])
+    .maybeSingle();
+  const { data: secrets } = await db
+    .from("property_secrets" as never)
+    .select("door_code")
+    .eq("property_id", booking["property_id"])
     .maybeSingle();
   const wifi = await loadGuestInfoFields("wifi");
 
