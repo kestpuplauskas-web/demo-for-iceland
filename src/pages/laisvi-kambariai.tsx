@@ -188,7 +188,11 @@ function RoomResultCard({
   const { common } = useContent();
   const { open } = useBooking();
   const [expanded, setExpanded] = useState(false);
+  const [gallery, setGallery] = useState(false);
   const view = toPropertyView(property, locale);
+  const images = [view.image, ...property.image_urls].filter(
+    (src, index, all): src is string => Boolean(src) && all.indexOf(src) === index,
+  );
   const perNight = total !== null && nights > 0 ? total / nights : view.priceFrom;
 
   return (
