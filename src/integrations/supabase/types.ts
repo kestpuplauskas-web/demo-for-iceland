@@ -617,29 +617,47 @@ export type Database = {
         Row: {
           country: string
           created_at: string
+          day: string
+          device: string
           id: string
+          is_bot: boolean
           path: string
           referrer: string
+          referrer_host: string | null
           session_id: string
+          source: string
           user_agent: string
+          visitor_hash: string | null
         }
         Insert: {
           country?: string
           created_at?: string
+          day?: string
+          device?: string
           id?: string
+          is_bot?: boolean
           path?: string
           referrer?: string
+          referrer_host?: string | null
           session_id?: string
+          source?: string
           user_agent?: string
+          visitor_hash?: string | null
         }
         Update: {
           country?: string
           created_at?: string
+          day?: string
+          device?: string
           id?: string
+          is_bot?: boolean
           path?: string
           referrer?: string
+          referrer_host?: string | null
           session_id?: string
+          source?: string
           user_agent?: string
+          visitor_hash?: string | null
         }
         Relationships: []
       }
@@ -1392,6 +1410,7 @@ export type Database = {
     }
     Functions: {
       admin_get_door_code: { Args: { _property_id: string }; Returns: string }
+      analytics_summary: { Args: { _from: string; _to: string }; Returns: Json }
       cancel_expired_pending_bookings: { Args: never; Returns: number }
       claim_invoice_number: {
         Args: never
