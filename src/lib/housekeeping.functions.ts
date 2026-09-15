@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdmin } from "./users.server";
+import { assertAdmin, assertCanView } from "./users.server";
 
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
