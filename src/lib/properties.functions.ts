@@ -272,7 +272,6 @@ function toRow(input: z.infer<typeof propertyInputSchema>) {
     city: input.city,
     country: input.country,
     location_note: input.locationNote,
-    door_code: input.doorCode || null,
     lat: input.lat ?? null,
     lng: input.lng ?? null,
     area_m2: input.areaM2 ?? null,
