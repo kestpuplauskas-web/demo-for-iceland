@@ -1,7 +1,7 @@
 import { SearchBar } from "@/components/search/SearchBar";
-import { ImagePlaceholder } from "@/components/site/ImagePlaceholder";
 import { useContent } from "@/content";
 import { AVAILABILITY_SECTION_ID } from "@/lib/scroll-to";
+import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 
 /**
  * Home V2 hero: the booking search is the first thing a visitor sees —
@@ -12,7 +12,13 @@ export function HeroV2() {
 
   return (
     <section id="top" className="relative isolate overflow-hidden border-b border-border bg-ink">
-      <ImagePlaceholder label={home.hero.imageAlt} decorative className="absolute inset-0 h-full" />
+      <img
+        src={heroAurora.url}
+        alt={home.hero.imageAlt}
+        className="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchPriority="high"
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/65 via-ink/25 to-ink/95" />
 
       <div className="relative mx-auto flex min-h-[78vh] max-w-[84rem] flex-col justify-end px-6 pb-14 pt-36 lg:px-12 lg:pb-20">
