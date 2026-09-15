@@ -461,7 +461,7 @@ export function BookingsGantt({
                 {selected.date_from} {selected.check_in_time} → {selected.date_to} {selected.check_out_time}
               </div>
               {selected.location && <div><span className="text-muted-foreground">{t("gantt.location")}:</span> {selected.location}</div>}
-              <div><span className="text-muted-foreground">{t("gantt.amount")}:</span> <span className="font-semibold text-primary">{Number(selected.total_amount).toFixed(2)}€</span></div>
+              <div><span className="text-muted-foreground">{t("gantt.amount")}:</span> <span className="font-semibold text-primary">{Number(selected.total_amount).toFixed(2)} {cur}</span></div>
               {selected.note && <div className="italic text-muted-foreground">„{selected.note}"</div>}
             </div>
           )}

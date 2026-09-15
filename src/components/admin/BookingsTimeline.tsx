@@ -47,7 +47,7 @@ export function BookingsTimeline({
                 </div>
               </div>
               {showAmount ? (
-                <div className="ml-2 shrink-0 text-sm">{Number(b.total_amount ?? 0).toFixed(0)} €</div>
+                <div className="ml-2 shrink-0 text-sm">{Number(b.total_amount ?? 0).toFixed(0)} {cur}</div>
               ) : null}
             </Link>
           ))

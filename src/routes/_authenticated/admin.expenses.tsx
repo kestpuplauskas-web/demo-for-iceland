@@ -128,7 +128,7 @@ function ExpensesPage() {
               <tr key={e.id} className="border-t">
                 <td className="p-2 text-xs">{e.expense_date}</td>
                 <td className="p-2">{t(`expenses.categories.${e.category}`)}</td>
-                <td className="p-2">{Number(e.amount ?? 0).toFixed(2)} €</td>
+                <td className="p-2">{Number(e.amount ?? 0).toFixed(2)} {cur}</td>
                 <td className="p-2">{e.properties?.name ?? "—"}</td>
                 <td className="p-2 text-xs text-muted-foreground">{e.note}</td>
                 <td className="p-2 text-right">

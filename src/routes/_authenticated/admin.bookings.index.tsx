@@ -257,7 +257,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
             <div className="text-sm text-muted-foreground">{b.properties?.name ?? "—"}</div>
             <div className="mt-1 flex items-center justify-between gap-2 text-sm">
               <span className="text-muted-foreground">{b.date_from} – {b.date_to}</span>
-              <span className="font-semibold text-primary">{Number(b.total_amount ?? 0).toFixed(2)} €</span>
+              <span className="font-semibold text-primary">{Number(b.total_amount ?? 0).toFixed(2)} {cur}</span>
             </div>
           </Link>
         ))}
@@ -497,7 +497,7 @@ function BookingViewDialog({ row, onClose }: { row: Row | null; onClose: () => v
             <FieldRow label={t("bookings.dialog.duration")} value={t("bookings.dialog.days", { value: durationDays(row.date_from, row.date_to) })} />
             <FieldRow label={t("bookings.dialog.location")} value={row.location || "—"} />
             <FieldRow label={t("bookings.dialog.guests")} value={String(row.guests ?? "—")} />
-            <FieldRow label={t("bookings.dialog.amount")} value={`${Number(row.total_amount ?? 0).toFixed(2)} €`} />
+            <FieldRow label={t("bookings.dialog.amount")} value={`${Number(row.total_amount ?? 0).toFixed(2)} ${cur}`} />
             {row.note && <div className="pt-2 border-t italic text-muted-foreground">„{row.note}"</div>}
           </div>
         )}
