@@ -266,7 +266,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
         ))}
         {!loading && filtered.length > 0 && (
           <div className="rounded-lg border bg-muted p-3 text-right text-sm font-medium">
-            {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatNumber(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
+            {t("bookings.totalRow", { count: formatNumber(filtered.length), sum: formatCurrency(total, 2) })}
           </div>
         )}
       </div>
