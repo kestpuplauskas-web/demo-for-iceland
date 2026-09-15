@@ -33,6 +33,15 @@ export const Route = createFileRoute("/api/public/v1/bookings/$bookingNumber")({
               return apiError("not_found", "Booking not found", 404, headers);
             }
 
+            const { data: propRow } = await supabaseAdmin
+              .from("properties")
+              .select("currency")
+              .eq("id", data.property_id)
+              .maybeSingle();
+            const propCurrency = propRow?.currency ?? "EUR";
+
+
+
             // Paslaugų pavadinimai grąžinami prašyta kalba; DB lieka originalai.
             const { loadDefaultLanguage, loadTranslations } = await import(
               "@/lib/translations.server"
@@ -66,7 +75,7 @@ export const Route = createFileRoute("/api/public/v1/bookings/$bookingNumber")({
                   status: data.status,
                   payment_status: data.payment_status,
                   total_amount: Number(data.total_amount),
-                  currency: "EUR",
+                  currency: propCurrency,
                   extras,
                   extras_total: Number(data.extras_total ?? 0),
                 },
