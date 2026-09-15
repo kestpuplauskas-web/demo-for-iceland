@@ -294,6 +294,18 @@ function toRow(input: z.infer<typeof propertyInputSchema>) {
   };
 }
 
+/** Door codes live in property_secrets — admin-only, never readable publicly. */
+async function saveDoorCode(
+  supabase: { from: (t: string) => any },
+  propertyId: string,
+  doorCode: string,
+) {
+  const { error } = await supabase
+    .from("property_secrets")
+    .upsert({ property_id: propertyId, door_code: doorCode || null }, { onConflict: "property_id" });
+  if (error) console.error("[saveDoorCode]", error.message);
+}
+
 export const createProperty = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => propertyInputSchema.parse(d))
@@ -305,7 +317,9 @@ export const createProperty = createServerFn({ method: "POST" })
       .select(PROPERTY_PUBLIC_COLUMNS)
       .single();
     if (error) throw new Error(error.message);
-    return mapProperty(row);
+    const created = mapProperty(row);
+    await saveDoorCode(context.supabase as never, created.id, data.doorCode);
+    return { ...created, doorCode: data.doorCode };
   });
 
 export const updateProperty = createServerFn({ method: "POST" })
@@ -320,7 +334,8 @@ export const updateProperty = createServerFn({ method: "POST" })
       .select(PROPERTY_PUBLIC_COLUMNS)
       .single();
     if (error) throw new Error(error.message);
-    return mapProperty(row);
+    await saveDoorCode(context.supabase as never, data.id, data.patch.doorCode);
+    return { ...mapProperty(row), doorCode: data.patch.doorCode };
   });
 
 export const deleteProperty = createServerFn({ method: "POST" })
