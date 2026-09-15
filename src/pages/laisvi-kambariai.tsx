@@ -322,6 +322,132 @@ function RoomResultCard({
         </div>
       ) : null}
 
+      {gallery && images.length > 0 ? (
+        <Lightbox images={images} alt={view.imageAlt} onClose={() => setGallery(false)} />
+      ) : null}
     </article>
+  );
+}
+
+function Lightbox({
+  images,
+  alt,
+  onClose,
+}: {
+  images: string[];
+  alt: string;
+  onClose: () => void;
+}) {
+  const { common } = useContent();
+  const [index, setIndex] = useState(0);
+  const dialog = useRef<HTMLDivElement>(null);
+  const current = images[index];
+  const count = images.length;
+
+  const step = useCallback(
+    (delta: number) => setIndex((value) => (value + delta + count) % count),
+    [count],
+  );
+
+  useEffect(() => {
+    dialog.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") step(1);
+      if (event.key === "ArrowLeft") step(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [onClose, step]);
+
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div
+      ref={dialog}
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
+      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-ink/90 p-6 outline-none"
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label={common.results.closeGallery}
+        className="absolute top-6 right-6 text-paper/80 transition-colors hover:text-paper"
+      >
+        <X className="h-7 w-7" aria-hidden />
+      </button>
+
+      <div
+        className="relative flex w-full max-w-5xl items-center justify-center"
+        onClick={(event) => event.stopPropagation()}
+      >
+        {count > 1 ? (
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            aria-label={common.results.prev}
+            className="absolute left-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-paper transition-colors hover:bg-paper hover:text-ink sm:-left-4"
+          >
+            <ChevronLeft className="h-6 w-6" aria-hidden />
+          </button>
+        ) : null}
+
+        {current ? (
+          <img
+            src={current}
+            alt={alt}
+            className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain"
+          />
+        ) : null}
+
+        {count > 1 ? (
+          <button
+            type="button"
+            onClick={() => step(1)}
+            aria-label={common.results.next}
+            className="absolute right-0 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-ink/60 text-paper transition-colors hover:bg-paper hover:text-ink sm:-right-4"
+          >
+            <ChevronRight className="h-6 w-6" aria-hidden />
+          </button>
+        ) : null}
+      </div>
+
+      {count > 1 ? (
+        <div
+          className="mt-5 flex w-full max-w-5xl flex-col items-center gap-4"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <span className="text-sm text-paper/80">
+            {index + 1} / {count}
+          </span>
+          <div className="flex max-w-full gap-2 overflow-x-auto pb-1">
+            {images.map((src, position) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setIndex(position)}
+                aria-label={`${position + 1} / ${count}`}
+                aria-current={position === index}
+                className={cn(
+                  "h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-colors",
+                  position === index ? "border-paper" : "border-transparent opacity-70",
+                )}
+              >
+                <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>,
+    document.body,
   );
 }
