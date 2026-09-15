@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertCanView } from "./users.server";
 
 export const MAINTENANCE_TYPES = ["cleaning", "inspection", "renovation", "insurance", "utilities"] as const;
 export const EXPENSE_CATEGORIES = [
@@ -53,7 +54,7 @@ export const upsertMaintenance = createServerFn({ method: "POST" })
 export const listInvestments = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("property_investments")
       .select("*, properties(name)")
@@ -99,7 +100,7 @@ export const deleteInvestment = createServerFn({ method: "POST" })
 export const listExpenses = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("expenses")
       .select("*, properties(name)")
