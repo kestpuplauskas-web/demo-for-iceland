@@ -16,6 +16,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { BookingProvider } from "@/components/site/BookingDialog";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { usePageTracking } from "@/hooks/usePageTracking";
 
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
@@ -123,6 +124,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  usePageTracking();
+  
   
 
   if (isCorePath(pathname)) {
