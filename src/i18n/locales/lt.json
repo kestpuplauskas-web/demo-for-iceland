@@ -3,6 +3,41 @@
     "noAdminText": "Susisiekite su sistemos administratoriumi, kad jums būtų suteiktos teisės.",
     "noAdminTitle": "Neturite administratoriaus teisių"
   },
+  "analytics": {
+    "title": "Analitika",
+    "subtitle": "Viešos svetainės lankomumas. Be slapukų ir asmens duomenų.",
+    "botsNote": "Robotų apsilankymai neskaičiuojami",
+    "rangeDays": "{{count}} d.",
+    "pageViews": "Puslapių peržiūros",
+    "uniqueVisitors": "Unikalūs lankytojai",
+    "bookings": "Rezervacijos",
+    "conversion": "Konversija",
+    "vsPrevious": "lyginant su ankstesniu laikotarpiu",
+    "traffic": "Srautas laike",
+    "countries": "Šalys",
+    "topPages": "Populiariausi puslapiai",
+    "trafficSources": "Srauto šaltiniai",
+    "deviceTypes": "Įrenginiai",
+    "noData": "Duomenų kol kas nėra.",
+    "unknown": "Nežinoma",
+    "loadFailed": "Nepavyko įkelti analitikos.",
+    "emptyHint": "Duomenys pradedami kaupti, kai šis atnaujinimas atsiduria viešoje svetainėje. Apsilankymai čia pasirodo per minutę.",
+    "sources": {
+      "direct": "Tiesioginis",
+      "google": "Google",
+      "search": "Kitos paieškos",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "other": "Kitos svetainės"
+    },
+    "devices": {
+      "mobile": "Telefonas",
+      "tablet": "Planšetė",
+      "desktop": "Kompiuteris",
+      "unknown": "Nežinoma"
+    }
+  },
   "assistant": {
     "title": "Revoo Asistentė",
     "subtitle": "\n",
@@ -653,6 +688,7 @@
     "lt": "Lietuvių"
   },
   "nav": {
+    "analytics": "Analitika",
     "bookings": "Rezervacijos",
     "content": "Turinys",
     "contracts": "Sutartys",

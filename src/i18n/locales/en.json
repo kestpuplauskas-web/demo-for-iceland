@@ -3,6 +3,41 @@
     "noAdminText": "Please contact the system administrator to be granted access.",
     "noAdminTitle": "You don't have administrator rights"
   },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Public website traffic. No cookies, no personal data.",
+    "botsNote": "Bot visits are excluded",
+    "rangeDays": "{{count}} d.",
+    "pageViews": "Page views",
+    "uniqueVisitors": "Unique visitors",
+    "bookings": "Bookings",
+    "conversion": "Conversion",
+    "vsPrevious": "vs previous period",
+    "traffic": "Traffic over time",
+    "countries": "Countries",
+    "topPages": "Top pages",
+    "trafficSources": "Traffic sources",
+    "deviceTypes": "Devices",
+    "noData": "No data yet.",
+    "unknown": "Unknown",
+    "loadFailed": "Could not load analytics.",
+    "emptyHint": "Data starts collecting once this update is live on the public website. Visits show up here within a minute.",
+    "sources": {
+      "direct": "Direct",
+      "google": "Google",
+      "search": "Other search",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "other": "Other websites"
+    },
+    "devices": {
+      "mobile": "Mobile",
+      "tablet": "Tablet",
+      "desktop": "Desktop",
+      "unknown": "Unknown"
+    }
+  },
   "assistant": {
     "title": "Revoo assistant",
     "subtitle": "Explains where and how to do something. You make the changes yourself.",
@@ -651,6 +686,7 @@
     "lt": "Lietuvių"
   },
   "nav": {
+    "analytics": "Analytics",
     "bookings": "Bookings",
     "content": "Content",
     "contracts": "Contracts",
