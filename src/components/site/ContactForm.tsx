@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { contact } from "@/data/contact";
+import { submitInquiry } from "@/lib/inquiries.functions";
 import { sendContactMessageFn } from "@/lib/revoo.functions";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
@@ -102,21 +103,27 @@ export function ContactForm() {
     setErrors({});
     setStatus("sending");
 
+    // The inquiry is stored in the admin inbox first; the e-mail relay is a bonus.
     try {
-      const result = await sendContactMessageFn({
+      await submitInquiry({
+        data: {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
+          message: parsed.data.message,
+          lang: "en",
+        },
+      });
+      setStatus("sent");
+      setValues({ name: "", email: "", phone: "", message: "" });
+      void sendContactMessageFn({
         data: {
           name: parsed.data.name,
           email: parsed.data.email,
           ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
           message: parsed.data.message,
         },
-      });
-      if (result.delivered) {
-        setStatus("sent");
-        setValues({ name: "", email: "", phone: "", message: "" });
-      } else {
-        setStatus("failed");
-      }
+      }).catch(() => undefined);
     } catch {
       setStatus("failed");
     }
