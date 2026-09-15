@@ -54,7 +54,7 @@ export const upsertMaintenance = createServerFn({ method: "POST" })
 export const listInvestments = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("property_investments")
       .select("*, properties(name)")
@@ -100,7 +100,7 @@ export const deleteInvestment = createServerFn({ method: "POST" })
 export const listExpenses = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("expenses")
       .select("*, properties(name)")

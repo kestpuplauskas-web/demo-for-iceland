@@ -49,7 +49,7 @@ export const getActiveContractTemplatePublic = createServerFn({ method: "GET" })
 export const listContractTemplates = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("contract_templates")
       .select("*")
