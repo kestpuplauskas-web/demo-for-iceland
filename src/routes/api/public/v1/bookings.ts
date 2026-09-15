@@ -66,7 +66,7 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
             const supabase = publicApiClient();
             const { data: prop, error } = await supabase
               .from("properties")
-              .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active")
+              .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active, currency")
               .eq("id", d.property_id)
               .maybeSingle();
             if (error) throw new Error(error.message);
@@ -166,7 +166,7 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
                   date_from: booking.date_from,
                   date_to: booking.date_to,
                   total_amount: Number(booking.total_amount),
-                  currency: "EUR",
+                  currency: prop.currency ?? "EUR",
                   expires_at: booking.expires_at,
                   nights: quote.nights,
                   extras: quote.extras,

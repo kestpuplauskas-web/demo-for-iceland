@@ -66,7 +66,7 @@ export const Route = createFileRoute("/api/public/v1/bookings/$bookingNumber")({
                   status: data.status,
                   payment_status: data.payment_status,
                   total_amount: Number(data.total_amount),
-                  currency: "EUR",
+                  currency: propCurrency,
                   extras,
                   extras_total: Number(data.extras_total ?? 0),
                 },

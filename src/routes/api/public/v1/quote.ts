@@ -43,7 +43,7 @@ export const Route = createFileRoute("/api/public/v1/quote")({
             const supabase = publicApiClient();
             const { data: prop, error } = await supabase
               .from("properties")
-              .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active")
+              .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active, currency")
               .eq("id", d.property_id)
               .maybeSingle();
             if (error) throw new Error(error.message);
@@ -102,7 +102,7 @@ export const Route = createFileRoute("/api/public/v1/quote")({
                 }
               : quote;
 
-            return apiJson({ data: { ...quoteOut, currency: "EUR", available } }, 200, headers);
+            return apiJson({ data: { ...quoteOut, currency: prop.currency ?? "EUR", available } }, 200, headers);
           },
           { rateLimit: 120 },
         );
