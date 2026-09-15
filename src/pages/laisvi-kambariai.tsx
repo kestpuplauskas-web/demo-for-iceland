@@ -203,16 +203,24 @@ function RoomResultCard({
       )}
     >
       <div className="grid gap-4 p-4 md:grid-cols-[13rem_1fr_12rem] md:items-start md:gap-5">
-        {view.image ? (
-          <div className="aspect-[4/3] overflow-hidden rounded-md bg-surface-2">
+        {images.length > 0 ? (
+          <button
+            type="button"
+            onClick={() => setGallery(true)}
+            aria-label={common.results.openGallery}
+            className="group relative aspect-[4/3] w-full overflow-hidden rounded-md bg-surface-2"
+          >
             <img
-              src={view.image}
+              src={images[0]}
               alt={view.imageAlt}
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
-          </div>
+            <span className="absolute bottom-2 left-2 rounded-md bg-ink/70 px-2.5 py-1 text-[0.7rem] text-paper">
+              {common.results.openGallery} · {images.length}
+            </span>
+          </button>
         ) : (
           <ImagePlaceholder label={view.imageAlt} className="aspect-[4/3] rounded-md" />
         )}
