@@ -15,7 +15,7 @@ import type { Locale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 import { propertiesQueryFor } from "@/lib/property-queries";
-import { formatPrice, toPropertyView } from "@/lib/property-view";
+import { formatMoney, toPropertyView } from "@/lib/property-view";
 import type { Property } from "@/lib/revoo-schemas";
 import { pageHead } from "@/lib/seo";
 import { amenityIconForLabel } from "@/lib/amenity-icons";
@@ -254,15 +254,15 @@ function RoomResultCard({
           <div className="md:text-right">
             <p className="font-display text-2xl font-semibold text-paper">
               {total !== null
-                ? `${formatPrice(total)} kr.`
+                ? `${formatMoney(total, view.currency)}`
                 : view.priceFrom !== null
-                  ? `${common.labels.priceFrom} ${formatPrice(view.priceFrom)} kr.`
+                  ? `${common.labels.priceFrom} ${formatMoney(view.priceFrom, view.currency)}`
                   : common.stays.priceOnRequest}
             </p>
             <p className="mt-1 text-xs text-stone">
               {total !== null ? common.results.forStay : ""}
               {perNight !== null && perNight !== undefined
-                ? `${total !== null ? " · " : ""}${common.labels.priceFrom} ${formatPrice(Math.round(perNight))} kr. / ${common.results.perNight}`
+                ? `${total !== null ? " · " : ""}${common.labels.priceFrom} ${formatMoney(Math.round(perNight), view.currency)} / ${common.results.perNight}`
                 : ""}
             </p>
           </div>

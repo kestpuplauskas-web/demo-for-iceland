@@ -5,7 +5,7 @@ import { LocaleLink } from "@/components/site/LocaleLink";
 import { Reveal } from "@/components/site/Reveal";
 import { PropertyGallery } from "@/components/stay/PropertyGallery";
 import { useContent } from "@/content";
-import { formatPrice, type PropertyView } from "@/lib/property-view";
+import { formatMoney, type PropertyView } from "@/lib/property-view";
 import { usePropertySlug } from "@/lib/property-slug";
 
 export function PropertyCard({
@@ -46,7 +46,7 @@ export function PropertyCard({
           <p className="label-caps text-stone">
             {property.priceFrom === null
               ? common.stays.priceOnRequest
-              : `${common.labels.priceFrom} ${formatPrice(property.priceFrom)} kr.`}
+              : `${common.labels.priceFrom} ${formatMoney(property.priceFrom, property.currency)}`}
           </p>
           <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {property.name}

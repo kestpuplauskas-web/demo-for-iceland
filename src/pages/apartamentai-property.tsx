@@ -21,7 +21,7 @@ import { SITE_URL } from "@/data/nav";
 import { getContent } from "@/content";
 import { localizePath, type Locale } from "@/lib/locale";
 import { propertiesQueryFor } from "@/lib/property-queries";
-import { formatPrice, toPropertyView } from "@/lib/property-view";
+import { formatMoney, toPropertyView } from "@/lib/property-view";
 import { getProperty } from "@/lib/revoo.functions";
 import { idForSlug, isUuid, slugForId } from "@/lib/property-slug";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
@@ -193,7 +193,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
       ? [
           {
             label: c.common.labels.priceFrom,
-            value: `${formatPrice(view.priceFrom)} kr. / ${c.common.labels.perNight}`,
+            value: `${formatMoney(view.priceFrom, view.currency)} / ${c.common.labels.perNight}`,
           },
         ]
       : []),
@@ -232,7 +232,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
           {c.common.cta.book}
           {view.priceFrom === null
             ? ""
-            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatPrice(view.priceFrom)} kr.`}
+            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatMoney(view.priceFrom, view.currency)}`}
         </button>
       </PageHero>
 

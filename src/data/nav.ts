@@ -15,10 +15,12 @@ export const SITE_URL = (
 
 export function mainNav(locale: Locale): NavEntry[] {
   return [
+    { label: "Home", to: "/" },
     { label: "Stay", to: "/apartamentai" },
     { label: "At the house", to: "/#at-the-house" },
     { label: "The place", to: "/#the-place" },
     { label: "Practical", to: "/#practical" },
+    { label: "Contacts", to: "/kontaktai" },
   ];
 }
 
@@ -29,5 +31,6 @@ export function footerNav(locale: Locale): NavLink[] {
     { label: "At the house", to: "/#at-the-house" },
     { label: "The place", to: "/#the-place" },
     { label: "Practical information", to: "/#practical" },
+    { label: "Contacts", to: "/kontaktai" },
   ];
 }

@@ -13,6 +13,7 @@ export type CategoryGroup = {
   label: string;
   properties: Property[];
   priceFrom: number | null;
+  currency: string;
   image: string | null;
   imageAlt: string;
   count: number;
@@ -137,6 +138,7 @@ export function groupByCategory(
       label,
       properties: items,
       priceFrom: cheapest ? priceOf(cheapest) : null,
+      currency: (cheapest ?? items[0])?.currency === "EUR" ? "EUR" : "ISK",
       image,
       imageAlt: `${label} — ${common.brand}`,
       count: items.length,

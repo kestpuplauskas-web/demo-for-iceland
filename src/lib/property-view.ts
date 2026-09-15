@@ -12,6 +12,7 @@ export type PropertyView = {
   description: string;
   meta: string;
   priceFrom: number | null;
+  currency: string;
   image: string | null;
   images: string[];
   imageAlt: string;
@@ -125,6 +126,7 @@ export function toPropertyView(property: Property, locale: Locale = DEFAULT_LOCA
     description: property.description ?? "",
     meta: propertyMeta(property, locale),
     priceFrom: typeof property.price_per_night === "number" ? property.price_per_night : null,
+    currency: property.currency === "EUR" ? "EUR" : "ISK",
     image: property.cover_image_url ?? property.image_urls[0] ?? null,
     images: dedupeImages([property.cover_image_url, ...property.image_urls]),
     imageAlt: `${property.name} — ${common.brand}`,
@@ -147,6 +149,11 @@ function dedupeImages(values: Array<string | null | undefined>): string[] {
 
 export function formatPrice(value: number): string {
   return new Intl.NumberFormat("en-IS", { maximumFractionDigits: 2 }).format(value);
+}
+
+/** Price with the property's own currency symbol (ISK "kr." or EUR "€"). */
+export function formatMoney(value: number, currency: string | null | undefined): string {
+  return `${formatPrice(value)} ${currency === "EUR" ? "\u20ac" : "kr."}`;
 }
 /** Reverse lookup: translated label -> engine code (both locales). */
 const labelToCode: Record<string, string> = (() => {

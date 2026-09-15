@@ -26,10 +26,11 @@ function publicClient() {
 type PropertyRow = Database["public"]["Tables"]["properties"]["Row"];
 /** Anon reads: no door_code, no internal notes, no iCal feed URLs. */
 const PROPERTY_ANON_COLUMNS =
-  "id, name, category, year, price_per_night, cover_image_url, image_urls, price_tiers, is_active, sort_order, created_at, updated_at, status, property_type, description, address, city, country, lat, lng, area_m2, max_guests, beds, rooms, amenities, extra_services";
+  "id, name, category, year, price_per_night, currency, cover_image_url, image_urls, price_tiers, is_active, sort_order, created_at, updated_at, status, property_type, description, address, city, country, lat, lng, area_m2, max_guests, beds, rooms, amenities, extra_services";
 /** Authenticated admin reads: internal fields included (still no door_code). */
 const PROPERTY_PUBLIC_COLUMNS = `${PROPERTY_ANON_COLUMNS}, location_note, ical_import_url, ical_last_sync_at, ical_last_status`;
-type PublicPropertyRow = Omit<PropertyRow, "door_code" | "features"> & {
+type PublicPropertyRow = Omit<PropertyRow, "door_code" | "features" | "currency"> & {
+  currency?: string | null;
   door_code?: string | null;
   features?: PropertyRow["features"];
 };
@@ -57,6 +58,7 @@ function mapProperty(row: PublicPropertyRow, bookings: BookingRow[] = []): Prope
     rooms: (row.rooms as unknown as Rooms) ?? {},
     amenities: (row.amenities as unknown as string[]) ?? [],
     pricePerNight: Number(row.price_per_night),
+    currency: row.currency === "ISK" ? "ISK" : "EUR",
     priceTiers: (row.price_tiers as unknown as PriceTier[]) ?? [],
     extraServices: (row.extra_services as unknown as ExtraService[]) ?? [],
     image: row.cover_image_url,
@@ -212,6 +214,7 @@ const propertyInputSchema = z.object({
     .default({}),
   amenities: z.array(z.string().min(1).max(50)).max(50).default([]),
   pricePerNight: z.number().positive().max(100000),
+  currency: z.enum(["EUR", "ISK"]).default("EUR"),
   priceTiers: z
     .array(
       z.object({
@@ -277,6 +280,7 @@ function toRow(input: z.infer<typeof propertyInputSchema>) {
     rooms: input.rooms,
     amenities: input.amenities,
     price_per_night: input.pricePerNight,
+    currency: input.currency,
     price_tiers: input.priceTiers,
     extra_services: input.extraServices,
     cover_image_url: input.coverImageUrl,

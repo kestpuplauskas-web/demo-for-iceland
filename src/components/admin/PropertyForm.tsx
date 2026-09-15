@@ -43,6 +43,7 @@ export type PropertyFormValues = {
   };
   amenities: string[];
   pricePerNight: number;
+  currency: "EUR" | "ISK";
   priceTiers: Array<{
     label: string;
     minNights: number;
@@ -78,6 +79,7 @@ export function propertyToForm(p: Property | null | undefined): PropertyFormValu
     rooms: { ...(p?.rooms ?? {}), configs: p?.rooms?.configs ?? [] },
     amenities: p?.amenities ?? [],
     pricePerNight: p?.pricePerNight ?? 60,
+    currency: (p?.currency as "EUR" | "ISK") ?? "EUR",
     priceTiers: p?.priceTiers ?? [],
     extraServices: p?.extraServices ?? [],
     coverImageUrl: p?.image ?? "",
@@ -381,6 +383,17 @@ export function PropertyForm({
             onChange={(n) => set("pricePerNight", n ?? 0)}
             className="mt-1 w-full rounded border px-2 py-1"
           />
+        </label>
+        <label className="text-sm">
+          {t("properties.form.currency")}
+          <select
+            value={v.currency}
+            onChange={(e) => set("currency", e.target.value as "EUR" | "ISK")}
+            className="mt-1 w-full rounded border px-2 py-1"
+          >
+            <option value="EUR">EUR (€)</option>
+            <option value="ISK">ISK (kr.)</option>
+          </select>
         </label>
         <label className="text-sm">
           {t("properties.form.sortOrder")}
