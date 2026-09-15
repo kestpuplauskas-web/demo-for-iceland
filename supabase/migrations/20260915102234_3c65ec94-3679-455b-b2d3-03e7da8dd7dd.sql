@@ -1,0 +1,1 @@
+ALTER TABLE public.page_views ALTER COLUMN country DROP NOT NULL;
