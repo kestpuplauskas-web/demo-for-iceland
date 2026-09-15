@@ -615,7 +615,7 @@ export type Database = {
       }
       page_views: {
         Row: {
-          country: string
+          country: string | null
           created_at: string
           day: string
           device: string
@@ -630,7 +630,7 @@ export type Database = {
           visitor_hash: string | null
         }
         Insert: {
-          country?: string
+          country?: string | null
           created_at?: string
           day?: string
           device?: string
@@ -645,7 +645,7 @@ export type Database = {
           visitor_hash?: string | null
         }
         Update: {
-          country?: string
+          country?: string | null
           created_at?: string
           day?: string
           device?: string
