@@ -283,7 +283,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                       className="inline-flex items-center gap-1 font-medium hover:text-primary"
                       onClick={() => toggleSort(c.key)}
                     >
-                      {t(c.labelKey)}
+                      {c.key === "total_amount" ? `${t(c.labelKey)} (${cur})` : t(c.labelKey)}
                       {sort?.key === c.key && (sort.dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
                     </button>
                     <ColumnFilter
