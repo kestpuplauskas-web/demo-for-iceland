@@ -42,6 +42,7 @@ export const propertySchema = z
     rooms: jsonSchema.nullish(),
     amenities: z.array(z.string()).nullish().transform((value) => value ?? []),
     price_per_night: z.number().nullish(),
+    currency: z.string().nullish(),
     price_tiers: z
       .array(jsonSchema)
       .nullish()

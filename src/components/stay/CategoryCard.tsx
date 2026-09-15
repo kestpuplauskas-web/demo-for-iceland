@@ -10,7 +10,7 @@ import {
   optionsLabel,
   type CategoryGroup,
 } from "@/lib/property-category";
-import { formatPrice } from "@/lib/property-view";
+import { formatMoney } from "@/lib/property-view";
 
 /**
  * Home-page card representing a whole accommodation type. Same look as
@@ -47,7 +47,7 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
           <p className="label-caps text-stone">
             {group.priceFrom === null
               ? common.stays.priceOnRequest
-              : `${common.labels.priceFrom} ${formatPrice(group.priceFrom)} kr.`}
+              : `${common.labels.priceFrom} ${formatMoney(group.priceFrom, group.currency)}`}
           </p>
           <h3 className="mt-3 font-display text-[1.375rem] leading-snug font-semibold text-paper">
             {group.label}

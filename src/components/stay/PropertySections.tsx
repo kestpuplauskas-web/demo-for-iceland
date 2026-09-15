@@ -97,6 +97,6 @@ export function propertyLd(
       addressLocality: "Ólafsfjörður",
       addressCountry: "IS",
     },
-    ...(property.price_per_night ? { priceRange: `from ${property.price_per_night} kr.` } : {}),
+    ...(property.price_per_night ? { priceRange: `from ${property.price_per_night} ${property.currency === "EUR" ? "\u20ac" : "kr."}` } : {}),
   };
 }

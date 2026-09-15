@@ -193,7 +193,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
       ? [
           {
             label: c.common.labels.priceFrom,
-            value: `${formatPrice(view.priceFrom)} kr. / ${c.common.labels.perNight}`,
+            value: `${formatMoney(view.priceFrom, view.currency)} / ${c.common.labels.perNight}`,
           },
         ]
       : []),
@@ -232,7 +232,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
           {c.common.cta.book}
           {view.priceFrom === null
             ? ""
-            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatPrice(view.priceFrom)} kr.`}
+            : ` · ${c.common.labels.priceFrom.toLowerCase()} ${formatMoney(view.priceFrom, view.currency)}`}
         </button>
       </PageHero>
 
