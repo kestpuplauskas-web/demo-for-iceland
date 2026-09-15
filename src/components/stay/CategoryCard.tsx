@@ -29,7 +29,19 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
         className="group block h-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
       >
       <article className="flex h-full flex-col overflow-hidden rounded-md bg-surface shadow-soft transition-shadow duration-500 hover:shadow-lift">
-        <ImagePlaceholder label={group.imageAlt} className="aspect-[4/3]" />
+        {group.image ? (
+          <div className="aspect-[4/3] overflow-hidden bg-surface-2">
+            <img
+              src={group.image}
+              alt={group.imageAlt}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
+        ) : (
+          <ImagePlaceholder label={group.imageAlt} className="aspect-[4/3]" />
+        )}
 
         <div className="flex flex-1 flex-col p-7">
           <p className="label-caps text-stone">

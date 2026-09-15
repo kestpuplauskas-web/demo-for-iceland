@@ -33,7 +33,19 @@ export function StayCrossLinks({ currentId }: { currentId: string }) {
               params={{ propertyId: slugFor(stay.id) }}
               className="group block overflow-hidden rounded-md bg-surface shadow-soft transition-shadow duration-500 hover:shadow-lift"
             >
-              <ImagePlaceholder label={stay.imageAlt} className="aspect-[4/3]" />
+              {stay.image ? (
+                <div className="aspect-[4/3] overflow-hidden bg-surface-2">
+                  <img
+                    src={stay.image}
+                    alt={stay.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                </div>
+              ) : (
+                <ImagePlaceholder label={stay.imageAlt} className="aspect-[4/3]" />
+              )}
               <div className="p-7">
                 <h3 className="font-display text-xl font-semibold text-paper">{stay.name}</h3>
                 {stay.description ? (

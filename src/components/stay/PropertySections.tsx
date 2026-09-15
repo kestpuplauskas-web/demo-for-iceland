@@ -40,7 +40,15 @@ export function PropertyIntro({
         {image ? (
           <Reveal direction="right" delay={100}>
             <div className="overflow-hidden rounded-md shadow-soft">
-              <ImagePlaceholder label={imageAlt} className="aspect-[4/3]" />
+              <div className="aspect-[4/3] overflow-hidden bg-surface-2">
+                <img
+                  src={image}
+                  alt={imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
           </Reveal>
         ) : null}
