@@ -363,7 +363,7 @@ export function BookingsGantt({
                   <div
                     className="absolute top-0 bottom-0 w-px bg-red-500 z-20 pointer-events-none"
                     style={{
-                      left: `calc(${labelColWidth}px + ((100% - ${labelColWidth}px) * ${todayIndex} / ${dayCount}))`,
+                      left: `calc(${labelColWidth}px + ((100% - ${labelColWidth}px) * ${todayIndex} / ${dayCount}) + ((100% - ${labelColWidth}px) / ${dayCount} / 2))`,
                     }}
                   />
                 )}
@@ -371,11 +371,22 @@ export function BookingsGantt({
                 {rowBookings.map((b) => {
                   const bFrom = parseISO(b.date_from);
                   const bTo = parseISO(b.date_to);
-                  const startIdx = Math.max(0, daysBetween(startDate, bFrom));
-                  const endIdx = Math.min(dayCount - 1, daysBetween(startDate, bTo));
+                  const rawStart = daysBetween(startDate, bFrom);
+                  const rawEnd = daysBetween(startDate, bTo);
+                  const startIdx = Math.max(0, rawStart);
+                  const endIdx = Math.min(dayCount - 1, rawEnd);
                   if (endIdx < startIdx) return null;
                   const colStart = 2 + startIdx;
                   const colEnd = 2 + endIdx + 1;
+                  // Pusės langelio poslinkis: juosta prasideda atvykimo dienos
+                  // viduryje ir baigiasi išvykimo dienos viduryje, kad apyvartos
+                  // dieną abi rezervacijos susijungtų viename langelyje.
+                  const nCells = endIdx - startIdx + 1;
+                  const halfPct = 50 / nCells;
+                  const halfMargins = {
+                    marginLeft: rawStart < 0 ? undefined : `${halfPct}%`,
+                    marginRight: rawEnd > dayCount - 1 ? undefined : `${halfPct}%`,
+                  };
                   const cls = STATUS_CLASSES[b.status] ?? "bg-gray-400 text-white border-gray-600";
                   const isExternal = b.status === "blocked_external";
                   const barDraggable = canDrag && !isExternal;
@@ -385,7 +396,7 @@ export function BookingsGantt({
                       className={`relative m-1 rounded border shadow-sm z-10 ${cls} ${
                         barDraggable ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
                       }`}
-                      style={{ gridColumn: `${colStart} / ${colEnd}`, gridRow: 1 }}
+                      style={{ gridColumn: `${colStart} / ${colEnd}`, gridRow: 1, ...halfMargins }}
                       title={`${b.customer_name} · ${b.date_from} → ${b.date_to}`}
                       onPointerDown={(e) => {
                         if (isExternal) return;
@@ -416,9 +427,13 @@ export function BookingsGantt({
                 })}
 
                 {barDrag && barDrag.propertyId === p.id && (() => {
-                  const startIdx = Math.max(0, daysBetween(startDate, parseISO(barDrag.fromISO)));
-                  const endIdx = Math.min(dayCount - 1, daysBetween(startDate, parseISO(barDrag.toISO)));
+                  const rawStart = daysBetween(startDate, parseISO(barDrag.fromISO));
+                  const rawEnd = daysBetween(startDate, parseISO(barDrag.toISO));
+                  const startIdx = Math.max(0, rawStart);
+                  const endIdx = Math.min(dayCount - 1, rawEnd);
                   if (endIdx < startIdx) return null;
+                  const nCells = endIdx - startIdx + 1;
+                  const halfPct = 50 / nCells;
                   return (
                     <div
                       className={`m-1 px-2 py-1 rounded text-xs font-medium truncate border-2 border-dashed z-30 pointer-events-none ${
@@ -426,7 +441,12 @@ export function BookingsGantt({
                           ? "bg-red-500/30 border-red-600 text-red-900"
                           : "bg-primary/30 border-primary text-foreground"
                       }`}
-                      style={{ gridColumn: `${2 + startIdx} / ${2 + endIdx + 1}`, gridRow: 1 }}
+                      style={{
+                        gridColumn: `${2 + startIdx} / ${2 + endIdx + 1}`,
+                        gridRow: 1,
+                        marginLeft: rawStart < 0 ? undefined : `${halfPct}%`,
+                        marginRight: rawEnd > dayCount - 1 ? undefined : `${halfPct}%`,
+                      }}
                     >
                       {barDrag.fromISO} → {barDrag.toISO}
                     </div>

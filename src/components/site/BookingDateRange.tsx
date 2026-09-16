@@ -51,6 +51,33 @@ export function BookingDateRange({
     [occupied],
   );
 
+  // Pusiau atviras intervalas [from, to): išvykimo diena laisva, atvykimo užimta.
+  const isNight = (d: Date) => occupiedMatchers.some((r) => d >= r.from && d < r.to);
+
+  const selectingEnd = Boolean(checkin && !checkout);
+  const disabledDay = (d: Date) => (selectingEnd ? false : isNight(d));
+
+  const hasConflict = (from: Date, to: Date) => {
+    for (let d = new Date(from); d < to; d.setDate(d.getDate() + 1)) {
+      if (isNight(d)) return true;
+    }
+    return false;
+  };
+
+  // Renkant išvykimą kito svečio atvykimo diena yra teisėta apyvartos riba.
+  const isTurnoverCheckout = (d: Date) => {
+    const from = checkin ? parseApiDate(checkin) : null;
+    return Boolean(selectingEnd && from && isNight(d) && d > from && !hasConflict(from, d));
+  };
+
+  const handleSelect = (range: DateRange | undefined) => {
+    if (range?.from && range?.to && hasConflict(range.from, range.to)) {
+      onChange(toApiDate(range.to), "");
+      return;
+    }
+    onChange(range?.from ? toApiDate(range.from) : "", range?.to ? toApiDate(range.to) : "");
+  };
+
   const selected = useMemo<DateRange | undefined>(() => {
     const from = checkin ? parseApiDate(checkin) : null;
     const to = checkout ? parseApiDate(checkout) : null;
@@ -69,14 +96,17 @@ export function BookingDateRange({
         weekStartsOn={1}
         numberOfMonths={1}
         selected={selected}
-        onSelect={(range) =>
-          onChange(range?.from ? toApiDate(range.from) : "", range?.to ? toApiDate(range.to) : "")
-        }
-        excludeDisabled
-        min={2}
-        disabled={[{ before: today }, ...occupiedMatchers]}
-        modifiers={{ occupied: occupiedMatchers }}
-        modifiersClassNames={{ occupied: "day-occupied" }}
+        onSelect={handleSelect}
+        min={1}
+        disabled={[{ before: today }, disabledDay]}
+        modifiers={{
+          occupied: (d: Date) => isNight(d) && !isTurnoverCheckout(d),
+          turnoverCheckout: isTurnoverCheckout,
+        }}
+        modifiersClassNames={{
+          occupied: "day-occupied",
+          turnoverCheckout: "day-turnover-checkout",
+        }}
         startMonth={today}
         className="pointer-events-auto w-full [--cell-size:2.2rem] sm:[--cell-size:2.5rem]"
         classNames={{

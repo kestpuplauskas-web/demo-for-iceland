@@ -408,6 +408,62 @@
   border-radius: 0.5rem;
 }
 
+/* Klientui renkant išvykimą, teisėta tos pačios dienos apyvartos riba:
+   kairė pusė laisva, dešinė rodo nuo 15:00 prasidedantį užimtumą. */
+[data-slot="calendar"] .day-turnover-checkout button,
+[data-slot="calendar"] button.day-turnover-checkout {
+  position: relative;
+  background-image: linear-gradient(
+    to left,
+    color-mix(in oklab, var(--color-stone) 12%, transparent) 50%,
+    transparent 50%
+  );
+  border-radius: 0.5rem;
+}
+
+[data-slot="calendar"] .day-turnover-checkout button::after,
+[data-slot="calendar"] button.day-turnover-checkout::after {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  width: 34%;
+  height: 1px;
+  background: color-mix(in oklab, var(--color-stone) 70%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+/* Pusė langelio: atvykimo diena (dešinė pusė) ir išvykimo diena (kairė pusė). */
+[data-slot="calendar"] .day-occ-start button,
+[data-slot="calendar"] button.day-occ-start {
+  background-image: linear-gradient(
+    to left,
+    color-mix(in oklab, var(--color-stone) 22%, transparent) 50%,
+    transparent 50%
+  );
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+[data-slot="calendar"] .day-occ-end button,
+[data-slot="calendar"] button.day-occ-end {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in oklab, var(--color-stone) 22%, transparent) 50%,
+    transparent 50%
+  );
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+[data-slot="calendar"] .day-occ-start.day-occ-end button,
+[data-slot="calendar"] button.day-occ-start.day-occ-end {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-stone) 22%, transparent) 50%, transparent 50%),
+    linear-gradient(to left, color-mix(in oklab, var(--color-stone) 22%, transparent) 50%, transparent 50%);
+  border-radius: 0.5rem;
+}
+
+
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

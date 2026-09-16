@@ -4,11 +4,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { useTranslation } from "react-i18next";
 import { listAllProperties } from "@/lib/properties.functions";
 import { createBooking } from "@/lib/bookings.functions";
-import type { RoomAllocation } from "@/lib/room-allocation";
 import {
   BookingForm,
   defaultBookingForm,
   type BookingFormValues,
+  type RoomAllocation,
 } from "@/components/admin/BookingForm";
 
 type NewBookingSearch = {
@@ -41,35 +41,34 @@ function NewBookingPage() {
   const navigate = useNavigate();
   const { data: props = [] } = useQuery({ queryKey: ["admin-props"], queryFn: () => fetchProps() });
   const m = useMutation({
-    mutationFn: async ({
-      values,
-      rooms,
-    }: {
-      values: BookingFormValues;
-      rooms?: RoomAllocation[];
-    }) => {
-      if (!rooms || rooms.length === 0) return create({ data: values });
-      // Kiekvienam kambariui — atskira rezervacija; papildomos paslaugos tik pirmam.
-      for (let i = 0; i < rooms.length; i += 1) {
-        const r = rooms[i]!;
-        const guests = r.adults + r.children + r.infants;
+    mutationFn: async ({ v, rooms }: { v: BookingFormValues; rooms: RoomAllocation[] }) => {
+      const list = rooms.length > 0 ? rooms : [
+        {
+          property_id: v.property_id,
+          adults: v.adults_count,
+          children: v.children_count,
+          infants: v.infants_count,
+          total_amount: v.total_amount,
+        },
+      ];
+      // Kiekvienam kambariui – atskira rezervacija su tuo pačiu klientu ir datomis.
+      for (const [index, room] of list.entries()) {
+        const guests = room.adults + room.children + room.infants;
         await create({
           data: {
-            ...values,
-            property_id: r.propertyId,
-            adults_count: Math.max(1, r.adults),
-            children_count: r.children,
-            infants_count: r.infants,
+            ...v,
+            property_id: room.property_id,
+            adults_count: room.adults,
+            children_count: room.children,
+            infants_count: room.infants,
             total_guests: Math.max(1, guests),
             guests: Math.max(1, guests),
-            extras: i === 0 ? values.extras : [],
-            extras_total: i === 0 ? values.extras_total : 0,
-            total_amount:
-              i === 0 ? Number((r.amount + (values.extras_total ?? 0)).toFixed(2)) : r.amount,
+            total_amount: room.total_amount,
+            extras: index === 0 ? v.extras : [],
+            extras_total: index === 0 ? v.extras_total : 0,
           },
         });
       }
-      return { ok: true };
     },
     onSuccess: () => navigate({ to: "/admin/bookings" }),
   });
@@ -88,7 +87,7 @@ function NewBookingPage() {
         key={`${initial.property_id}-${initial.date_from}-${initial.date_to}-${props.length}`}
         properties={props}
         initial={initial}
-        onSubmit={(v, rooms) => m.mutate({ values: v, ...(rooms ? { rooms } : {}) })}
+        onSubmit={(v, rooms) => m.mutate({ v, rooms })}
         submitting={m.isPending}
       />
       {m.error && (
