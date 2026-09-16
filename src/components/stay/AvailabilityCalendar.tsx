@@ -66,6 +66,35 @@ export function AvailabilityCalendar({
     [occupied],
   );
 
+  // Pusiau atviras intervalas [from, to): nakvynės nuo atvykimo dienos iki
+  // paskutinės nakties. Išvykimo diena klientui rodoma kaip visiškai laisva,
+  // o atvykimo diena — kaip pilnai užimta (check-in nuo 15:00).
+  const isNight = (d: Date) => occupiedMatchers.some((r) => d >= r.from && d < r.to);
+
+  const selectingEnd = Boolean(range?.from && !range?.to);
+  const disabledDay = (d: Date) => (selectingEnd ? false : isNight(d));
+
+  const hasConflict = (from: Date, to: Date) => {
+    for (let d = new Date(from); d < to; d.setDate(d.getDate() + 1)) {
+      if (isNight(d)) return true;
+    }
+    return false;
+  };
+
+  // Renkant išvykimą kito svečio atvykimo diena yra teisėta apyvartos riba.
+  const isTurnoverCheckout = (d: Date) =>
+    Boolean(
+      selectingEnd && range?.from && isNight(d) && d > range.from && !hasConflict(range.from, d),
+    );
+
+  const handleSelect = (next: DateRange | undefined) => {
+    if (next?.from && next?.to && hasConflict(next.from, next.to)) {
+      onRangeChange({ from: next.to, to: undefined });
+      return;
+    }
+    onRangeChange(next);
+  };
+
   const nights =
     range?.from && range?.to ? differenceInCalendarDays(range.to, range.from) : 0;
 
