@@ -23,10 +23,5 @@ export function appLink(path: string, requestedOrigin?: string): string {
       /* ignore */
     }
   }
-
-    } catch {
-      /* ignore */
-    }
-  }
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
