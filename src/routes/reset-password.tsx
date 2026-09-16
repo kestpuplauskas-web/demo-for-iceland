@@ -21,6 +21,7 @@ function ResetPasswordPage() {
   const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
   const [ready, setReady] = useState(false);
+  const [expired, setExpired] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
@@ -33,14 +34,38 @@ function ResetPasswordPage() {
         setReady(true);
         return;
       }
-      // Atsarginiai variantai: PKCE kodas arba token_hash nuorodoje.
       const url = new URL(window.location.href);
+      const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+
+      // 1) Tokenai po # (numatytasis Supabase nukreipimas).
+      const accessToken = hash.get("access_token");
+      const refreshToken = hash.get("refresh_token");
+      if (accessToken && refreshToken) {
+        const { error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        if (!error) {
+          setReady(true);
+          window.history.replaceState({}, "", url.pathname);
+          return;
+        }
+      }
+
+      // 2) Klaida nuorodoje (pasibaigusi ar panaudota).
+      if (hash.get("error") || url.searchParams.get("error")) {
+        setExpired(true);
+        return;
+      }
+
+      // 3) PKCE kodas arba token_hash nuorodoje.
       const code = url.searchParams.get("code");
       const tokenHash = url.searchParams.get("token_hash") ?? url.searchParams.get("token");
       const type = url.searchParams.get("type");
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) setReady(true);
+        else setExpired(true);
         return;
       }
       if (tokenHash && (type === "invite" || type === "recovery" || type === "signup")) {
@@ -49,12 +74,14 @@ function ResetPasswordPage() {
           token_hash: tokenHash,
         });
         if (!error) setReady(true);
+        else setExpired(true);
       }
     };
     void bootstrap();
 
     return () => subscription.unsubscribe();
   }, []);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
