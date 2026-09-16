@@ -109,10 +109,13 @@ function ResetPasswordPage() {
           <div>
             <h1 className="text-2xl font-bold">{t("auth.newPasswordTitle")}</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {ready
-                ? t("auth.newPasswordReady")
-                : t("auth.newPasswordPending")}
+              {expired
+                ? t("auth.linkExpired")
+                : ready
+                  ? t("auth.newPasswordReady")
+                  : t("auth.newPasswordPending")}
             </p>
+
           </div>
           {ready && (
             <form onSubmit={submit} className="space-y-3">
