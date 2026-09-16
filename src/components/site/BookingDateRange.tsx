@@ -96,14 +96,17 @@ export function BookingDateRange({
         weekStartsOn={1}
         numberOfMonths={1}
         selected={selected}
-        onSelect={(range) =>
-          onChange(range?.from ? toApiDate(range.from) : "", range?.to ? toApiDate(range.to) : "")
-        }
-        excludeDisabled
-        min={2}
-        disabled={[{ before: today }, ...occupiedMatchers]}
-        modifiers={{ occupied: occupiedMatchers }}
-        modifiersClassNames={{ occupied: "day-occupied" }}
+        onSelect={handleSelect}
+        min={1}
+        disabled={[{ before: today }, disabledDay]}
+        modifiers={{
+          occupied: (d: Date) => isNight(d) && !isTurnoverCheckout(d),
+          turnoverCheckout: isTurnoverCheckout,
+        }}
+        modifiersClassNames={{
+          occupied: "day-occupied",
+          turnoverCheckout: "day-turnover-checkout",
+        }}
         startMonth={today}
         className="pointer-events-auto w-full [--cell-size:2.2rem] sm:[--cell-size:2.5rem]"
         classNames={{
