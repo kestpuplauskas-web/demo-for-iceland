@@ -74,6 +74,7 @@
     "newPassword": "Naujas slaptažodis",
     "newPasswordPending": "Atveriama nuoroda... Jei nieko nevyksta, atidaryk nuorodą iš el. laiško dar kartą.",
     "newPasswordReady": "Įvesk naują slaptažodį.",
+    "linkExpired": "Nuorodos galiojimas baigėsi arba ji jau panaudota. Paprašykite administratoriaus atsiųsti naują kvietimą.",
     "newPasswordTitle": "Naujas slaptažodis",
     "openCalendar": "Atidaryti kalendorių",
     "password": "Slaptažodis",

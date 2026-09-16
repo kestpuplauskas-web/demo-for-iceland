@@ -74,6 +74,7 @@
     "newPassword": "New password",
     "newPasswordPending": "Opening link... If nothing happens, open the link from the email again.",
     "newPasswordReady": "Enter a new password.",
+    "linkExpired": "This link has expired or was already used. Ask an administrator to send a new invitation.",
     "newPasswordTitle": "New password",
     "openCalendar": "Open calendar",
     "password": "Password",
