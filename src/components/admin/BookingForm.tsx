@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/select";
 import { EXTRA_CALC_LABEL_KEYS, priceForNights } from "@/lib/properties";
 import { extraLineTotal, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
+import { formatNumber } from "@/lib/utils";
 import {
   distributeGuests,
   suggestRooms,
@@ -131,6 +133,7 @@ export function BookingForm({
   submitting?: boolean;
   bookingId?: string;
 }) {
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const { t: tr } = useTranslation();
   const [v, setV] = useState<BookingFormValues>(() => {
     if (Number(initial.total_amount) > 0) return initial;
@@ -548,7 +551,7 @@ export function BookingForm({
                             })}
                           </span>
                           <span className="ml-auto text-sm tabular-nums">
-                            {stayTotalFor(id).toFixed(2)} €
+                            {formatCurrency(stayTotalFor(id), 2)}
                           </span>
                           {roomIds.length > 1 && (
                             <Button
@@ -607,7 +610,7 @@ export function BookingForm({
                 })}
               </span>
               <span className="text-sm font-medium text-foreground tabular-nums">
-                {(multiRoom ? roomsTotal : v.total_amount).toFixed(2)} €
+                {formatCurrency(multiRoom ? roomsTotal : v.total_amount, 2)}
               </span>
             </div>
           </div>
@@ -779,15 +782,15 @@ export function BookingForm({
                       <span className="font-medium">{svc.name}</span>
                       <span className="text-xs text-muted-foreground">
                         {EXTRA_CALC_LABEL_KEYS[svc.calc] ? tr(EXTRA_CALC_LABEL_KEYS[svc.calc]) : svc.calc} ·{" "}
-                        {Number(svc.pricePerDay).toFixed(2)} {tr("bookings.form.perDay")}
+                        {formatNumber(Number(svc.pricePerDay), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {tr("bookings.form.perDay")}
                       </span>
-                      <span className="ml-auto tabular-nums">{lineAmount(svc).toFixed(2)} €</span>
+                      <span className="ml-auto tabular-nums">{formatCurrency(lineAmount(svc), 2)}</span>
                     </label>
                   );
                 })}
               </div>
               <div className="mt-2 text-right text-sm font-medium">
-                {tr("bookings.form.extrasTotal", { amount: (v.extras_total ?? 0).toFixed(2) })}
+                {tr("bookings.form.extrasTotal", { amount: formatNumber(v.extras_total ?? 0, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}
               </div>
             </div>
           )}
@@ -831,7 +834,7 @@ export function BookingForm({
             <Label htmlFor="total">{tr("bookings.form.total")}</Label>
             <div className="relative">
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                €
+                {cur}
               </span>
               <NumberInput
                 id="total"
@@ -850,15 +853,15 @@ export function BookingForm({
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <span>
                 {tr("bookings.form.computed", {
-                  total: displayComputed.toFixed(2),
-                  stay: displayStay.toFixed(2),
-                  nightly: Number(totals.nightly || 0).toFixed(2),
-                  days: totals.days,
+                  total: formatNumber(displayComputed, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  stay: formatNumber(displayStay, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  nightly: formatNumber(Number(totals.nightly || 0), { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  days: formatNumber(totals.days),
 
                   extras:
                     totals.extras_total > 0
                       ? tr("bookings.form.computedExtras", {
-                          amount: totals.extras_total.toFixed(2),
+                          amount: formatNumber(totals.extras_total, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                         })
                       : "",
                 })}
