@@ -125,12 +125,17 @@ export function AvailabilityCalendar({
           weekStartsOn={1}
           numberOfMonths={1}
           selected={range}
-          onSelect={onRangeChange}
-          excludeDisabled
-          min={2}
-          disabled={[{ before: today }, ...occupiedMatchers]}
-          modifiers={{ occupied: occupiedMatchers }}
-          modifiersClassNames={{ occupied: "day-occupied" }}
+          onSelect={handleSelect}
+          min={1}
+          disabled={[{ before: today }, disabledDay]}
+          modifiers={{
+            occupied: (d: Date) => isNight(d) && !isTurnoverCheckout(d),
+            turnoverCheckout: isTurnoverCheckout,
+          }}
+          modifiersClassNames={{
+            occupied: "day-occupied",
+            turnoverCheckout: "day-turnover-checkout",
+          }}
           startMonth={today}
           className={cn(
             "pointer-events-auto w-full",
