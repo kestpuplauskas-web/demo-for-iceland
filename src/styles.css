@@ -398,6 +398,11 @@
 }
 
 /* Availability calendar: occupied days read as struck-through and muted. */
+.site-theme .booking-calendar-light {
+  background-color: var(--color-linen);
+  color: var(--color-paper);
+}
+
 [data-slot="calendar"] .day-occupied button,
 [data-slot="calendar"] button.day-occupied {
   color: var(--color-stone);
