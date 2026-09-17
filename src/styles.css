@@ -399,10 +399,9 @@
 
 /* Availability calendar: occupied days read as struck-through and muted. */
 .site-theme .booking-calendar-light {
-  --calendar-electric: oklch(0.97 0.025 176);
   --calendar-electric-today: oklch(0.72 0.12 176);
   --calendar-electric-today-foreground: oklch(0.18 0.035 176);
-  background-color: var(--calendar-electric);
+  background-color: #f2efe8;
   color: var(--color-paper);
 }
 
