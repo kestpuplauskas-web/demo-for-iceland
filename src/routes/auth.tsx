@@ -14,12 +14,21 @@ import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: `Prisijungimas | ${PLATFORM_NAME}` }] }),
+  head: () => ({
+    meta: [
+      { title: `Sign in | ${PLATFORM_NAME}` },
+      { name: "description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
+      { property: "og:title", content: `Sign in | ${PLATFORM_NAME}` },
+      { property: "og:description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: LoginPage,
 });
 
 function LoginPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(undefined, { lng: "en" });
   const navigate = useNavigate();
   const fetchRole = useServerFn(getMyRole);
   const sendReset = useServerFn(requestPasswordReset);

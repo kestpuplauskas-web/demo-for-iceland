@@ -10,12 +10,21 @@ import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: `Naujas slaptažodis | ${PLATFORM_NAME}` }] }),
+  head: () => ({
+    meta: [
+      { title: `New password | ${PLATFORM_NAME}` },
+      { name: "description", content: `Create a new password for your ${PLATFORM_NAME} account.` },
+      { property: "og:title", content: `New password | ${PLATFORM_NAME}` },
+      { property: "og:description", content: `Create a new password for your ${PLATFORM_NAME} account.` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: ResetPasswordPage,
 });
 
 function ResetPasswordPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(undefined, { lng: "en" });
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
