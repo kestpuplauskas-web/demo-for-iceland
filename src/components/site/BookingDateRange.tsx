@@ -89,7 +89,7 @@ export function BookingDateRange({
     selected?.from && selected?.to ? differenceInCalendarDays(selected.to, selected.from) : 0;
 
   return (
-    <div className="rounded-md border border-border bg-linen p-3 sm:p-4">
+    <div className="on-paper rounded-md border border-border bg-linen p-3 sm:p-4">
       <Calendar
         mode="range"
         locale={locale === "en" ? enGB : lt}
