@@ -108,7 +108,7 @@ export function BookingDateRange({
           turnoverCheckout: "day-turnover-checkout",
         }}
         startMonth={today}
-        className="pointer-events-auto w-full [--cell-size:2.2rem] sm:[--cell-size:2.5rem]"
+        className="booking-calendar-light pointer-events-auto w-full [--cell-size:2.2rem] sm:[--cell-size:2.5rem]"
         classNames={{
           root: "w-full",
           month: "flex w-full flex-col gap-3",
