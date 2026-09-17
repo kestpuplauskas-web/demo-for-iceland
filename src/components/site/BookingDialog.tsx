@@ -400,7 +400,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     <BookingContext.Provider value={value}>
       {children}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-lg border-border bg-surface p-0 sm:max-w-lg">
+        <DialogContent className="site-theme max-h-[90vh] overflow-y-auto rounded-lg border-border bg-surface p-0 sm:max-w-lg">
           <div className="p-6 sm:p-8">
             <DialogHeader className="space-y-3 text-left">
               <Enso className="h-8 w-8" />
