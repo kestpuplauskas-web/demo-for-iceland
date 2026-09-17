@@ -399,8 +399,20 @@
 
 /* Availability calendar: occupied days read as struck-through and muted. */
 .site-theme .booking-calendar-light {
-  background-color: var(--color-linen);
+  --calendar-electric: oklch(0.97 0.025 176);
+  --calendar-electric-today: oklch(0.72 0.12 176);
+  --calendar-electric-today-foreground: oklch(0.18 0.035 176);
+  background-color: var(--calendar-electric);
   color: var(--color-paper);
+}
+
+.site-theme .booking-calendar-light .booking-calendar-today,
+.site-theme .booking-calendar-light .booking-calendar-today button {
+  background-color: var(--calendar-electric-today);
+  color: var(--calendar-electric-today-foreground);
+  font-weight: 700;
+  opacity: 1;
+  text-decoration: none;
 }
 
 [data-slot="calendar"] .day-occupied button,

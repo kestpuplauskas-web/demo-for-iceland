@@ -114,6 +114,7 @@ export function BookingDateRange({
           month: "flex w-full flex-col gap-3",
           caption_label: "font-display text-base font-medium capitalize text-paper",
           weekday: "flex-1 select-none text-[0.65rem] uppercase tracking-[0.12em] text-stone/70",
+          today: "booking-calendar-today rounded-md",
         }}
       />
 
