@@ -132,6 +132,7 @@ export function BookingForm({
   bookingId?: string;
 }) {
   const { t: tr } = useTranslation();
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const [v, setV] = useState<BookingFormValues>(() => {
     if (Number(initial.total_amount) > 0) return initial;
     const t = computeTotalsFor(initial, properties);
@@ -882,7 +883,7 @@ export function BookingForm({
             <Label htmlFor="total">{tr("bookings.form.total")}</Label>
             <div className="relative">
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                €
+                {cur}
               </span>
               <NumberInput
                 id="total"
