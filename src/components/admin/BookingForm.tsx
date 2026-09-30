@@ -13,6 +13,7 @@ import {
   BOOKING_SOURCE_VALUES,
   checkBookingConflicts,
   listOccupiedRanges,
+  listAllOccupiedRanges,
   listFreePropertyIds,
   type BookingInput,
 } from "@/lib/bookings.functions";
@@ -35,10 +36,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { EXTRA_CALC_LABEL_KEYS, priceForNights } from "@/lib/properties";
+import { EXTRA_CALC_LABEL_KEYS } from "@/lib/properties";
 import { extraLineTotal, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
+import { computeQuote, type DynamicPricingInput } from "@/lib/booking-pricing";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { formatNumber } from "@/lib/utils";
+import { getDynamicPricingInputs } from "@/lib/pricing-rules.functions";
 import {
   distributeGuests,
   suggestRooms,
@@ -88,36 +91,31 @@ export function defaultBookingForm(props: Property[] = []): BookingFormValues {
   };
 }
 
-function computeTotalsFor(state: BookingFormValues, properties: Property[]) {
+function computeTotalsFor(
+  state: BookingFormValues,
+  properties: Property[],
+  dynMap: Record<string, DynamicPricingInput> = {},
+) {
   const prop = properties.find((p) => p.id === state.property_id);
-  const defined = prop?.extraServices ?? [];
   const days = nightsBetweenDates(state.date_from, state.date_to);
-  const ctx = {
+  // Tas pats skaičiavimas kaip viešame API (computeQuote).
+  const q = computeQuote({
+    pricePerNight: prop?.pricePerNight ?? 0,
+    priceTiers: prop?.priceTiers ?? [],
+    extraServices: (prop?.extraServices ?? []) as never,
+    dateFrom: state.date_from,
+    dateTo: state.date_to,
     adults: state.adults_count,
     children: state.children_count,
     infants: state.infants_count,
-    days,
-  };
-  const extras = state.extras
-    .map((e) => {
-      const match = defined.find((d) => d.name === e.name);
-      if (!match) return null;
-      return {
-        name: match.name,
-        calc: match.calc as ExtraCalcKind,
-        pricePerDay: Number(match.pricePerDay) || 0,
-        amount: extraLineTotal(match.calc as ExtraCalcKind, Number(match.pricePerDay) || 0, ctx),
-      };
-    })
-    .filter(Boolean) as BookingFormValues["extras"];
-  const extras_total = extras.reduce((s, e) => s + e.amount, 0);
-  const stay =
-    prop && days > 0
-      ? priceForNights({ pricePerNight: prop.pricePerNight, priceTiers: prop.priceTiers ?? [] }, days)
-      : { total: 0, pricePerNight: prop?.pricePerNight ?? 0, tier: null };
-  const stayTotal = Number((stay.total || 0).toFixed(2));
+    selectedExtras: state.extras,
+    dynamicPricing: dynMap[state.property_id],
+  });
+  const extras = q.extras as BookingFormValues["extras"];
+  const extras_total = Number(q.extras_total.toFixed(2));
+  const stayTotal = prop && days > 0 ? Number(q.stay_total.toFixed(2)) : 0;
   const computed = Number((stayTotal + extras_total).toFixed(2));
-  return { extras, extras_total, days, stayTotal, nightly: stay.pricePerNight, computed };
+  return { extras, extras_total, days, stayTotal, nightly: q.nightly_rate, computed };
 }
 
 export function BookingForm({
@@ -133,8 +131,8 @@ export function BookingForm({
   submitting?: boolean;
   bookingId?: string;
 }) {
-  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const { t: tr } = useTranslation();
+  const { symbol: cur, format: formatCurrency } = useAdminCurrency();
   const [v, setV] = useState<BookingFormValues>(() => {
     if (Number(initial.total_amount) > 0) return initial;
     const t = computeTotalsFor(initial, properties);
@@ -171,10 +169,12 @@ export function BookingForm({
   });
   const hasConflict = canCheck && conflicts.length > 0;
 
+  const isNewBooking = !bookingId;
+
   const fetchOccupied = useServerFn(listOccupiedRanges);
   const { data: occupiedRows = [] } = useQuery({
     queryKey: ["booking-occupied", v.property_id, bookingId ?? ""],
-    enabled: Boolean(v.property_id),
+    enabled: !isNewBooking && Boolean(v.property_id),
     queryFn: () =>
       fetchOccupied({
         data: {
@@ -183,16 +183,42 @@ export function BookingForm({
         },
       }),
   });
-  // Užimtos naktys: nuo atvykimo iki išvykimo dienos (išvykimo diena laisva)
-  const occupiedDates = (occupiedRows as any[]).flatMap((r) => {
-    const start = parse(r.date_from, "yyyy-MM-dd", new Date());
-    const end = parse(r.date_to, "yyyy-MM-dd", new Date());
-    const out: Date[] = [];
-    for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
-      out.push(new Date(d));
-    }
-    return out;
+
+  // Naujai rezervacijai kalendorius neribojamas vieno kambario: blokuojamos tik
+  // tos naktys, kai užimti VISI aktyvūs objektai.
+  const fetchAllOccupied = useServerFn(listAllOccupiedRanges);
+  const { data: allOccupied } = useQuery({
+    queryKey: ["booking-occupied-all", bookingId ?? ""],
+    enabled: isNewBooking,
+    queryFn: () => fetchAllOccupied({ data: bookingId ? { excludeId: bookingId } : {} }),
   });
+
+  const nightsOf = (from: string, to: string) => {
+    const start = parse(from, "yyyy-MM-dd", new Date());
+    const end = parse(to, "yyyy-MM-dd", new Date());
+    const out: Date[] = [];
+    for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) out.push(new Date(d));
+    return out;
+  };
+
+  // Užimtos naktys: nuo atvykimo iki išvykimo dienos (išvykimo diena laisva)
+  const occupiedDates = isNewBooking
+    ? (() => {
+        const counts = new Map<string, Set<string>>();
+        for (const r of allOccupied?.rows ?? []) {
+          for (const d of nightsOf(r.date_from, r.date_to)) {
+            const key = format(d, "yyyy-MM-dd");
+            const set = counts.get(key) ?? new Set<string>();
+            set.add(r.property_id);
+            counts.set(key, set);
+          }
+        }
+        const total = allOccupied?.activeCount ?? 0;
+        return [...counts.entries()]
+          .filter(([, set]) => total > 0 && set.size >= total)
+          .map(([key]) => parse(key, "yyyy-MM-dd", new Date()));
+      })()
+    : (occupiedRows as any[]).flatMap((r) => nightsOf(r.date_from, r.date_to));
 
   // --- Kambarių parinkimas pagal svečių skaičių (tik naujai rezervacijai) ---
   const isNew = !bookingId;
@@ -275,7 +301,16 @@ export function BookingForm({
   const lineAmount = (svc: { calc: ExtraCalcKind | string; pricePerDay: number }) =>
     extraLineTotal(svc.calc as ExtraCalcKind, Number(svc.pricePerDay) || 0, extrasCtx);
 
-  const computeTotals = (state: BookingFormValues) => computeTotalsFor(state, properties);
+  const fetchDyn = useServerFn(getDynamicPricingInputs);
+  const dynIds = Array.from(new Set([v.property_id, ...roomIds].filter(Boolean))).sort();
+  const { data: dynMap = {} } = useQuery({
+    queryKey: ["dyn-pricing", dynIds.join(","), v.date_from, v.date_to],
+    enabled: datesValid && dynIds.length > 0,
+    queryFn: () =>
+      fetchDyn({ data: { property_ids: dynIds, date_from: v.date_from, date_to: v.date_to } }),
+  });
+
+  const computeTotals = (state: BookingFormValues) => computeTotalsFor(state, properties, dynMap);
 
   const recalc = (state: BookingFormValues, forceTotal = false): BookingFormValues => {
     const { extras, extras_total, computed } = computeTotals(state);
@@ -291,16 +326,30 @@ export function BookingForm({
   const recalcRef = useRef(recalc);
   recalcRef.current = recalc;
 
+  // Atėjus dinaminės kainos duomenims — perskaičiuoti sumą.
+  const dynKey = JSON.stringify(dynMap);
+  useEffect(() => {
+    setV((s) => recalcRef.current(s));
+  }, [dynKey]);
+
   const totals = computeTotals(v);
 
   const stayTotalFor = (propertyId: string) => {
     const p = properties.find((x) => x.id === propertyId);
     if (!p || nights <= 0) return 0;
-    const r = priceForNights(
-      { pricePerNight: p.pricePerNight, priceTiers: p.priceTiers ?? [] },
-      nights,
-    );
-    return Number((r.total || 0).toFixed(2));
+    const q = computeQuote({
+      pricePerNight: p.pricePerNight,
+      priceTiers: p.priceTiers ?? [],
+      extraServices: [],
+      dateFrom: v.date_from,
+      dateTo: v.date_to,
+      adults: 1,
+      children: 0,
+      infants: 0,
+      selectedExtras: [],
+      dynamicPricing: dynMap[propertyId],
+    });
+    return Number((q.stay_total || 0).toFixed(2));
   };
 
   const allocation = distributeGuests(
