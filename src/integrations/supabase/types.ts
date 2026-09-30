@@ -1159,6 +1159,8 @@ export type Database = {
           auto_refund_deposit: boolean
           bank_name: string | null
           brand_email_logo_url: string | null
+          brand_favicon_url: string | null
+          brand_logo_light_url: string | null
           brand_logo_url: string | null
           brand_pdf_logo_url: string | null
           brand_primary_color: string
@@ -1235,6 +1237,8 @@ export type Database = {
           auto_refund_deposit?: boolean
           bank_name?: string | null
           brand_email_logo_url?: string | null
+          brand_favicon_url?: string | null
+          brand_logo_light_url?: string | null
           brand_logo_url?: string | null
           brand_pdf_logo_url?: string | null
           brand_primary_color?: string
@@ -1311,6 +1315,8 @@ export type Database = {
           auto_refund_deposit?: boolean
           bank_name?: string | null
           brand_email_logo_url?: string | null
+          brand_favicon_url?: string | null
+          brand_logo_light_url?: string | null
           brand_logo_url?: string | null
           brand_pdf_logo_url?: string | null
           brand_primary_color?: string
