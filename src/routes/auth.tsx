@@ -167,11 +167,6 @@ function LoginPage() {
               {branding?.displayName || PLATFORM_NAME}
             </span>
           )}
-          {branding?.logoUrl && !logoFailed && branding.displayName ? (
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-              {branding.displayName}
-            </p>
-          ) : null}
         </div>
       </div>
     </div>
