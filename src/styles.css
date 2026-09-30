@@ -63,48 +63,53 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brass-soft: var(--brass);
+  --color-brass-foreground: var(--brass-foreground);
 }
 
 :root {
-  --radius: 0.875rem;
-  --background: oklch(0.962 0.0155 86.43);
-  --foreground: oklch(0.25 0.02 183);
-  --card: oklch(0.99 0.006 86);
-  --card-foreground: oklch(0.25 0.02 183);
-  --popover: oklch(0.99 0.006 86);
-  --popover-foreground: oklch(0.25 0.02 183);
-  --primary: oklch(0.6407 0.0671 182.89);
-  --primary-foreground: oklch(0.985 0.006 86);
-  --primary-glow: oklch(0.7300 0.0640 181.4);
-  --secondary: oklch(0.935 0.014 86);
-  --secondary-foreground: oklch(0.3 0.03 183);
-  --muted: oklch(0.935 0.014 86);
-  --muted-foreground: oklch(0.5 0.02 120);
-  --accent: oklch(0.9 0.03 183);
-  --accent-foreground: oklch(0.35 0.05 183);
-  --destructive: oklch(0.58 0.2 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.014 86);
-  --input: oklch(0.9 0.014 86);
-  --ring: oklch(0.6407 0.0671 182.89);
-  --gradient-hero: linear-gradient(135deg, oklch(0.5320 0.0590 183.6) 0%, oklch(0.6407 0.0671 182.89) 60%, oklch(0.7300 0.0640 181.4) 100%);
-  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-glow));
-  --shadow-elegant: 0 20px 50px -20px color-mix(in oklab, var(--primary) 35%, transparent);
-  --shadow-card: 0 8px 30px -12px oklch(0.3 0.02 183 / 0.15);
+  /* Core (admin + staff): Mánahlíð paper workspace, dark ink sidebar. */
+  --radius: 0.375rem;
+  --background: #f2efe8;
+  --foreground: #0b1715;
+  --card: #f8f6f1;
+  --card-foreground: #0b1715;
+  --popover: #f8f6f1;
+  --popover-foreground: #0b1715;
+  --primary: #0f1d1a;
+  --primary-foreground: #f2efe8;
+  --primary-glow: #4e9c7e;
+  --secondary: #e6e1d6;
+  --secondary-foreground: #0b1715;
+  --muted: #e6e1d6;
+  --muted-foreground: rgb(11 23 21 / 0.62);
+  --accent: #dfeee5;
+  --accent-foreground: #2f6b55;
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: #f2efe8;
+  --border: rgb(11 23 21 / 0.14);
+  --input: rgb(11 23 21 / 0.18);
+  --ring: #4e9c7e;
+  --brass: #c7a169;
+  --brass-foreground: #5c4520;
+  --gradient-hero: linear-gradient(135deg, #07100e 0%, #0f1d1a 60%, #142523 100%);
+  --gradient-primary: linear-gradient(135deg, #0f1d1a, #4e9c7e);
+  --shadow-elegant: none;
+  --shadow-card: none;
 
-  --chart-1: oklch(0.6407 0.0671 182.89);
-  --chart-2: oklch(0.7300 0.0640 181.4);
-  --chart-3: oklch(0.5320 0.0590 183.6);
-  --chart-4: oklch(0.753 0.057 64.1);
-  --chart-5: oklch(0.646 0.13 41.1);
-  --sidebar: oklch(0.6407 0.0671 182.89);
-  --sidebar-foreground: oklch(0.985 0.006 86);
-  --sidebar-primary: oklch(0.985 0.006 86);
-  --sidebar-primary-foreground: oklch(0.5320 0.0590 183.6);
-  --sidebar-accent: oklch(0.5320 0.0590 183.6);
-  --sidebar-accent-foreground: oklch(0.985 0.006 86);
-  --sidebar-border: oklch(0.985 0.006 86 / 18%);
-  --sidebar-ring: oklch(0.985 0.006 86 / 45%);
+  --chart-1: #4e9c7e;
+  --chart-2: #7fd3ae;
+  --chart-3: #0f1d1a;
+  --chart-4: #c7a169;
+  --chart-5: #8a8376;
+  --sidebar: #07100e;
+  --sidebar-foreground: #f2efe8;
+  --sidebar-primary: rgb(127 211 174 / 0.14);
+  --sidebar-primary-foreground: #7fd3ae;
+  --sidebar-accent: #0f1d1a;
+  --sidebar-accent-foreground: #f2efe8;
+  --sidebar-border: rgb(242 239 232 / 0.12);
+  --sidebar-ring: #7fd3ae;
 }
 
 
@@ -151,6 +156,14 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(h1, h2, h3) {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 }
 
