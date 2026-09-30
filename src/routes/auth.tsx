@@ -154,9 +154,10 @@ function LoginPage() {
           className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_60%),radial-gradient(circle_at_80%_80%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_55%)]"
         />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          {branding?.logoUrl ? (
+          {branding?.logoUrl && !logoFailed ? (
             <img
               src={branding.logoUrl}
+              onError={() => setLogoFailed(true)}
               alt={branding.displayName || PLATFORM_NAME}
               className="max-h-40 w-auto max-w-[22rem] object-contain drop-shadow-sm"
             />
@@ -165,7 +166,7 @@ function LoginPage() {
               {branding?.displayName || PLATFORM_NAME}
             </span>
           )}
-          {branding?.logoUrl && branding.displayName ? (
+          {branding?.logoUrl && !logoFailed && branding.displayName ? (
             <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
               {branding.displayName}
             </p>
