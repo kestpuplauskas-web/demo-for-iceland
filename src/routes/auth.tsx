@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
+import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -86,13 +87,25 @@ function LoginPage() {
     }
   };
 
+  const logoSrc = branding?.logoLightUrl || branding?.logoUrl || "";
+  const logoEl = (cls: string) =>
+    logoSrc && !logoFailed ? (
+      <img src={logoSrc} onError={() => setLogoFailed(true)} alt={branding?.displayName || PLATFORM_NAME} className={cls} />
+    ) : (
+      <span className="font-display text-3xl font-light tracking-[0.2em] text-paper">
+        {branding?.displayName || PLATFORM_NAME}
+      </span>
+    );
+
   return (
-    <div className="min-h-screen bg-background lg:grid lg:grid-cols-2">
+    <div className="site-theme min-h-screen bg-ink lg:grid lg:grid-cols-2">
       {/* Kairė pusė — prisijungimas */}
       <div className="flex min-h-screen items-center justify-center px-6 py-12 lg:min-h-0">
-        <div className="w-full max-w-sm space-y-6">
+        <div className="w-full max-w-sm space-y-8">
+          <div className="lg:hidden">{logoEl("h-12 w-auto object-contain")}</div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <p className="label-caps mb-3 text-[0.7rem] text-aurora">Staff &amp; admin access</p>
+            <h1 className="text-5xl font-light">
               {mode === "login" ? t("auth.loginTitle") : t("auth.forgotTitle")}
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -101,7 +114,7 @@ function LoginPage() {
           </div>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email">{t("auth.email")}</Label>
+              <Label htmlFor="email" className="label-caps text-[0.7rem] text-stone">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -113,7 +126,7 @@ function LoginPage() {
             </div>
             {mode !== "forgot" && (
               <div className="space-y-1.5">
-                <Label htmlFor="pw">{t("auth.password")}</Label>
+                <Label htmlFor="pw" className="label-caps text-[0.7rem] text-stone">{t("auth.password")}</Label>
                 <Input
                   id="pw"
                   type="password"
@@ -125,22 +138,22 @@ function LoginPage() {
                 />
               </div>
             )}
-            <Button type="submit" className="w-full" size="lg" disabled={busy}>
+            <Button type="submit" className="h-12 w-full bg-aurora text-[0.72rem] uppercase tracking-[0.15em] text-ink hover:bg-aurora-deep" size="lg" disabled={busy}>
               {busy ? t("auth.busy") : mode === "login" ? t("auth.submitLogin") : t("auth.submitReset")}
             </Button>
           </form>
           <div className="space-y-2 text-center text-sm text-muted-foreground">
             {mode === "login" ? (
-              <button type="button" className="underline" onClick={() => setMode("forgot")}>
+              <button type="button" className="underline underline-offset-4 hover:text-paper" onClick={() => setMode("forgot")}>
                 {t("auth.forgotLink")}
               </button>
             ) : (
-              <button type="button" className="underline" onClick={() => setMode("login")}>
+              <button type="button" className="underline underline-offset-4 hover:text-paper" onClick={() => setMode("login")}>
                 {t("auth.backToLogin")}
               </button>
             )}
             <div>
-              <Link to="/" className="text-xs hover:underline">
+              <Link to="/" className="text-xs hover:text-paper">
                 {t("auth.home")}
               </Link>
             </div>
@@ -148,25 +161,12 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Dešinė pusė — prekės ženklo logotipas */}
-      <div className="relative hidden items-center justify-center overflow-hidden bg-muted lg:flex">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_60%),radial-gradient(circle_at_80%_80%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_55%)]"
-        />
+      {/* Dešinė pusė — nuotrauka ir logotipas */}
+      <div className="relative hidden items-center justify-center overflow-hidden lg:flex">
+        <img src={heroAurora.url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          {branding?.logoUrl && !logoFailed ? (
-            <img
-              src={branding.logoUrl}
-              onError={() => setLogoFailed(true)}
-              alt={branding.displayName || PLATFORM_NAME}
-              className="max-h-40 w-auto max-w-[22rem] object-contain drop-shadow-sm"
-            />
-          ) : (
-            <span className="text-4xl font-bold tracking-tight text-foreground">
-              {branding?.displayName || PLATFORM_NAME}
-            </span>
-          )}
+          {logoEl("max-h-40 w-auto max-w-[22rem] object-contain")}
         </div>
       </div>
     </div>
