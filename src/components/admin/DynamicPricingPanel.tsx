@@ -1,3 +1,5 @@
+import { formatNumber } from "@/lib/utils";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -91,6 +93,7 @@ const emptyRow = {
 };
 
 export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
+  const { symbol: cur } = useAdminCurrency();
   const qc = useQueryClient();
   const fetchSettings = useServerFn(getPricingSettings);
   const fetchCal = useServerFn(listRateCalendar);
@@ -261,11 +264,11 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
         <h3 className="font-semibold">Kainos ribos</h3>
         <div className="grid max-w-md gap-4 sm:grid-cols-2">
           <div className="space-y-1">
-            <Label htmlFor="dp-min">Minimali nakties kaina (€)</Label>
+            <Label htmlFor="dp-min">Minimali nakties kaina ({cur})</Label>
             <Input id="dp-min" type="number" inputMode="decimal" min={0} value={min} onChange={(e) => setMin(e.target.value)} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-max">Maksimali nakties kaina (€)</Label>
+            <Label htmlFor="dp-max">Maksimali nakties kaina ({cur})</Label>
             <Input id="dp-max" type="number" inputMode="decimal" min={0} value={max} onChange={(e) => setMax(e.target.value)} aria-invalid={!!boundsError} />
           </div>
         </div>
@@ -348,7 +351,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
                       <td className="p-2">{KIND_LABEL[r.kind]}</td>
                       <td className="p-2 whitespace-nowrap">{r.date_from} – {r.date_to}</td>
                       <td className="p-2 whitespace-nowrap">
-                        {r.fixed_price != null ? `${Number(r.fixed_price).toFixed(2)} €` : `×${Number(r.multiplier).toFixed(2)}`}
+                        {r.fixed_price != null ? `${formatNumber(Number(r.fixed_price), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}` : `×${Number(r.multiplier).toFixed(2)}`}
                       </td>
                       <td className="p-2">{r.priority}</td>
                       <td className="p-2">
@@ -425,7 +428,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
               </label>
               <label className="flex items-center gap-2">
                 <input type="radio" name="dp-mode" checked={form.mode === "fixed"} onChange={() => setForm({ ...form, mode: "fixed" })} />
-                Tiksli kaina (€)
+                Tiksli kaina ({cur})
               </label>
             </div>
             {form.mode === "multiplier" ? (
@@ -494,16 +497,16 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
                 {preview.data.nights_breakdown.map((n) => (
                   <tr key={n.date} className="border-t">
                     <td className="p-2">{n.date}</td>
-                    <td className="p-2">{n.base.toFixed(2)} €</td>
+                    <td className="p-2">{formatNumber(n.base, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {cur}</td>
                     <td className="p-2">{SOURCE_LABEL[n.source]}</td>
                     <td className="p-2">{Math.round(preview.data.occupancyByDate[n.date] ?? 0)} %</td>
-                    <td className="p-2 font-medium">{n.price.toFixed(2)} €</td>
+                    <td className="p-2 font-medium">{formatNumber(n.price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {cur}</td>
                     <td className="p-2">×{(n.source === "manual" ? 1 : n.multiplier).toFixed(2)}</td>
                   </tr>
                 ))}
                 <tr className="border-t font-semibold">
                   <td className="p-2" colSpan={4}>Iš viso už nakvynes</td>
-                  <td className="p-2" colSpan={2}>{preview.data.stay_total.toFixed(2)} €</td>
+                  <td className="p-2" colSpan={2}>{formatNumber(preview.data.stay_total, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {cur}</td>
                 </tr>
               </tbody>
             </table>

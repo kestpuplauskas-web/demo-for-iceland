@@ -1,3 +1,5 @@
+import { formatNumber } from "@/lib/utils";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -84,6 +86,7 @@ const emptyRule = {
 const PALETTE = ["#f59e0b", "#ef4444", "#ec4899", "#8b5cf6", "#3b82f6", "#06b6d4", "#10b981", "#84cc16", "#64748b"];
 
 function PricingPage() {
+  const { symbol: cur } = useAdminCurrency();
   const qc = useQueryClient();
   const fetchOverview = useServerFn(listPricingOverview);
   const fetchRules = useServerFn(listRateCalendarMulti);
@@ -329,7 +332,7 @@ function PricingPage() {
                         onClick={() => onDayClick(date)}
                         title={
                           (cell
-                            ? `${date} · ${cell.price.toFixed(2)} € · užimtumas ${cell.occupancy} %`
+                            ? `${date} · ${formatNumber(cell.price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur} · užimtumas ${cell.occupancy} %`
                             : date) + (rule ? ` · ${rule.label}` : "")
                         }
                         className={`relative flex h-6 items-center justify-center overflow-hidden rounded-sm border text-[10px] text-foreground disabled:cursor-not-allowed disabled:opacity-30 ${
@@ -395,7 +398,7 @@ function PricingPage() {
             </label>
             <label className="flex items-center gap-2">
               <input type="radio" name="pr-mode" checked={form.mode === "fixed"} onChange={() => setForm({ ...form, mode: "fixed" })} />
-              Tiksli kaina (€)
+              Tiksli kaina ({cur})
             </label>
           </div>
           {form.mode === "multiplier" ? (
@@ -405,7 +408,7 @@ function PricingPage() {
             </div>
           ) : (
             <div className="space-y-1">
-              <Label htmlFor="pr-fixed">Kaina už naktį (€)</Label>
+              <Label htmlFor="pr-fixed">Kaina už naktį ({cur})</Label>
               <Input id="pr-fixed" className="w-32" type="number" step="0.01" min={0} value={form.fixed_price} onChange={(e) => setForm({ ...form, fixed_price: e.target.value })} />
             </div>
           )}
@@ -503,7 +506,7 @@ function PricingPage() {
                     <td className="p-2">{KIND_LABEL[r.kind as Kind]}</td>
                     <td className="p-2 whitespace-nowrap">{r.date_from} – {r.date_to}</td>
                     <td className="p-2 whitespace-nowrap">
-                      {r.fixed_price != null ? `${Number(r.fixed_price).toFixed(2)} €` : `×${Number(r.multiplier).toFixed(2)}`}
+                      {r.fixed_price != null ? `${formatNumber(Number(r.fixed_price), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}` : `×${Number(r.multiplier).toFixed(2)}`}
                     </td>
                     <td className="p-2">{r.priority}</td>
                     <td className="p-2 text-right">
@@ -612,7 +615,7 @@ function PricingPage() {
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          Kainas (€ už naktį) galite keisti tiesiog lentelėje — išsaugoma išėjus iš laukelio arba paspaudus Enter. Tuščias min./maks. laukas reiškia „be ribos“. Užimtumo taisyklėms viršuje pasirinkite objektą.
+          Kainas (už naktį, {cur}) galite keisti tiesiog lentelėje — išsaugoma išėjus iš laukelio arba paspaudus Enter. Tuščias min./maks. laukas reiškia „be ribos“. Užimtumo taisyklėms viršuje pasirinkite objektą.
         </p>
       </section>
 

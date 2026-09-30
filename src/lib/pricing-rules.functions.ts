@@ -10,11 +10,7 @@ import {
   type RateCalendarRow,
 } from "@/lib/booking-pricing";
 
-const ensureAdmin = async (ctx: { supabase: any; userId: string }) => {
-  const { data, error } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
-  if (error) throw new Error(error.message);
-  if (!data) throw new Error("Neturite administratoriaus teisių.");
-};
+import { assertAdmin as ensureAdmin, assertCanView } from "@/lib/users.server";
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Neteisinga data");
 
@@ -22,7 +18,7 @@ export const listRateCalendar = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ property_id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data: rows, error } = await context.supabase
       .from("property_rate_calendar")
       .select("*")
@@ -124,7 +120,7 @@ export const previewDynamicPrice = createServerFn({ method: "GET" })
     z.object({ property_id: z.string().uuid(), date_from: isoDate, date_to: isoDate }).parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const sb = context.supabase;
     const [{ data: prop, error: pErr }, { data: cal, error: cErr }, { data: active, error: aErr }, { data: bks, error: bErr }] =
       await Promise.all([
@@ -177,7 +173,7 @@ export const getDynamicPricingInputs = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { loadDynamicPricingMap } = await import("@/lib/dynamic-pricing.server");
     return loadDynamicPricingMap(data.property_ids, data.date_from, data.date_to);
   });
@@ -187,7 +183,7 @@ export const getPricingSettings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ property_id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data: row, error } = await context.supabase
       .from("properties")
       .select("dynamic_pricing_enabled, min_nightly_rate, max_nightly_rate, occupancy_pricing, price_per_night")
@@ -209,7 +205,7 @@ export const getPricingSettings = createServerFn({ method: "GET" })
 export const listPricingOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const { data, error } = await context.supabase
       .from("properties")
       .select(
@@ -235,7 +231,7 @@ export const listRateCalendarMulti = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ property_id: z.string().uuid().nullable() }).parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     let q = context.supabase
       .from("property_rate_calendar")
       .select("*")
@@ -253,7 +249,7 @@ export const getPricingHeatmap = createServerFn({ method: "POST" })
     z.object({ property_id: z.string().uuid().nullable(), date_from: isoDate, date_to: isoDate }).parse(d),
   )
   .handler(async ({ data, context }) => {
-    await ensureAdmin(context);
+    await assertCanView(context);
     const sb = context.supabase;
     let propQ = sb
       .from("properties")
