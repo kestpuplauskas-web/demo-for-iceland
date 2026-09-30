@@ -1,0 +1,1 @@
+ALTER TABLE public.property_settings ADD COLUMN IF NOT EXISTS brand_logo_light_url text, ADD COLUMN IF NOT EXISTS brand_favicon_url text;

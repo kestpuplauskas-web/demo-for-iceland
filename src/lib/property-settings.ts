@@ -162,6 +162,8 @@ export const settingsSchemas = {
     brandLogoUrl: optionalText(500),
     brandEmailLogoUrl: optionalText(500),
     brandPdfLogoUrl: optionalText(500),
+    brandLogoLightUrl: optionalText(500),
+    brandFaviconUrl: optionalText(500),
   }),
 } as const;
 
@@ -255,6 +257,8 @@ export const DEFAULT_PROPERTY_SETTINGS: PropertySettings = {
   brandLogoUrl: "",
   brandEmailLogoUrl: "",
   brandPdfLogoUrl: "",
+  brandLogoLightUrl: "",
+  brandFaviconUrl: "",
 };
 
 /** camelCase forma <-> snake_case DB stulpeliai */
@@ -326,6 +330,8 @@ export const SETTINGS_COLUMN_MAP: Record<keyof PropertySettings, string> = {
   brandLogoUrl: "brand_logo_url",
   brandEmailLogoUrl: "brand_email_logo_url",
   brandPdfLogoUrl: "brand_pdf_logo_url",
+  brandLogoLightUrl: "brand_logo_light_url",
+  brandFaviconUrl: "brand_favicon_url",
 };
 
 export const hhmm = (v: unknown, fallback: string) =>
@@ -346,7 +352,8 @@ export type FieldType =
   | "select"
   | "textarea"
   | "color"
-  | "checkboxGroup";
+  | "checkboxGroup"
+  | "image";
 
 export type SelectOption = { value: string; label?: string; labelKey?: string };
 
@@ -478,7 +485,7 @@ export const SETTINGS_SECTIONS: SectionDef[] = [
       { name: "companyAddress", labelKey: "settings.sections.invoicing.fields.companyAddress.label", type: "text" },
       { name: "iban", labelKey: "settings.sections.invoicing.fields.iban.label", type: "text" },
       { name: "bankName", labelKey: "settings.sections.invoicing.fields.bankName.label", type: "text" },
-      { name: "invoiceLogoUrl", labelKey: "settings.sections.invoicing.fields.invoiceLogoUrl.label", type: "url", colSpan: 2, helpKey: "settings.sections.invoicing.fields.invoiceLogoUrl.help" },
+      { name: "invoiceLogoUrl", labelKey: "settings.sections.invoicing.fields.invoiceLogoUrl.label", type: "image", colSpan: 2, helpKey: "settings.sections.invoicing.fields.invoiceLogoUrl.help" },
       { name: "invoiceNotes", labelKey: "settings.sections.invoicing.fields.invoiceNotes.label", type: "textarea", colSpan: 2 },
       { name: "invoiceIssuerName", labelKey: "settings.sections.invoicing.fields.invoiceIssuerName.label", type: "text", colSpan: 2, helpKey: "settings.sections.invoicing.fields.invoiceIssuerName.help" },
     ],
@@ -507,9 +514,11 @@ export const SETTINGS_SECTIONS: SectionDef[] = [
     fields: [
       { name: "brandPrimaryColor", labelKey: "settings.sections.branding.fields.brandPrimaryColor.label", type: "color" },
       { name: "brandSecondaryColor", labelKey: "settings.sections.branding.fields.brandSecondaryColor.label", type: "color" },
-      { name: "brandLogoUrl", labelKey: "settings.sections.branding.fields.brandLogoUrl.label", type: "url", colSpan: 2 },
-      { name: "brandEmailLogoUrl", labelKey: "settings.sections.branding.fields.brandEmailLogoUrl.label", type: "url", colSpan: 2 },
-      { name: "brandPdfLogoUrl", labelKey: "settings.sections.branding.fields.brandPdfLogoUrl.label", type: "url", colSpan: 2 },
+      { name: "brandLogoUrl", labelKey: "settings.sections.branding.fields.brandLogoUrl.label", type: "image", colSpan: 2 },
+      { name: "brandLogoLightUrl", labelKey: "settings.sections.branding.fields.brandLogoLightUrl.label", type: "image", colSpan: 2 },
+      { name: "brandFaviconUrl", labelKey: "settings.sections.branding.fields.brandFaviconUrl.label", type: "image", colSpan: 2 },
+      { name: "brandEmailLogoUrl", labelKey: "settings.sections.branding.fields.brandEmailLogoUrl.label", type: "image", colSpan: 2 },
+      { name: "brandPdfLogoUrl", labelKey: "settings.sections.branding.fields.brandPdfLogoUrl.label", type: "image", colSpan: 2 },
     ],
   },
 ];

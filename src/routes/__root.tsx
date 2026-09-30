@@ -9,7 +9,9 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 
+import { useEffect } from "react";
 import appCss from "../styles.css?url";
+import { getPublicBranding } from "@/lib/property-settings.functions";
 import "@/i18n";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { Toaster } from "@/components/ui/sonner";
@@ -99,6 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -114,11 +117,27 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <DynamicFavicon />
         {children}
         <Scripts />
       </body>
     </html>
   );
+}
+
+function DynamicFavicon() {
+  useEffect(() => {
+    getPublicBranding()
+      .then((b) => {
+        if (!b.faviconUrl) return;
+        document.querySelectorAll<HTMLLinkElement>('link[rel="icon"], link[rel="apple-touch-icon"]').forEach((l) => {
+          l.href = b.faviconUrl;
+          l.removeAttribute("type");
+        });
+      })
+      .catch(() => {});
+  }, []);
+  return null;
 }
 
 function RootComponent() {

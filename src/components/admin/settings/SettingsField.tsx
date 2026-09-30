@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { ImageUploadField } from "./ImageUploadField";
 import {
   Select,
   SelectContent,
@@ -169,6 +170,13 @@ export function SettingsField({
                   }
                   rhf.onBlur();
                 }}
+              />
+            ) : field.type === "image" ? (
+              <ImageUploadField
+                id={id}
+                disabled={disabled}
+                value={String(rhf.value ?? "")}
+                onChange={(v) => rhf.onChange(v)}
               />
             ) : field.type === "time" ? (
               <TimeInput
