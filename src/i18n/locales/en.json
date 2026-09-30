@@ -557,7 +557,9 @@
       "GB": "United Kingdom",
       "LT": "Lithuania",
       "LV": "Latvia",
-      "PL": "Poland"
+      "PL": "Poland",
+      "US": "United States of America",
+      "IS": "Iceland"
     },
     "currency": {
       "EUR": "EUR — Euro",
