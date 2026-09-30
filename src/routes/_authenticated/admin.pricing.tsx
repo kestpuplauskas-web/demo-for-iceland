@@ -37,13 +37,13 @@ export const Route = createFileRoute("/_authenticated/admin/pricing")({
 });
 
 type Kind = "season" | "event" | "manual";
-const KIND_LABEL: Record<Kind, string> = { season: "Sezonas", event: "Šventė", manual: "Tiksli kaina" };
+const KIND_LABEL: Record<Kind, string> = { season: "Season", event: "Holiday", manual: "Fixed price" };
 const KIND_PRIORITY: Record<Kind, number> = { season: 0, event: 10, manual: 100 };
 const MONTHS = [
-  "Sausis", "Vasaris", "Kovas", "Balandis", "Gegužė", "Birželis",
-  "Liepa", "Rugpjūtis", "Rugsėjis", "Spalis", "Lapkritis", "Gruodis",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
-const WEEKDAYS = ["P", "A", "T", "K", "P", "Š", "S"];
+const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
 
 function errText(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
@@ -51,12 +51,12 @@ function errText(e: unknown): string {
     const parsed = JSON.parse(msg);
     if (Array.isArray(parsed) && parsed[0]?.message) return parsed[0].message;
   } catch {
-    /* ne JSON */
+    /* not JSON */
   }
   return msg;
 }
 
-/** Šilumos spalva pagal kainos santykį su bazine. */
+/** Heat color based on price ratio to base price. */
 function heatColor(ratio: number): string {
   if (ratio <= 0.9) return "hsl(205 70% 72%)";
   if (ratio < 1.01) return "hsl(200 30% 88%)";
@@ -100,7 +100,7 @@ function PricingPage() {
     mutationFn: (v: { property_id: string; price_per_night: number; min_nightly_rate: number | null; max_nightly_rate: number | null }) =>
       updPricesFn({ data: v }),
     onSuccess: () => {
-      toast.success("Kaina išsaugota");
+      toast.success("Price saved");
       qc.invalidateQueries({ queryKey: ["pricing-overview"] });
       qc.invalidateQueries({ queryKey: ["pricing-heatmap"] });
       qc.invalidateQueries({ queryKey: ["dyn-pricing"] });
@@ -113,8 +113,8 @@ function PricingPage() {
   const savePrice = (p: { id: string; base: number; min: number | null; max: number | null }, field: "base" | "min" | "max", raw: string) => {
     const t = raw.trim().replace(",", ".");
     const val = t === "" ? null : Number(t);
-    if (val != null && (!Number.isFinite(val) || val < 0)) return toast.error("Įveskite teigiamą skaičių.");
-    if (field === "base" && val == null) return toast.error("Bazinė kaina privaloma.");
+    if (val != null && (!Number.isFinite(val) || val < 0)) return toast.error("Enter a positive number.");
+    if (field === "base" && val == null) return toast.error("Base price is required.");
     const next = { base: p.base, min: p.min, max: p.max, [field]: val };
     if (next[field] === p[field]) return;
     updPrices.mutate({ property_id: p.id, price_per_night: next.base as number, min_nightly_rate: next.min, max_nightly_rate: next.max });
@@ -122,7 +122,7 @@ function PricingPage() {
 
   const now = new Date();
   const todayIso = iso(now.getFullYear(), now.getMonth(), now.getDate());
-  /* 12 mėnesių į priekį nuo einamojo mėnesio */
+  /* 12 months forward from the current month */
   const months = Array.from({ length: 12 }, (_, k) => {
     const d = new Date(now.getFullYear(), now.getMonth() + k, 1);
     return { y: d.getFullYear(), m: d.getMonth() };
@@ -153,7 +153,7 @@ function PricingPage() {
     return m;
   }, [heatQ.data]);
 
-  /* Taisyklė, taikoma dienai (aukščiausias prioritetas) — spalvai kalendoriuje */
+  /* Rule applied to the day (highest priority) — for calendar color */
   const ruleForDate = (date: string) => {
     let best: any = null;
     for (const r of rules) {
@@ -175,7 +175,7 @@ function PricingPage() {
 
   const propName = (id: string) => properties.find((p) => p.id === id)?.name ?? "—";
 
-  /* ── Nauja taisyklė ── */
+  /* ── New rule ── */
   const [form, setForm] = useState(emptyRule);
   const [applyAll, setApplyAll] = useState(true);
   const [targets, setTargets] = useState<string[]>([]);
@@ -204,7 +204,7 @@ function PricingPage() {
         },
       }),
     onSuccess: (r) => {
-      toast.success(`Taisyklė pritaikyta ${r.count} objektui (-ams)`);
+      toast.success(`Rule applied to ${r.count} propert${r.count === 1 ? "y" : "ies"}`);
       setForm(emptyRule);
       qc.invalidateQueries({ queryKey: ["pricing-rules"] });
       qc.invalidateQueries({ queryKey: ["pricing-heatmap"] });
@@ -218,7 +218,7 @@ function PricingPage() {
   const delAll = useMutation({
     mutationFn: (ids: string[]) => deleteRowsFn({ data: { ids } }),
     onSuccess: (r) => {
-      toast.success(`Ištrinta taisyklių: ${r.count}`);
+      toast.success(`Deleted rules: ${r.count}`);
       qc.invalidateQueries({ queryKey: ["pricing-rules"] });
       qc.invalidateQueries({ queryKey: ["pricing-heatmap"] });
       qc.invalidateQueries({ queryKey: ["rate-calendar"] });
@@ -228,7 +228,7 @@ function PricingPage() {
   const delRow = useMutation({
     mutationFn: (id: string) => deleteRowFn({ data: { id } }),
     onSuccess: () => {
-      toast.success("Ištrinta");
+      toast.success("Deleted");
       qc.invalidateQueries({ queryKey: ["pricing-rules"] });
       qc.invalidateQueries({ queryKey: ["pricing-heatmap"] });
       qc.invalidateQueries({ queryKey: ["rate-calendar"] });
@@ -240,7 +240,7 @@ function PricingPage() {
     mutationFn: (v: { ids: string[]; enabled: boolean }) =>
       bulkToggleFn({ data: { property_ids: v.ids, enabled: v.enabled } }),
     onSuccess: (_d, v) => {
-      toast.success(v.enabled ? "Dinaminė kainodara įjungta" : "Dinaminė kainodara išjungta");
+      toast.success(v.enabled ? "Dynamic pricing enabled" : "Dynamic pricing disabled");
       qc.invalidateQueries({ queryKey: ["pricing-overview"] });
       qc.invalidateQueries({ queryKey: ["pricing-heatmap"] });
       qc.invalidateQueries({ queryKey: ["dyn-pricing"] });
@@ -252,21 +252,21 @@ function PricingPage() {
     <div className="space-y-8 p-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">Kainodara</h1>
+          <h1 className="text-2xl font-semibold">Pricing</h1>
           <p className="text-sm text-muted-foreground">
-            Visų objektų kainos vienoje vietoje — kalendorius, sezonai, šventės ir užimtumo poveikis.
+            All property prices in one place — calendar, seasons, holidays, and occupancy impact.
           </p>
         </div>
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1">
-            <Label htmlFor="pr-prop">Objektas</Label>
+            <Label htmlFor="pr-prop">Property</Label>
             <select
               id="pr-prop"
               className="h-10 min-w-56 rounded-md border bg-background px-3 text-sm"
               value={propertyId ?? ""}
               onChange={(e) => setPropertyId(e.target.value || null)}
             >
-              <option value="">Visi objektai (vidurkis)</option>
+              <option value="">All properties (average)</option>
               {properties.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -277,25 +277,25 @@ function PricingPage() {
         </div>
       </header>
 
-      {/* Šilumos kalendorius */}
+      {/* Heat calendar */}
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold">Kainų kalendorius {months[0].y}-{String(months[0].m+1).padStart(2,"0")} – {rangeEnd.slice(0,7)}</h2>
+            <h2 className="text-lg font-semibold">Price calendar {months[0].y}-{String(months[0].m+1).padStart(2,"0")} – {rangeEnd.slice(0,7)}</h2>
             <p className="text-xs text-muted-foreground">
               {pickStart
-                ? `Pradžia: ${pickStart}. Paspauskite pabaigos dieną.`
-                : "Paspauskite pradžios ir pabaigos dieną — datos įsirašys į naują taisyklę. Dienos su taisykle rodomos jos spalva."}
+                ? `Start: ${pickStart}. Click the end date.`
+                : "Click the start and end date — the dates will be filled into a new rule. Days with a rule are shown in its color."}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
             {[
-              ["Pigiau", 0.85],
-              ["Bazinė", 1],
-              ["+10 %", 1.15],
-              ["+30 %", 1.3],
-              ["+60 %", 1.6],
-              ["Pikas", 2.2],
+              ["Cheaper", 0.85],
+              ["Base", 1],
+              ["+10%", 1.15],
+              ["+30%", 1.3],
+              ["+60%", 1.6],
+              ["Peak", 2.2],
             ].map(([l, r]) => (
               <span key={String(l)} className="flex items-center gap-1">
                 <span className="h-3 w-3 rounded-sm border" style={{ backgroundColor: heatColor(Number(r)) }} />
@@ -305,7 +305,7 @@ function PricingPage() {
           </div>
         </div>
         {heatQ.isLoading ? (
-          <p className="text-sm text-muted-foreground">Kraunama…</p>
+          <p className="text-sm text-muted-foreground">Loading…</p>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {months.map(({ y: year, m }) => (
@@ -332,7 +332,7 @@ function PricingPage() {
                         onClick={() => onDayClick(date)}
                         title={
                           (cell
-                            ? `${date} · ${formatNumber(cell.price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur} · užimtumas ${cell.occupancy} %`
+                            ? `${date} · ${formatNumber(cell.price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur} · occupancy ${cell.occupancy}%`
                             : date) + (rule ? ` · ${rule.label}` : "")
                         }
                         className={`relative flex h-6 items-center justify-center overflow-hidden rounded-sm border text-[10px] text-foreground disabled:cursor-not-allowed disabled:opacity-30 ${
@@ -357,16 +357,16 @@ function PricingPage() {
         )}
       </section>
 
-      {/* Nauja taisyklė */}
+      {/* New rule */}
       <section className="space-y-4 rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">Nauja kainų taisyklė</h2>
+        <h2 className="text-lg font-semibold">New pricing rule</h2>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <div className="space-y-1">
-            <Label htmlFor="pr-label">Pavadinimas</Label>
-            <Input id="pr-label" value={form.label} placeholder="pvz., Vasaros sezonas" onChange={(e) => setForm({ ...form, label: e.target.value })} />
+            <Label htmlFor="pr-label">Name</Label>
+            <Input id="pr-label" value={form.label} placeholder="e.g., Summer season" onChange={(e) => setForm({ ...form, label: e.target.value })} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="pr-kind">Tipas</Label>
+            <Label htmlFor="pr-kind">Type</Label>
             <select
               id="pr-kind"
               className="h-10 w-full rounded-md border bg-background px-3 text-sm"
@@ -382,11 +382,11 @@ function PricingPage() {
             </select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="pr-from">Nuo</Label>
+            <Label htmlFor="pr-from">From</Label>
             <Input id="pr-from" type="date" value={form.date_from} onChange={(e) => setForm({ ...form, date_from: e.target.value })} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="pr-to">Iki ir įskaitant</Label>
+            <Label htmlFor="pr-to">To and including</Label>
             <Input id="pr-to" type="date" value={form.date_to} onChange={(e) => setForm({ ...form, date_to: e.target.value })} />
           </div>
         </div>
@@ -394,49 +394,49 @@ function PricingPage() {
           <div className="flex gap-4 text-sm">
             <label className="flex items-center gap-2">
               <input type="radio" name="pr-mode" checked={form.mode === "multiplier"} onChange={() => setForm({ ...form, mode: "multiplier" })} />
-              Daugiklis (%)
+              Multiplier (%)
             </label>
             <label className="flex items-center gap-2">
               <input type="radio" name="pr-mode" checked={form.mode === "fixed"} onChange={() => setForm({ ...form, mode: "fixed" })} />
-              Tiksli kaina ({cur})
+              Fixed price ({cur})
             </label>
           </div>
           {form.mode === "multiplier" ? (
             <div className="space-y-1">
-              <Label htmlFor="pr-mult">Daugiklis</Label>
+              <Label htmlFor="pr-mult">Multiplier</Label>
               <Input id="pr-mult" className="w-32" type="number" step="0.01" min={0} value={form.multiplier} onChange={(e) => setForm({ ...form, multiplier: e.target.value })} />
             </div>
           ) : (
             <div className="space-y-1">
-              <Label htmlFor="pr-fixed">Kaina už naktį ({cur})</Label>
+              <Label htmlFor="pr-fixed">Price per night ({cur})</Label>
               <Input id="pr-fixed" className="w-32" type="number" step="0.01" min={0} value={form.fixed_price} onChange={(e) => setForm({ ...form, fixed_price: e.target.value })} />
             </div>
           )}
           <div className="space-y-1">
-            <Label>Spalva</Label>
+            <Label>Color</Label>
             <div className="flex items-center gap-1">
               {PALETTE.map((c) => (
                 <button
                   key={c}
                   type="button"
-                  aria-label={`Spalva ${c}`}
+                  aria-label={`Color ${c}`}
                   onClick={() => setForm({ ...form, color: c })}
                   className={`h-7 w-7 rounded-full border-2 ${form.color === c ? "border-foreground" : "border-transparent"}`}
                   style={{ backgroundColor: c }}
                 />
               ))}
-              <input type="color" aria-label="Kita spalva" value={form.color} onChange={(e) => setForm({ ...form, color: e.target.value })} className="h-7 w-9 cursor-pointer rounded border bg-background" />
+              <input type="color" aria-label="Other color" value={form.color} onChange={(e) => setForm({ ...form, color: e.target.value })} className="h-7 w-9 cursor-pointer rounded border bg-background" />
             </div>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="pr-prio">Prioritetas</Label>
+            <Label htmlFor="pr-prio">Priority</Label>
             <Input id="pr-prio" className="w-24" type="number" value={form.priority} onChange={(e) => setForm({ ...form, priority: e.target.value })} />
           </div>
         </div>
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium">
             <input type="checkbox" checked={applyAll} onChange={(e) => setApplyAll(e.target.checked)} />
-            Taikyti visiems objektams ({properties.length})
+            Apply to all properties ({properties.length})
           </label>
           {!applyAll && (
             <div className="flex flex-wrap gap-2">
@@ -458,38 +458,38 @@ function PricingPage() {
         </div>
         <Button disabled={!formValid || saveBulk.isPending} onClick={() => saveBulk.mutate()}>
           <Plus className="mr-1 h-4 w-4" />
-          {saveBulk.isPending ? "Saugoma…" : "Pridėti taisyklę"}
+          {saveBulk.isPending ? "Saving…" : "Add rule"}
         </Button>
       </section>
 
-      {/* Taisyklių sąrašas */}
+      {/* Rules list */}
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-semibold">
-            Taisyklės {propertyId ? `— ${propName(propertyId)}` : "— visi objektai"}
+            Rules {propertyId ? `— ${propName(propertyId)}` : "— all properties"}
           </h2>
           {rules.length > 0 && (
             <Button variant="outline" size="sm" className="text-destructive" disabled={delAll.isPending} onClick={() => setConfirmAll(true)}>
               <Trash2 className="mr-1 h-4 w-4" />
-              {delAll.isPending ? "Trinama…" : `Ištrinti visas (${rules.length})`}
+              {delAll.isPending ? "Deleting…" : `Delete all (${rules.length})`}
             </Button>
           )}
         </div>
         {rulesQ.isLoading ? (
-          <p className="text-sm text-muted-foreground">Kraunama…</p>
+          <p className="text-sm text-muted-foreground">Loading…</p>
         ) : rules.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Taisyklių dar nėra.</p>
+          <p className="text-sm text-muted-foreground">No rules yet.</p>
         ) : (
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left text-xs text-muted-foreground">
                 <tr>
-                  <th className="p-2">Pavadinimas</th>
-                  <th className="p-2">Objektas</th>
-                  <th className="p-2">Tipas</th>
-                  <th className="p-2">Nuo – iki</th>
-                  <th className="p-2">Pakeitimas</th>
-                  <th className="p-2">Prioritetas</th>
+                  <th className="p-2">Name</th>
+                  <th className="p-2">Property</th>
+                  <th className="p-2">Type</th>
+                  <th className="p-2">From – to</th>
+                  <th className="p-2">Change</th>
+                  <th className="p-2">Priority</th>
                   <th className="p-2" />
                 </tr>
               </thead>
@@ -510,7 +510,7 @@ function PricingPage() {
                     </td>
                     <td className="p-2">{r.priority}</td>
                     <td className="p-2 text-right">
-                      <Button variant="ghost" size="icon" aria-label="Ištrinti" onClick={() => setToDelete(r)}>
+                      <Button variant="ghost" size="icon" aria-label="Delete" onClick={() => setToDelete(r)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </td>
@@ -522,10 +522,10 @@ function PricingPage() {
         )}
       </section>
 
-      {/* Objektų būsena */}
+      {/* Property status */}
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">Objektų būsena</h2>
+          <h2 className="text-lg font-semibold">Property status</h2>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -533,7 +533,7 @@ function PricingPage() {
               disabled={toggle.isPending || !properties.length}
               onClick={() => toggle.mutate({ ids: properties.map((p) => p.id), enabled: true })}
             >
-              Įjungti visiems
+              Enable for all
             </Button>
             <Button
               variant="outline"
@@ -541,7 +541,7 @@ function PricingPage() {
               disabled={toggle.isPending || !properties.length}
               onClick={() => toggle.mutate({ ids: properties.map((p) => p.id), enabled: false })}
             >
-              Išjungti visiems
+              Disable for all
             </Button>
           </div>
         </div>
@@ -549,12 +549,12 @@ function PricingPage() {
           <table className="w-full text-sm">
             <thead className="bg-muted/50 text-left text-xs text-muted-foreground">
               <tr>
-                <th className="p-2">Objektas</th>
-                <th className="p-2">Bazinė kaina</th>
+                <th className="p-2">Property</th>
+                <th className="p-2">Base price</th>
                 <th className="p-2">Min.</th>
-                <th className="p-2">Maks.</th>
-                <th className="p-2">Užimtumo taisyklės</th>
-                <th className="p-2">Dinaminė kaina</th>
+                <th className="p-2">Max.</th>
+                <th className="p-2">Occupancy rules</th>
+                <th className="p-2">Dynamic pricing</th>
               </tr>
             </thead>
             <tbody>
@@ -569,7 +569,7 @@ function PricingPage() {
                       className="h-8 w-24"
                       defaultValue={p.base != null ? String(p.base) : ""}
                       placeholder="—"
-                      aria-label={`Bazinė kaina: ${p.name}`}
+                      aria-label={`Base price: ${p.name}`}
                       onBlur={(e) => savePrice(p, "base", e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && (e.target as HTMLInputElement).blur()}
                     />
@@ -582,7 +582,7 @@ function PricingPage() {
                       className="h-8 w-24"
                       defaultValue={p.min != null ? String(p.min) : ""}
                       placeholder="—"
-                      aria-label={`Min. kaina: ${p.name}`}
+                      aria-label={`Min. price: ${p.name}`}
                       onBlur={(e) => savePrice(p, "min", e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && (e.target as HTMLInputElement).blur()}
                     />
@@ -595,7 +595,7 @@ function PricingPage() {
                       className="h-8 w-24"
                       defaultValue={p.max != null ? String(p.max) : ""}
                       placeholder="—"
-                      aria-label={`Maks. kaina: ${p.name}`}
+                      aria-label={`Max. price: ${p.name}`}
                       onBlur={(e) => savePrice(p, "max", e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && (e.target as HTMLInputElement).blur()}
                     />
@@ -606,7 +606,7 @@ function PricingPage() {
                       checked={p.enabled}
                       disabled={toggle.isPending}
                       onCheckedChange={(c) => toggle.mutate({ ids: [p.id], enabled: c })}
-                      aria-label={`Dinaminė kaina: ${p.name}`}
+                      aria-label={`Dynamic pricing: ${p.name}`}
                     />
                   </td>
                 </tr>
@@ -615,13 +615,13 @@ function PricingPage() {
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          Kainas (už naktį, {cur}) galite keisti tiesiog lentelėje — išsaugoma išėjus iš laukelio arba paspaudus Enter. Tuščias min./maks. laukas reiškia „be ribos“. Užimtumo taisyklėms viršuje pasirinkite objektą.
+          You can edit prices (per night, {cur}) directly in the table — saved when you leave the field or press Enter. An empty min./max. field means "no limit". Select a property above for occupancy rules.
         </p>
       </section>
 
       {propertyId && (
         <section className="rounded-xl border bg-card p-6">
-          <h2 className="mb-2 text-lg font-semibold">Objekto nustatymai — {propName(propertyId)}</h2>
+          <h2 className="mb-2 text-lg font-semibold">Property settings — {propName(propertyId)}</h2>
           <DynamicPricingPanel key={propertyId} propertyId={propertyId} />
         </section>
       )}
@@ -629,20 +629,20 @@ function PricingPage() {
       <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Ištrinti taisyklę?</AlertDialogTitle>
+            <AlertDialogTitle>Delete rule?</AlertDialogTitle>
             <AlertDialogDescription>
-              {toDelete ? `„${toDelete.label}" (${toDelete.date_from} – ${toDelete.date_to}) bus pašalinta.` : ""}
+              {toDelete ? `"${toDelete.label}" (${toDelete.date_from} – ${toDelete.date_to}) will be removed.` : ""}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Atšaukti</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (toDelete) delRow.mutate(toDelete.id);
                 setToDelete(null);
               }}
             >
-              Ištrinti
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -650,20 +650,20 @@ function PricingPage() {
       <AlertDialog open={confirmAll} onOpenChange={setConfirmAll}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Ištrinti visas taisykles?</AlertDialogTitle>
+            <AlertDialogTitle>Delete all rules?</AlertDialogTitle>
             <AlertDialogDescription>
-              Bus pašalinta {rules.length} taisyklių {propertyId ? `objektui „${propName(propertyId)}"` : "visiems objektams"}. Šio veiksmo atšaukti negalima.
+              {rules.length} rules will be removed {propertyId ? `for property "${propName(propertyId)}"` : "for all properties"}. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Atšaukti</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 delAll.mutate(rules.map((r) => r.id));
                 setConfirmAll(false);
               }}
             >
-              Ištrinti visas
+              Delete all
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

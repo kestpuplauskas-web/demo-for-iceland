@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import lt from "./locales/lt.json";
 import en from "./locales/en.json";
 import {
   SUPPORTED_LANGUAGES,
@@ -44,15 +43,14 @@ export function storeLanguage(code: LanguageCode) {
 if (!i18n.isInitialized) {
   i18n.use(initReactI18next).init({
     resources: {
-      lt: { translation: lt },
       en: { translation: en },
     },
     // Serveris nustatymų dar nežino, tad startuojame nuo atsarginės kalbos;
     // tikroji numatytoji pritaikoma naršyklėje.
-    lng: FALLBACK_LANGUAGE,
-    fallbackLng: FALLBACK_LANGUAGE,
-    supportedLngs: SUPPORTED_LANGUAGES.map((l) => l.code),
-    interpolation: { escapeValue: false },
+    lng: "en",
+    fallbackLng: "en",
+    supportedLngs: ["en"],
+    interpolation: { escapeValue: false, defaultVariables: { currency: "€" } },
     react: { useSuspense: false },
   });
 }

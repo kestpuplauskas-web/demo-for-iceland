@@ -1,3 +1,4 @@
+import { currencySymbol } from "@/lib/properties";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -70,7 +71,7 @@ function ConfirmationPage() {
     retry: false,
   });
 
-  const currency = booking?.currency === "ISK" ? "kr." : (booking?.currency ?? "");
+  const currency = booking?.currency ? currencySymbol(booking.currency) : "";
 
   return (
     <>

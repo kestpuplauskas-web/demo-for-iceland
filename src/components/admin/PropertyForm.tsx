@@ -14,8 +14,10 @@ import {
   type ExtraCalc,
   type Property,
   type RoomConfig,
+  type PropertyCurrency,
 } from "@/lib/properties";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { NumberInput } from "@/components/NumberInput";
 
 export type PropertyFormValues = {
@@ -43,7 +45,7 @@ export type PropertyFormValues = {
   };
   amenities: string[];
   pricePerNight: number;
-  currency: "EUR" | "ISK";
+  currency: PropertyCurrency;
   priceTiers: Array<{
     label: string;
     minNights: number;
@@ -79,7 +81,7 @@ export function propertyToForm(p: Property | null | undefined): PropertyFormValu
     rooms: { ...(p?.rooms ?? {}), configs: p?.rooms?.configs ?? [] },
     amenities: p?.amenities ?? [],
     pricePerNight: p?.pricePerNight ?? 60,
-    currency: (p?.currency as "EUR" | "ISK") ?? "EUR",
+    currency: (p?.currency as PropertyCurrency) ?? "EUR",
     priceTiers: p?.priceTiers ?? [],
     extraServices: p?.extraServices ?? [],
     coverImageUrl: p?.image ?? "",
@@ -110,6 +112,7 @@ export function PropertyForm({
   };
 }) {
   const { t } = useTranslation();
+  const currency = useAdminCurrency();
   const [v, setV] = useState<PropertyFormValues>(initial);
   // Kai iš serverio ateina šviežesni duomenys, forma persikrauna (jei vartotojas dar neredagavo).
   const dirtyRef = useRef(false);
@@ -386,14 +389,14 @@ export function PropertyForm({
         </label>
         <label className="text-sm">
           {t("properties.form.currency")}
-          <select
-            value={v.currency}
-            onChange={(e) => set("currency", e.target.value as "EUR" | "ISK")}
-            className="mt-1 w-full rounded border px-2 py-1"
-          >
-            <option value="EUR">EUR (€)</option>
-            <option value="ISK">ISK (kr.)</option>
-          </select>
+          <input
+            value={`${currency.code} (${currency.symbol})`}
+            readOnly
+            disabled
+            title={t("properties.form.currencyFromSettings")}
+            className="mt-1 w-full rounded border bg-muted px-2 py-1 text-muted-foreground"
+          />
+          <span className="mt-1 block text-xs text-muted-foreground">{t("properties.form.currencyFromSettings")}</span>
         </label>
         <label className="text-sm">
           {t("properties.form.sortOrder")}

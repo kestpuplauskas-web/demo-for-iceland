@@ -1,3 +1,4 @@
+import { currencySymbol } from "@/lib/properties";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -183,7 +184,7 @@ type QuoteData = {
 
 function PriceBreakdown({ quote }: { quote: QuoteData }) {
   const { common } = useContent();
-  const currency = quote.currency === "ISK" ? "kr." : quote.currency;
+  const currency = currencySymbol(quote.currency);
   return (
     <dl className="space-y-2 text-sm text-stone">
       <Row

@@ -148,8 +148,8 @@
       "companyCode": "Company code *",
       "companyName": "Company name *",
       "companyNamePlaceholder": "Example Ltd.",
-      "computed": "Calculated: {{total}} € (stay {{stay}} € · {{nightly}} €/night × {{days}}{{extras}})",
-      "computedExtras": " + services {{amount}} €",
+      "computed": "Calculated: {{total}} {{currency}} (stay {{stay}} {{currency}} · {{nightly}} {{currency}}/night × {{days}}{{extras}})",
+      "computedExtras": " + services {{amount}} {{currency}}",
       "conflict": "These dates are already booked for this property: {{list}}. Choose other dates or another property.",
       "conflictSave": "Cannot save – dates overlap with an existing booking.",
       "country": "Country",
@@ -159,7 +159,7 @@
       "emailPlaceholder": "name@email.com",
       "extras": "Extra services",
       "extrasHint": "Calculated by number of nights ({{nights}}) and guests. Infants under 3 are not counted.",
-      "extrasTotal": "Services total: {{amount}} €",
+      "extrasTotal": "Services total: {{amount}} {{currency}}",
       "guestsCount": "Number of guests",
       "isVatPayer": "VAT payer",
       "name": "Full name",
@@ -167,7 +167,7 @@
       "nights": "Nights: {{count}}",
       "note": "Note",
       "notePlaceholder": "Internal note about the booking…",
-      "perDay": "€/day",
+      "perDay": "{{currency}}/day",
       "person": "Individual",
       "phone": "Phone",
       "phonePlaceholder": "+370 600 00000",
@@ -200,7 +200,7 @@
       "source": "Source",
       "status": "Status",
       "submit": "Save booking",
-      "total": "Amount (€)",
+      "total": "Amount ({{currency}})",
       "vatNumber": "VAT number *"
     },
     "found_one": "{{count}} found",
@@ -434,7 +434,7 @@
       "nuo": "From",
       "objektas": "Property",
       "rezervacijos_nr": "Booking no.",
-      "suma": "Amount €",
+      "suma": "Amount {{currency}}",
       "sveciai": "Number of guests",
       "vieta": "Location"
     }
@@ -760,9 +760,9 @@
       "minNights": "Min nights",
       "name": "Name",
       "noRooms": "No rooms added.",
-      "pricePerDay": "€ / day",
-      "pricePerNight": "Price per night (€)",
-      "pricePerNightShort": "€ / night",
+      "pricePerDay": "{{currency}} / day",
+      "pricePerNight": "Price per night",
+      "pricePerNightShort": "{{currency}} / night",
       "roomType": "Room type",
       "roomsTitle": "Sleeping areas / Rooms",
       "save": "Save",
@@ -775,7 +775,8 @@
       "tiersTitle": "Seasonal prices (by number of nights)",
       "totalBeds": "Total beds: {{count}}",
       "type": "Type",
-      "currency": "Currency"
+      "currency": "Currency",
+      "currencyFromSettings": "Set in General settings — applies to all properties."
     },
     "images": {
       "alt": "Photo {{index}}",
@@ -1207,10 +1208,10 @@
       "daysBeforeArrival": "days before arrival",
       "hours": "h",
       "nights": "nights",
-      "perGuestNight": "€ / guest per night",
-      "perNight": "€ / night",
+      "perGuestNight": "{{currency}} / guest per night",
+      "perNight": "{{currency}} / night",
       "percent": "%",
-      "percentOrEur": "% or €",
+      "percentOrEur": "% or {{currency}}",
       "years": "years"
     },
     "users": {

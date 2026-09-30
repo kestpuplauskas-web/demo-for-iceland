@@ -1,6 +1,5 @@
 /** Vienintelė vieta, kur registruojamos palaikomos kalbos. */
 export const SUPPORTED_LANGUAGES = [
-  { code: "lt", labelKey: "language.lt" },
   { code: "en", labelKey: "language.en" },
 ] as const;
 
@@ -13,7 +12,7 @@ export type LanguageCode = (typeof SUPPORTED_LANGUAGES)[number]["code"];
  * TIKROJI numatytoji kalba imama iš Nustatymai → Objekto informacija →
  * „Numatytoji kalba" (`property_settings.default_language`).
  */
-export const FALLBACK_LANGUAGE: LanguageCode = "lt";
+export const FALLBACK_LANGUAGE: LanguageCode = "en";
 
 export const LANGUAGE_STORAGE_KEY = "revoo.lang";
 

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertCanView } from "./users.server";
 import type { Property, PriceTier, Rooms, Booking, ExtraService } from "./properties";
+import { CURRENCIES, type PropertyCurrency } from "./properties";
 import type { Database } from "@/integrations/supabase/types";
 
 /** Defense-in-depth: programos lygmens administratoriaus patikra (šalia RLS). */
@@ -66,7 +67,7 @@ function mapProperty(row: PublicPropertyRow, bookings: BookingRow[] = []): Prope
     rooms: (row.rooms as unknown as Rooms) ?? {},
     amenities: (row.amenities as unknown as string[]) ?? [],
     pricePerNight: Number(row.price_per_night),
-    currency: row.currency === "ISK" ? "ISK" : "EUR",
+    currency: (CURRENCIES as readonly string[]).includes(String(row.currency)) ? (row.currency as PropertyCurrency) : "EUR",
     priceTiers: (row.price_tiers as unknown as PriceTier[]) ?? [],
     extraServices: (row.extra_services as unknown as ExtraService[]) ?? [],
     image: row.cover_image_url,
@@ -222,7 +223,7 @@ const propertyInputSchema = z.object({
     .default({}),
   amenities: z.array(z.string().min(1).max(50)).max(50).default([]),
   pricePerNight: z.number().positive().max(100000),
-  currency: z.enum(["EUR", "ISK"]).default("EUR"),
+  currency: z.enum(CURRENCIES).default("EUR"),
   priceTiers: z
     .array(
       z.object({
