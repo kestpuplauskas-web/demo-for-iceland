@@ -2,10 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 /**
- * Viešas slaptažodžio atstatymas.
- * Nuorodą generuojame per Auth Admin API ir siunčiame per patvirtintą Resend domeną
- * (Supabase numatytieji auth laiškai šiam projektui nenaudojami).
- * Visada grąžina { ok: true }, kad neatskleistume, ar el. paštas registruotas.
+ * Public password recovery.
+ * We generate the link via the Auth Admin API and send it via a verified Resend domain
+ * (Supabase default auth emails are not used for this project).
+ * Always returns { ok: true } so that we do not reveal whether the email is registered.
  */
 export const requestPasswordReset = createServerFn({ method: "POST" })
   .inputValidator((d) =>
@@ -34,14 +34,14 @@ export const requestPasswordReset = createServerFn({ method: "POST" })
       const { sendEmail } = await import("@/lib/notifications.server");
       await sendEmail({
         to: data.email,
-        subject: "Slaptažodžio atstatymas — Dharma Stay",
+        subject: "Password reset — Dharma Stay",
         html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
-            <p>Gavome prašymą atstatyti jūsų paskyros slaptažodį.</p>
-            <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Nustatyti naują slaptažodį</a></p>
-            <p style="font-size:13px;color:#666">Jei mygtukas neveikia, nukopijuokite šią nuorodą:<br>${actionLink}</p>
-            <p style="font-size:13px;color:#666">Jei prašymo neteikėte — tiesiog ignoruokite šį laišką.</p>
+            <p>We received a request to reset your account password.</p>
+            <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Set new password</a></p>
+            <p style="font-size:13px;color:#666">If the button doesn't work, copy this link:<br>${actionLink}</p>
+            <p style="font-size:13px;color:#666">If you did not make this request — simply ignore this email.</p>
           </div>
         `,
       });

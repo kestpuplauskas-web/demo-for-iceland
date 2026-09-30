@@ -35,9 +35,9 @@ export const ensureInvoiceForBooking = createServerFn({ method: "POST" })
       .eq("id", data.bookingId)
       .maybeSingle();
     if (bErr) throw new Error(bErr.message);
-    if (!booking) throw new Error("Rezervacija nerasta.");
+    if (!booking) throw new Error("Booking not found.");
     if (booking.status !== "confirmed") {
-      throw new Error("Sąskaita generuojama tik apmokėtoms (patvirtintoms) rezervacijoms.");
+      throw new Error("Invoices can only be generated for paid (confirmed) bookings.");
     }
     const { generateInvoiceForBooking } = await import("./invoices.server");
     await generateInvoiceForBooking(data.bookingId);
@@ -47,6 +47,6 @@ export const ensureInvoiceForBooking = createServerFn({ method: "POST" })
       .eq("booking_id", data.bookingId)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    if (!row) throw new Error("Nepavyko sugeneruoti sąskaitos.");
+    if (!row) throw new Error("Failed to generate the invoice.");
     return row;
   });

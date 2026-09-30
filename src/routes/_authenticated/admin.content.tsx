@@ -40,12 +40,12 @@ export const Route = createFileRoute("/_authenticated/admin/content")({
       {
         name: "description",
         content:
-          "Klientams siunčiamų el. laiškų, WhatsApp žinučių ir svečiams skirtos informacijos šablonų valdymas.",
+          "Management of email and WhatsApp message templates and guest information sent to customers.",
       },
       { property: "og:title", content: `Turinys | ${PLATFORM_NAME}` },
       {
         property: "og:description",
-        content: "El. laiškų, WhatsApp žinučių ir svečių informacijos šablonai vienoje vietoje.",
+        content: "Email, WhatsApp message, and guest information templates in one place.",
       },
     ],
   }),

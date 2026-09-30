@@ -101,7 +101,7 @@ export async function syncPropertyCalendar(property: {
           customer_name: ev.summary || (source === "airbnb" ? "Airbnb" : "Booking.com"),
           total_amount: 0,
           payment_amount: 0,
-          note: "Importuota iš išorinio kalendoriaus (iCal)",
+          note: "Imported from external calendar (iCal)",
         });
         if (error) throw new Error(error.message);
         base.created += 1;
@@ -134,7 +134,7 @@ export async function syncPropertyCalendar(property: {
 
     return base;
   } catch (e) {
-    const message = e instanceof Error ? e.message : "Nežinoma klaida";
+    const message = e instanceof Error ? e.message : "Unknown error";
     console.error("[ical-sync]", property.id, message);
     await supabaseAdmin
       .from("properties")

@@ -38,7 +38,7 @@ export const clearAssistantHistory = createServerFn({ method: "POST" })
       .eq("user_id", context.userId);
     if (error) {
       console.error("[clearAssistantHistory]", error.message);
-      throw new Error("Nepavyko išvalyti pokalbio.");
+      throw new Error("Failed to clear the conversation.");
     }
     return { ok: true };
   });

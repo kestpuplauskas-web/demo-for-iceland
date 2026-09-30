@@ -27,14 +27,14 @@ function json(status: number, body: unknown) {
 function limitMessage(lang: AssistantLang) {
   return lang === "en"
     ? "Message limit reached for this hour. Please try again a bit later."
-    : "Pasiektas šios valandos žinučių limitas. Pabandykite kiek vėliau.";
+    : "Message limit reached for this hour. Please try again a bit later.";
 }
 
 function gatewayErrorMessage(status: number, lang: AssistantLang, upstream: string) {
   const en = lang === "en";
-  if (status === 429) return en ? "The assistant is busy right now, please try again in a moment." : "Asistentas šiuo metu užimtas, pabandykite po akimirkos.";
-  if (status === 402) return en ? "AI credits are exhausted. The workspace owner needs to top up credits." : "Baigėsi AI kreditai. Darbo srities savininkui reikia papildyti kreditus.";
-  if (status === 403) return en ? "AI assistant is blocked by workspace policy." : "AI asistentas užblokuotas darbo srities nustatymais.";
+  if (status === 429) return en ? "The assistant is busy right now, please try again in a moment." : "The assistant is busy right now, please try again in a moment.";
+  if (status === 402) return en ? "AI credits are exhausted. The workspace owner needs to top up credits." : "AI credits are exhausted. The workspace owner needs to top up credits.";
+  if (status === 403) return en ? "AI assistant is blocked by workspace policy." : "AI assistant is blocked by workspace policy.";
   console.error("[assistant] gateway", status, upstream.slice(0, 300));
   return en ? "The assistant is temporarily unavailable." : "Asistentas laikinai nepasiekiamas.";
 }
@@ -56,7 +56,7 @@ async function handlePost(request: Request) {
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) return json(500, { error: "AI not configured" });
 
-  // Limitas per valandą
+  // Hourly limit
   const hourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   const { count } = await supabase
     .from("assistant_messages")
@@ -96,7 +96,7 @@ async function handlePost(request: Request) {
     currentPath: input.path,
   });
 
-  // Išsaugome vartotojo žinutę
+  // Save the user message
   const { error: insertErr } = await supabase
     .from("assistant_messages")
     .insert({ user_id: userId, role: "user", content: input.message });
@@ -158,7 +158,7 @@ async function handlePost(request: Request) {
                 send({ t: delta });
               }
             } catch {
-              // eilutė užbaigta \n, bet ne JSON – praleidžiame
+              // line terminated with \n, but not JSON – skip
             }
           }
         }

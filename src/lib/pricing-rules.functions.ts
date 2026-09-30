@@ -35,16 +35,16 @@ const rowInput = z
     date_from: isoDate,
     date_to: isoDate,
     kind: z.enum(["season", "event", "manual"]),
-    label: z.string().trim().min(1, "Įveskite pavadinimą").max(100),
+    label: z.string().trim().min(1, "Enter a name").max(100),
     multiplier: z.number().positive().max(10).nullable(),
     fixed_price: z.number().min(0).max(100000).nullable(),
     priority: z.number().int().min(-100).max(100).default(0),
     color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   })
   .refine((v) => (v.multiplier == null) !== (v.fixed_price == null), {
-    message: "Pasirinkite arba procentinį pakeitimą, arba tikslią kainą — ne abu.",
+    message: "Choose either a percentage change or a fixed price — not both.",
   })
-  .refine((v) => v.date_to >= v.date_from, { message: "Pabaigos data negali būti ankstesnė už pradžios datą." });
+  .refine((v) => v.date_to >= v.date_from, { message: "The end date cannot be earlier than the start date." });
 
 export const saveRateCalendarRow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -88,14 +88,14 @@ export const saveOccupancyPricing = createServerFn({ method: "POST" })
           if (v.tiers[i].minOccupancyPct <= v.tiers[i - 1].minOccupancyPct) {
             ctx.addIssue({
               code: "custom",
-              message: `Užimtumo ribos turi didėti iš eilės — riba ${v.tiers[i].minOccupancyPct} % pakartota arba mažesnė už ankstesnę.`,
+              message: `Occupancy thresholds must increase in sequence — threshold ${v.tiers[i].minOccupancyPct}% is repeated or lower than the previous one.`,
             });
             return;
           }
         }
       })
       .refine((v) => v.min_nightly_rate == null || v.max_nightly_rate == null || v.max_nightly_rate >= v.min_nightly_rate, {
-        message: "Maksimali kaina negali būti mažesnė už minimalią.",
+        message: "The maximum price cannot be lower than the minimum price.",
       })
       .parse(d),
   )
@@ -164,7 +164,7 @@ export const previewDynamicPrice = createServerFn({ method: "GET" })
     return { ...q, occupancyByDate };
   });
 
-/** Admin rezervacijos formai: dinaminės kainodaros duomenys pasirinktiems objektams. */
+/** For the admin booking form: dynamic pricing data for selected properties. */
 export const getDynamicPricingInputs = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -178,7 +178,7 @@ export const getDynamicPricingInputs = createServerFn({ method: "POST" })
     return loadDynamicPricingMap(data.property_ids, data.date_from, data.date_to);
   });
 
-/** Objekto dinaminės kainodaros nustatymai (jungiklis, ribos, užimtumo pakopos). */
+/** Property dynamic pricing settings (toggle, thresholds, occupancy tiers). */
 export const getPricingSettings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ property_id: z.string().uuid() }).parse(d))
@@ -201,7 +201,7 @@ export const getPricingSettings = createServerFn({ method: "GET" })
 
 /* ───────────── Centrinis kainodaros ekranas (/admin/pricing) ───────────── */
 
-/** Visų objektų kainodaros suvestinė. */
+/** Pricing summary for all properties. */
 export const listPricingOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -226,7 +226,7 @@ export const listPricingOverview = createServerFn({ method: "GET" })
     }));
   });
 
-/** Kainų taisyklės vienam arba visiems objektams. */
+/** Pricing rules for one or all properties. */
 export const listRateCalendarMulti = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ property_id: z.string().uuid().nullable() }).parse(d))
@@ -242,7 +242,7 @@ export const listRateCalendarMulti = createServerFn({ method: "POST" })
     return rows ?? [];
   });
 
-/** Šilumos žemėlapis: kiekvienos dienos kaina pasirinktam objektui arba vidurkis visiems. */
+/** Heatmap: price per day for a selected property, or the average across all. */
 export const getPricingHeatmap = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -315,27 +315,27 @@ export const getPricingHeatmap = createServerFn({ method: "POST" })
     return { days };
   });
 
-/** Viena taisyklė iš karto keliems objektams. */
+/** A single rule applied to multiple properties at once. */
 export const saveRateCalendarBulk = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
     z
       .object({
-        property_ids: z.array(z.string().uuid()).min(1, "Pasirinkite bent vieną objektą.").max(200),
+        property_ids: z.array(z.string().uuid()).min(1, "Select at least one property.").max(200),
         date_from: isoDate,
         date_to: isoDate,
         kind: z.enum(["season", "event", "manual"]),
-        label: z.string().trim().min(1, "Įveskite pavadinimą").max(100),
+        label: z.string().trim().min(1, "Enter a name").max(100),
         multiplier: z.number().positive().max(10).nullable(),
         fixed_price: z.number().min(0).max(100000).nullable(),
             priority: z.number().int().min(-100).max(100).default(0),
         color: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#f59e0b"),
       })
       .refine((v) => (v.multiplier == null) !== (v.fixed_price == null), {
-        message: "Pasirinkite arba procentinį pakeitimą, arba tikslią kainą — ne abu.",
+        message: "Choose either a percentage change or a fixed price — not both.",
       })
       .refine((v) => v.date_to >= v.date_from, {
-        message: "Pabaigos data negali būti ankstesnė už pradžios datą.",
+        message: "The end date cannot be earlier than the start date.",
       })
       .parse(d),
   )
@@ -348,7 +348,7 @@ export const saveRateCalendarBulk = createServerFn({ method: "POST" })
     return { ok: true, count: rows.length };
   });
 
-/** Dinaminės kainodaros jungiklis keliems objektams iš karto. */
+/** Dynamic pricing toggle for multiple properties at once. */
 export const bulkSetDynamicPricing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -364,7 +364,7 @@ export const bulkSetDynamicPricing = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** Kelių taisyklių trynimas vienu kartu. */
+/** Bulk deletion of multiple rules at once. */
 export const deleteRateCalendarRows = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ ids: z.array(z.string().uuid()).min(1).max(2000) }).parse(d))
@@ -375,7 +375,7 @@ export const deleteRateCalendarRows = createServerFn({ method: "POST" })
     return { ok: true, count: data.ids.length };
   });
 
-/** Objekto bazinė, min. ir maks. kaina (iš Kainodaros lentelės). */
+/** Property base, min, and max price (from the Pricing table). */
 export const updatePropertyPrices = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -387,7 +387,7 @@ export const updatePropertyPrices = createServerFn({ method: "POST" })
         max_nightly_rate: z.number().min(0).max(100000).nullable(),
       })
       .refine((v) => v.min_nightly_rate == null || v.max_nightly_rate == null || v.max_nightly_rate >= v.min_nightly_rate, {
-        message: "Maksimali kaina negali būti mažesnė už minimalią.",
+        message: "The maximum price cannot be lower than the minimum price.",
       })
       .parse(d),
   )

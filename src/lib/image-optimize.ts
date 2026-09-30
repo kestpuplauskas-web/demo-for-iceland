@@ -16,7 +16,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Nepavyko įkelti nuotraukos"));
+    img.onerror = () => reject(new Error("Failed to load the image"));
     img.src = src;
   });
 }
@@ -24,7 +24,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 function canvasToWebp(canvas: HTMLCanvasElement, quality: number): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("Nepavyko konvertuoti į WebP"))),
+      (b) => (b ? resolve(b) : reject(new Error("Failed to convert to WebP"))),
       "image/webp",
       quality,
     );
@@ -32,10 +32,10 @@ function canvasToWebp(canvas: HTMLCanvasElement, quality: number): Promise<Blob>
 }
 
 /**
- * Optimizuoja nuotrauką naršyklėje:
- *  - Sumažina iki max 1200px pločio/aukščio išlaikant proporcijas.
- *  - Konvertuoja į WebP formatą.
- *  - Iteratyviai mažina kokybę kol dydis ≤ 200 KB (arba pasiekiama 0.55 riba).
+ * Optimizes the image in the browser:
+ *  - Resizes to max 1200px width/height while keeping the aspect ratio.
+ *  - Converts to WebP format.
+ *  - Iteratively reduces quality until the size is ≤ 200 KB (or the 0.55 threshold is reached).
  */
 export async function optimizeImage(source: Blob | File): Promise<OptimizedImage> {
   const objectUrl = URL.createObjectURL(source);
@@ -44,7 +44,7 @@ export async function optimizeImage(source: Blob | File): Promise<OptimizedImage
     let targetW = img.naturalWidth;
     let targetH = img.naturalHeight;
     if (targetW <= 0 || targetH <= 0) {
-      throw new Error("Nekorektiška nuotrauka");
+      throw new Error("Invalid image");
     }
     const largest = Math.max(targetW, targetH);
     if (largest > MAX_DIMENSION) {
@@ -74,7 +74,7 @@ export async function optimizeImage(source: Blob | File): Promise<OptimizedImage
   }
 }
 
-/** Įkelia optimizuotą WebP į `car-images` bucket'ą ir grąžina public URL. */
+/** Uploads an optimized WebP to the `car-images` bucket and returns the public URL. */
 export async function uploadOptimizedToStorage(
   source: Blob | File,
   folder: string,
@@ -104,7 +104,7 @@ export async function uploadOptimizedToStorage(
   };
 }
 
-/** Bandys ištraukti storage path iš public URL. Jei ne šio bucket'o — grąžina null. */
+/** Attempts to extract the storage path from a public URL. If not from this bucket — returns null. */
 export function extractCarImagesPath(url: string): string | null {
   const marker = "/storage/v1/object/public/car-images/";
   const idx = url.indexOf(marker);

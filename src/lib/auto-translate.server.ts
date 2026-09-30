@@ -1,5 +1,5 @@
-// Server-only: automatinis tekstų vertimas per Lovable AI Gateway.
-// Saugo HTML žymėjimą ir {{kintamuosius}} — jie neverčiami.
+// Server-only: automatic text translation via the Lovable AI Gateway.
+// Preserves HTML markup and {{variables}} — they are not translated.
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const MODEL = "google/gemini-3.7-flash";
@@ -28,7 +28,7 @@ function systemPrompt(from: string, to: string) {
   ].join("\n");
 }
 
-/** Verčia laukų rinkinį vienu kvietimu; grąžina { field: translation }. */
+/** Translates a set of fields in one call; returns { field: translation }. */
 export async function translateFields(
   items: TranslateItem[],
   fromLang: string,
@@ -38,7 +38,7 @@ export async function translateFields(
   if (usable.length === 0) return {};
 
   const apiKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey) throw new Error("AI vertimas nesukonfigūruotas (trūksta rakto).");
+  if (!apiKey) throw new Error("AI translation is not configured (missing key).");
 
   const payload = Object.fromEntries(usable.map((i, idx) => [String(idx), i.text]));
 
@@ -64,8 +64,8 @@ export async function translateFields(
     }),
   });
 
-  if (res.status === 429) throw new Error("AI vertimo limitas viršytas — pabandykite po kelių minučių.");
-  if (res.status === 402) throw new Error("Nepakanka AI kreditų vertimui.");
+  if (res.status === 429) throw new Error("AI translation rate limit exceeded — try again in a few minutes.");
+  if (res.status === 402) throw new Error("Not enough AI credits for translation.");
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     console.error("[translateFields]", res.status, body.slice(0, 500));
@@ -81,7 +81,7 @@ export async function translateFields(
     parsed = JSON.parse(content) as Record<string, unknown>;
   } catch {
     const m = content.match(/\{[\s\S]*\}/);
-    if (!m) throw new Error("AI grąžino netinkamą atsakymą.");
+    if (!m) throw new Error("AI returned an invalid response.");
     parsed = JSON.parse(m[0]) as Record<string, unknown>;
   }
 

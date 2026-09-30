@@ -15,7 +15,7 @@ export const listContentTemplates = createServerFn({ method: "GET" })
       .select("*");
     if (error) {
       console.error("[listContentTemplates]", error.message);
-      throw new Error("Nepavyko įkelti turinio šablonų.");
+      throw new Error("Failed to load content templates.");
     }
     return (rows ?? []).map((r) => rowToRecord(r as Record<string, unknown>));
   });
@@ -46,7 +46,7 @@ export const saveContentTemplate = createServerFn({ method: "POST" })
 
     if (error) {
       console.error("[saveContentTemplate]", error.message);
-      throw new Error("Nepavyko išsaugoti šablono.");
+      throw new Error("Failed to save the template.");
     }
     return rowToRecord(row as Record<string, unknown>);
   });
@@ -56,7 +56,7 @@ export const sendTestContentEmail = createServerFn({ method: "POST" })
   .inputValidator((d) =>
     z
       .object({
-        to: z.string().trim().email("Neteisingas el. pašto adresas."),
+        to: z.string().trim().email("Invalid email address."),
         subject: z.string().trim().min(1).max(300),
         html: z.string().trim().min(1).max(20000),
       })
@@ -69,7 +69,7 @@ export const sendTestContentEmail = createServerFn({ method: "POST" })
     const lovableKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey || !lovableKey) {
       throw new Error(
-        "El. laiškų siuntėjas dar nesukonfigūruotas — prijunkite el. pašto integraciją.",
+        "Email sender is not configured yet — connect the email integration.",
       );
     }
     const from = resolveFromAddress();
@@ -84,14 +84,14 @@ export const sendTestContentEmail = createServerFn({ method: "POST" })
       body: JSON.stringify({
         from,
         to: [data.to],
-        subject: `[TESTAS] ${renderPreview(data.subject)}`,
+        subject: `[TEST] ${renderPreview(data.subject)}`,
         html: renderPreview(data.html),
       }),
     });
 
     if (!res.ok) {
       console.error("[sendTestContentEmail]", res.status, await res.text());
-      throw new Error("Nepavyko išsiųsti testinio laiško.");
+      throw new Error("Failed to send the test email.");
     }
     return { ok: true };
   });

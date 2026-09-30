@@ -1,7 +1,9 @@
-// Server-only: verslo analitika AI pagalbininkui (užimtumas, pajamos, ADR,
-// RevPAR, išlaidos, pelnas, ROI, prognozė). Skaičiuojama iš rezervacijų,
-// išlaidų ir investicijų – tik skaitymas.
+// Server-only: business analytics for the AI assistant (occupancy, revenue, ADR,
+// RevPAR, expenses, profit, ROI, forecast). Computed from bookings,
+// expenses and investments – read-only.
 import type { AssistantLang } from "./assistant-knowledge";
+import { formatNumber } from "@/lib/utils";
+import { currencySymbol as currencySymbolFor } from "@/lib/properties";
 
 type AnySupabase = { from: (table: string) => any };
 
@@ -46,7 +48,7 @@ function overlapNights(from: string, to: string, rf: string, rt: string) {
   const b = to < rt ? to : rt;
   return daysBetween(a, b);
 }
-const money = (n: number) => `${Math.round(n).toLocaleString("lt-LT")} €`;
+const money = (n: number, currency = "EUR") => `${formatNumber(Math.round(n))} ${currencySymbolFor(currency)}`;
 const pct = (n: number) => `${(n * 100).toFixed(1)} %`;
 
 type Period = { key: string; lt: string; en: string; from: string; to: string }; // to – ekskliuzyvi
@@ -76,7 +78,7 @@ function isOccupying(b: BookingRow) {
   return b.status !== "cancelled";
 }
 
-/** Pajamos priskiriamos proporcingai nakvynėms (accrual), kad „šiandien“ / „vakar“ būtų prasmingi. */
+/** Revenue is attributed proportionally per night (accrual), so "today" / "yesterday" are meaningful. */
 function accruedRevenue(bookings: BookingRow[], from: string, to: string) {
   let sum = 0;
   for (const b of bookings) {
@@ -163,7 +165,7 @@ export async function buildBusinessAnalytics(supabase: AnySupabase, lang: Assist
     );
   }
 
-  // Visų laikų
+  // All-time
   const allRevenue = bookings.filter(isRevenueBooking).reduce((s, b) => s + Number(b.total_amount ?? 0), 0);
   const allExp = allExpenses.reduce((s, e) => s + e.amount, 0);
   const allProfit = allRevenue - allExp;
@@ -193,7 +195,7 @@ export async function buildBusinessAnalytics(supabase: AnySupabase, lang: Assist
   }
   if (ytd.revenue > 0) lines.push(L(`- Pelningumas šiais metais: ${pct(ytd.profit / ytd.revenue)}.`, `- Margin this year: ${pct(ytd.profit / ytd.revenue)}.`));
 
-  // Per objektą (YTD)
+  // Per property (YTD)
   const ytdP = periods.find((p) => p.key === "ytd")!;
   lines.push("");
   lines.push(L("## Pagal objektą (šie metai)", "## Per property (this year)"));
@@ -210,7 +212,7 @@ export async function buildBusinessAnalytics(supabase: AnySupabase, lang: Assist
     );
   }
 
-  // Šaltiniai, viešnagės trukmė, lead time
+  // Sources, length of stay, lead time
   const active = bookings.filter((b) => b.status !== "cancelled" && b.status !== "blocked_external");
   const bySource: Record<string, number> = {};
   for (const b of active) bySource[b.source ?? "other"] = (bySource[b.source ?? "other"] ?? 0) + 1;

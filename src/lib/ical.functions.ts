@@ -8,7 +8,7 @@ const assertAdmin = async (ctx: { supabase: any; userId: string }) => {
     _role: "admin",
   });
   if (error) throw new Error(error.message);
-  if (!data) throw new Error("Neturite administratoriaus teisių.");
+  if (!data) throw new Error("You do not have administrator rights.");
 };
 
 export const syncPropertyIcal = createServerFn({ method: "POST" })

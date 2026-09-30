@@ -14,7 +14,7 @@ export const listApiClients = createServerFn({ method: "GET" })
       .from("api_clients")
       .select("id, name, key_prefix, allowed_origins, is_active, last_used_at, created_at")
       .order("created_at", { ascending: false });
-    if (error) throw new Error("Nepavyko įkelti API raktų.");
+    if (error) throw new Error("Failed to load API keys.");
     return data ?? [];
   });
 
@@ -69,6 +69,6 @@ export const deleteApiClient = createServerFn({ method: "POST" })
     await assertDeveloper({ supabase: context.supabase, userId: context.userId });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("api_clients").delete().eq("id", data.id);
-    if (error) throw new Error("Nepavyko ištrinti API rakto.");
+    if (error) throw new Error("Failed to delete API key.");
     return { ok: true };
   });

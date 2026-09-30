@@ -7,9 +7,9 @@ export async function assertAdmin(ctx: { supabase: any; userId: string }) {
   });
   if (error) {
     console.error("[content-templates:has_role]", error.message);
-    throw new Error("Nepavyko patikrinti teisių.");
+    throw new Error("Failed to check permissions.");
   }
-  if (!data) throw new Error("Neturite teisių valdyti turinio.");
+  if (!data) throw new Error("You do not have permission to manage content.");
 }
 
 export function rowToRecord(row: Record<string, unknown>): ContentTemplateRecord {

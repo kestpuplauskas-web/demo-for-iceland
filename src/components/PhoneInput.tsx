@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-// Country labels in Lithuanian for the most common cases; falls back to ISO code.
-const COUNTRY_NAMES_LT: Record<string, string> = {
-  LT: "Lietuva", LV: "Latvija", EE: "Estija", PL: "Lenkija", DE: "Vokietija",
-  GB: "Jungtinė Karalystė", IE: "Airija", NO: "Norvegija", SE: "Švedija",
-  FI: "Suomija", DK: "Danija", NL: "Nyderlandai", BE: "Belgija", FR: "Prancūzija",
-  ES: "Ispanija", IT: "Italija", AT: "Austrija", CH: "Šveicarija", CZ: "Čekija",
-  SK: "Slovakija", HU: "Vengrija", RO: "Rumunija", BG: "Bulgarija", GR: "Graikija",
-  PT: "Portugalija", US: "JAV", CA: "Kanada", UA: "Ukraina", BY: "Baltarusija",
-  RU: "Rusija", TR: "Turkija", IL: "Izraelis", AE: "JAE", AU: "Australija",
+// Country labels in English for the most common cases; falls back to ISO code.
+const COUNTRY_NAMES_EN: Record<string, string> = {
+  LT: "Lithuania", LV: "Latvia", EE: "Estonia", PL: "Poland", DE: "Germany",
+  GB: "United Kingdom", IE: "Ireland", NO: "Norway", SE: "Sweden",
+  FI: "Finland", DK: "Denmark", NL: "Netherlands", BE: "Belgium", FR: "France",
+  ES: "Spain", IT: "Italy", AT: "Austria", CH: "Switzerland", CZ: "Czechia",
+  SK: "Slovakia", HU: "Hungary", RO: "Romania", BG: "Bulgaria", GR: "Greece",
+  PT: "Portugal", US: "USA", CA: "Canada", UA: "Ukraine", BY: "Belarus",
+  RU: "Russia", TR: "Turkey", IL: "Israel", AE: "UAE", AU: "Australia",
 };
 
 function flagEmoji(country: string): string {
@@ -55,10 +55,10 @@ export function PhoneInput({
     return all
       .map((c) => ({
         code: c,
-        name: COUNTRY_NAMES_LT[c] ?? c,
+        name: COUNTRY_NAMES_EN[c] ?? c,
         dial: getCountryCallingCode(c),
       }))
-      .sort((a, b) => a.name.localeCompare(b.name, "lt"));
+      .sort((a, b) => a.name.localeCompare(b.name, "en"));
   }, []);
 
   function handleChange(raw: string) {

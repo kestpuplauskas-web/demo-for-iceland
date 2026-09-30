@@ -5,10 +5,10 @@ import { assertCanView } from "./users.server";
 import { recalcExtras, nightsBetweenDates, type ExtraCalcKind } from "@/lib/booking-extras";
 
 export const BOOKING_SOURCES = ["phone", "whatsapp", "website", "booking", "airbnb", "other"] as const;
-// "direct" liko tik dėl senų įrašų suderinamumo (sąraše nerodomas)
+// "direct" remains only for backward compatibility with old records (not shown in the list)
 export const BOOKING_SOURCE_VALUES = [...BOOKING_SOURCES, "direct"] as const;
 export const BOOKING_STATUSES = ["confirmed", "pending", "completed", "cancelled"] as const;
-/** Visi galimi statusai, įskaitant importuotus iš išorinių kalendorių (nerodomi formoje). */
+/** All possible statuses, including those imported from external calendars (not shown in the form). */
 export const ALL_BOOKING_STATUSES = [...BOOKING_STATUSES, "blocked_external"] as const;
 
 export const BOOKING_SOURCE_LABEL_KEYS: Record<string, string> = {
@@ -50,7 +50,7 @@ const bookingInput = z.object({
     .default("")
     .refine(
       (v) => v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-      "Neteisingas el. paštas",
+      "Invalid email",
     ),
   customer_address: z.string().trim().max(300).default(""),
   customer_country: z.string().trim().max(100).default("Lietuva"),
@@ -84,11 +84,11 @@ const bookingInput = z.object({
   extras_total: z.number().min(0).max(1000000).default(0),
 }).superRefine((v, ctx) => {
   if (v.client_type === "company") {
-    if (!v.company_name) ctx.addIssue({ code: "custom", path: ["company_name"], message: "Įmonės pavadinimas privalomas" });
-    if (!v.company_code) ctx.addIssue({ code: "custom", path: ["company_code"], message: "Įmonės kodas privalomas" });
+    if (!v.company_name) ctx.addIssue({ code: "custom", path: ["company_name"], message: "Company name is required" });
+    if (!v.company_code) ctx.addIssue({ code: "custom", path: ["company_code"], message: "Company code is required" });
     if (v.is_vat_payer && !v.vat_number) ctx.addIssue({ code: "custom", path: ["vat_number"], message: "PVM kodas privalomas" });
   } else if (!v.customer_name) {
-    ctx.addIssue({ code: "custom", path: ["customer_name"], message: "Vardas Pavardė privalomas" });
+    ctx.addIssue({ code: "custom", path: ["customer_name"], message: "Full name is required" });
   }
 });
 
@@ -124,14 +124,14 @@ const withServerExtras = async (
   return { ...data, extras, extras_total };
 };
 
-// Neleidžia persidengiančių rezervacijų tam pačiam objektui (atšauktos ignoruojamos).
-// Intervalas pusiau atviras: [date_from, date_to) — išvykimo dieną gali atvykti kitas svečias.
+// Prevents overlapping bookings for the same property (cancelled ones are ignored).
+// Half-open interval: [date_from, date_to) — another guest may arrive on the departure day.
 const assertNoOverlap = async (
   supabase: any,
   input: { property_id: string; date_from: string; date_to: string; excludeId?: string },
 ) => {
   if (input.date_to <= input.date_from) {
-    throw new Error("Išvykimo data turi būti vėlesnė už atvykimo datą");
+    throw new Error("Departure date must be later than the arrival date");
   }
   let q = supabase
     .from("bookings")
@@ -147,7 +147,7 @@ const assertNoOverlap = async (
     const c = rows[0];
     const who = c.customer_name || c.company_name || "—";
     throw new Error(
-      `Šios datos jau užimtos: ${who} (${c.date_from} → ${c.date_to}). Rezervacija neišsaugota.`,
+      `These dates are already taken: ${who} (${c.date_from} → ${c.date_to}). Booking not saved.`,
     );
   }
 };
@@ -243,7 +243,7 @@ export const listOccupiedRanges = createServerFn({ method: "POST" })
     return rows ?? [];
   });
 
-// Laisvi (aktyvūs) objektai nurodytu laikotarpiu — be persidengiančių ne-atšauktų rezervacijų.
+// Free (active) properties for the given period — excluding overlapping non-cancelled bookings.
 export const listFreePropertyIds = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -344,7 +344,7 @@ export const updateBooking = createServerFn({ method: "POST" })
       const prev = before as { status?: string; date_from?: string; date_to?: string; total_amount?: number } | null;
       const next = row as { status?: string; date_from?: string; date_to?: string; total_amount?: number };
       if (prev && prev.status !== "cancelled" && next.status === "cancelled") {
-        // Atšaukimo laiškas svečiui siunčiamas visada, nepriklausomai nuo jungiklio.
+        // The cancellation email to the guest is always sent, regardless of the toggle.
         await notifyBookingEvent(id, "booking_cancellation", { force: true });
       } else if (
         prev &&
@@ -353,7 +353,7 @@ export const updateBooking = createServerFn({ method: "POST" })
           Number(prev.total_amount) !== Number(next.total_amount) ||
           prev.status !== next.status)
       ) {
-        // Jei būtent šis pakeitimas yra perėjimas į „Apmokėta“ — durų kodas svečiui
+        // If this specific change is the transition to "Paid" — the door code for the guest
         // turi pasiekti visada, nepriklausomai nuo „Rezervacijos pakeitimas“ jungiklio.
         // Kitais atvejais (datos/suma) gerbiamas administratoriaus nustatymas.
         const justConfirmed = prev.status !== "confirmed" && next.status === "confirmed";
@@ -383,8 +383,8 @@ export const deleteBooking = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-// Perkelia rezervaciją kalendoriuje (kitas objektas ir (arba) kitos datos).
-// Keičiami tik property_id / date_from / date_to — kiti laukai nekeičiami.
+// Moves a booking in the calendar (different property and/or different dates).
+// Only property_id / date_from / date_to are changed — other fields remain unchanged.
 export const rescheduleBooking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
@@ -399,7 +399,7 @@ export const rescheduleBooking = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await ensureAdmin(context);
-    if (data.date_to <= data.date_from) throw new Error("Išvykimo data turi būti vėlesnė už atvykimo datą");
+    if (data.date_to <= data.date_from) throw new Error("Departure date must be later than the arrival date");
 
     const { data: conflicts, error: cErr } = await context.supabase
       .from("bookings")
@@ -431,7 +431,7 @@ export const rescheduleBooking = createServerFn({ method: "POST" })
     return row;
   });
 
-// Visų aktyvių objektų užimtos datos — naujos rezervacijos kalendoriui.
+// Occupied dates for all active properties — for the new booking calendar.
 export const listAllOccupiedRanges = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>

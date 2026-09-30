@@ -18,7 +18,7 @@ export async function assertSettingsAdmin(ctx: { supabase: any; userId: string }
   });
   if (error) {
     console.error("[property-settings:has_role]", error.message);
-    throw new Error("Nepavyko patikrinti teisių.");
+    throw new Error("Failed to verify permissions.");
   }
-  if (!data) throw new Error("Neturite teisių keisti nustatymų.");
+  if (!data) throw new Error("You do not have permission to change settings.");
 }

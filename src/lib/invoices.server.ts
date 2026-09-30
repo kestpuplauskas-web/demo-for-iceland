@@ -1,12 +1,12 @@
-// Server-only: sąskaitos generavimas rezervacijai, kai ji tampa apmokėta.
-// Generuojama LYGIAI VIENĄ KARTĄ vienai rezervacijai (idempotentiška).
+// Server-only: invoice generation for a booking once it becomes paid.
+// Generated EXACTLY ONCE per booking (idempotent).
 
 import { rowToSettings } from "./property-settings-map";
 
 const UNIT_LABEL: Record<string, string> = {
-  per_person: "asm.",
-  per_child: "vaikas",
-  flat_per_day: "parą",
+  per_person: "pers.",
+  per_child: "child",
+  flat_per_day: "per day",
 };
 
 export async function generateInvoiceForBooking(
@@ -56,14 +56,14 @@ export async function generateInvoiceForBooking(
   );
   const extrasTotal = Number(booking.extras_total) || 0;
   const stayGross = Math.max(0, Number(booking.total_amount ?? 0) - extrasTotal);
-  const propertyName = booking.properties?.name ?? "Apgyvendinimo paslauga";
+  const propertyName = booking.properties?.name ?? "Accommodation service";
 
   const rawLines: Array<{ name: string; qty: number; unit: string; gross: number }> = [];
   if (stayGross > 0 || nights > 0) {
     rawLines.push({
-      name: `Nakvynė — ${propertyName}`,
+      name: `Stay — ${propertyName}`,
       qty: Math.max(1, nights),
-      unit: "naktys",
+      unit: "nights",
       gross: stayGross,
     });
   }
@@ -73,15 +73,15 @@ export async function generateInvoiceForBooking(
     rawLines.push({
       name: ex.name,
       qty: 1,
-      unit: UNIT_LABEL[ex.calc] ?? "vnt.",
+      unit: UNIT_LABEL[ex.calc] ?? "pcs",
       gross: Number(ex.amount) || 0,
     });
   }
   if (rawLines.length === 0) {
     rawLines.push({
-      name: `Nakvynė — ${propertyName}`,
+      name: `Stay — ${propertyName}`,
       qty: 1,
-      unit: "paslauga",
+      unit: "service",
       gross: Number(booking.total_amount) || 0,
     });
   }
