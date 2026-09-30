@@ -63,21 +63,23 @@ export const savePropertySettings = createServerFn({ method: "POST" })
   });
 /** Public (unauthenticated) brand information for the login page. */
 export const getPublicBranding = createServerFn({ method: "GET" }).handler(
-  async (): Promise<{ displayName: string; logoUrl: string }> => {
+  async (): Promise<{ displayName: string; logoUrl: string; logoLightUrl: string; faviconUrl: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("property_settings")
-      .select("display_name, brand_logo_url")
+      .select("display_name, brand_logo_url, brand_logo_light_url, brand_favicon_url")
       .eq("scope", "global")
       .maybeSingle();
     if (error) {
       console.error("[getPublicBranding]", error.message);
-      return { displayName: "", logoUrl: "" };
+      return { displayName: "", logoUrl: "", logoLightUrl: "", faviconUrl: "" };
     }
     const row = (data ?? {}) as Record<string, unknown>;
     return {
       displayName: String(row["display_name"] ?? ""),
       logoUrl: String(row["brand_logo_url"] ?? ""),
+      logoLightUrl: String(row["brand_logo_light_url"] ?? ""),
+      faviconUrl: String(row["brand_favicon_url"] ?? ""),
     };
   },
 );
