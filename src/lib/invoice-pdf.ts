@@ -1,4 +1,5 @@
 import { jsPDF } from "jspdf";
+import { currencySymbol } from "@/lib/properties";
 
 const FONT = "DejaVuSans";
 let fontCache: { normal: string; bold: string } | null = null;
@@ -71,66 +72,71 @@ export type InvoiceDocData = {
   issuedBy: string;
 };
 
-const ONES = ["nulis", "vienas", "du", "trys", "keturi", "penki", "šeši", "septyni", "aštuoni", "devyni"];
-const TEENS = ["dešimt", "vienuolika", "dvylika", "trylika", "keturiolika", "penkiolika", "šešiolika", "septyniolika", "aštuoniolika", "devyniolika"];
-const TENS = ["", "", "dvidešimt", "trisdešimt", "keturiasdešimt", "penkiasdešimt", "šešiasdešimt", "septyniasdešimt", "aštuoniasdešimt", "devyniasdešimt"];
+const ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const TEENS = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
 
 function twoDigitWords(n: number): string {
   if (n < 10) return ONES[n] as string;
   if (n < 20) return TEENS[n - 10] as string;
   const t = Math.floor(n / 10);
   const o = n % 10;
-  return o === 0 ? (TENS[t] as string) : `${TENS[t]} ${ONES[o]}`;
+  return o === 0 ? (TENS[t] as string) : `${TENS[t]}-${ONES[o]}`;
 }
 
 function threeDigitWords(n: number): string {
   const h = Math.floor(n / 100);
   const rest = n % 100;
   const parts: string[] = [];
-  if (h > 0) parts.push(h === 1 ? "šimtas" : `${ONES[h]} šimtai`);
+  if (h > 0) parts.push(`${ONES[h]} hundred`);
   if (rest > 0) parts.push(twoDigitWords(rest));
   return parts.join(" ").trim();
 }
 
-function thousandWordForm(n: number): string {
-  const last2 = n % 100;
-  const last1 = n % 10;
-  if (last2 >= 11 && last2 <= 19) return "tūkstančių";
-  if (last1 === 1) return "tūkstantis";
-  if (last1 >= 2 && last1 <= 9) return "tūkstančiai";
-  return "tūkstančių";
-}
-
-export function numberToLithuanianWords(n: number): string {
+export function numberToEnglishWords(n: number): string {
   const value = Math.max(0, Math.round(n));
-  if (value === 0) return "nulis";
+  if (value === 0) return "zero";
   const thousands = Math.floor(value / 1000);
   const rem = value % 1000;
   const parts: string[] = [];
   if (thousands > 0) {
-    parts.push(thousands === 1 ? "tūkstantis" : `${threeDigitWords(thousands)} ${thousandWordForm(thousands)}`);
+    parts.push(`${threeDigitWords(thousands)} thousand`);
   }
   if (rem > 0) parts.push(threeDigitWords(rem));
   return parts.join(" ").trim();
+}
+
+/** Kept for backward-compat imports; now produces English words. */
+export const numberToLithuanianWords = numberToEnglishWords;
+
+function currencyWord(currencyCode: string, plural: boolean): string {
+  const c = (currencyCode || "EUR").toUpperCase();
+  const names: Record<string, [string, string]> = {
+    EUR: ["euro", "euros"],
+    USD: ["dollar", "dollars"],
+    GBP: ["pound", "pounds"],
+    ISK: ["krona", "kronur"],
+    NOK: ["krone", "kroner"],
+  };
+  const [singular, pluralForm] = names[c] ?? [c, c];
+  return plural ? pluralForm : singular;
 }
 
 export function amountInWords(total: number, currencyCode: string): string {
   const rounded = Math.round(total * 100) / 100;
   const whole = Math.floor(rounded);
   const cents = Math.round((rounded - whole) * 100);
-  return `${numberToLithuanianWords(whole)} ${currencyCode} ir ${numberToLithuanianWords(cents)} ct`;
+  const wholeWords = `${numberToEnglishWords(whole)} ${currencyWord(currencyCode, whole !== 1)}`;
+  const centsWords = `${numberToEnglishWords(cents)} cents`;
+  return `${wholeWords} and ${centsWords}`;
 }
 
 function curSymbol(code: string) {
-  const c = (code || "EUR").toUpperCase();
-  if (c === "EUR") return "\u20AC";
-  if (c === "USD") return "$";
-  if (c === "GBP") return "\u00A3";
-  return c;
+  return currencySymbol(code);
 }
 
 function money(n: number) {
-  return new Intl.NumberFormat("lt-LT", {
+  return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
     useGrouping: true,
@@ -168,26 +174,26 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
       try {
         doc.addImage(dataUrl, "PNG", marginX, y - 5, 22, 22, undefined, "FAST");
       } catch {
-        // netinkamas formatas — praleidžiam logotipą, likusi sąskaita generuojama toliau
+        // unsupported format — skip the logo, continue generating the rest of the invoice
       }
     }
   }
 
   doc.setFont(font, "bold");
   doc.setFontSize(15);
-  doc.text(data.isVatInvoice ? "PVM SĄSKAITA FAKTŪRA" : "SĄSKAITA", rightEdge, y, { align: "right" });
+  doc.text(data.isVatInvoice ? "VAT INVOICE" : "INVOICE", rightEdge, y, { align: "right" });
 
   doc.setFont(font, "normal");
   doc.setFontSize(10);
   y += 7;
   const numberLabel = data.fullNumber.includes("-")
-    ? `Serija ${data.fullNumber.split("-")[0]} Nr. ${data.fullNumber.split("-").slice(1).join("-")}`
-    : `Nr. ${data.fullNumber}`;
+    ? `Series ${data.fullNumber.split("-")[0]} No. ${data.fullNumber.split("-").slice(1).join("-")}`
+    : `No. ${data.fullNumber}`;
   doc.text(numberLabel, rightEdge, y, { align: "right" });
   y += 5;
-  doc.text(`Sąskaitos data ${data.issueDate}`, rightEdge, y, { align: "right" });
+  doc.text(`Invoice date ${data.issueDate}`, rightEdge, y, { align: "right" });
   y += 5;
-  doc.text("Mokėjimo statusas: Apmokėta", rightEdge, y, { align: "right" });
+  doc.text("Payment status: Paid", rightEdge, y, { align: "right" });
 
   y = 48;
   doc.setDrawColor(200);
@@ -202,23 +208,23 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
 
   doc.setFont(font, "bold");
   doc.setFontSize(9);
-  doc.text("Pardavėjas", sellerX, sy);
-  doc.text("Pirkėjas", buyerX, by);
+  doc.text("Seller", sellerX, sy);
+  doc.text("Buyer", buyerX, by);
   doc.setFont(font, "normal");
   sy += 6;
   by += 6;
 
   const sellerLines = [
     data.seller.name,
-    data.seller.code ? `Įm. kodas ${data.seller.code}` : "",
-    data.seller.vatCode ? `PVM mokėtojo kodas ${data.seller.vatCode}` : "",
+    data.seller.code ? `Company code ${data.seller.code}` : "",
+    data.seller.vatCode ? `VAT payer code ${data.seller.vatCode}` : "",
     data.seller.address,
     [data.seller.bankName, data.seller.iban].filter(Boolean).join(" — "),
   ].filter(Boolean);
   const buyerLines = [
     data.buyer.name,
-    data.buyer.code ? `Įm. kodas ${data.buyer.code}` : "",
-    data.buyer.vatCode ? `PVM mokėtojo kodas ${data.buyer.vatCode}` : "",
+    data.buyer.code ? `Company code ${data.buyer.code}` : "",
+    data.buyer.vatCode ? `VAT payer code ${data.buyer.vatCode}` : "",
     data.buyer.address,
     data.buyer.phone,
     data.buyer.email,
@@ -238,21 +244,21 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
   type Col = { key: string; label: string; x: number; align: "left" | "right"; maxWidth?: number };
   const cols: Col[] = data.isVatInvoice
     ? [
-        { key: "name", label: "Pavadinimas", x: marginX, align: "left", maxWidth: 46 },
-        { key: "qty", label: "Kiekis", x: 70, align: "right" },
-        { key: "unit", label: "Matas", x: 74, align: "left", maxWidth: 12 },
-        { key: "unitPriceNet", label: "Kaina be PVM", x: 116, align: "right" },
-        { key: "lineNet", label: "Suma be PVM", x: 139, align: "right" },
-        { key: "lineVat", label: "PVM", x: 158, align: "right" },
-        { key: "vatRate", label: "PVM %", x: 170, align: "right" },
-        { key: "lineTotal", label: "Iš viso", x: rightEdge, align: "right" },
+        { key: "name", label: "Description", x: marginX, align: "left", maxWidth: 46 },
+        { key: "qty", label: "Qty", x: 70, align: "right" },
+        { key: "unit", label: "Unit", x: 74, align: "left", maxWidth: 12 },
+        { key: "unitPriceNet", label: "Price excl. VAT", x: 116, align: "right" },
+        { key: "lineNet", label: "Amount excl. VAT", x: 139, align: "right" },
+        { key: "lineVat", label: "VAT", x: 158, align: "right" },
+        { key: "vatRate", label: "VAT %", x: 170, align: "right" },
+        { key: "lineTotal", label: "Total", x: rightEdge, align: "right" },
       ]
     : [
-        { key: "name", label: "Pavadinimas", x: marginX, align: "left", maxWidth: 88 },
-        { key: "qty", label: "Kiekis", x: 122, align: "right" },
-        { key: "unit", label: "Matas", x: 126, align: "left", maxWidth: 20 },
-        { key: "unitPriceNet", label: "Kaina", x: 162, align: "right" },
-        { key: "lineTotal", label: "Suma", x: rightEdge, align: "right" },
+        { key: "name", label: "Description", x: marginX, align: "left", maxWidth: 88 },
+        { key: "qty", label: "Qty", x: 122, align: "right" },
+        { key: "unit", label: "Unit", x: 126, align: "left", maxWidth: 20 },
+        { key: "unitPriceNet", label: "Price", x: 162, align: "right" },
+        { key: "lineTotal", label: "Amount", x: rightEdge, align: "right" },
       ];
 
   doc.setFont(font, "bold");
@@ -312,29 +318,29 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
   y += 8;
 
   doc.setFontSize(9);
-  doc.text(`Suma be PVM${data.isVatInvoice ? ` (${data.vatRate}%)` : ""}`, rightEdge - 42, y, { align: "right" });
+  doc.text(`Amount excl. VAT${data.isVatInvoice ? ` (${data.vatRate}%)` : ""}`, rightEdge - 42, y, { align: "right" });
   doc.text(`${money(data.subtotalNet)} ${sym}`, rightEdge, y, { align: "right" });
   y += 6;
   if (data.isVatInvoice) {
-    doc.text(`PVM (${data.vatRate}%)`, rightEdge - 42, y, { align: "right" });
+    doc.text(`VAT (${data.vatRate}%)`, rightEdge - 42, y, { align: "right" });
     doc.text(`${money(data.vatAmount)} ${sym}`, rightEdge, y, { align: "right" });
     y += 6;
   }
   doc.setFont(font, "bold");
-  doc.text("Bendra suma", rightEdge - 42, y, { align: "right" });
+  doc.text("Total amount", rightEdge - 42, y, { align: "right" });
   doc.text(`${money(data.total)} ${sym}`, rightEdge, y, { align: "right" });
   doc.setFont(font, "normal");
   y += 12;
 
   doc.setFontSize(9);
-  doc.text(`Suma žodžiais: ${amountInWords(data.total, data.currency)}`, marginX, y, { maxWidth: rightEdge - marginX });
+  doc.text(`Amount in words: ${amountInWords(data.total, data.currency)}`, marginX, y, { maxWidth: rightEdge - marginX });
   y += 14;
 
   if (data.issuedBy) {
-    doc.text(`Sąskaitą išrašė: ${data.issuedBy}`, marginX, y);
+    doc.text(`Invoice issued by: ${data.issuedBy}`, marginX, y);
     y += 10;
   }
-  doc.text("Sąskaitą priėmė: ______________________________", marginX, y);
+  doc.text("Invoice accepted by: ______________________________", marginX, y);
 
   if (data.notes) {
     y += 14;

@@ -25,11 +25,11 @@ export const CONTENT_VARIABLES = [
 ] as const;
 
 export const PREVIEW_SAMPLE: Record<string, string> = {
-  "{{guest_name}}": "Jonas Jonaitis",
-  "{{guest_name_vocative}}": "Jonai Jonaiti",
+  "{{guest_name}}": "John Smith",
+  "{{guest_name_vocative}}": "John Smith",
   "{{property_name}}": "Dharma Stay",
-  "{{location}}": "Vilniaus g. 10, Druskininkai — 2 aukštas, durys Nr. 3",
-  "{{room_name}}": "Miegamasis 1",
+  "{{location}}": "Vilniaus g. 10, Druskininkai — 2nd floor, door No. 3",
+  "{{room_name}}": "Bedroom 1",
   "{{booking_number}}": "R-26001",
   "{{date_from}}": "2026-08-10",
   "{{date_to}}": "2026-08-14",
@@ -45,7 +45,7 @@ export const PREVIEW_SAMPLE: Record<string, string> = {
   "{{currency}}": "EUR",
   "{{phone}}": "+370 600 00000",
   "{{email}}": "info@revoo.lt",
-  "{{review_link}}": "https://g.page/r/atsiliepimas",
+  "{{review_link}}": "https://g.page/r/review",
 };
 
 export function renderPreview(text: string) {
@@ -60,7 +60,7 @@ export type ContentCategory = "email" | "whatsapp" | "guest_info";
 export type ContentFieldDef = {
   name: string;
   labelKey: string;
-  /** Etiketė serverio/atsarginiam naudojimui (be i18n konteksto). */
+  /** Label for server-side/fallback use (without i18n context). */
   label: string;
   type: "text" | "textarea" | "url";
   defaultValue?: string;
@@ -72,7 +72,7 @@ export type ContentTemplateDef = {
   name: string;
   titleKey: string;
   descriptionKey: string;
-  /** Originali lietuviška antraštė — naudojama serveryje (laiškų žurnale). */
+  /** Original English heading — used server-side (email log). */
   title: string;
   hasSubject: boolean;
   hasRichText: boolean;
@@ -91,79 +91,79 @@ export const CONTENT_TEMPLATES: ContentTemplateDef[] = [
   {
     category: "email",
     name: "booking_confirmation",
-    title: "Rezervacijos patvirtinimas",
+    title: "Booking confirmation",
     titleKey: "content.templates.booking_confirmation.title",
     descriptionKey: "content.templates.booking_confirmation.description",
     hasSubject: true,
     hasRichText: true,
     canTestSend: true,
-    defaultSubject: "Jūsų rezervacija {{booking_number}} patvirtinta",
+    defaultSubject: "Your booking {{booking_number}} is confirmed",
     defaultContent:
-      "<p>Sveiki, {{guest_name}},</p><p>Jūsų rezervacija <strong>{{booking_number}}</strong> objekte {{property_name}} patvirtinta.</p><p>Atvykimas: {{date_from}} nuo {{check_in}}<br>Išvykimas: {{date_to}} iki {{check_out}}<br>Suma: {{total_amount}} {{currency}}</p><p>Iki susitikimo!</p>",
+      "<p>Hi {{guest_name}},</p><p>Your booking <strong>{{booking_number}}</strong> at {{property_name}} is confirmed.</p><p>Check-in: {{date_from}} from {{check_in}}<br>Check-out: {{date_to}} by {{check_out}}<br>Amount: {{total_amount}} {{currency}}</p><p>See you soon!</p>",
   },
   {
     category: "email",
     name: "booking_cancellation",
-    title: "Rezervacijos atšaukimas",
+    title: "Booking cancellation",
     titleKey: "content.templates.booking_cancellation.title",
     descriptionKey: "content.templates.booking_cancellation.description",
     hasSubject: true,
     hasRichText: true,
     canTestSend: true,
-    defaultSubject: "Rezervacija {{booking_number}} atšaukta",
+    defaultSubject: "Booking {{booking_number}} cancelled",
     defaultContent:
-      "<p>Sveiki, {{guest_name}},</p><p>Informuojame, kad Jūsų rezervacija {{booking_number}} objekte {{property_name}} ({{date_from}}–{{date_to}}) buvo atšaukta.</p><p>Kilus klausimams, rašykite {{email}} arba skambinkite {{phone}}.</p>",
+      "<p>Hi {{guest_name}},</p><p>We\u2019re letting you know that your booking {{booking_number}} at {{property_name}} ({{date_from}}–{{date_to}}) has been cancelled.</p><p>If you have any questions, email {{email}} or call {{phone}}.</p>",
   },
   {
     category: "email",
     name: "booking_change",
-    title: "Rezervacijos pakeitimas",
+    title: "Booking change",
     titleKey: "content.templates.booking_change.title",
     descriptionKey: "content.templates.booking_change.description",
     hasSubject: true,
     hasRichText: true,
     canTestSend: true,
-    defaultSubject: "Rezervacijos {{booking_number}} pakeitimai",
+    defaultSubject: "Changes to booking {{booking_number}}",
     defaultContent:
-      "<p>Sveiki, {{guest_name}},</p><p>Jūsų rezervacija {{booking_number}} buvo atnaujinta.</p><p>Naujos datos: {{date_from}} – {{date_to}}<br>Suma: {{total_amount}} {{currency}}</p>",
+      "<p>Hi {{guest_name}},</p><p>Your booking {{booking_number}} has been updated.</p><p>New dates: {{date_from}} – {{date_to}}<br>Amount: {{total_amount}} {{currency}}</p>",
   },
   {
     category: "email",
     name: "checkin_reminder",
-    title: "Priminimas prieš atvykimą",
+    title: "Pre-arrival reminder",
     titleKey: "content.templates.checkin_reminder.title",
     descriptionKey: "content.templates.checkin_reminder.description",
     hasSubject: true,
     hasRichText: true,
     canTestSend: true,
-    defaultSubject: "Laukiame Jūsų {{date_from}} — {{property_name}}",
+    defaultSubject: "We look forward to your arrival on {{date_from}} — {{property_name}}",
     defaultContent:
-      "<p>Sveiki, {{guest_name}},</p><p>Primename apie artėjantį apsilankymą objekte {{property_name}}.</p><p>Atvykimas: {{date_from}} nuo {{check_in}}<br>Durų kodas: {{door_code}}<br>WiFi: {{wifi_name}} / {{wifi_password}}</p>",
+      "<p>Hi {{guest_name}},</p><p>This is a reminder about your upcoming stay at {{property_name}}.</p><p>Check-in: {{date_from}} from {{check_in}}<br>Door code: {{door_code}}<br>WiFi: {{wifi_name}} / {{wifi_password}}</p>",
   },
   {
     category: "email",
     name: "review_request",
-    title: "Prašymas palikti atsiliepimą",
+    title: "Review request",
     titleKey: "content.templates.review_request.title",
     descriptionKey: "content.templates.review_request.description",
     hasSubject: true,
     hasRichText: true,
     canTestSend: true,
-    defaultSubject: "Ačiū, kad viešėjote {{property_name}}",
+    defaultSubject: "Thank you for staying at {{property_name}}",
     defaultContent:
-      "<p>Sveiki, {{guest_name}},</p><p>Ačiū, kad rinkotės {{property_name}}. Būsime dėkingi už Jūsų atsiliepimą.</p>",
+      "<p>Hi {{guest_name}},</p><p>Thank you for choosing {{property_name}}. We\u2019d really appreciate your review.</p>",
   },
   {
     category: "whatsapp",
     name: "door_code",
-    title: "Durų kodas",
+    title: "Door code",
     titleKey: "content.templates.door_code.title",
     descriptionKey: "content.templates.door_code.description",
     hasSubject: false,
     hasRichText: false,
     canTestWhatsapp: true,
     defaultContent:
-      "Sveiki, {{guest_name}}! Jūsų durų kodas objekte {{property_name}}: {{door_code}}. Atvykimas {{date_from}} nuo {{check_in}}. WiFi: {{wifi_name}} / {{wifi_password}}",
+      "Hi {{guest_name}}! Your door code at {{property_name}}: {{door_code}}. Arrival {{date_from}} from {{check_in}}. WiFi: {{wifi_name}} / {{wifi_password}}",
   },
   {
     category: "guest_info",
@@ -174,14 +174,14 @@ export const CONTENT_TEMPLATES: ContentTemplateDef[] = [
     hasSubject: false,
     hasRichText: false,
     fields: [
-      { name: "wifiName", label: "WiFi pavadinimas", labelKey: "content.fields.wifiName", type: "text", required: true },
-      { name: "wifiPassword", label: "WiFi slaptažodis", labelKey: "content.fields.wifiPassword", type: "text", required: true },
+      { name: "wifiName", label: "WiFi name", labelKey: "content.fields.wifiName", type: "text", required: true },
+      { name: "wifiPassword", label: "WiFi password", labelKey: "content.fields.wifiPassword", type: "text", required: true },
     ],
   },
   {
     category: "guest_info",
     name: "restaurant",
-    title: "Restorano informacija",
+    title: "Restaurant information",
     titleKey: "content.templates.restaurant.title",
     descriptionKey: "content.templates.restaurant.description",
     hasSubject: false,
@@ -197,16 +197,16 @@ export const CONTENT_TEMPLATES: ContentTemplateDef[] = [
     hasRichText: false,
     openLinkField: "url",
     fields: [
-      { name: "title", label: "Pavadinimas", labelKey: "content.fields.title", type: "text", defaultValue: "E. turistas", required: true },
+      { name: "title", label: "Title", labelKey: "content.fields.title", type: "text", defaultValue: "E. turistas", required: true },
       {
         name: "description",
-        label: "Aprašymas",
+        label: "Description",
         labelKey: "content.fields.description",
         type: "textarea",
         defaultValue:
-          "Prieš atvykstant prašome užpildyti svečio registracijos formą E. turisto sistemoje.",
+          "Before arrival, please complete the guest registration form in the E. turistas system.",
       },
-      { name: "url", label: "Nuoroda", labelKey: "content.fields.url", type: "url", defaultValue: ETURISTAS_DEFAULT_URL, required: true },
+      { name: "url", label: "Link", labelKey: "content.fields.url", type: "url", defaultValue: ETURISTAS_DEFAULT_URL, required: true },
     ],
   },
 ];
@@ -241,7 +241,7 @@ export function templateKey(category: string, name: string) {
   return `${category}:${name}`;
 }
 
-/** Normalizuoja LT/tarptautinį telefono numerį į E.164 be „+“ (wa.me formatas). */
+/** Normalizes an LT/international phone number to E.164 without "+" (wa.me format). */
 export function normalizeWhatsappPhone(raw: string): string {
   const digits = (raw ?? "").replace(/[^\d+]/g, "").replace(/(?!^)\+/g, "");
   let n = digits.startsWith("+") ? digits.slice(1) : digits;
@@ -264,7 +264,7 @@ export const contentTemplateSchema = z.object({
 });
 
 export type ContentTemplateRecord = {
-  /** DB eilutės ID; null, kai šablonas dar neišsaugotas. */
+  /** DB row ID; null when the template has not been saved yet. */
   id: string | null;
   category: ContentCategory;
   templateName: string;

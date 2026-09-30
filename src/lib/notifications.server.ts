@@ -23,11 +23,11 @@ const SETTINGS_FLAG: Partial<Record<NotificationKind, keyof PropertySettings>> =
 };
 
 const ADMIN_SUBJECTS: Record<NotificationKind, string> = {
-  booking_confirmation: "Nauja rezervacija",
-  booking_change: "Rezervacija pakeista",
-  booking_cancellation: "Rezervacija atšaukta",
-  checkin_reminder: "Artėja svečio atvykimas",
-  review_request: "Svečias išvyko",
+  booking_confirmation: "New booking",
+  booking_change: "Booking changed",
+  booking_cancellation: "Booking cancelled",
+  checkin_reminder: "Guest arrival approaching",
+  review_request: "Guest has checked out",
 };
 
 type Admin = Awaited<typeof import("@/integrations/supabase/client.server")>["supabaseAdmin"];
@@ -60,9 +60,9 @@ ${styled}
 
 export async function sendEmail(opts: { to: string; subject: string; html: string; replyTo?: string }) {
   const apiKey = process.env["RESEND_API_KEY"];
-  if (!apiKey) throw new Error("RESEND_API_KEY nesukonfigūruotas.");
+  if (!apiKey) throw new Error("RESEND_API_KEY is not configured.");
   const lovableKey = process.env["LOVABLE_API_KEY"];
-  if (!lovableKey) throw new Error("LOVABLE_API_KEY nesukonfigūruotas.");
+  if (!lovableKey) throw new Error("LOVABLE_API_KEY is not configured.");
   const from = resolveFromAddress();
 
   const res = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
@@ -168,7 +168,7 @@ function money(v: unknown) {
   return n.toFixed(2).replace(".", ",");
 }
 
-/** „Miegamasis 1 (didelė dvigulė lova), Svetainė (miegamoji sofa)“ */
+/** "Bedroom 1 (large double bed), Living room (sofa bed)" */
 function formatRoomNames(rooms: unknown): string {
   const configs = (rooms as { configs?: Array<{ kind?: string; beds?: number; bedType?: string }> } | null)
     ?.configs;
@@ -370,16 +370,16 @@ export async function notifyBookingEvent(
 
 function adminHtml(kind: NotificationKind, booking: Record<string, any>, t: Record<string, string>) {
   const rows: [string, string][] = [
-    ["Rezervacija", t["{{booking_number}}"] ?? ""],
-    ["Objektas", t["{{property_name}}"] ?? ""],
-    ["Svečias", t["{{guest_name}}"] ?? ""],
-    ["El. paštas", String(booking["customer_email"] ?? "")],
-    ["Telefonas", String(booking["customer_phone"] ?? "")],
-    ["Datos", `${t["{{date_from}}"]} → ${t["{{date_to}}"]}`],
-    ["Svečių", String(booking["total_guests"] ?? booking["guests"] ?? "")],
-    ["Suma", `${t["{{total_amount}}"]} ${t["{{currency}}"]}`],
-    ["Statusas", String(booking["status"] ?? "")],
-    ["Šaltinis", String(booking["source"] ?? "")],
+    ["Booking", t["{{booking_number}}"] ?? ""],
+    ["Property", t["{{property_name}}"] ?? ""],
+    ["Guest", t["{{guest_name}}"] ?? ""],
+    ["Email", String(booking["customer_email"] ?? "")],
+    ["Phone", String(booking["customer_phone"] ?? "")],
+    ["Dates", `${t["{{date_from}}"]} → ${t["{{date_to}}"]}`],
+    ["Guests", String(booking["total_guests"] ?? booking["guests"] ?? "")],
+    ["Amount", `${t["{{total_amount}}"]} ${t["{{currency}}"]}`],
+    ["Status", String(booking["status"] ?? "")],
+    ["Source", String(booking["source"] ?? "")],
   ];
   return `<div style="font-family:Arial,sans-serif;font-size:14px;color:#111">
     <h2 style="margin:0 0 12px">${ADMIN_SUBJECTS[kind]}</h2>

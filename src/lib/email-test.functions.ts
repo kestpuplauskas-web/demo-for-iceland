@@ -8,8 +8,8 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
     _user_id: ctx.userId,
     _role: "admin",
   });
-  if (error) throw new Error("Nepavyko patikrinti teisių.");
-  if (!data) throw new Error("Neturite teisių atlikti šį veiksmą.");
+  if (error) throw new Error("Could not verify permissions.");
+  if (!data) throw new Error("You don't have permission to do this.");
 }
 
 export const getEmailDiagnostics = createServerFn({ method: "GET" })
@@ -29,7 +29,7 @@ export const getEmailDiagnostics = createServerFn({ method: "GET" })
 export const sendResendTestEmail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
-    z.object({ to: z.string().trim().email("Neteisingas el. pašto adresas.") }).parse(d),
+    z.object({ to: z.string().trim().email("Invalid email address.") }).parse(d),
   )
   .handler(async ({ data, context }) => {
     await assertAdmin({ supabase: context.supabase, userId: context.userId });
@@ -43,7 +43,7 @@ export const sendResendTestEmail = createServerFn({ method: "POST" })
         ok: false as const,
         from,
         status: 0,
-        detail: `Trūksta raktų: ${[!apiKey && "RESEND_API_KEY", !lovableKey && "LOVABLE_API_KEY"].filter(Boolean).join(", ")}`,
+        detail: `Missing keys: ${[!apiKey && "RESEND_API_KEY", !lovableKey && "LOVABLE_API_KEY"].filter(Boolean).join(", ")}`,
       };
     }
 
@@ -58,11 +58,11 @@ export const sendResendTestEmail = createServerFn({ method: "POST" })
       body: JSON.stringify({
         from,
         to: [data.to],
-        subject: "[TESTAS] El. pašto siuntimo patikra",
+        subject: "[TEST] Email delivery check",
         html: `<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6">
-          <h2 style="margin:0 0 12px">El. pašto siuntimas veikia ✅</h2>
-          <p>Šis laiškas išsiųstas iš administravimo sistemos patikros įrankio.</p>
-          <p><strong>Siuntėjas:</strong> ${from}<br/><strong>Laikas (UTC):</strong> ${stamp}</p>
+          <h2 style="margin:0 0 12px">Email delivery works ✅</h2>
+          <p>This email was sent from the admin system's test tool.</p>
+          <p><strong>Sender:</strong> ${from}<br/><strong>Time (UTC):</strong> ${stamp}</p>
         </div>`,
       }),
     });

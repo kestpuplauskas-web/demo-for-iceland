@@ -6,7 +6,6 @@ import { BarChart3, Building2, Calendar, FileEdit, FileText, Globe, Home, Inbox,
 import { getMyRole } from "@/lib/properties.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { getPropertySettings } from "@/lib/property-settings.functions";
 import { useDefaultLanguage } from "@/hooks/useDefaultLanguage";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -127,7 +126,6 @@ function AdminLayout() {
               {roleLabel}
             </span>
           </div>
-          <LanguageSwitcher />
           <a
             href="https://dharma.revoo.lt/"
             target="_blank"
@@ -178,7 +176,6 @@ function AdminLayout() {
         </Sheet>
         <span className="min-w-0 flex-1 truncate font-semibold">{brandName}</span>
         <div className="shrink-0">
-          <LanguageSwitcher />
         </div>
       </header>
 

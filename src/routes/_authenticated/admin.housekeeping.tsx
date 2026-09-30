@@ -48,15 +48,15 @@ import {
 export const Route = createFileRoute("/_authenticated/admin/housekeeping")({
   head: () => ({
     meta: [
-      { title: "Kambarių tvarkymas · Dharma Stay" },
+      { title: "Housekeeping · Dharma Stay" },
       {
         name: "description",
-        content: "Savaitės ir dienos kambarių tvarkymo planas, priskyrimai ir komentarai.",
+        content: "Weekly and daily housekeeping plan, assignments, and comments.",
       },
-      { property: "og:title", content: "Kambarių tvarkymas · Dharma Stay" },
+      { property: "og:title", content: "Housekeeping · Dharma Stay" },
       {
         property: "og:description",
-        content: "Savaitės ir dienos kambarių tvarkymo planas, priskyrimai ir komentarai.",
+        content: "Weekly and daily housekeeping plan, assignments, and comments.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -170,7 +170,7 @@ function HousekeepingPage() {
         <p className="text-muted-foreground">{t("housekeeping.noRooms")}</p>
       ) : (
         <>
-          {/* Savaitės lentelė — nuo md */}
+          {/* Weekly table — from md up */}
           <div className="hidden overflow-x-auto rounded-xl border bg-card md:block">
             <table className="w-full text-sm">
               <thead>
@@ -238,7 +238,7 @@ function HousekeepingPage() {
             </table>
           </div>
 
-          {/* Mobilus — vienos dienos sąrašas */}
+          {/* Mobile — single-day list */}
           <div className="space-y-3 md:hidden">
             <div className="flex gap-2 overflow-x-auto pb-1">
               {days.map((d) => (

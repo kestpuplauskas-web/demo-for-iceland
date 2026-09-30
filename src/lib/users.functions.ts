@@ -29,7 +29,7 @@ export const inviteUser = createServerFn({ method: "POST" })
       email: data.email,
       options: opts,
     });
-    // Jei vartotojas jau egzistuoja — siunčiame slaptažodžio susikūrimo nuorodą.
+    // If the user already exists — we send a password creation link.
     if (link.error && /registered|exists/i.test(link.error.message)) {
       link = await supabaseAdmin.auth.admin.generateLink({
         type: "recovery",
@@ -64,8 +64,8 @@ export const inviteUser = createServerFn({ method: "POST" })
         : data.role === "developer"
           ? "programuotojo"
           : data.role === "viewer"
-            ? "peržiūrėtojo"
-            : "kambarių tvarkytojos";
+            ? "viewer"
+            : "housekeeper";
       await sendEmail({
         to: data.email,
         subject: "Kvietimas prisijungti prie Dharma Stay sistemos",
@@ -73,9 +73,9 @@ export const inviteUser = createServerFn({ method: "POST" })
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
             <p>Jums sukurta ${roleLabel} paskyra Dharma Stay valdymo sistemoje.</p>
-            <p>Paspauskite nuorodą ir susikurkite slaptažodį:</p>
-            <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Susikurti slaptažodį</a></p>
-            <p style="font-size:13px;color:#666">Jei mygtukas neveikia, nukopijuokite šią nuorodą:<br>${actionLink}</p>
+            <p>Click the link to create your password:</p>
+            <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Create password</a></p>
+            <p style="font-size:13px;color:#666">If the button doesn't work, copy this link:<br>${actionLink}</p>
           </div>
         `,
       });
@@ -138,7 +138,7 @@ export const deleteUser = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ userId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertDeveloper(context);
-    if (data.userId === context.userId) throw new Error("Negalite ištrinti savo paskyros.");
+    if (data.userId === context.userId) throw new Error("You cannot delete your own account.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     await supabaseAdmin.from("user_roles").delete().eq("user_id", data.userId);

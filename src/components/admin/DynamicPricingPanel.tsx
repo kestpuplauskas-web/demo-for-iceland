@@ -32,31 +32,31 @@ import { rateCalendarRowFor, type RateCalendarRow } from "@/lib/booking-pricing"
 type Kind = "season" | "event" | "manual";
 type CalRow = RateCalendarRow & { id: string; label: string; created_at: string };
 
-const KIND_LABEL: Record<Kind, string> = { season: "Sezonas", event: "Šventė", manual: "Rankinis" };
+const KIND_LABEL: Record<Kind, string> = { season: "Season", event: "Holiday", manual: "Manual" };
 const KIND_PRIORITY: Record<Kind, number> = { season: 0, event: 10, manual: 100 };
 const SOURCE_LABEL: Record<string, string> = {
   base: "—",
-  season: "Sezonas",
-  event: "Šventė",
-  manual: "Tiksli kaina",
-  occupancy: "Užimtumas",
+  season: "Season",
+  event: "Holiday",
+  manual: "Fixed price",
+  occupancy: "Occupancy",
 };
 
-/** Paverčia serverio (zod) klaidą į žmogišką tekstą. */
+/** Converts a server (zod) error into human-readable text. */
 function errText(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
   try {
     const parsed = JSON.parse(msg);
     if (Array.isArray(parsed) && parsed[0]?.message) return parsed[0].message;
   } catch {
-    /* ne JSON */
+    /* not JSON */
   }
   return msg;
 }
 
 function pctLabel(m: number) {
   const p = Math.round((m - 1) * 1000) / 10;
-  return `${p >= 0 ? "+" : ""}${p} % nuo bazinės kainos`;
+  return `${p >= 0 ? "+" : ""}${p}% off the base price`;
 }
 
 function addDays(iso: string, n: number) {
@@ -65,7 +65,7 @@ function addDays(iso: string, n: number) {
   return d.toISOString().slice(0, 10);
 }
 
-/** Kuri eilutė persidengimo metu pralaimi — ir kam. */
+/** Which row loses during an overlap — and to whom. */
 function losingInfo(row: CalRow, all: CalRow[]): string | null {
   for (const other of all) {
     if (other.id === row.id) continue;
@@ -74,7 +74,7 @@ function losingInfo(row: CalRow, all: CalRow[]): string | null {
     if (from > to) continue;
     const winner = rateCalendarRowFor([row, other], from) as CalRow | null;
     if (winner && winner.id === other.id) {
-      return `Persidengia su „${other.label}" — ši eilutė nenaudojama ${from} – ${to} laikotarpiu.`;
+      return `Overlaps with "${other.label}" — this row is not used for the ${from} – ${to} period.`;
     }
   }
   return null;
@@ -112,7 +112,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
   });
   const rows = (calQ.data ?? []) as unknown as CalRow[];
 
-  // --- Jungiklis, ribos, užimtumas ---
+  // --- Switch, bounds, occupancy ---
   const [enabled, setEnabled] = useState(false);
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
@@ -130,16 +130,16 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
     for (let i = 0; i < tiers.length; i++) {
       const p = Number(tiers[i].pct);
       const m = Number(tiers[i].mult);
-      if (tiers[i].pct === "" || Number.isNaN(p) || p < 0 || p > 100) return `Eilutė ${i + 1}: užimtumas turi būti 0–100 %.`;
-      if (!(m > 0)) return `Eilutė ${i + 1}: daugiklis turi būti didesnis už 0.`;
+      if (tiers[i].pct === "" || Number.isNaN(p) || p < 0 || p > 100) return `Row ${i + 1}: occupancy must be 0–100%.`;
+      if (!(m > 0)) return `Row ${i + 1}: multiplier must be greater than 0.`;
       if (i > 0 && p <= Number(tiers[i - 1].pct))
-        return `Užimtumo ribos turi didėti iš eilės — riba ${p} % pakartota arba mažesnė už ankstesnę.`;
+        return `Occupancy thresholds must increase in sequence — threshold ${p}% is repeated or lower than the previous one.`;
     }
     return null;
   }, [tiers]);
   const boundsError =
     min !== "" && max !== "" && Number(max) < Number(min)
-      ? "Maksimali kaina negali būti mažesnė už minimalią."
+      ? "Maximum price cannot be lower than the minimum."
       : null;
 
   const saveSettings = useMutation({
@@ -157,9 +157,9 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
       toast.success(
         vars.enabled !== settingsQ.data?.enabled
           ? vars.enabled
-            ? "Dinaminė kainodara įjungta"
-            : "Dinaminė kainodara išjungta"
-          : "Užimtumo taisyklės ir ribos išsaugotos",
+            ? "Dynamic pricing enabled"
+            : "Dynamic pricing disabled"
+          : "Occupancy rules and bounds saved",
       );
       qc.invalidateQueries({ queryKey: ["pricing-settings", propertyId] });
       qc.invalidateQueries({ queryKey: ["dyn-pricing"] });
@@ -167,24 +167,24 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
     onError: (e) => toast.error(errText(e)),
   });
 
-  // --- Kalendoriaus eilutės forma ---
+  // --- Calendar row form ---
   const [form, setForm] = useState(emptyRow);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const fErrors = {
-    label: !form.label.trim() ? "Įveskite pavadinimą." : null,
-    date_from: !form.date_from ? "Pasirinkite pradžios datą." : null,
+    label: !form.label.trim() ? "Enter a name." : null,
+    date_from: !form.date_from ? "Select a start date." : null,
     date_to: !form.date_to
-      ? "Pasirinkite pabaigos datą."
+      ? "Select an end date."
       : form.date_from && form.date_to < form.date_from
-        ? "Pabaigos data negali būti ankstesnė už pradžios datą."
+        ? "End date cannot be earlier than the start date."
         : null,
     value:
       form.mode === "multiplier"
         ? !(Number(form.multiplier) > 0)
-          ? "Daugiklis turi būti didesnis už 0 (pvz., 1.30)."
+          ? "Multiplier must be greater than 0 (e.g., 1.30)."
           : null
         : form.fixed_price === "" || !(Number(form.fixed_price) >= 0)
-          ? "Įveskite tikslią nakties kainą."
+          ? "Enter the exact nightly price."
           : null,
   };
   const formValid = Object.values(fErrors).every((e) => !e);
@@ -206,7 +206,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
         },
       }),
     onSuccess: () => {
-      toast.success(form.id ? "Laikotarpis atnaujintas" : "Laikotarpis pridėtas");
+      toast.success(form.id ? "Period updated" : "Period added");
       setForm(emptyRow);
       setTouched({});
       qc.invalidateQueries({ queryKey: ["rate-calendar", propertyId] });
@@ -219,14 +219,14 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
   const delRow = useMutation({
     mutationFn: (id: string) => deleteRowFn({ data: { id } }),
     onSuccess: () => {
-      toast.success("Ištrinta");
+      toast.success("Deleted");
       qc.invalidateQueries({ queryKey: ["rate-calendar", propertyId] });
       qc.invalidateQueries({ queryKey: ["dyn-pricing"] });
     },
     onError: (e) => toast.error(errText(e)),
   });
 
-  // --- Peržiūra ---
+  // --- Preview ---
   const today = new Date().toISOString().slice(0, 10);
   const [pFrom, setPFrom] = useState(today);
   const [pTo, setPTo] = useState(addDays(today, 7));
@@ -241,9 +241,9 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
     <section className="mt-8 space-y-6 rounded-xl border bg-card p-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold">Dinaminė kainodara</h2>
+          <h2 className="text-xl font-semibold">Dynamic pricing</h2>
           <p className="text-sm text-muted-foreground">
-            Nakties kaina keičiasi pagal sezoną, šventes ir užimtumą. Išjungus — duomenys išlieka.
+            The nightly price changes based on season, holidays, and occupancy. Data is kept when disabled.
           </p>
         </div>
         <label className="flex items-center gap-3 text-sm font-medium">
@@ -255,59 +255,59 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
               saveSettings.mutate({ enabled: c });
             }}
           />
-          {enabled ? "Įjungta" : "Išjungta"}
+          {enabled ? "Enabled" : "Disabled"}
         </label>
       </header>
 
       {/* 1. Ribos */}
       <div className={`space-y-3 ${disabledCls}`}>
-        <h3 className="font-semibold">Kainos ribos</h3>
+        <h3 className="font-semibold">Price bounds</h3>
         <div className="grid max-w-md gap-4 sm:grid-cols-2">
           <div className="space-y-1">
-            <Label htmlFor="dp-min">Minimali nakties kaina ({cur})</Label>
+            <Label htmlFor="dp-min">Minimum nightly price ({cur})</Label>
             <Input id="dp-min" type="number" inputMode="decimal" min={0} value={min} onChange={(e) => setMin(e.target.value)} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-max">Maksimali nakties kaina ({cur})</Label>
+            <Label htmlFor="dp-max">Maximum nightly price ({cur})</Label>
             <Input id="dp-max" type="number" inputMode="decimal" min={0} value={max} onChange={(e) => setMax(e.target.value)} aria-invalid={!!boundsError} />
           </div>
         </div>
         <p className="text-xs text-muted-foreground">
-          Kaina niekada nenukris žemiau / nepakils virš šios ribos, kad ir ką rodytų sezonas ar užimtumas.
+          The price will never fall below or rise above this bound, regardless of season or occupancy.
         </p>
         {boundsError && <p role="alert" className="text-sm font-medium text-destructive">{boundsError}</p>}
       </div>
 
-      {/* 3. Užimtumas */}
+      {/* 3. Occupancy */}
       <div className={`space-y-3 ${disabledCls}`}>
-        <h3 className="font-semibold">Užimtumo taisyklės</h3>
+        <h3 className="font-semibold">Occupancy rules</h3>
         <p className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Info className="h-3.5 w-3.5" /> Užimtumas skaičiuojamas visam objektui, ne šiam konkrečiam kambariui.
+          <Info className="h-3.5 w-3.5" /> Occupancy is calculated for the entire property, not just this specific room.
         </p>
         <div className="max-w-md space-y-2">
           {tiers.length > 0 && (
             <div className="grid grid-cols-[1fr_1fr_auto] gap-2 text-xs font-medium text-muted-foreground">
-              <span>Nuo užimtumo %</span>
-              <span>Daugiklis</span>
+              <span>From occupancy %</span>
+              <span>Multiplier</span>
               <span className="w-10" />
             </div>
           )}
           {tiers.map((t, i) => (
             <div key={i} className="grid grid-cols-[1fr_1fr_auto] items-center gap-2">
-              <Input type="number" inputMode="numeric" min={0} max={100} value={t.pct} aria-label="Nuo užimtumo %"
+              <Input type="number" inputMode="numeric" min={0} max={100} value={t.pct} aria-label="From occupancy %"
                 onChange={(e) => setTiers((a) => a.map((x, j) => (j === i ? { ...x, pct: e.target.value } : x)))} />
               <div>
-                <Input type="number" inputMode="decimal" step="0.01" min={0} value={t.mult} aria-label="Daugiklis"
+                <Input type="number" inputMode="decimal" step="0.01" min={0} value={t.mult} aria-label="Multiplier"
                   onChange={(e) => setTiers((a) => a.map((x, j) => (j === i ? { ...x, mult: e.target.value } : x)))} />
                 {Number(t.mult) > 0 && <span className="text-xs text-muted-foreground">= {pctLabel(Number(t.mult))}</span>}
               </div>
-              <Button variant="ghost" size="icon" aria-label="Pašalinti ribą" onClick={() => setTiers((a) => a.filter((_, j) => j !== i))}>
+              <Button variant="ghost" size="icon" aria-label="Remove threshold" onClick={() => setTiers((a) => a.filter((_, j) => j !== i))}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           ))}
           <Button variant="outline" size="sm" onClick={() => setTiers((a) => [...a, { pct: "", mult: "1.10" }])}>
-            <Plus className="mr-1 h-4 w-4" /> Pridėti ribą
+            <Plus className="mr-1 h-4 w-4" /> Add threshold
           </Button>
           {tiersError && <p role="alert" className="text-sm font-medium text-destructive">{tiersError}</p>}
         </div>
@@ -315,27 +315,27 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
           disabled={!!tiersError || !!boundsError || saveSettings.isPending}
           onClick={() => saveSettings.mutate({ enabled })}
         >
-          {saveSettings.isPending ? "Saugoma…" : "Išsaugoti ribas ir užimtumą"}
+          {saveSettings.isPending ? "Saving…" : "Save bounds and occupancy"}
         </Button>
       </div>
 
       {/* 2. Kalendorius */}
       <div className={`space-y-3 ${disabledCls}`}>
-        <h3 className="font-semibold">Kainos kalendorius</h3>
+        <h3 className="font-semibold">Price calendar</h3>
         {calQ.isLoading ? (
-          <p className="text-sm text-muted-foreground">Kraunama…</p>
+          <p className="text-sm text-muted-foreground">Loading…</p>
         ) : rows.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Laikotarpių dar nėra.</p>
+          <p className="text-sm text-muted-foreground">No periods yet.</p>
         ) : (
           <div className="overflow-x-auto rounded-lg border">
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left text-xs text-muted-foreground">
                 <tr>
-                  <th className="p-2">Pavadinimas</th>
-                  <th className="p-2">Tipas</th>
-                  <th className="p-2">Nuo – iki (imtinai)</th>
-                  <th className="p-2">Pakeitimas</th>
-                  <th className="p-2">Prioritetas</th>
+                  <th className="p-2">Name</th>
+                  <th className="p-2">Type</th>
+                  <th className="p-2">From – to (inclusive)</th>
+                  <th className="p-2">Change</th>
+                  <th className="p-2">Priority</th>
                   <th className="p-2" />
                 </tr>
               </thead>
@@ -356,7 +356,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
                       <td className="p-2">{r.priority}</td>
                       <td className="p-2">
                         <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" aria-label="Redaguoti"
+                          <Button variant="ghost" size="icon" aria-label="Edit"
                             onClick={() => {
                               setForm({
                                 id: r.id,
@@ -373,7 +373,7 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
                             }}>
                             <Pencil className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" aria-label="Ištrinti" onClick={() => setToDelete(r)}>
+                          <Button variant="ghost" size="icon" aria-label="Delete" onClick={() => setToDelete(r)}>
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -387,16 +387,16 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
         )}
 
         <div className="max-w-md space-y-3 rounded-lg border p-4">
-          <h4 className="font-medium">{form.id ? "Redaguoti laikotarpį" : "Pridėti laikotarpį"}</h4>
+          <h4 className="font-medium">{form.id ? "Edit period" : "Add period"}</h4>
           <div className="space-y-1">
-            <Label htmlFor="dp-label">Pavadinimas</Label>
-            <Input id="dp-label" value={form.label} placeholder="pvz., Vasaros sezonas"
+            <Label htmlFor="dp-label">Name</Label>
+            <Input id="dp-label" value={form.label} placeholder="e.g., Summer season"
               onChange={(e) => setForm({ ...form, label: e.target.value })}
               onBlur={() => setTouched((t) => ({ ...t, label: true }))} aria-invalid={!!showErr("label")} />
             {showErr("label") && <p className="text-sm text-destructive">{showErr("label")}</p>}
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-kind">Tipas</Label>
+            <Label htmlFor="dp-kind">Type</Label>
             <select id="dp-kind" className="h-10 w-full rounded-md border bg-background px-3 text-sm" value={form.kind}
               onChange={(e) => {
                 const k = e.target.value as Kind;
@@ -406,78 +406,78 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
             </select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-from">Nuo</Label>
+            <Label htmlFor="dp-from">From</Label>
             <Input id="dp-from" type="date" value={form.date_from}
               onChange={(e) => setForm({ ...form, date_from: e.target.value })}
               onBlur={() => setTouched((t) => ({ ...t, date_from: true }))} />
             {showErr("date_from") && <p className="text-sm text-destructive">{showErr("date_from")}</p>}
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-to">Iki ir įskaitant</Label>
+            <Label htmlFor="dp-to">To and including</Label>
             <Input id="dp-to" type="date" value={form.date_to}
               onChange={(e) => setForm({ ...form, date_to: e.target.value })}
               onBlur={() => setTouched((t) => ({ ...t, date_to: true }))} />
             {showErr("date_to") && <p className="text-sm text-destructive">{showErr("date_to")}</p>}
           </div>
           <fieldset className="space-y-2">
-            <legend className="text-sm font-medium">Kainos pakeitimas</legend>
+            <legend className="text-sm font-medium">Price change</legend>
             <div className="flex gap-4 text-sm">
               <label className="flex items-center gap-2">
                 <input type="radio" name="dp-mode" checked={form.mode === "multiplier"} onChange={() => setForm({ ...form, mode: "multiplier" })} />
-                Daugiklis (%)
+                Multiplier (%)
               </label>
               <label className="flex items-center gap-2">
                 <input type="radio" name="dp-mode" checked={form.mode === "fixed"} onChange={() => setForm({ ...form, mode: "fixed" })} />
-                Tiksli kaina ({cur})
+                Fixed price ({cur})
               </label>
             </div>
             {form.mode === "multiplier" ? (
               <div className="space-y-1">
-                <Input type="number" inputMode="decimal" step="0.01" min={0} value={form.multiplier} aria-label="Daugiklis"
+                <Input type="number" inputMode="decimal" step="0.01" min={0} value={form.multiplier} aria-label="Multiplier"
                   onChange={(e) => setForm({ ...form, multiplier: e.target.value })}
                   onBlur={() => setTouched((t) => ({ ...t, value: true }))} />
-                {Number(form.multiplier) > 0 && <p className="text-xs text-muted-foreground">= {pctLabel(Number(form.multiplier))}. Taikoma ir papildomoms paslaugoms.</p>}
+                {Number(form.multiplier) > 0 && <p className="text-xs text-muted-foreground">= {pctLabel(Number(form.multiplier))}. Also applies to extra services.</p>}
               </div>
             ) : (
               <div className="space-y-1">
-                <Input type="number" inputMode="decimal" step="0.01" min={0} value={form.fixed_price} aria-label="Tiksli kaina"
+                <Input type="number" inputMode="decimal" step="0.01" min={0} value={form.fixed_price} aria-label="Fixed price"
                   onChange={(e) => setForm({ ...form, fixed_price: e.target.value })}
                   onBlur={() => setTouched((t) => ({ ...t, value: true }))} />
-                <p className="text-xs text-muted-foreground">Galutinė nakties kaina; užimtumas netaikomas, papildomos paslaugos nebrangsta.</p>
+                <p className="text-xs text-muted-foreground">Final nightly price; occupancy is not applied, extra services do not get more expensive.</p>
               </div>
             )}
             {showErr("value") && <p className="text-sm text-destructive">{showErr("value")}</p>}
           </fieldset>
           <div className="space-y-1">
-            <Label htmlFor="dp-prio">Prioritetas</Label>
+            <Label htmlFor="dp-prio">Priority</Label>
             <Input id="dp-prio" type="number" inputMode="numeric" value={form.priority} onChange={(e) => setForm({ ...form, priority: e.target.value })} />
-            <p className="text-xs text-muted-foreground">Kai du laikotarpiai persidengia, laimi didesnis skaičius.</p>
+            <p className="text-xs text-muted-foreground">When two periods overlap, the higher number wins.</p>
           </div>
           <div className="flex gap-2">
             <Button disabled={!formValid || saveRow.isPending} onClick={() => saveRow.mutate()}>
-              {saveRow.isPending ? "Saugoma…" : form.id ? "Išsaugoti" : "Pridėti laikotarpį"}
+              {saveRow.isPending ? "Saving…" : form.id ? "Save" : "Add period"}
             </Button>
             {form.id && (
-              <Button variant="ghost" onClick={() => { setForm(emptyRow); setTouched({}); }}>Atšaukti</Button>
+              <Button variant="ghost" onClick={() => { setForm(emptyRow); setTouched({}); }}>Cancel</Button>
             )}
           </div>
         </div>
       </div>
 
-      {/* 4. Peržiūra */}
+      {/* 4. Preview */}
       <div className="space-y-3">
-        <h3 className="font-semibold">Peržiūra — ką matytų svečias</h3>
+        <h3 className="font-semibold">Preview — what the guest would see</h3>
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1">
-            <Label htmlFor="dp-pfrom">Atvykimas</Label>
+            <Label htmlFor="dp-pfrom">Check-in</Label>
             <Input id="dp-pfrom" type="date" value={pFrom} onChange={(e) => setPFrom(e.target.value)} />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="dp-pto">Išvykimas</Label>
+            <Label htmlFor="dp-pto">Check-out</Label>
             <Input id="dp-pto" type="date" value={pTo} onChange={(e) => setPTo(e.target.value)} />
           </div>
           <Button variant="outline" disabled={preview.isPending || !(pTo > pFrom)} onClick={() => preview.mutate()}>
-            {preview.isPending ? "Skaičiuojama…" : "Peržiūrėti kainą"}
+            {preview.isPending ? "Calculating…" : "Preview price"}
           </Button>
         </div>
         {preview.data && (
@@ -485,12 +485,12 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left text-xs text-muted-foreground">
                 <tr>
-                  <th className="p-2">Naktis</th>
-                  <th className="p-2">Bazinė</th>
-                  <th className="p-2">Taisyklė</th>
-                  <th className="p-2">Užimtumas</th>
-                  <th className="p-2">Galutinė</th>
-                  <th className="p-2">Poveikis paslaugoms</th>
+                  <th className="p-2">Night</th>
+                  <th className="p-2">Base</th>
+                  <th className="p-2">Rule</th>
+                  <th className="p-2">Occupancy</th>
+                  <th className="p-2">Final</th>
+                  <th className="p-2">Impact on services</th>
                 </tr>
               </thead>
               <tbody>
@@ -505,12 +505,12 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
                   </tr>
                 ))}
                 <tr className="border-t font-semibold">
-                  <td className="p-2" colSpan={4}>Iš viso už nakvynes</td>
+                  <td className="p-2" colSpan={4}>Total for stay</td>
                   <td className="p-2" colSpan={2}>{formatNumber(preview.data.stay_total, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {cur}</td>
                 </tr>
               </tbody>
             </table>
-            {!enabled && <p className="p-2 text-xs text-muted-foreground">Dinaminė kainodara išjungta — rodoma bazinė kaina.</p>}
+            {!enabled && <p className="p-2 text-xs text-muted-foreground">Dynamic pricing is disabled — showing base price.</p>}
           </div>
         )}
       </div>
@@ -518,18 +518,18 @@ export function DynamicPricingPanel({ propertyId }: { propertyId: string }) {
       <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Ištrinti laikotarpį?</AlertDialogTitle>
+            <AlertDialogTitle>Delete period?</AlertDialogTitle>
             <AlertDialogDescription>
-              {toDelete && `Ištrinti „${toDelete.label}" (${toDelete.date_from} – ${toDelete.date_to})? Šio veiksmo atšaukti negalima.`}
+              {toDelete && `Delete "${toDelete.label}" (${toDelete.date_from} – ${toDelete.date_to})? This action cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Atšaukti</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => toDelete && delRow.mutate(toDelete.id)}
             >
-              Ištrinti
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

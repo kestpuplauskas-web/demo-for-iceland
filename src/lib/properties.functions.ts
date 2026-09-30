@@ -4,16 +4,17 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertCanView } from "./users.server";
 import type { Property, PriceTier, Rooms, Booking, ExtraService } from "./properties";
+import { CURRENCIES, type PropertyCurrency } from "./properties";
 import type { Database } from "@/integrations/supabase/types";
 
-/** Defense-in-depth: programos lygmens administratoriaus patikra (šalia RLS). */
+/** Defense-in-depth: application-level administrator check (alongside RLS). */
 const assertAdmin = async (ctx: { supabase: any; userId: string }) => {
   const { data, error } = await ctx.supabase.rpc("has_role", {
     _user_id: ctx.userId,
     _role: "admin",
   });
   if (error) throw new Error(error.message);
-  if (!data) throw new Error("Neturite administratoriaus teisių.");
+  if (!data) throw new Error("You do not have administrator rights.");
 };
 
 function publicClient() {
@@ -66,7 +67,7 @@ function mapProperty(row: PublicPropertyRow, bookings: BookingRow[] = []): Prope
     rooms: (row.rooms as unknown as Rooms) ?? {},
     amenities: (row.amenities as unknown as string[]) ?? [],
     pricePerNight: Number(row.price_per_night),
-    currency: row.currency === "ISK" ? "ISK" : "EUR",
+    currency: (CURRENCIES as readonly string[]).includes(String(row.currency)) ? (row.currency as PropertyCurrency) : "EUR",
     priceTiers: (row.price_tiers as unknown as PriceTier[]) ?? [],
     extraServices: (row.extra_services as unknown as ExtraService[]) ?? [],
     image: row.cover_image_url,
@@ -93,7 +94,7 @@ export const listActiveProperties = createServerFn({ method: "GET" }).handler(as
     .order("created_at", { ascending: true });
   if (error) {
     console.error("[listActiveProperties]", error.message);
-    throw new Error("Nepavyko įkelti objektų.");
+    throw new Error("Failed to load properties.");
   }
 
   let bookings: BookingRow[] = [];
@@ -102,7 +103,7 @@ export const listActiveProperties = createServerFn({ method: "GET" }).handler(as
     const { data: b, error: bErr } = await supabaseAdmin.rpc("get_active_booked_dates");
     if (bErr) {
       console.error("[listActiveProperties:booked]", bErr.message);
-      throw new Error("Nepavyko įkelti užimtumo duomenų.");
+      throw new Error("Failed to load occupancy data.");
     }
     bookings = (b ?? []) as BookingRow[];
   }
@@ -128,7 +129,7 @@ export const getPropertyById = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) {
       console.error("[getPropertyById]", error.message);
-      throw new Error("Nepavyko įkelti objekto.");
+      throw new Error("Failed to load property.");
     }
     if (!prop) return null;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -137,7 +138,7 @@ export const getPropertyById = createServerFn({ method: "GET" })
     });
     if (bErr) {
       console.error("[getPropertyById:booked]", bErr.message);
-      throw new Error("Nepavyko įkelti užimtumo duomenų.");
+      throw new Error("Failed to load occupancy data.");
     }
     const rows =
       (bookings ?? []).map((b) => ({
@@ -161,7 +162,7 @@ export const getPropertyForEdit = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) {
       console.error("[getPropertyForEdit]", error.message);
-      throw new Error("Nepavyko įkelti objekto.");
+      throw new Error("Failed to load property.");
     }
     if (!prop) return null;
     const { data: doorCode } = await context.supabase.rpc("admin_get_door_code", {
@@ -222,7 +223,7 @@ const propertyInputSchema = z.object({
     .default({}),
   amenities: z.array(z.string().min(1).max(50)).max(50).default([]),
   pricePerNight: z.number().positive().max(100000),
-  currency: z.enum(["EUR", "ISK"]).default("EUR"),
+  currency: z.enum(CURRENCIES).default("EUR"),
   priceTiers: z
     .array(
       z.object({

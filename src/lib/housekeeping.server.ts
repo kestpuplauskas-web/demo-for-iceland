@@ -1,13 +1,13 @@
-// Server-only: kambarių tvarkymo darbų apskaičiavimas iš rezervacijų.
+// Server-only: calculation of housekeeping tasks from bookings.
 
 export type WorkType =
-  | "turnover" // išvyksta ir tą pačią dieną atvyksta — siauriausias langas
-  | "departure" // išvyksta, tą dieną naujo svečio nėra
-  | "pre_arrival" // tuščias, atvyksta svečias
-  | "stayover" // svečias gyvena ir lieka toliau
+  | "turnover" // departs and arrives on the same day — the narrowest window
+  | "departure" // departs, no new guest that day
+  | "pre_arrival" // empty, guest arriving
+  | "stayover" // guest is staying and remains
   | "none"; // nieko nereikia
 
-/** Mažesnis skaičius = svarbiau. Naudojama rikiavimui. */
+/** Lower number = more important. Used for sorting. */
 export const WORK_TYPE_PRIORITY: Record<WorkType, number> = {
   turnover: 1,
   departure: 2,
@@ -16,7 +16,7 @@ export const WORK_TYPE_PRIORITY: Record<WorkType, number> = {
   none: 5,
 };
 
-/** Objekto „šiandien“ pagal jo laiko zoną, ne pagal serverio UTC. */
+/** Property's "today" based on its time zone, not server UTC. */
 export function localToday(timeZone: string): string {
   const fmt = new Intl.DateTimeFormat("en-CA", {
     timeZone: timeZone || "Europe/Vilnius",
@@ -69,11 +69,11 @@ function extrasNames(extras: unknown): string[] {
 }
 
 /**
- * Apskaičiuoja, kokio darbo reikia vienam kambariui vieną dieną.
+ * Calculates what kind of work is needed for a room on a given day.
  *
- * SVARBU: sprendžiama tik pagal rezervacijas. Nesutvarkyti kambariai
- * (`room_status.status !== 'svarus'`) į sąrašą įtraukiami atskirai —
- * žr. `rooms.ts`, kitaip vakar neatliktas darbas dingtų iš sąrašo.
+ * IMPORTANT: decided only based on bookings. Unmade rooms
+ * (`room_status.status !== 'svarus'`) are added to the list separately —
+ * see `rooms.ts`, otherwise yesterday's unfinished work would disappear from the list.
  */
 export function computeDayWork(
   bookings: BookingLite[],
@@ -89,7 +89,7 @@ export function computeDayWork(
   else if (departingB) work_type = "departure";
   else if (arrivingB) work_type = "pre_arrival";
   else if (stayingB) {
-    // Gyvenamas kambarys tvarkomas kas N parų nuo atvykimo, o ne kasdien.
+    // An occupied room is cleaned every N days from arrival, not daily.
     const n = Number(stayoverEveryDays) || 0;
     if (n > 0) {
       const from = new Date(`${stayingB.date_from}T00:00:00Z`).getTime();
@@ -122,7 +122,7 @@ export function computeDayWork(
   };
 }
 
-/** Užduoties statusas pagal kambario švaros būklę. */
+/** Task status based on the room's cleanliness state. */
 export function taskStatusForRoomStatus(status: string): "laukia" | "vykdoma" | "atlikta" {
   if (status === "svarus") return "atlikta";
   if (status === "tvarkoma") return "vykdoma";

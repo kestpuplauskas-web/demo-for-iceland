@@ -35,13 +35,13 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
             }).superRefine((d, ctx) => {
               if (d.is_company) {
                 if (!d.company_name.trim()) {
-                  ctx.addIssue({ code: "custom", path: ["company_name"], message: "Įmonės pavadinimas privalomas" });
+                  ctx.addIssue({ code: "custom", path: ["company_name"], message: "Company name is required" });
                 }
                 if (!d.company_code.trim()) {
-                  ctx.addIssue({ code: "custom", path: ["company_code"], message: "Įmonės kodas privalomas" });
+                  ctx.addIssue({ code: "custom", path: ["company_code"], message: "Company code is required" });
                 }
                 if (!d.company_address.trim()) {
-                  ctx.addIssue({ code: "custom", path: ["company_address"], message: "Įmonės adresas privalomas" });
+                  ctx.addIssue({ code: "custom", path: ["company_address"], message: "Company address is required" });
                 }
               }
             });
@@ -90,8 +90,8 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
             const defaultLang = await loadDefaultLanguage();
             const lang = d.language ?? defaultLang;
 
-            // Išverstus paslaugų pavadinimus paverčiame atgal į originalius —
-            // kainos skaičiuojamos pagal properties.extra_services[].name.
+            // Translated service names are converted back to originals —
+            // prices are calculated based on properties.extra_services[].name.
             let selectedExtras = d.extras;
             if (lang !== defaultLang) {
               const tr = await loadTranslations("property", [d.property_id], lang);

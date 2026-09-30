@@ -1,3 +1,4 @@
+import { currencySymbol } from "@/lib/properties";
 import type { ReactNode } from "react";
 
 import { PageSection, Prose } from "@/components/site/Prose";
@@ -98,6 +99,6 @@ export function propertyLd(
       addressLocality: "Ólafsfjörður",
       addressCountry: "IS",
     },
-    ...(property.price_per_night ? { priceRange: `from ${property.price_per_night} ${property.currency === "EUR" ? "\u20ac" : "kr."}` } : {}),
+    ...(property.price_per_night ? { priceRange: `from ${property.price_per_night} ${currencySymbol(property.currency)}` } : {}),
   };
 }

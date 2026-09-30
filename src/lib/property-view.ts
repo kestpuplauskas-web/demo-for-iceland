@@ -1,3 +1,4 @@
+import { currencySymbol } from "@/lib/properties";
 import { getContent } from "@/content";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/locale";
 import type { Property } from "@/lib/revoo-schemas";
@@ -154,7 +155,7 @@ export function formatPrice(value: number): string {
 
 /** Price with the property's own currency symbol (ISK "kr." or EUR "€"). */
 export function formatMoney(value: number, currency: string | null | undefined): string {
-  return `${formatPrice(value)} ${currency === "EUR" ? "\u20ac" : "kr."}`;
+  return `${formatPrice(value)} ${currencySymbol(currency)}`;
 }
 /** Reverse lookup: translated label -> engine code (both locales). */
 const labelToCode: Record<string, string> = (() => {

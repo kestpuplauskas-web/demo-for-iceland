@@ -34,27 +34,33 @@ export const AMENITY_LABEL_KEYS: Record<string, string> = Object.fromEntries(
 );
 
 export const ROOM_KINDS = [
-  { value: "bedroom_1", label: "Miegamasis 1", labelKey: "enums.roomKind.bedroom_1" },
-  { value: "bedroom_2", label: "Miegamasis 2", labelKey: "enums.roomKind.bedroom_2" },
-  { value: "bedroom_3", label: "Miegamasis 3", labelKey: "enums.roomKind.bedroom_3" },
-  { value: "bedroom_4", label: "Miegamasis 4", labelKey: "enums.roomKind.bedroom_4" },
-  { value: "living_room", label: "Svetainė", labelKey: "enums.roomKind.living_room" },
+  { value: "bedroom_1", label: "Bedroom 1", labelKey: "enums.roomKind.bedroom_1" },
+  { value: "bedroom_2", label: "Bedroom 2", labelKey: "enums.roomKind.bedroom_2" },
+  { value: "bedroom_3", label: "Bedroom 3", labelKey: "enums.roomKind.bedroom_3" },
+  { value: "bedroom_4", label: "Bedroom 4", labelKey: "enums.roomKind.bedroom_4" },
+  { value: "living_room", label: "Living room", labelKey: "enums.roomKind.living_room" },
 ] as const;
 
 export const BED_TYPES = [
-  { value: "extra_large_double", label: "Labai didelė dvigulė lova", labelKey: "enums.bedType.extra_large_double" },
-  { value: "large_double", label: "Didelė dvigulė lova", labelKey: "enums.bedType.large_double" },
-  { value: "double", label: "Standartinė dvigulė lova", labelKey: "enums.bedType.double" },
-  { value: "single", label: "Vienvietė lova", labelKey: "enums.bedType.single" },
-  { value: "sofa_bed", label: "Miegamoji sofa", labelKey: "enums.bedType.sofa_bed" },
+  { value: "extra_large_double", label: "Extra-large double bed", labelKey: "enums.bedType.extra_large_double" },
+  { value: "large_double", label: "Large double bed", labelKey: "enums.bedType.large_double" },
+  { value: "double", label: "Standard double bed", labelKey: "enums.bedType.double" },
+  { value: "single", label: "Single bed", labelKey: "enums.bedType.single" },
+  { value: "sofa_bed", label: "Sofa bed", labelKey: "enums.bedType.sofa_bed" },
 ] as const;
 
-export const CURRENCIES = ["EUR", "ISK"] as const;
+export const CURRENCIES = ["EUR", "USD", "GBP", "ISK", "NOK"] as const;
 export type PropertyCurrency = (typeof CURRENCIES)[number];
 
 /** Short display symbol shown next to prices. */
 export function currencySymbol(c: string | null | undefined): string {
-  return c === "ISK" ? "kr." : "€";
+  switch ((c ?? "EUR").toUpperCase()) {
+    case "USD": return "$";
+    case "GBP": return "£";
+    case "ISK":
+    case "NOK": return "kr.";
+    default: return "€";
+  }
 }
 
 export type RoomConfig = { kind: string; beds: number; bedType: string };
@@ -76,8 +82,8 @@ export const EXTRA_CALC_LABEL_KEYS: Record<ExtraCalc, string> = {
 };
 
 /**
- * `name` yra paslaugos identifikatorius (saugomas duomenyse ir naudojamas kainai
- * skaičiuoti), todėl jis NEVERČIAMAS — verčiama tik rodoma etiketė `labelKey`.
+ * `name` is the service identifier (stored in data and used for price
+ * calculation), so it is NOT translated — only the displayed label `labelKey` is.
  */
 export const EXTRA_SERVICE_PRESETS: Array<{ name: string; calc: ExtraCalc; labelKey: string }> = [
   { name: "Pusryčiai", calc: "per_person", labelKey: "enums.extraServices.breakfast" },
@@ -177,7 +183,7 @@ export function isPropertyAvailable(p: Property, from: Date, to: Date): boolean 
   });
 }
 
-/** Grąžina vertimo raktą (arba pačią reikšmę, jei tipas nežinomas). */
+/** Returns the translation key (or the value itself if the type is unknown). */
 export function propertyTypeLabelKey(v: string): string {
   return PROPERTY_TYPES.find((t) => t.value === v)?.labelKey ?? v;
 }

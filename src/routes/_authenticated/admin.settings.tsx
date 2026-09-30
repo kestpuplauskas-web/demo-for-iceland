@@ -35,12 +35,12 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
       {
         name: "description",
         content:
-          "Objekto bendrieji nustatymai: viešnagės taisyklės, mokesčiai, mokėjimai, sąskaitos, pranešimai ir integracijos.",
+          "General property settings: stay rules, fees, payments, invoicing, notifications, and integrations.",
       },
       { property: "og:title", content: `Bendrieji nustatymai | ${PLATFORM_NAME}` },
       {
         property: "og:description",
-        content: "Centrinė objekto konfigūracijos vieta viešbučių valdymo sistemoje.",
+        content: "The central property configuration hub in the hotel management system.",
       },
     ],
   }),

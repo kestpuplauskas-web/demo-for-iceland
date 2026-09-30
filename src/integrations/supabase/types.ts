@@ -1575,6 +1575,7 @@ export type Database = {
           status: string
         }[]
       }
+      global_currency: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -13,7 +13,6 @@ export const CURRENCIES = [
 ] as const;
 
 export const LANGUAGES = [
-  { value: "lt", label: "Lietuvių" },
   { value: "en", label: "English" },
   { value: "de", label: "Deutsch" },
   { value: "is", label: "Íslenska" },
@@ -79,7 +78,7 @@ export const settingsSchemas = {
     lng: z.number().min(-180).max(180).nullable().default(null),
     timezone: z.string().min(1).default("Europe/Vilnius"),
     currency: z.string().min(3).max(3).default("EUR"),
-    defaultLanguage: z.string().min(2).max(5).default("lt"),
+    defaultLanguage: z.string().min(2).max(5).default("en"),
     phone: optionalText(40),
     email: z.union([z.literal(""), z.string().email("settings.validation.email")]).default(""),
   }),
@@ -180,7 +179,7 @@ export const DEFAULT_PROPERTY_SETTINGS: PropertySettings = {
   lng: null,
   timezone: "Europe/Vilnius",
   currency: "EUR",
-  defaultLanguage: "lt",
+  defaultLanguage: "en",
   phone: "",
   email: "",
 

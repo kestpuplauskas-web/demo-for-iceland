@@ -1,5 +1,5 @@
-// Server-only: surenka nejautrų kontekstą AI pagalbininkui (nustatymų laukai su
-// paaiškinimais ir dabartinėmis reikšmėmis, objektų santrauka).
+// Server-only: gathers non-sensitive context for the AI assistant (settings fields with
+// explanations and current values, properties summary).
 import lt from "@/i18n/locales/lt.json";
 import en from "@/i18n/locales/en.json";
 import {
@@ -13,7 +13,7 @@ type AnySupabase = {
   from: (table: string) => any;
 };
 
-/** Laukai, kurių reikšmės į AI kontekstą NEPERDUODAMOS (paaiškinimas lieka). */
+/** Fields whose values are NOT passed to the AI context (the explanation remains). */
 const SENSITIVE_FIELDS = new Set<keyof PropertySettings>([
   "iban",
   "bankName",
@@ -63,7 +63,7 @@ function formatValue(
   return `${String(value)}${unit}`;
 }
 
-/** Nustatymų skiltys → laukai (pavadinimas, paaiškinimas, dabartinė reikšmė). */
+/** Settings sections → fields (name, explanation, current value). */
 export function buildSettingsKnowledge(lang: AssistantLang, settings: PropertySettings): string {
   const lines: string[] = [];
   for (const section of SETTINGS_SECTIONS) {

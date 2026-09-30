@@ -1,12 +1,12 @@
-// Server-only: vertimų taikymas viešajame API.
-// `content_translations` lentelė neturi anon skaitymo teisių, tad skaitome per
-// privilegijuotą klientą — lygiai kaip daro /v1/legal. Kvietėjas tuo metu jau
-// būna patvirtintas API raktu.
+// Server-only: applying translations in the public API.
+// The `content_translations` table has no anon read access, so we read via
+// a privileged client — just like /v1/legal does. The caller has already
+// been authenticated with an API key by that point.
 
 import { resolveDefaultLanguage } from "@/lib/languages";
 import { EXTRA_SERVICE_FIELD_PREFIX, extraServiceField } from "@/lib/translations";
 
-/** Objekto numatytoji kalba iš nustatymų (originalo kalba). */
+/** Property default language from settings (original language). */
 export async function loadDefaultLanguage(): Promise<string> {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
@@ -35,7 +35,7 @@ export async function loadTranslations(
     .in("entity_id", entityIds);
   if (error) {
     console.error("[loadTranslations]", error.message);
-    return {}; // vertimų nepavyko gauti — grąžiname originalus, o ne klaidą
+    return {}; // failed to fetch translations — return originals instead of an error
   }
   const out: EntityTranslations = {};
   for (const r of (data ?? []) as Array<{ entity_id: string; field: string; value: string }>) {
@@ -45,7 +45,7 @@ export async function loadTranslations(
   return out;
 }
 
-/** Pritaiko vertimus vienam objektui. Trūkstami laukai lieka originalo kalba. */
+/** Applies translations to a single property. Missing fields remain in the original language. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyPropertyTranslations<T extends Record<string, any>>(
   prop: T,
@@ -68,8 +68,8 @@ export function applyPropertyTranslations<T extends Record<string, any>>(
 }
 
 /**
- * Atvirkštinis žodynas: išverstas pavadinimas -> originalus pavadinimas.
- * Būtinas kainų skaičiavimui, nes paslaugos atpažįstamos pagal originalų pavadinimą.
+ * Reverse dictionary: translated name -> original name.
+ * Required for price calculation, since services are recognized by their original name.
  */
 export function buildExtraNameResolver(tr: Record<string, string> | undefined) {
   const byTranslated = new Map<string, string>();
@@ -78,7 +78,7 @@ export function buildExtraNameResolver(tr: Record<string, string> | undefined) {
     const original = field.slice(EXTRA_SERVICE_FIELD_PREFIX.length);
     if (value.trim()) byTranslated.set(value.trim().toLowerCase(), original);
   }
-  /** Priima ir originalų, ir išverstą pavadinimą; grąžina originalų. */
+  /** Accepts both the original and translated name; returns the original. */
   return (incoming: string): string =>
     byTranslated.get(incoming.trim().toLowerCase()) ?? incoming;
 }

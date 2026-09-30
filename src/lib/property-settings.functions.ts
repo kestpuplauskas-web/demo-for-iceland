@@ -15,7 +15,7 @@ export const getPropertySettings = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) {
       console.error("[getPropertySettings]", error.message);
-      throw new Error("Nepavyko įkelti nustatymų.");
+      throw new Error("Failed to load settings.");
     }
     return {
       exists: Boolean(row),
@@ -54,14 +54,14 @@ export const savePropertySettings = createServerFn({ method: "POST" })
 
     if (error) {
       console.error("[savePropertySettings]", error.message);
-      throw new Error("Nepavyko išsaugoti nustatymų.");
+      throw new Error("Failed to save settings.");
     }
     return {
       updatedAt: (row?.updated_at as string | undefined) ?? null,
       settings: rowToSettings(row as Record<string, unknown>),
     };
   });
-/** Vieša (be autentifikacijos) prekės ženklo informacija prisijungimo puslapiui. */
+/** Public (unauthenticated) brand information for the login page. */
 export const getPublicBranding = createServerFn({ method: "GET" }).handler(
   async (): Promise<{ displayName: string; logoUrl: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
