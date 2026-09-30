@@ -937,7 +937,7 @@
             "label": "El. laiškų logotipas"
           },
           "brandLogoUrl": {
-            "label": "Logotipas"
+            "label": "Logo (dark, for light backgrounds)"
           },
           "brandPdfLogoUrl": {
             "label": "PDF dokumentų logotipas"
@@ -947,6 +947,12 @@
           },
           "brandSecondaryColor": {
             "label": "Antrinė spalva"
+          },
+          "brandLogoLightUrl": {
+            "label": "Logo (light, for dark backgrounds)"
+          },
+          "brandFaviconUrl": {
+            "label": "Favicon (square, 512×512 recommended)"
           }
         },
         "title": "Prekės ženklas"
@@ -1277,6 +1283,15 @@
       "current": "Numatytoji",
       "restoreThis": "Atstatyti šią",
       "counts": "Objektų: {{properties}} · Rezervacijų: {{bookings}} · Šablonų: {{templates}} · Vertimų: {{translations}}"
+    },
+    "imageUpload": {
+      "upload": "Upload PNG or SVG",
+      "replace": "Replace",
+      "remove": "Remove",
+      "uploading": "Uploading…",
+      "none": "No file uploaded",
+      "invalid": "Only PNG or SVG files up to 5 MB are allowed.",
+      "failed": "Upload failed. Please try again."
     }
   },
   "staff": {
