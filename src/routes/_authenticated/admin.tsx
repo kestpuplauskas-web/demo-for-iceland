@@ -154,7 +154,7 @@ function AdminLayout() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background md:flex-row">
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar md:flex relative">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar md:flex">
         <img src={heroAurora.url} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sidebar via-sidebar/70 to-sidebar/40" />
         <div className="relative flex min-h-0 flex-1 flex-col">{navContent}</div>
