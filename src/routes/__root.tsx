@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 
 import { useEffect } from "react";
+import { getPublicBranding } from "@/lib/property-settings.functions";
 import appCss from "../styles.css?url";
 import { getPublicBranding } from "@/lib/property-settings.functions";
 import "@/i18n";
