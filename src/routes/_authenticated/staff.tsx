@@ -44,7 +44,7 @@ function StaffLayout() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-card px-4 py-3">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground">
         <div className="flex items-center gap-2 font-semibold">
           <Sparkles className="h-5 w-5 text-primary" />
           <span>{t("staff.title")}</span>

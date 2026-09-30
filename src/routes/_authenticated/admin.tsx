@@ -87,14 +87,14 @@ function AdminLayout() {
 
   const navContent = (
     <>
-      <div className="flex items-center gap-2 px-4 py-4 font-semibold text-sidebar-foreground">
+      <div className="flex items-center gap-2 px-4 py-5 font-display text-xl font-medium tracking-wide text-sidebar-foreground">
         <Building2 className="h-5 w-5 text-sidebar-foreground/80" />
         <span>{brandName}</span>
       </div>
       <nav className="flex-1 space-y-4 px-2">
         {groups.map((group) => (
           <div key={group.label} className="space-y-1">
-            <p className="px-3 pt-1 text-[11px] font-semibold uppercase tracking-wider text-sidebar-foreground/45">
+            <p className="px-3 pt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-sidebar-foreground/45">
               {group.label}
             </p>
             {group.links.map((l) => {
@@ -107,7 +107,7 @@ function AdminLayout() {
                   onClick={() => setNavOpen(false)}
                   className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
                     active
-                      ? "bg-sidebar-primary font-medium text-sidebar-primary-foreground"
+                      ? "border-l-2 border-sidebar-primary-foreground bg-sidebar-primary font-medium text-sidebar-primary-foreground"
                       : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   }`}
                 >
@@ -158,13 +158,13 @@ function AdminLayout() {
       </aside>
 
 
-      <header className="sticky top-0 z-40 flex items-center gap-2 border-b bg-card px-3 py-2 md:hidden">
+      <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-sidebar-border bg-sidebar px-3 py-2 text-sidebar-foreground md:hidden">
         <Sheet open={navOpen} onOpenChange={setNavOpen}>
           <SheetTrigger asChild>
             <button
               type="button"
               aria-label={t("nav.dashboard")}
-              className="rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
+              className="flex h-11 w-11 items-center justify-center rounded-md text-sidebar-foreground/80 hover:bg-sidebar-accent"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -174,7 +174,7 @@ function AdminLayout() {
             {navContent}
           </SheetContent>
         </Sheet>
-        <span className="min-w-0 flex-1 truncate font-semibold">{brandName}</span>
+        <span className="min-w-0 flex-1 truncate font-display text-lg">{brandName}</span>
         <div className="shrink-0">
         </div>
       </header>
@@ -182,7 +182,7 @@ function AdminLayout() {
       <main className="flex-1 overflow-x-hidden px-4 py-4 md:px-6 md:py-6">
         {readOnly ? (
           <>
-            <div className="mb-4 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-300">
+            <div className="mb-4 rounded-md border border-brass-soft/60 bg-brass-soft/15 px-3 py-2 text-sm text-brass-foreground">
               {t("admin.readOnlyBanner")}
             </div>
             <fieldset disabled className="m-0 min-w-0 border-0 p-0">
