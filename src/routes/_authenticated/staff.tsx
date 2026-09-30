@@ -45,15 +45,15 @@ function StaffLayout() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground">
-        <div className="flex items-center gap-2 font-semibold">
-          <Sparkles className="h-5 w-5 text-primary" />
+        <div className="flex items-center gap-2 font-display text-lg">
+          <Sparkles className="h-5 w-5 text-sidebar-primary-foreground" />
           <span>{t("staff.title")}</span>
         </div>
         <div className="flex items-center gap-1">
-          <span className="hidden text-xs text-muted-foreground sm:inline">
+          <span className="hidden text-xs sm:inline text-sidebar-foreground/60">
             {role?.email} · {role?.isDeveloper ? t("settings.users.roleDeveloper") : role?.isAdmin ? t("settings.users.roleAdmin") : t("settings.users.roleHousekeeper")}
           </span>
-          <Button variant="ghost" size="sm" onClick={signOut}>
+          <Button variant="ghost" size="sm" onClick={signOut} className="h-11 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground">
             <LogOut className="mr-2 h-4 w-4" /> {t("nav.signOut")}
           </Button>
         </div>
