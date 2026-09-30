@@ -117,6 +117,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <DynamicFavicon />
         {children}
         <Scripts />
       </body>
@@ -150,7 +151,6 @@ function RootComponent() {
     return (
       <QueryClientProvider client={queryClient}>
         <LanguageProvider>
-          <DynamicFavicon />
           <Outlet />
           <Toaster />
         </LanguageProvider>
