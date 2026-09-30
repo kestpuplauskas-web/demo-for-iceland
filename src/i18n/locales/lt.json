@@ -559,7 +559,9 @@
       "GB": "Jungtinė Karalystė",
       "LT": "Lietuva",
       "LV": "Latvija",
-      "PL": "Lenkija"
+      "PL": "Lenkija",
+      "US": "Jungtinės Amerikos Valstijos",
+      "IS": "Islandija"
     },
     "currency": {
       "EUR": "EUR — Euras",

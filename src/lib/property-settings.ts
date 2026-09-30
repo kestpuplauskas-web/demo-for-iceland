@@ -25,6 +25,14 @@ export const TIMEZONES = [
   { value: "Europe/Tallinn", label: "Europe/Tallinn" },
   { value: "Europe/Warsaw", label: "Europe/Warsaw" },
   { value: "Europe/London", label: "Europe/London" },
+  { value: "Atlantic/Reykjavik", label: "Atlantic/Reykjavik (UTC+0)" },
+  { value: "America/New_York", label: "America/New_York — Eastern (UTC-5/-4)" },
+  { value: "America/Chicago", label: "America/Chicago — Central (UTC-6/-5)" },
+  { value: "America/Denver", label: "America/Denver — Mountain (UTC-7/-6)" },
+  { value: "America/Phoenix", label: "America/Phoenix — Arizona (UTC-7)" },
+  { value: "America/Los_Angeles", label: "America/Los_Angeles — Pacific (UTC-8/-7)" },
+  { value: "America/Anchorage", label: "America/Anchorage — Alaska (UTC-9/-8)" },
+  { value: "Pacific/Honolulu", label: "Pacific/Honolulu — Hawaii (UTC-10)" },
   { value: "UTC", label: "UTC" },
 ] as const;
 
@@ -35,6 +43,8 @@ export const COUNTRIES = [
   { value: "PL", labelKey: "enums.country.PL" },
   { value: "DE", labelKey: "enums.country.DE" },
   { value: "GB", labelKey: "enums.country.GB" },
+  { value: "IS", labelKey: "enums.country.IS" },
+  { value: "US", labelKey: "enums.country.US" },
 ] as const;
 
 export const PAYMENT_METHODS = [
