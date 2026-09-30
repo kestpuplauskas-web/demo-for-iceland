@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { getPropertySettings } from "@/lib/property-settings.functions";
 import { useDefaultLanguage } from "@/hooks/useDefaultLanguage";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 import { AssistantWidget } from "@/components/admin/assistant/AssistantWidget";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -153,8 +154,10 @@ function AdminLayout() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background md:flex-row">
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex">
-        {navContent}
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar md:flex">
+        <img src={heroAurora.url} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sidebar via-sidebar/70 to-sidebar/40" />
+        <div className="relative flex min-h-0 flex-1 flex-col">{navContent}</div>
       </aside>
 
 
@@ -169,9 +172,11 @@ function AdminLayout() {
               <Menu className="h-5 w-5" />
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="flex w-72 flex-col bg-sidebar p-0">
+          <SheetContent side="left" className="flex w-72 flex-col overflow-hidden bg-sidebar p-0">
             <SheetTitle className="sr-only">{brandName}</SheetTitle>
-            {navContent}
+            <img src={heroAurora.url} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sidebar via-sidebar/70 to-sidebar/40" />
+        <div className="relative flex min-h-0 flex-1 flex-col">{navContent}</div>
           </SheetContent>
         </Sheet>
         <span className="min-w-0 flex-1 truncate font-display text-lg">{brandName}</span>
