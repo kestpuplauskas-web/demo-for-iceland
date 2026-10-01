@@ -29,6 +29,7 @@ export function publicProperty(row: PropertyRow) {
     rooms: row.rooms ?? {},
     amenities: (row.amenities as unknown as string[]) ?? [],
     price_per_night: Number(row.price_per_night),
+    currency: row.currency ?? null,
     price_tiers: (row.price_tiers as unknown as PriceTierLike[]) ?? [],
     extra_services: (row.extra_services as unknown as ExtraServiceLike[]) ?? [],
     cover_image_url: row.cover_image_url,
