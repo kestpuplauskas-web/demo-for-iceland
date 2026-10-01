@@ -38,7 +38,7 @@ export function publicProperty(row: PropertyRow) {
 }
 
 export const PROPERTY_PUBLIC_COLUMNS =
-  "id, name, property_type, description, city, country, address, area_m2, max_guests, beds, rooms, amenities, price_per_night, price_tiers, extra_services, cover_image_url, image_urls, category, is_active, sort_order, created_at";
+  "id, name, property_type, description, city, country, address, area_m2, max_guests, beds, rooms, amenities, price_per_night, currency, price_tiers, extra_services, cover_image_url, image_urls, category, is_active, sort_order, created_at";
 
 export type OccupiedRange = { date_from: string; date_to: string };
 
