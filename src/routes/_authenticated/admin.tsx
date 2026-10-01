@@ -92,7 +92,7 @@ function AdminLayout() {
         <Building2 className="h-5 w-5 text-sidebar-foreground/80" />
         <span>{brandName}</span>
       </div>
-      <nav className="flex-1 space-y-4 px-2">
+      <nav className="min-h-0 flex-1 space-y-4 overflow-y-auto px-2 pb-2">
         {groups.map((group) => (
           <div key={group.label} className="space-y-1">
             <p className="px-3 pt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-sidebar-foreground/45">
@@ -120,7 +120,7 @@ function AdminLayout() {
           </div>
         ))}
       </nav>
-      <div className="mt-auto space-y-1 border-t border-sidebar-border px-2 py-3 text-sidebar-foreground">
+      <div className="mt-auto shrink-0 space-y-1 border-t border-sidebar-border px-2 py-3 text-sidebar-foreground">
           <div className="px-3 pb-2">
             <p className="truncate text-xs text-sidebar-foreground/60">{role.email}</p>
             <span className="mt-1 inline-block rounded-full border border-sidebar-border px-2 py-0.5 text-[11px] font-medium text-sidebar-foreground/90">
