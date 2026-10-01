@@ -36,7 +36,7 @@ export function restobarasRoute(locale: Locale) {
               addressCountry: "IS",
             },
             servesCuisine: "Icelandic",
-            priceRange: "ISK",
+            priceRange: "USD",
           }),
         },
       ],

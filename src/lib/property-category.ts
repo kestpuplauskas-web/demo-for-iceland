@@ -138,7 +138,7 @@ export function groupByCategory(
       label,
       properties: items,
       priceFrom: cheapest ? priceOf(cheapest) : null,
-      currency: (cheapest ?? items[0])?.currency === "EUR" ? "EUR" : "ISK",
+      currency: (cheapest ?? items[0])?.currency ?? "EUR",
       image,
       imageAlt: `${label} — ${common.brand}`,
       count: items.length,

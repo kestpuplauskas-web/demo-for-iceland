@@ -132,7 +132,7 @@ function TextField({
   );
 }
 
-function extraHint(extra: ExtraService, common: Common): string | null {
+function extraHint(extra: ExtraService, common: Common, currency: string): string | null {
   if (typeof extra.pricePerDay !== "number") return null;
   const unit =
     extra.calc === "per_person"
@@ -140,7 +140,7 @@ function extraHint(extra: ExtraService, common: Common): string | null {
       : extra.calc === "per_child"
         ? common.booking.perChild
         : common.booking.flatPerDay;
-  return `${formatPrice(extra.pricePerDay)} kr. ${unit}`;
+  return `${formatPrice(extra.pricePerDay)} ${currency} ${unit}`;
 }
 
 function GuestField({
@@ -476,7 +476,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 <fieldset className="space-y-3">
                   <legend className="label-caps text-stone">{common.booking.extras}</legend>
                   {extras.slice(0, 20).map((extra) => {
-                    const hint = extraHint(extra, common);
+                    const hint = extraHint(extra, common, currency);
                     const checked = selectedExtras.includes(extra.name);
                     return (
                       <label
