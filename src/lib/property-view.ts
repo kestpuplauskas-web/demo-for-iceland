@@ -128,7 +128,7 @@ export function toPropertyView(property: Property, locale: Locale = DEFAULT_LOCA
     description: property.description ?? "",
     meta: propertyMeta(property, locale),
     priceFrom: typeof property.price_per_night === "number" ? property.price_per_night : null,
-    currency: property.currency === "EUR" ? "EUR" : "ISK",
+    currency: property.currency ?? "EUR",
     image: property.cover_image_url ?? property.image_urls[0] ?? null,
     images: dedupeImages([property.cover_image_url, ...property.image_urls]),
     imageAlt: `${property.name} — ${common.brand}`,
