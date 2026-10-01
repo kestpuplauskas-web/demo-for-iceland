@@ -152,11 +152,12 @@ export function DateRangeField({
           },
         }}
         startMonth={today}
+        showOutsideDays={false}
         className="pointer-events-auto [--cell-size:2.4rem] sm:[--cell-size:2.6rem]"
         classNames={{
           month: "flex w-full flex-col gap-4",
-          caption_label: "font-display text-lg font-medium capitalize text-paper",
-          weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-stone/70",
+          caption_label: "font-display text-lg font-medium capitalize text-ink",
+          weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-ink/60",
         }}
       />
       <div className="mt-2 flex flex-wrap items-center justify-center gap-4 text-[0.7rem] text-stone">
