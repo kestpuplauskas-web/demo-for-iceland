@@ -285,7 +285,7 @@ function PricingPage() {
             <p className="text-xs text-muted-foreground">
               {pickStart
                 ? `Start: ${pickStart}. Click the end date.`
-                : "Click the start and end date — the dates will be filled into a new rule. Days with a rule are shown in its color."}
+                : "Click the start and end date — the dates will be filled into a new rule. Day color follows the price legend; a rule is marked by a colored bar at the bottom of the day."}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
