@@ -23,7 +23,7 @@ export function CategoryCard({ group, index }: { group: CategoryGroup; index: nu
   return (
     <Reveal delay={index * 110}>
       <LocaleLink
-        to="/apartamentai/tipas/$categorySlug"
+        to="/stays/type/$categorySlug"
         params={{ categorySlug: categorySlug(group.code) }}
         aria-label={group.label}
         className="group block h-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"

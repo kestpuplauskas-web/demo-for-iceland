@@ -19,7 +19,7 @@ export function confirmationRoute(locale: Locale) {
   return {
     head: () =>
       pageHead({
-        path: "/rezervacija/patvirtinta",
+        path: "/booking/confirmed",
         title: c.rezervacija.seoTitle,
         description: c.rezervacija.seoDescription,
         locale,

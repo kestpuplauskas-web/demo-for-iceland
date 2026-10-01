@@ -79,10 +79,10 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {common.brand}. {common.footer.rights}
           </p>
           <nav aria-label="Legal" className="flex gap-5">
-            <LocaleLink to="/taisykles" className="hover:text-warm-white">
+            <LocaleLink to="/terms" className="hover:text-warm-white">
               {legal.rental.title}
             </LocaleLink>
-            <LocaleLink to="/privatumo-politika" className="hover:text-warm-white">
+            <LocaleLink to="/privacy-policy" className="hover:text-warm-white">
               {legal.privacy.title}
             </LocaleLink>
           </nav>

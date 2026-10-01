@@ -11,7 +11,7 @@ export function banquetRoute(locale: Locale) {
   return {
     head: () =>
       pageHead({
-        path: "/banketine-sale",
+        path: "/banquet-hall",
         title: c.banketineSale.seoTitle,
         description: c.banketineSale.seoDescription,
         locale,

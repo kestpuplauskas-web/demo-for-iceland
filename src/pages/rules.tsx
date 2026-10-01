@@ -11,7 +11,7 @@ export function rulesRoute(locale: Locale) {
   return {
     head: () => ({
       ...pageHead({
-        path: "/apie/taisykles",
+        path: "/about/house-rules",
         title: c.taisykles.seoTitle,
         description: c.taisykles.seoDescription,
         type: "article",
@@ -25,7 +25,7 @@ export function rulesRoute(locale: Locale) {
             "@type": "WebPage",
             name: c.taisykles.title,
             description: c.taisykles.seoDescription,
-            url: `${SITE_URL}${localizePath("/apie/taisykles", locale)}`,
+            url: `${SITE_URL}${localizePath("/about/house-rules", locale)}`,
           }),
         },
         {
@@ -33,8 +33,8 @@ export function rulesRoute(locale: Locale) {
           children: JSON.stringify(
             breadcrumbLd([
               { name: c.common.nav.home, path: localizePath("/", locale) },
-              { name: c.apie.title, path: localizePath("/apie", locale) },
-              { name: c.taisykles.title, path: localizePath("/apie/taisykles", locale) },
+              { name: c.apie.title, path: localizePath("/about", locale) },
+              { name: c.taisykles.title, path: localizePath("/about/house-rules", locale) },
             ]),
           ),
         },
@@ -54,7 +54,7 @@ function RulesPage() {
         lead={c.taisykles.lead}
         crumbs={[
           { label: c.common.nav.home, to: "/" },
-          { label: c.apie.title, to: "/apie" },
+          { label: c.apie.title, to: "/about" },
           { label: c.taisykles.title },
         ]}
       />

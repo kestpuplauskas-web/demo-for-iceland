@@ -13,14 +13,14 @@ export function aboutRoute(locale: Locale) {
   const c = getContent(locale);
   return {
     head: () => ({
-      ...pageHead({ path: "/apie", title: c.apie.seoTitle, description: c.apie.seoDescription, locale }),
+      ...pageHead({ path: "/about", title: c.apie.seoTitle, description: c.apie.seoDescription, locale }),
       scripts: [
         {
           type: "application/ld+json",
           children: JSON.stringify(
             breadcrumbLd([
               { name: c.common.nav.home, path: localizePath("/", locale) },
-              { name: c.apie.title, path: localizePath("/apie", locale) },
+              { name: c.apie.title, path: localizePath("/about", locale) },
             ]),
           ),
         },
@@ -56,7 +56,7 @@ function AboutPage() {
 
         <Reveal>
           <LocaleLink
-            to="/apie/taisykles"
+            to="/about/house-rules"
             className="group flex flex-wrap items-center justify-between gap-4 rounded-md bg-linen p-8 transition-shadow hover:shadow-soft"
           >
             <span>

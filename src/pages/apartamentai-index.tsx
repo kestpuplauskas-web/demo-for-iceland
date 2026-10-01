@@ -37,7 +37,7 @@ export function staysIndexRoute(locale: Locale) {
     beforeLoad: ({ search }: { search: StaysSearch }) => {
       if (search.category) {
         throw redirect({
-          to: localizePath("/apartamentai/tipas/$categorySlug", locale) as never,
+          to: localizePath("/stays/type/$categorySlug", locale) as never,
           params: { categorySlug: categorySlug(search.category) },
           statusCode: 301,
         });
@@ -45,7 +45,7 @@ export function staysIndexRoute(locale: Locale) {
     },
     head: () => ({
       ...pageHead({
-        path: "/apartamentai",
+        path: "/stays",
         title: c.apartamentai.seoTitle,
         description: c.apartamentai.seoDescription,
         locale,
@@ -56,7 +56,7 @@ export function staysIndexRoute(locale: Locale) {
           children: JSON.stringify(
             breadcrumbLd([
               { name: c.common.nav.home, path: localizePath("/", locale) },
-              { name: c.apartamentai.title, path: localizePath("/apartamentai", locale) },
+              { name: c.apartamentai.title, path: localizePath("/stays", locale) },
             ]),
           ),
         },

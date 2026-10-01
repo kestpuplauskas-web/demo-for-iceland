@@ -19,7 +19,7 @@ export function contactsRoute(locale: Locale) {
   return {
     head: () => ({
       ...pageHead({
-        path: "/kontaktai",
+        path: "/contact",
         title: c.kontaktai.seoTitle,
         description: c.kontaktai.seoDescription,
         locale,
@@ -32,7 +32,7 @@ export function contactsRoute(locale: Locale) {
             "@type": "LodgingBusiness",
             name: "Mánahlíð",
             description: c.kontaktai.seoDescription,
-            url: `${SITE_URL}${localizePath("/kontaktai", locale)}`,
+            url: `${SITE_URL}${localizePath("/contact", locale)}`,
             email: contact.email,
             telephone: contact.phones.map((phone) => phone.replace(/\s/g, "")),
             address: {

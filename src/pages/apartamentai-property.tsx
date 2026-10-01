@@ -74,7 +74,7 @@ export function propertyRoute(locale: Locale) {
         const slug = slugForId(properties, params.propertyId);
         if (slug !== params.propertyId) {
           throw redirect({
-            to: localizePath("/apartamentai/$propertyId", locale) as never,
+            to: localizePath("/stays/$propertyId", locale) as never,
             params: { propertyId: slug },
             search: search as never,
             statusCode: 301,
@@ -98,17 +98,17 @@ export function propertyRoute(locale: Locale) {
           propertyLd(
             property,
             view.amenities,
-            `${SITE_URL}${localizePath(`/apartamentai/${params.propertyId}`, locale)}`,
+            `${SITE_URL}${localizePath(`/stays/${params.propertyId}`, locale)}`,
             null,
           ),
         ),
         crumbLd: JSON.stringify(
           breadcrumbLd([
             { name: c.common.nav.home, path: localizePath("/", locale) },
-            { name: c.apartamentai.title, path: localizePath("/apartamentai", locale) },
+            { name: c.apartamentai.title, path: localizePath("/stays", locale) },
             {
               name: property.name,
-              path: localizePath(`/apartamentai/${params.propertyId}`, locale),
+              path: localizePath(`/stays/${params.propertyId}`, locale),
             },
           ]),
         ),
@@ -124,7 +124,7 @@ export function propertyRoute(locale: Locale) {
       const name = loaderData?.name ?? c.apartamentai.title;
       const description = loaderData?.description || c.apartamentai.seoDescription;
       const head = pageHead({
-        path: `/apartamentai/${params.propertyId}`,
+        path: `/stays/${params.propertyId}`,
         title: `${name} — ${c.common.brand}`,
         description,
         locale,
@@ -221,7 +221,7 @@ function PropertyPage({ locale }: { locale: Locale }) {
         imageAlt={view.imageAlt}
         crumbs={[
           { label: c.common.nav.home, to: "/" },
-          { label: c.apartamentai.title, to: "/apartamentai" },
+          { label: c.apartamentai.title, to: "/stays" },
           { label: data.name },
         ]}
       >
@@ -303,7 +303,7 @@ function PropertyPageError({ locale: _locale }: { locale: Locale }) {
         title={c.apartamentai.title}
         crumbs={[
           { label: c.common.nav.home, to: "/" },
-          { label: c.apartamentai.title, to: "/apartamentai" },
+          { label: c.apartamentai.title, to: "/stays" },
         ]}
       />
       <PageSection tone="linen">

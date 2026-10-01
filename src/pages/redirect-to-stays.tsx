@@ -6,7 +6,7 @@ import { localizePath, type Locale } from "@/lib/locale";
 export function redirectToStaysRoute(locale: Locale) {
   return {
     beforeLoad: () => {
-      throw redirect({ to: localizePath("/apartamentai", locale) as never, statusCode: 301 });
+      throw redirect({ to: localizePath("/stays", locale) as never, statusCode: 301 });
     },
   };
 }

@@ -33,7 +33,7 @@ export function PropertyCard({
   return (
     <Reveal delay={index * 110}>
       <LocaleLink
-        to="/apartamentai/$propertyId"
+        to="/stays/$propertyId"
         params={{ propertyId: slugFor(property.id) }}
         search={dateSearch}
         aria-label={property.name}

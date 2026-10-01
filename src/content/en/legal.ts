@@ -1,6 +1,6 @@
 export const legal = {
   rental: {
-    path: "/taisykles",
+    path: "/terms",
     seoTitle: "Terms of service — Mánahlíð",
     seoDescription:
       "Mánahlíð rental and terms of service: booking, payment, cancellation, and guest responsibility.",
@@ -9,7 +9,7 @@ export const legal = {
     lead: "The conditions that apply when booking accommodation at Mánahlíð.",
   },
   privacy: {
-    path: "/privatumo-politika",
+    path: "/privacy-policy",
     seoTitle: "Privacy policy — Mánahlíð",
     seoDescription:
       "How Mánahlíð collects, uses, and protects guests' personal data during booking and their stay.",

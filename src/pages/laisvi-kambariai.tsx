@@ -46,7 +46,7 @@ export function availabilityResultsRoute(locale: Locale) {
     }),
     head: () => {
       const head = pageHead({
-        path: "/laisvi-kambariai",
+        path: "/availability",
         title: c.common.results.seoTitle,
         description: c.common.results.seoDescription,
         locale,

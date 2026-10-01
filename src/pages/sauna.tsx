@@ -40,7 +40,7 @@ function SaunaPage() {
           </Prose>
           <EnsoDivider className="my-12" />
           <LocaleLink
-            to="/namelis"
+            to="/cabin"
             className="inline-flex rounded-full border border-sage px-6 py-3 text-sm font-medium text-sage transition-colors hover:bg-aurora hover:text-ink"
           >
             {c.sauna.cottageLink}

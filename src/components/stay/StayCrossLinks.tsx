@@ -29,7 +29,7 @@ export function StayCrossLinks({ currentId }: { currentId: string }) {
         {others.map((stay, index) => (
           <Reveal key={stay.id} delay={index * 90}>
             <LocaleLink
-              to="/apartamentai/$propertyId"
+              to="/stays/$propertyId"
               params={{ propertyId: slugFor(stay.id) }}
               className="group block overflow-hidden rounded-md bg-surface shadow-soft transition-shadow duration-500 hover:shadow-lift"
             >
