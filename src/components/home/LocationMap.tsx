@@ -26,14 +26,11 @@ export default function LocationMap() {
           sources: {
             carto: {
               type: "raster",
-              tiles: [
-                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-              ],
+              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
               tileSize: 256,
+              maxzoom: 19,
               attribution:
-                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · © <a href="https://carto.com/attributions">CARTO</a>',
+                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             },
           },
           layers: [{ id: "carto", type: "raster", source: "carto" }],
