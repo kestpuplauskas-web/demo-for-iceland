@@ -476,7 +476,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 <fieldset className="space-y-3">
                   <legend className="label-caps text-stone">{common.booking.extras}</legend>
                   {extras.slice(0, 20).map((extra) => {
-                    const hint = extraHint(extra, common, currency);
+                    const hint = extraHint(extra, common, currencySymbol(quote.data?.currency));
                     const checked = selectedExtras.includes(extra.name);
                     return (
                       <label
