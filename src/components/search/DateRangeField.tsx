@@ -5,7 +5,10 @@ import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { plural } from "@/components/search/plural";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getPublicAvailabilityCalendar } from "@/lib/availability-calendar.functions";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useContent, useLocale } from "@/content";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -27,10 +30,20 @@ export function nightsBetween(range: DateRange | undefined): number {
  * changing dates never requires clearing first. The picker never closes itself
  * on selection; the parent closes it on submit or when another field opens.
  */
-function nextRange(range: DateRange | undefined, day: Date): DateRange | undefined {
-  if (!range?.from || range.to) return { from: day };
+const dayKey = (d: Date) => format(d, "yyyy-MM-dd");
+
+function nextRange(
+  range: DateRange | undefined,
+  day: Date,
+  isFull: (d: Date) => boolean = () => false,
+): DateRange | undefined {
+  if (!range?.from || range.to) return isFull(day) ? range : { from: day };
   if (isSameDay(day, range.from)) return undefined;
-  if (day < range.from) return { from: day };
+  if (day < range.from) return isFull(day) ? range : { from: day };
+  // Check-out may land on a full night, but no night in between may be full.
+  for (let d = new Date(range.from); d < day; d.setDate(d.getDate() + 1)) {
+    if (isFull(d)) return isFull(day) ? range : { from: day };
+  }
   return { from: range.from, to: day };
 }
 
@@ -61,6 +74,29 @@ export function DateRangeField({
   const today = useMemo(startOfToday, []);
   const dateLocale = locale === "en" ? enGB : ltLocale;
   const nights = nightsBetween(range);
+  const fetchAvail = useServerFn(getPublicAvailabilityCalendar);
+  const avail = useQuery({
+    queryKey: ["public-availability-calendar"],
+    queryFn: () => fetchAvail(),
+    enabled: open || inline,
+    staleTime: 60_000,
+  });
+  const total = avail.data?.total ?? 0;
+  const freeOn = (d: Date) => (avail.data ? total - (avail.data.booked[dayKey(d)] ?? 0) : null);
+  const isFull = (d: Date) => {
+    const f = freeOn(d);
+    return f !== null && total > 0 && f <= 0;
+  };
+  const isFew = (d: Date) => {
+    const f = freeOn(d);
+    return f !== null && total > 1 && f === 1;
+  };
+  const isFree = (d: Date) => {
+    const f = freeOn(d);
+    return f !== null && f > 0 && !isFew(d);
+  };
+  // A full night can still be a check-out day while picking the end of a range.
+  const checkoutOk = (d: Date) => !!range?.from && !range.to && d > range.from;
 
   const label = range?.from
     ? `${format(range.from, "d MMM", { locale: dateLocale })} — ${
@@ -85,17 +121,51 @@ export function DateRangeField({
         }}
         onDayClick={(day, modifiers) => {
           if (modifiers["disabled"]) return;
-          onChange(nextRange(range, day));
+          onChange(nextRange(range, day, isFull));
         }}
-        disabled={{ before: today }}
+        disabled={[{ before: today }, (d: Date) => d >= today && isFull(d) && !checkoutOk(d)]}
+        modifiers={{ full: (d: Date) => d >= today && isFull(d), few: (d: Date) => d >= today && isFew(d), free: (d: Date) => d >= today && isFree(d) }}
+        modifiersClassNames={{
+          full: "[&>button]:line-through [&>button]:opacity-40 bg-[rgb(255_255_255/0.04)]",
+          few: "bg-[rgb(199_161_105/0.14)]",
+          free: "bg-[rgb(127_211_174/0.10)]",
+        }}
+        components={{
+          DayButton: (props) => {
+            const d = props.day.date;
+            const f = d >= today && !props.modifiers.outside ? freeOn(d) : null;
+            return (
+              <CalendarDayButton {...props} className={cn(props.className, "flex-col gap-0 leading-none")}>
+                {props.children}
+                {f !== null && total > 0 ? (
+                  <span
+                    className={cn(
+                      "mt-0.5 text-[0.6rem] font-semibold no-underline",
+                      f <= 0 ? "text-stone/60" : f === 1 && total > 1 ? "text-brass" : "text-aurora-deep",
+                    )}
+                  >
+                    {f <= 0 ? "—" : f}
+                  </span>
+                ) : null}
+              </CalendarDayButton>
+            );
+          },
+        }}
         startMonth={today}
+        showOutsideDays={false}
         className="pointer-events-auto [--cell-size:2.4rem] sm:[--cell-size:2.6rem]"
         classNames={{
           month: "flex w-full flex-col gap-4",
-          caption_label: "font-display text-lg font-medium capitalize text-paper",
-          weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-stone/70",
+          caption_label: "font-display text-lg font-medium capitalize text-ink",
+          weekday: "flex-1 select-none text-[0.7rem] uppercase tracking-[0.12em] text-ink/60",
         }}
       />
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-4 text-[0.7rem] text-stone">
+        <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-aurora" />Available</span>
+        <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-brass" />Few left</span>
+        <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-stone/40" />Fully booked</span>
+        {avail.isLoading ? <span className="text-stone/60">Loading availability…</span> : null}
+      </div>
       <div className="mt-3 flex items-center justify-between gap-3 border-t border-border pt-3">
         <span className="text-xs text-stone">
           {nights > 0
