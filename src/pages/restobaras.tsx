@@ -13,7 +13,7 @@ export function restobarasRoute(locale: Locale) {
   return {
     head: () => ({
       ...pageHead({
-        path: "/restobaras",
+        path: "/restaurant",
         title: c.restobaras.seoTitle,
         description: c.restobaras.seoDescription,
         locale,
@@ -26,7 +26,7 @@ export function restobarasRoute(locale: Locale) {
             "@type": "Restaurant",
             name: "Mánahlíð restaurant",
             description: c.restobaras.seoDescription,
-            url: `${SITE_URL}${localizePath("/restobaras", locale)}`,
+            url: `${SITE_URL}${localizePath("/restaurant", locale)}`,
             telephone: (contact.phones[0] ?? "").replace(/\s/g, ""),
             address: {
               "@type": "PostalAddress",

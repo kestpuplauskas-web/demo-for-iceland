@@ -81,7 +81,7 @@ export function SearchBar({
       return;
     }
     void navigate({
-      to: "/laisvi-kambariai",
+      to: "/availability",
       search: values,
     } as unknown as Parameters<typeof navigate>[0]);
   };

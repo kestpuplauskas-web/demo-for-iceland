@@ -78,7 +78,7 @@ export function StaysSection({
         {hasMore ? (
           <Reveal className="mt-12">
             <LocaleLink
-              to="/apartamentai"
+              to="/stays"
               className="group/link inline-flex items-center gap-1.5 text-sm font-medium text-sage hover:text-sage-deep"
             >
               {common.cta.allStays}

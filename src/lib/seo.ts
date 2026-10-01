@@ -13,7 +13,7 @@ export function pageHead({
   type = "website",
   locale = "en",
 }: {
-  /** Canonical public path, e.g. "/apartamentai". */
+  /** Canonical public path, e.g. "/stays". */
   path: string;
   title: string;
   description: string;

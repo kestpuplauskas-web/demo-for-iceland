@@ -23,7 +23,7 @@ export function StaysShell({
           filtered
             ? [
                 { label: common.nav.home, to: "/" },
-                { label: apartamentai.title, to: "/apartamentai" },
+                { label: apartamentai.title, to: "/stays" },
                 { label: categoryLabelText as string },
               ]
             : [{ label: common.nav.home, to: "/" }, { label: apartamentai.title }]
@@ -37,7 +37,7 @@ export function StaysShell({
           {filtered ? (
             <div className="mb-8">
               <LocaleLink
-                to="/apartamentai"
+                to="/stays"
                 className="text-sm font-medium text-sage hover:text-sage-deep"
               >
                 ← {apartamentai.clearFilter}

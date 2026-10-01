@@ -8,16 +8,16 @@ import { fetchProperties } from "@/lib/revoo-api.server";
 
 const STATIC_PATHS = [
   "/",
-  "/apartamentai",
-  "/apie",
-  "/apie/taisykles",
-  "/restobaras",
-  "/banketine-sale",
+  "/stays",
+  "/about",
+  "/about/house-rules",
+  "/restaurant",
+  "/banquet-hall",
   "/sauna",
-  "/dovanu-kuponai",
-  "/kontaktai",
-  "/taisykles",
-  "/privatumo-politika",
+  "/gift-vouchers",
+  "/contact",
+  "/terms",
+  "/privacy-policy",
 ];
 
 function urlEntry(path: string): string {
@@ -33,11 +33,11 @@ export const Route = createFileRoute("/sitemap.xml")({
         try {
           const properties = await fetchProperties("en");
           for (const code of distinctCategories(properties)) {
-            paths.push(`/apartamentai/tipas/${categorySlug(code)}`);
+            paths.push(`/stays/type/${categorySlug(code)}`);
           }
           const { byId } = buildSlugIndex(properties);
           for (const slug of byId.values()) {
-            paths.push(`/apartamentai/${slug}`);
+            paths.push(`/stays/${slug}`);
           }
         } catch {
           // The engine may be unreachable — still serve the static routes.

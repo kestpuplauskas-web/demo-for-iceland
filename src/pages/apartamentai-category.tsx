@@ -48,7 +48,7 @@ export function categoryRoute(locale: Locale) {
       loaderData?: CategoryLoaderData;
     }) => {
       const label = loaderData?.label ?? c.apartamentai.title;
-      const path = `/apartamentai/tipas/${params.categorySlug}`;
+      const path = `/stays/type/${params.categorySlug}`;
       return {
         ...pageHead({
           path,
@@ -62,7 +62,7 @@ export function categoryRoute(locale: Locale) {
             children: JSON.stringify(
               breadcrumbLd([
                 { name: c.common.nav.home, path: localizePath("/", locale) },
-                { name: c.apartamentai.title, path: localizePath("/apartamentai", locale) },
+                { name: c.apartamentai.title, path: localizePath("/stays", locale) },
                 { name: label, path: localizePath(path, locale) },
               ]),
             ),

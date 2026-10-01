@@ -1,6 +1,6 @@
 export const legal = {
   rental: {
-    path: "/taisykles",
+    path: "/terms",
     seoTitle: "Paslaugų teikimo taisyklės — Mánahlíð",
     seoDescription:
       "Mánahlíð nuomos ir paslaugų teikimo taisyklės: rezervacija, apmokėjimas, atšaukimas ir svečių atsakomybė.",
@@ -9,7 +9,7 @@ export const legal = {
     lead: "Sąlygos, kurios galioja rezervuojant apgyvendinimą Mánahlíð.",
   },
   privacy: {
-    path: "/privatumo-politika",
+    path: "/privacy-policy",
     seoTitle: "Privatumo politika — Mánahlíð",
     seoDescription:
       "Kaip Mánahlíð renka, naudoja ir saugo svečių asmens duomenis rezervacijos ir apgyvendinimo metu.",

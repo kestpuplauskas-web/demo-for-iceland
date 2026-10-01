@@ -387,7 +387,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       });
       setIsOpen(false);
       await navigate({
-        to: localizePath("/rezervacija/patvirtinta", locale),
+        to: localizePath("/booking/confirmed", locale),
         search: { nr: result.booking_number },
       } as never);
     } catch (error) {
@@ -602,7 +602,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 <span>
                   {common.booking.consentPrefix}{" "}
                   <LocaleLink
-                    to="/taisykles"
+                    to="/terms"
                     target="_blank"
                     className="text-sage underline underline-offset-2"
                     onClick={(event) => event.stopPropagation()}
@@ -611,7 +611,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                   </LocaleLink>{" "}
                   {common.booking.consentAnd}{" "}
                   <LocaleLink
-                    to="/privatumo-politika"
+                    to="/privacy-policy"
                     target="_blank"
                     className="text-sage underline underline-offset-2"
                     onClick={(event) => event.stopPropagation()}

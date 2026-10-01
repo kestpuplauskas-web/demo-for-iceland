@@ -11,7 +11,7 @@ export function vouchersRoute(locale: Locale) {
   return {
     head: () =>
       pageHead({
-        path: "/dovanu-kuponai",
+        path: "/gift-vouchers",
         title: c.dovanuKuponai.seoTitle,
         description: c.dovanuKuponai.seoDescription,
         locale,
