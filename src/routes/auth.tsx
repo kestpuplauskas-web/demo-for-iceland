@@ -122,6 +122,7 @@ function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-transparent text-paper caret-paper"
               />
             </div>
             {mode !== "forgot" && (
@@ -135,6 +136,7 @@ function LoginPage() {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="bg-transparent text-paper caret-paper"
                 />
               </div>
             )}
