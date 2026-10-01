@@ -141,7 +141,7 @@ export function DateRangeField({
                   <span
                     className={cn(
                       "mt-0.5 text-[0.6rem] font-semibold no-underline",
-                      f <= 0 ? "text-stone/60" : f === 1 && total > 1 ? "text-brass" : "text-aurora",
+                      f <= 0 ? "text-stone/60" : f === 1 && total > 1 ? "text-brass" : "text-aurora-deep",
                     )}
                   >
                     {f <= 0 ? "—" : f}
