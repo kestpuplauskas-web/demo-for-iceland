@@ -302,6 +302,12 @@ function PricingPage() {
                 {l}
               </span>
             ))}
+            <span className="flex items-center gap-1">
+              <span className="relative h-3 w-3 rounded-sm border" style={{ backgroundColor: heatColor(1) }}>
+                <span className="absolute inset-x-[1px] bottom-[1px] h-[3px] rounded-full bg-[#f59e0b]" />
+              </span>
+              Rule applied
+            </span>
           </div>
         </div>
         {heatQ.isLoading ? (
