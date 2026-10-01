@@ -285,7 +285,7 @@ function PricingPage() {
             <p className="text-xs text-muted-foreground">
               {pickStart
                 ? `Start: ${pickStart}. Click the end date.`
-                : "Click the start and end date — the dates will be filled into a new rule. Days with a rule are shown in its color."}
+                : "Click the start and end date — the dates will be filled into a new rule. Day color follows the price legend; a rule is marked by a colored bar at the bottom of the day."}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
@@ -302,6 +302,12 @@ function PricingPage() {
                 {l}
               </span>
             ))}
+            <span className="flex items-center gap-1">
+              <span className="relative h-3 w-3 rounded-sm border" style={{ backgroundColor: heatColor(1) }}>
+                <span className="absolute inset-x-[1px] bottom-[1px] h-[3px] rounded-full bg-[#f59e0b]" />
+              </span>
+              Rule applied
+            </span>
           </div>
         </div>
         {heatQ.isLoading ? (
@@ -338,15 +344,15 @@ function PricingPage() {
                         className={`relative flex h-6 items-center justify-center overflow-hidden rounded-sm border text-[10px] text-foreground disabled:cursor-not-allowed disabled:opacity-30 ${
                           selected ? "ring-2 ring-primary ring-offset-1" : ""
                         }`}
-                        style={
-                          rule
-                            ? { backgroundColor: rule.color ?? "#f59e0b" }
-                            : cell
-                              ? { backgroundColor: heatColor(cell.ratio) }
-                              : undefined
-                        }
+                        style={cell ? { backgroundColor: heatColor(cell.ratio) } : undefined}
                       >
                         {i + 1}
+                        {rule ? (
+                          <span
+                            className="absolute inset-x-[2px] bottom-[1px] h-[3px] rounded-full"
+                            style={{ backgroundColor: rule.color ?? "#f59e0b" }}
+                          />
+                        ) : null}
                       </button>
                     );
                   })}
