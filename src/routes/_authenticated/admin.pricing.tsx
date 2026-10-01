@@ -338,15 +338,15 @@ function PricingPage() {
                         className={`relative flex h-6 items-center justify-center overflow-hidden rounded-sm border text-[10px] text-foreground disabled:cursor-not-allowed disabled:opacity-30 ${
                           selected ? "ring-2 ring-primary ring-offset-1" : ""
                         }`}
-                        style={
-                          rule
-                            ? { backgroundColor: rule.color ?? "#f59e0b" }
-                            : cell
-                              ? { backgroundColor: heatColor(cell.ratio) }
-                              : undefined
-                        }
+                        style={cell ? { backgroundColor: heatColor(cell.ratio) } : undefined}
                       >
                         {i + 1}
+                        {rule ? (
+                          <span
+                            className="absolute inset-x-[2px] bottom-[1px] h-[3px] rounded-full"
+                            style={{ backgroundColor: rule.color ?? "#f59e0b" }}
+                          />
+                        ) : null}
                       </button>
                     );
                   })}
