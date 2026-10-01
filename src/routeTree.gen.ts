@@ -11,45 +11,56 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as ApartamentaiRouteImport } from './routes/apartamentai'
-import { Route as ApieRouteImport } from './routes/apie'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as BanketineSaleRouteImport } from './routes/banketine-sale'
-import { Route as DovanuKuponaiRouteImport } from './routes/dovanu-kuponai'
+import { Route as AvailabilityRouteImport } from './routes/availability'
+import { Route as BanquetHallRouteImport } from './routes/banquet-hall'
+import { Route as CabinRouteImport } from './routes/cabin'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EnRouteRouteImport } from './routes/en/route'
+import { Route as GiftVouchersRouteImport } from './routes/gift-vouchers'
 import { Route as HomeV2RouteImport } from './routes/home-v2'
-import { Route as KontaktaiRouteImport } from './routes/kontaktai'
-import { Route as LaisviKambariaiRouteImport } from './routes/laisvi-kambariai'
-import { Route as NamelisRouteImport } from './routes/namelis'
-import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as RestobarasRouteImport } from './routes/restobaras'
+import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as SaunaRouteImport } from './routes/sauna'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as TaisyklesRouteImport } from './routes/taisykles'
+import { Route as StaysRouteImport } from './routes/stays'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedStaffRouteImport } from './routes/_authenticated/staff'
-import { Route as ApartamentaiIndexRouteImport } from './routes/apartamentai.index'
-import { Route as ApartamentaiPropertyIdRouteImport } from './routes/apartamentai.$propertyId'
-import { Route as ApartamentaiStandartiniaiRouteImport } from './routes/apartamentai.standartiniai'
-import { Route as ApartamentaiSuTerasaRouteImport } from './routes/apartamentai.su-terasa'
+import { Route as AboutIndexRouteImport } from './routes/about.index'
+import { Route as AboutHouseRulesRouteImport } from './routes/about.house-rules'
+import { Route as ApartamentaiSplatRouteImport } from './routes/apartamentai.$'
 import { Route as ApiTrackViewRouteImport } from './routes/api/track-view'
-import { Route as ApieIndexRouteImport } from './routes/apie.index'
-import { Route as ApieTaisyklesRouteImport } from './routes/apie.taisykles'
+import { Route as ApieSplatRouteImport } from './routes/apie.$'
+import { Route as BanketineSaleSplatRouteImport } from './routes/banketine-sale.$'
+import { Route as BookingConfirmedRouteImport } from './routes/booking.confirmed'
+import { Route as DovanuKuponaiSplatRouteImport } from './routes/dovanu-kuponai.$'
 import { Route as EnIndexRouteImport } from './routes/en/index'
-import { Route as EnApartamentaiRouteImport } from './routes/en/apartamentai'
-import { Route as EnApieRouteImport } from './routes/en/apie'
-import { Route as EnBanketineSaleRouteImport } from './routes/en/banketine-sale'
-import { Route as EnDovanuKuponaiRouteImport } from './routes/en/dovanu-kuponai'
+import { Route as EnAboutRouteImport } from './routes/en/about'
+import { Route as EnAvailabilityRouteImport } from './routes/en/availability'
+import { Route as EnBanquetHallRouteImport } from './routes/en/banquet-hall'
+import { Route as EnCabinRouteImport } from './routes/en/cabin'
+import { Route as EnContactRouteImport } from './routes/en/contact'
+import { Route as EnGiftVouchersRouteImport } from './routes/en/gift-vouchers'
 import { Route as EnHomeV2RouteImport } from './routes/en/home-v2'
-import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
-import { Route as EnLaisviKambariaiRouteImport } from './routes/en/laisvi-kambariai'
-import { Route as EnNamelisRouteImport } from './routes/en/namelis'
-import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
-import { Route as EnRestobarasRouteImport } from './routes/en/restobaras'
+import { Route as EnPrivacyPolicyRouteImport } from './routes/en/privacy-policy'
+import { Route as EnRestaurantRouteImport } from './routes/en/restaurant'
 import { Route as EnSaunaRouteImport } from './routes/en/sauna'
-import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
-import { Route as RezervacijaPatvirtintaRouteImport } from './routes/rezervacija.patvirtinta'
+import { Route as EnStaysRouteImport } from './routes/en/stays'
+import { Route as EnTermsRouteImport } from './routes/en/terms'
+import { Route as KontaktaiSplatRouteImport } from './routes/kontaktai.$'
+import { Route as LaisviKambariaiSplatRouteImport } from './routes/laisvi-kambariai.$'
+import { Route as NamelisSplatRouteImport } from './routes/namelis.$'
+import { Route as PrivatumoPolitikaSplatRouteImport } from './routes/privatumo-politika.$'
+import { Route as RestobarasSplatRouteImport } from './routes/restobaras.$'
+import { Route as RezervacijaSplatRouteImport } from './routes/rezervacija.$'
+import { Route as StaysIndexRouteImport } from './routes/stays.index'
+import { Route as StaysPropertyIdRouteImport } from './routes/stays.$propertyId'
+import { Route as StaysStandardRouteImport } from './routes/stays.standard'
+import { Route as StaysWithTerraceRouteImport } from './routes/stays.with-terrace'
+import { Route as TaisyklesSplatRouteImport } from './routes/taisykles.$'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
@@ -61,17 +72,17 @@ import { Route as AuthenticatedAdminPricingRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedStaffIndexRouteImport } from './routes/_authenticated/staff.index'
 import { Route as AuthenticatedStaffIdRouteImport } from './routes/_authenticated/staff.$id'
-import { Route as ApartamentaiTipasCategorySlugRouteImport } from './routes/apartamentai.tipas.$categorySlug'
 import { Route as ApiAssistantChatRouteImport } from './routes/api/assistant/chat'
 import { Route as ApiPublicIcalSyncRouteImport } from './routes/api/public/ical-sync'
 import { Route as ApiPublicNotificationsCronRouteImport } from './routes/api/public/notifications-cron'
-import { Route as EnApartamentaiIndexRouteImport } from './routes/en/apartamentai.index'
-import { Route as EnApartamentaiPropertyIdRouteImport } from './routes/en/apartamentai.$propertyId'
-import { Route as EnApartamentaiStandartiniaiRouteImport } from './routes/en/apartamentai.standartiniai'
-import { Route as EnApartamentaiSuTerasaRouteImport } from './routes/en/apartamentai.su-terasa'
-import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
-import { Route as EnApieTaisyklesRouteImport } from './routes/en/apie.taisykles'
-import { Route as EnRezervacijaPatvirtintaRouteImport } from './routes/en/rezervacija.patvirtinta'
+import { Route as EnAboutIndexRouteImport } from './routes/en/about.index'
+import { Route as EnAboutHouseRulesRouteImport } from './routes/en/about.house-rules'
+import { Route as EnBookingConfirmedRouteImport } from './routes/en/booking.confirmed'
+import { Route as EnStaysIndexRouteImport } from './routes/en/stays.index'
+import { Route as EnStaysPropertyIdRouteImport } from './routes/en/stays.$propertyId'
+import { Route as EnStaysStandardRouteImport } from './routes/en/stays.standard'
+import { Route as EnStaysWithTerraceRouteImport } from './routes/en/stays.with-terrace'
+import { Route as StaysTypeCategorySlugRouteImport } from './routes/stays.type.$categorySlug'
 import { Route as AuthenticatedAdminBookingsIndexRouteImport } from './routes/_authenticated/admin.bookings.index'
 import { Route as AuthenticatedAdminBookingsIdRouteImport } from './routes/_authenticated/admin.bookings.$id'
 import { Route as AuthenticatedAdminBookingsNewRouteImport } from './routes/_authenticated/admin.bookings.new'
@@ -84,7 +95,7 @@ import { Route as ApiPublicV1PaymentDetailsRouteImport } from './routes/api/publ
 import { Route as ApiPublicV1PropertiesRouteImport } from './routes/api/public/v1/properties'
 import { Route as ApiPublicV1QuoteRouteImport } from './routes/api/public/v1/quote'
 import { Route as ApiStaffV1RoomsRouteImport } from './routes/api/staff/v1/rooms'
-import { Route as EnApartamentaiTipasCategorySlugRouteImport } from './routes/en/apartamentai.tipas.$categorySlug'
+import { Route as EnStaysTypeCategorySlugRouteImport } from './routes/en/stays.type.$categorySlug'
 import { Route as AuthenticatedAdminPropertiesIdEditRouteImport } from './routes/_authenticated/admin.properties.$id.edit'
 import { Route as ApiPublicV1BookingsBookingNumberRouteImport } from './routes/api/public/v1/bookings.$bookingNumber'
 import { Route as ApiPublicV1PropertiesIdRouteImport } from './routes/api/public/v1/properties.$id'
@@ -103,14 +114,9 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApartamentaiRoute = ApartamentaiRouteImport.update({
-  id: '/apartamentai',
-  path: '/apartamentai',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApieRoute = ApieRouteImport.update({
-  id: '/apie',
-  path: '/apie',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -118,14 +124,24 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BanketineSaleRoute = BanketineSaleRouteImport.update({
-  id: '/banketine-sale',
-  path: '/banketine-sale',
+const AvailabilityRoute = AvailabilityRouteImport.update({
+  id: '/availability',
+  path: '/availability',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DovanuKuponaiRoute = DovanuKuponaiRouteImport.update({
-  id: '/dovanu-kuponai',
-  path: '/dovanu-kuponai',
+const BanquetHallRoute = BanquetHallRouteImport.update({
+  id: '/banquet-hall',
+  path: '/banquet-hall',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CabinRoute = CabinRouteImport.update({
+  id: '/cabin',
+  path: '/cabin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnRouteRoute = EnRouteRouteImport.update({
@@ -133,29 +149,19 @@ const EnRouteRoute = EnRouteRouteImport.update({
   path: '/en',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GiftVouchersRoute = GiftVouchersRouteImport.update({
+  id: '/gift-vouchers',
+  path: '/gift-vouchers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeV2Route = HomeV2RouteImport.update({
   id: '/home-v2',
   path: '/home-v2',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KontaktaiRoute = KontaktaiRouteImport.update({
-  id: '/kontaktai',
-  path: '/kontaktai',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LaisviKambariaiRoute = LaisviKambariaiRouteImport.update({
-  id: '/laisvi-kambariai',
-  path: '/laisvi-kambariai',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NamelisRoute = NamelisRouteImport.update({
-  id: '/namelis',
-  path: '/namelis',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivatumoPolitikaRoute = PrivatumoPolitikaRouteImport.update({
-  id: '/privatumo-politika',
-  path: '/privatumo-politika',
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -163,9 +169,9 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RestobarasRoute = RestobarasRouteImport.update({
-  id: '/restobaras',
-  path: '/restobaras',
+const RestaurantRoute = RestaurantRouteImport.update({
+  id: '/restaurant',
+  path: '/restaurant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SaunaRoute = SaunaRouteImport.update({
@@ -178,9 +184,14 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TaisyklesRoute = TaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
+const StaysRoute = StaysRouteImport.update({
+  id: '/stays',
+  path: '/stays',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -193,65 +204,79 @@ const AuthenticatedStaffRoute = AuthenticatedStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApartamentaiIndexRoute = ApartamentaiIndexRouteImport.update({
+const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ApartamentaiRoute,
+  getParentRoute: () => AboutRoute,
 } as any)
-const ApartamentaiPropertyIdRoute = ApartamentaiPropertyIdRouteImport.update({
-  id: '/$propertyId',
-  path: '/$propertyId',
-  getParentRoute: () => ApartamentaiRoute,
+const AboutHouseRulesRoute = AboutHouseRulesRouteImport.update({
+  id: '/house-rules',
+  path: '/house-rules',
+  getParentRoute: () => AboutRoute,
 } as any)
-const ApartamentaiStandartiniaiRoute =
-  ApartamentaiStandartiniaiRouteImport.update({
-    id: '/standartiniai',
-    path: '/standartiniai',
-    getParentRoute: () => ApartamentaiRoute,
-  } as any)
-const ApartamentaiSuTerasaRoute = ApartamentaiSuTerasaRouteImport.update({
-  id: '/su-terasa',
-  path: '/su-terasa',
-  getParentRoute: () => ApartamentaiRoute,
+const ApartamentaiSplatRoute = ApartamentaiSplatRouteImport.update({
+  id: '/apartamentai/$',
+  path: '/apartamentai/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTrackViewRoute = ApiTrackViewRouteImport.update({
   id: '/api/track-view',
   path: '/api/track-view',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApieIndexRoute = ApieIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ApieRoute,
+const ApieSplatRoute = ApieSplatRouteImport.update({
+  id: '/apie/$',
+  path: '/apie/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ApieTaisyklesRoute = ApieTaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
-  getParentRoute: () => ApieRoute,
+const BanketineSaleSplatRoute = BanketineSaleSplatRouteImport.update({
+  id: '/banketine-sale/$',
+  path: '/banketine-sale/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingConfirmedRoute = BookingConfirmedRouteImport.update({
+  id: '/booking/confirmed',
+  path: '/booking/confirmed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DovanuKuponaiSplatRoute = DovanuKuponaiSplatRouteImport.update({
+  id: '/dovanu-kuponai/$',
+  path: '/dovanu-kuponai/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnIndexRoute = EnIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnApartamentaiRoute = EnApartamentaiRouteImport.update({
-  id: '/apartamentai',
-  path: '/apartamentai',
+const EnAboutRoute = EnAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnApieRoute = EnApieRouteImport.update({
-  id: '/apie',
-  path: '/apie',
+const EnAvailabilityRoute = EnAvailabilityRouteImport.update({
+  id: '/availability',
+  path: '/availability',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnBanketineSaleRoute = EnBanketineSaleRouteImport.update({
-  id: '/banketine-sale',
-  path: '/banketine-sale',
+const EnBanquetHallRoute = EnBanquetHallRouteImport.update({
+  id: '/banquet-hall',
+  path: '/banquet-hall',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnDovanuKuponaiRoute = EnDovanuKuponaiRouteImport.update({
-  id: '/dovanu-kuponai',
-  path: '/dovanu-kuponai',
+const EnCabinRoute = EnCabinRouteImport.update({
+  id: '/cabin',
+  path: '/cabin',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const EnContactRoute = EnContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const EnGiftVouchersRoute = EnGiftVouchersRouteImport.update({
+  id: '/gift-vouchers',
+  path: '/gift-vouchers',
   getParentRoute: () => EnRouteRoute,
 } as any)
 const EnHomeV2Route = EnHomeV2RouteImport.update({
@@ -259,29 +284,14 @@ const EnHomeV2Route = EnHomeV2RouteImport.update({
   path: '/home-v2',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnKontaktaiRoute = EnKontaktaiRouteImport.update({
-  id: '/kontaktai',
-  path: '/kontaktai',
+const EnPrivacyPolicyRoute = EnPrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnLaisviKambariaiRoute = EnLaisviKambariaiRouteImport.update({
-  id: '/laisvi-kambariai',
-  path: '/laisvi-kambariai',
-  getParentRoute: () => EnRouteRoute,
-} as any)
-const EnNamelisRoute = EnNamelisRouteImport.update({
-  id: '/namelis',
-  path: '/namelis',
-  getParentRoute: () => EnRouteRoute,
-} as any)
-const EnPrivatumoPolitikaRoute = EnPrivatumoPolitikaRouteImport.update({
-  id: '/privatumo-politika',
-  path: '/privatumo-politika',
-  getParentRoute: () => EnRouteRoute,
-} as any)
-const EnRestobarasRoute = EnRestobarasRouteImport.update({
-  id: '/restobaras',
-  path: '/restobaras',
+const EnRestaurantRoute = EnRestaurantRouteImport.update({
+  id: '/restaurant',
+  path: '/restaurant',
   getParentRoute: () => EnRouteRoute,
 } as any)
 const EnSaunaRoute = EnSaunaRouteImport.update({
@@ -289,14 +299,69 @@ const EnSaunaRoute = EnSaunaRouteImport.update({
   path: '/sauna',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const EnTaisyklesRoute = EnTaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
+const EnStaysRoute = EnStaysRouteImport.update({
+  id: '/stays',
+  path: '/stays',
   getParentRoute: () => EnRouteRoute,
 } as any)
-const RezervacijaPatvirtintaRoute = RezervacijaPatvirtintaRouteImport.update({
-  id: '/rezervacija/patvirtinta',
-  path: '/rezervacija/patvirtinta',
+const EnTermsRoute = EnTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const KontaktaiSplatRoute = KontaktaiSplatRouteImport.update({
+  id: '/kontaktai/$',
+  path: '/kontaktai/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaisviKambariaiSplatRoute = LaisviKambariaiSplatRouteImport.update({
+  id: '/laisvi-kambariai/$',
+  path: '/laisvi-kambariai/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NamelisSplatRoute = NamelisSplatRouteImport.update({
+  id: '/namelis/$',
+  path: '/namelis/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivatumoPolitikaSplatRoute = PrivatumoPolitikaSplatRouteImport.update({
+  id: '/privatumo-politika/$',
+  path: '/privatumo-politika/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RestobarasSplatRoute = RestobarasSplatRouteImport.update({
+  id: '/restobaras/$',
+  path: '/restobaras/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RezervacijaSplatRoute = RezervacijaSplatRouteImport.update({
+  id: '/rezervacija/$',
+  path: '/rezervacija/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaysIndexRoute = StaysIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StaysRoute,
+} as any)
+const StaysPropertyIdRoute = StaysPropertyIdRouteImport.update({
+  id: '/$propertyId',
+  path: '/$propertyId',
+  getParentRoute: () => StaysRoute,
+} as any)
+const StaysStandardRoute = StaysStandardRouteImport.update({
+  id: '/standard',
+  path: '/standard',
+  getParentRoute: () => StaysRoute,
+} as any)
+const StaysWithTerraceRoute = StaysWithTerraceRouteImport.update({
+  id: '/with-terrace',
+  path: '/with-terrace',
+  getParentRoute: () => StaysRoute,
+} as any)
+const TaisyklesSplatRoute = TaisyklesSplatRouteImport.update({
+  id: '/taisykles/$',
+  path: '/taisykles/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -362,12 +427,6 @@ const AuthenticatedStaffIdRoute = AuthenticatedStaffIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedStaffRoute,
 } as any)
-const ApartamentaiTipasCategorySlugRoute =
-  ApartamentaiTipasCategorySlugRouteImport.update({
-    id: '/tipas/$categorySlug',
-    path: '/tipas/$categorySlug',
-    getParentRoute: () => ApartamentaiRoute,
-  } as any)
 const ApiAssistantChatRoute = ApiAssistantChatRouteImport.update({
   id: '/api/assistant/chat',
   path: '/api/assistant/chat',
@@ -384,44 +443,46 @@ const ApiPublicNotificationsCronRoute =
     path: '/api/public/notifications-cron',
     getParentRoute: () => rootRouteImport,
   } as any)
-const EnApartamentaiIndexRoute = EnApartamentaiIndexRouteImport.update({
+const EnAboutIndexRoute = EnAboutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => EnApartamentaiRoute,
+  getParentRoute: () => EnAboutRoute,
 } as any)
-const EnApartamentaiPropertyIdRoute =
-  EnApartamentaiPropertyIdRouteImport.update({
-    id: '/$propertyId',
-    path: '/$propertyId',
-    getParentRoute: () => EnApartamentaiRoute,
-  } as any)
-const EnApartamentaiStandartiniaiRoute =
-  EnApartamentaiStandartiniaiRouteImport.update({
-    id: '/standartiniai',
-    path: '/standartiniai',
-    getParentRoute: () => EnApartamentaiRoute,
-  } as any)
-const EnApartamentaiSuTerasaRoute = EnApartamentaiSuTerasaRouteImport.update({
-  id: '/su-terasa',
-  path: '/su-terasa',
-  getParentRoute: () => EnApartamentaiRoute,
+const EnAboutHouseRulesRoute = EnAboutHouseRulesRouteImport.update({
+  id: '/house-rules',
+  path: '/house-rules',
+  getParentRoute: () => EnAboutRoute,
 } as any)
-const EnApieIndexRoute = EnApieIndexRouteImport.update({
+const EnBookingConfirmedRoute = EnBookingConfirmedRouteImport.update({
+  id: '/booking/confirmed',
+  path: '/booking/confirmed',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const EnStaysIndexRoute = EnStaysIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => EnApieRoute,
+  getParentRoute: () => EnStaysRoute,
 } as any)
-const EnApieTaisyklesRoute = EnApieTaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
-  getParentRoute: () => EnApieRoute,
+const EnStaysPropertyIdRoute = EnStaysPropertyIdRouteImport.update({
+  id: '/$propertyId',
+  path: '/$propertyId',
+  getParentRoute: () => EnStaysRoute,
 } as any)
-const EnRezervacijaPatvirtintaRoute =
-  EnRezervacijaPatvirtintaRouteImport.update({
-    id: '/rezervacija/patvirtinta',
-    path: '/rezervacija/patvirtinta',
-    getParentRoute: () => EnRouteRoute,
-  } as any)
+const EnStaysStandardRoute = EnStaysStandardRouteImport.update({
+  id: '/standard',
+  path: '/standard',
+  getParentRoute: () => EnStaysRoute,
+} as any)
+const EnStaysWithTerraceRoute = EnStaysWithTerraceRouteImport.update({
+  id: '/with-terrace',
+  path: '/with-terrace',
+  getParentRoute: () => EnStaysRoute,
+} as any)
+const StaysTypeCategorySlugRoute = StaysTypeCategorySlugRouteImport.update({
+  id: '/type/$categorySlug',
+  path: '/type/$categorySlug',
+  getParentRoute: () => StaysRoute,
+} as any)
 const AuthenticatedAdminBookingsIndexRoute =
   AuthenticatedAdminBookingsIndexRouteImport.update({
     id: '/bookings/',
@@ -488,12 +549,11 @@ const ApiStaffV1RoomsRoute = ApiStaffV1RoomsRouteImport.update({
   path: '/api/staff/v1/rooms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EnApartamentaiTipasCategorySlugRoute =
-  EnApartamentaiTipasCategorySlugRouteImport.update({
-    id: '/tipas/$categorySlug',
-    path: '/tipas/$categorySlug',
-    getParentRoute: () => EnApartamentaiRoute,
-  } as any)
+const EnStaysTypeCategorySlugRoute = EnStaysTypeCategorySlugRouteImport.update({
+  id: '/type/$categorySlug',
+  path: '/type/$categorySlug',
+  getParentRoute: () => EnStaysRoute,
+} as any)
 const AuthenticatedAdminPropertiesIdEditRoute =
   AuthenticatedAdminPropertiesIdEditRouteImport.update({
     id: '/properties/$id/edit',
@@ -542,44 +602,55 @@ const ApiStaffV1RoomsIdUnassignRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/en': typeof EnRouteRouteWithChildren
-  '/apartamentai': typeof ApartamentaiRouteWithChildren
-  '/apie': typeof ApieRouteWithChildren
+  '/about': typeof AboutRouteWithChildren
   '/auth': typeof AuthRoute
-  '/banketine-sale': typeof BanketineSaleRoute
-  '/dovanu-kuponai': typeof DovanuKuponaiRoute
+  '/availability': typeof AvailabilityRoute
+  '/banquet-hall': typeof BanquetHallRoute
+  '/cabin': typeof CabinRoute
+  '/contact': typeof ContactRoute
+  '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
-  '/kontaktai': typeof KontaktaiRoute
-  '/laisvi-kambariai': typeof LaisviKambariaiRoute
-  '/namelis': typeof NamelisRoute
-  '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/restobaras': typeof RestobarasRoute
+  '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/taisykles': typeof TaisyklesRoute
+  '/stays': typeof StaysRouteWithChildren
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/staff': typeof AuthenticatedStaffRouteWithChildren
-  '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
-  '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
-  '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/about/house-rules': typeof AboutHouseRulesRoute
+  '/apartamentai/$': typeof ApartamentaiSplatRoute
   '/api/track-view': typeof ApiTrackViewRoute
-  '/apie/taisykles': typeof ApieTaisyklesRoute
-  '/en/apartamentai': typeof EnApartamentaiRouteWithChildren
-  '/en/apie': typeof EnApieRouteWithChildren
-  '/en/banketine-sale': typeof EnBanketineSaleRoute
-  '/en/dovanu-kuponai': typeof EnDovanuKuponaiRoute
+  '/apie/$': typeof ApieSplatRoute
+  '/banketine-sale/$': typeof BanketineSaleSplatRoute
+  '/booking/confirmed': typeof BookingConfirmedRoute
+  '/dovanu-kuponai/$': typeof DovanuKuponaiSplatRoute
+  '/en/about': typeof EnAboutRouteWithChildren
+  '/en/availability': typeof EnAvailabilityRoute
+  '/en/banquet-hall': typeof EnBanquetHallRoute
+  '/en/cabin': typeof EnCabinRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/gift-vouchers': typeof EnGiftVouchersRoute
   '/en/home-v2': typeof EnHomeV2Route
-  '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/laisvi-kambariai': typeof EnLaisviKambariaiRoute
-  '/en/namelis': typeof EnNamelisRoute
-  '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/restobaras': typeof EnRestobarasRoute
+  '/en/privacy-policy': typeof EnPrivacyPolicyRoute
+  '/en/restaurant': typeof EnRestaurantRoute
   '/en/sauna': typeof EnSaunaRoute
-  '/en/taisykles': typeof EnTaisyklesRoute
-  '/rezervacija/patvirtinta': typeof RezervacijaPatvirtintaRoute
-  '/apartamentai/': typeof ApartamentaiIndexRoute
-  '/apie/': typeof ApieIndexRoute
+  '/en/stays': typeof EnStaysRouteWithChildren
+  '/en/terms': typeof EnTermsRoute
+  '/kontaktai/$': typeof KontaktaiSplatRoute
+  '/laisvi-kambariai/$': typeof LaisviKambariaiSplatRoute
+  '/namelis/$': typeof NamelisSplatRoute
+  '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
+  '/restobaras/$': typeof RestobarasSplatRoute
+  '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/stays/$propertyId': typeof StaysPropertyIdRoute
+  '/stays/standard': typeof StaysStandardRoute
+  '/stays/with-terrace': typeof StaysWithTerraceRoute
+  '/taisykles/$': typeof TaisyklesSplatRoute
+  '/about/': typeof AboutIndexRoute
   '/en/': typeof EnIndexRoute
+  '/stays/': typeof StaysIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/contracts': typeof AuthenticatedAdminContractsRoute
@@ -589,19 +660,19 @@ export interface FileRoutesByFullPath {
   '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/staff/$id': typeof AuthenticatedStaffIdRoute
-  '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
   '/api/assistant/chat': typeof ApiAssistantChatRoute
   '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
   '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
-  '/en/apartamentai/$propertyId': typeof EnApartamentaiPropertyIdRoute
-  '/en/apartamentai/standartiniai': typeof EnApartamentaiStandartiniaiRoute
-  '/en/apartamentai/su-terasa': typeof EnApartamentaiSuTerasaRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
-  '/en/rezervacija/patvirtinta': typeof EnRezervacijaPatvirtintaRoute
+  '/en/about/house-rules': typeof EnAboutHouseRulesRoute
+  '/en/booking/confirmed': typeof EnBookingConfirmedRoute
+  '/en/stays/$propertyId': typeof EnStaysPropertyIdRoute
+  '/en/stays/standard': typeof EnStaysStandardRoute
+  '/en/stays/with-terrace': typeof EnStaysWithTerraceRoute
+  '/stays/type/$categorySlug': typeof StaysTypeCategorySlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/staff/': typeof AuthenticatedStaffIndexRoute
-  '/en/apartamentai/': typeof EnApartamentaiIndexRoute
-  '/en/apie/': typeof EnApieIndexRoute
+  '/en/about/': typeof EnAboutIndexRoute
+  '/en/stays/': typeof EnStaysIndexRoute
   '/admin/bookings/$id': typeof AuthenticatedAdminBookingsIdRoute
   '/admin/bookings/new': typeof AuthenticatedAdminBookingsNewRoute
   '/admin/properties/new': typeof AuthenticatedAdminPropertiesNewRoute
@@ -612,7 +683,7 @@ export interface FileRoutesByFullPath {
   '/api/public/v1/properties': typeof ApiPublicV1PropertiesRouteWithChildren
   '/api/public/v1/quote': typeof ApiPublicV1QuoteRoute
   '/api/staff/v1/rooms': typeof ApiStaffV1RoomsRouteWithChildren
-  '/en/apartamentai/tipas/$categorySlug': typeof EnApartamentaiTipasCategorySlugRoute
+  '/en/stays/type/$categorySlug': typeof EnStaysTypeCategorySlugRoute
   '/admin/bookings/': typeof AuthenticatedAdminBookingsIndexRoute
   '/admin/properties/': typeof AuthenticatedAdminPropertiesIndexRoute
   '/admin/properties/$id/edit': typeof AuthenticatedAdminPropertiesIdEditRoute
@@ -627,37 +698,48 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/banketine-sale': typeof BanketineSaleRoute
-  '/dovanu-kuponai': typeof DovanuKuponaiRoute
+  '/availability': typeof AvailabilityRoute
+  '/banquet-hall': typeof BanquetHallRoute
+  '/cabin': typeof CabinRoute
+  '/contact': typeof ContactRoute
+  '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
-  '/kontaktai': typeof KontaktaiRoute
-  '/laisvi-kambariai': typeof LaisviKambariaiRoute
-  '/namelis': typeof NamelisRoute
-  '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/restobaras': typeof RestobarasRoute
+  '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/taisykles': typeof TaisyklesRoute
-  '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
-  '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
-  '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/terms': typeof TermsRoute
+  '/about/house-rules': typeof AboutHouseRulesRoute
+  '/apartamentai/$': typeof ApartamentaiSplatRoute
   '/api/track-view': typeof ApiTrackViewRoute
-  '/apie/taisykles': typeof ApieTaisyklesRoute
-  '/en/banketine-sale': typeof EnBanketineSaleRoute
-  '/en/dovanu-kuponai': typeof EnDovanuKuponaiRoute
+  '/apie/$': typeof ApieSplatRoute
+  '/banketine-sale/$': typeof BanketineSaleSplatRoute
+  '/booking/confirmed': typeof BookingConfirmedRoute
+  '/dovanu-kuponai/$': typeof DovanuKuponaiSplatRoute
+  '/en/availability': typeof EnAvailabilityRoute
+  '/en/banquet-hall': typeof EnBanquetHallRoute
+  '/en/cabin': typeof EnCabinRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/gift-vouchers': typeof EnGiftVouchersRoute
   '/en/home-v2': typeof EnHomeV2Route
-  '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/laisvi-kambariai': typeof EnLaisviKambariaiRoute
-  '/en/namelis': typeof EnNamelisRoute
-  '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/restobaras': typeof EnRestobarasRoute
+  '/en/privacy-policy': typeof EnPrivacyPolicyRoute
+  '/en/restaurant': typeof EnRestaurantRoute
   '/en/sauna': typeof EnSaunaRoute
-  '/en/taisykles': typeof EnTaisyklesRoute
-  '/rezervacija/patvirtinta': typeof RezervacijaPatvirtintaRoute
-  '/apartamentai': typeof ApartamentaiIndexRoute
-  '/apie': typeof ApieIndexRoute
+  '/en/terms': typeof EnTermsRoute
+  '/kontaktai/$': typeof KontaktaiSplatRoute
+  '/laisvi-kambariai/$': typeof LaisviKambariaiSplatRoute
+  '/namelis/$': typeof NamelisSplatRoute
+  '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
+  '/restobaras/$': typeof RestobarasSplatRoute
+  '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/stays/$propertyId': typeof StaysPropertyIdRoute
+  '/stays/standard': typeof StaysStandardRoute
+  '/stays/with-terrace': typeof StaysWithTerraceRoute
+  '/taisykles/$': typeof TaisyklesSplatRoute
+  '/about': typeof AboutIndexRoute
   '/en': typeof EnIndexRoute
+  '/stays': typeof StaysIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/contracts': typeof AuthenticatedAdminContractsRoute
@@ -667,19 +749,19 @@ export interface FileRoutesByTo {
   '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/staff/$id': typeof AuthenticatedStaffIdRoute
-  '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
   '/api/assistant/chat': typeof ApiAssistantChatRoute
   '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
   '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
-  '/en/apartamentai/$propertyId': typeof EnApartamentaiPropertyIdRoute
-  '/en/apartamentai/standartiniai': typeof EnApartamentaiStandartiniaiRoute
-  '/en/apartamentai/su-terasa': typeof EnApartamentaiSuTerasaRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
-  '/en/rezervacija/patvirtinta': typeof EnRezervacijaPatvirtintaRoute
+  '/en/about/house-rules': typeof EnAboutHouseRulesRoute
+  '/en/booking/confirmed': typeof EnBookingConfirmedRoute
+  '/en/stays/$propertyId': typeof EnStaysPropertyIdRoute
+  '/en/stays/standard': typeof EnStaysStandardRoute
+  '/en/stays/with-terrace': typeof EnStaysWithTerraceRoute
+  '/stays/type/$categorySlug': typeof StaysTypeCategorySlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/staff': typeof AuthenticatedStaffIndexRoute
-  '/en/apartamentai': typeof EnApartamentaiIndexRoute
-  '/en/apie': typeof EnApieIndexRoute
+  '/en/about': typeof EnAboutIndexRoute
+  '/en/stays': typeof EnStaysIndexRoute
   '/admin/bookings/$id': typeof AuthenticatedAdminBookingsIdRoute
   '/admin/bookings/new': typeof AuthenticatedAdminBookingsNewRoute
   '/admin/properties/new': typeof AuthenticatedAdminPropertiesNewRoute
@@ -690,7 +772,7 @@ export interface FileRoutesByTo {
   '/api/public/v1/properties': typeof ApiPublicV1PropertiesRouteWithChildren
   '/api/public/v1/quote': typeof ApiPublicV1QuoteRoute
   '/api/staff/v1/rooms': typeof ApiStaffV1RoomsRouteWithChildren
-  '/en/apartamentai/tipas/$categorySlug': typeof EnApartamentaiTipasCategorySlugRoute
+  '/en/stays/type/$categorySlug': typeof EnStaysTypeCategorySlugRoute
   '/admin/bookings': typeof AuthenticatedAdminBookingsIndexRoute
   '/admin/properties': typeof AuthenticatedAdminPropertiesIndexRoute
   '/admin/properties/$id/edit': typeof AuthenticatedAdminPropertiesIdEditRoute
@@ -707,44 +789,55 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/en': typeof EnRouteRouteWithChildren
-  '/apartamentai': typeof ApartamentaiRouteWithChildren
-  '/apie': typeof ApieRouteWithChildren
+  '/about': typeof AboutRouteWithChildren
   '/auth': typeof AuthRoute
-  '/banketine-sale': typeof BanketineSaleRoute
-  '/dovanu-kuponai': typeof DovanuKuponaiRoute
+  '/availability': typeof AvailabilityRoute
+  '/banquet-hall': typeof BanquetHallRoute
+  '/cabin': typeof CabinRoute
+  '/contact': typeof ContactRoute
+  '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
-  '/kontaktai': typeof KontaktaiRoute
-  '/laisvi-kambariai': typeof LaisviKambariaiRoute
-  '/namelis': typeof NamelisRoute
-  '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/restobaras': typeof RestobarasRoute
+  '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/taisykles': typeof TaisyklesRoute
+  '/stays': typeof StaysRouteWithChildren
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/staff': typeof AuthenticatedStaffRouteWithChildren
-  '/apartamentai/$propertyId': typeof ApartamentaiPropertyIdRoute
-  '/apartamentai/standartiniai': typeof ApartamentaiStandartiniaiRoute
-  '/apartamentai/su-terasa': typeof ApartamentaiSuTerasaRoute
+  '/about/house-rules': typeof AboutHouseRulesRoute
+  '/apartamentai/$': typeof ApartamentaiSplatRoute
   '/api/track-view': typeof ApiTrackViewRoute
-  '/apie/taisykles': typeof ApieTaisyklesRoute
-  '/en/apartamentai': typeof EnApartamentaiRouteWithChildren
-  '/en/apie': typeof EnApieRouteWithChildren
-  '/en/banketine-sale': typeof EnBanketineSaleRoute
-  '/en/dovanu-kuponai': typeof EnDovanuKuponaiRoute
+  '/apie/$': typeof ApieSplatRoute
+  '/banketine-sale/$': typeof BanketineSaleSplatRoute
+  '/booking/confirmed': typeof BookingConfirmedRoute
+  '/dovanu-kuponai/$': typeof DovanuKuponaiSplatRoute
+  '/en/about': typeof EnAboutRouteWithChildren
+  '/en/availability': typeof EnAvailabilityRoute
+  '/en/banquet-hall': typeof EnBanquetHallRoute
+  '/en/cabin': typeof EnCabinRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/gift-vouchers': typeof EnGiftVouchersRoute
   '/en/home-v2': typeof EnHomeV2Route
-  '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/laisvi-kambariai': typeof EnLaisviKambariaiRoute
-  '/en/namelis': typeof EnNamelisRoute
-  '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/restobaras': typeof EnRestobarasRoute
+  '/en/privacy-policy': typeof EnPrivacyPolicyRoute
+  '/en/restaurant': typeof EnRestaurantRoute
   '/en/sauna': typeof EnSaunaRoute
-  '/en/taisykles': typeof EnTaisyklesRoute
-  '/rezervacija/patvirtinta': typeof RezervacijaPatvirtintaRoute
-  '/apartamentai/': typeof ApartamentaiIndexRoute
-  '/apie/': typeof ApieIndexRoute
+  '/en/stays': typeof EnStaysRouteWithChildren
+  '/en/terms': typeof EnTermsRoute
+  '/kontaktai/$': typeof KontaktaiSplatRoute
+  '/laisvi-kambariai/$': typeof LaisviKambariaiSplatRoute
+  '/namelis/$': typeof NamelisSplatRoute
+  '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
+  '/restobaras/$': typeof RestobarasSplatRoute
+  '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/stays/$propertyId': typeof StaysPropertyIdRoute
+  '/stays/standard': typeof StaysStandardRoute
+  '/stays/with-terrace': typeof StaysWithTerraceRoute
+  '/taisykles/$': typeof TaisyklesSplatRoute
+  '/about/': typeof AboutIndexRoute
   '/en/': typeof EnIndexRoute
+  '/stays/': typeof StaysIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/contracts': typeof AuthenticatedAdminContractsRoute
@@ -754,19 +847,19 @@ export interface FileRoutesById {
   '/_authenticated/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/staff/$id': typeof AuthenticatedStaffIdRoute
-  '/apartamentai/tipas/$categorySlug': typeof ApartamentaiTipasCategorySlugRoute
   '/api/assistant/chat': typeof ApiAssistantChatRoute
   '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
   '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
-  '/en/apartamentai/$propertyId': typeof EnApartamentaiPropertyIdRoute
-  '/en/apartamentai/standartiniai': typeof EnApartamentaiStandartiniaiRoute
-  '/en/apartamentai/su-terasa': typeof EnApartamentaiSuTerasaRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
-  '/en/rezervacija/patvirtinta': typeof EnRezervacijaPatvirtintaRoute
+  '/en/about/house-rules': typeof EnAboutHouseRulesRoute
+  '/en/booking/confirmed': typeof EnBookingConfirmedRoute
+  '/en/stays/$propertyId': typeof EnStaysPropertyIdRoute
+  '/en/stays/standard': typeof EnStaysStandardRoute
+  '/en/stays/with-terrace': typeof EnStaysWithTerraceRoute
+  '/stays/type/$categorySlug': typeof StaysTypeCategorySlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/staff/': typeof AuthenticatedStaffIndexRoute
-  '/en/apartamentai/': typeof EnApartamentaiIndexRoute
-  '/en/apie/': typeof EnApieIndexRoute
+  '/en/about/': typeof EnAboutIndexRoute
+  '/en/stays/': typeof EnStaysIndexRoute
   '/_authenticated/admin/bookings/$id': typeof AuthenticatedAdminBookingsIdRoute
   '/_authenticated/admin/bookings/new': typeof AuthenticatedAdminBookingsNewRoute
   '/_authenticated/admin/properties/new': typeof AuthenticatedAdminPropertiesNewRoute
@@ -777,7 +870,7 @@ export interface FileRoutesById {
   '/api/public/v1/properties': typeof ApiPublicV1PropertiesRouteWithChildren
   '/api/public/v1/quote': typeof ApiPublicV1QuoteRoute
   '/api/staff/v1/rooms': typeof ApiStaffV1RoomsRouteWithChildren
-  '/en/apartamentai/tipas/$categorySlug': typeof EnApartamentaiTipasCategorySlugRoute
+  '/en/stays/type/$categorySlug': typeof EnStaysTypeCategorySlugRoute
   '/_authenticated/admin/bookings/': typeof AuthenticatedAdminBookingsIndexRoute
   '/_authenticated/admin/properties/': typeof AuthenticatedAdminPropertiesIndexRoute
   '/_authenticated/admin/properties/$id/edit': typeof AuthenticatedAdminPropertiesIdEditRoute
@@ -794,44 +887,55 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/en'
-    | '/apartamentai'
-    | '/apie'
+    | '/about'
     | '/auth'
-    | '/banketine-sale'
-    | '/dovanu-kuponai'
+    | '/availability'
+    | '/banquet-hall'
+    | '/cabin'
+    | '/contact'
+    | '/gift-vouchers'
     | '/home-v2'
-    | '/kontaktai'
-    | '/laisvi-kambariai'
-    | '/namelis'
-    | '/privatumo-politika'
+    | '/privacy-policy'
     | '/reset-password'
-    | '/restobaras'
+    | '/restaurant'
     | '/sauna'
     | '/sitemap.xml'
-    | '/taisykles'
+    | '/stays'
+    | '/terms'
     | '/admin'
     | '/staff'
-    | '/apartamentai/$propertyId'
-    | '/apartamentai/standartiniai'
-    | '/apartamentai/su-terasa'
+    | '/about/house-rules'
+    | '/apartamentai/$'
     | '/api/track-view'
-    | '/apie/taisykles'
-    | '/en/apartamentai'
-    | '/en/apie'
-    | '/en/banketine-sale'
-    | '/en/dovanu-kuponai'
+    | '/apie/$'
+    | '/banketine-sale/$'
+    | '/booking/confirmed'
+    | '/dovanu-kuponai/$'
+    | '/en/about'
+    | '/en/availability'
+    | '/en/banquet-hall'
+    | '/en/cabin'
+    | '/en/contact'
+    | '/en/gift-vouchers'
     | '/en/home-v2'
-    | '/en/kontaktai'
-    | '/en/laisvi-kambariai'
-    | '/en/namelis'
-    | '/en/privatumo-politika'
-    | '/en/restobaras'
+    | '/en/privacy-policy'
+    | '/en/restaurant'
     | '/en/sauna'
-    | '/en/taisykles'
-    | '/rezervacija/patvirtinta'
-    | '/apartamentai/'
-    | '/apie/'
+    | '/en/stays'
+    | '/en/terms'
+    | '/kontaktai/$'
+    | '/laisvi-kambariai/$'
+    | '/namelis/$'
+    | '/privatumo-politika/$'
+    | '/restobaras/$'
+    | '/rezervacija/$'
+    | '/stays/$propertyId'
+    | '/stays/standard'
+    | '/stays/with-terrace'
+    | '/taisykles/$'
+    | '/about/'
     | '/en/'
+    | '/stays/'
     | '/admin/analytics'
     | '/admin/content'
     | '/admin/contracts'
@@ -841,19 +945,19 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/settings'
     | '/staff/$id'
-    | '/apartamentai/tipas/$categorySlug'
     | '/api/assistant/chat'
     | '/api/public/ical-sync'
     | '/api/public/notifications-cron'
-    | '/en/apartamentai/$propertyId'
-    | '/en/apartamentai/standartiniai'
-    | '/en/apartamentai/su-terasa'
-    | '/en/apie/taisykles'
-    | '/en/rezervacija/patvirtinta'
+    | '/en/about/house-rules'
+    | '/en/booking/confirmed'
+    | '/en/stays/$propertyId'
+    | '/en/stays/standard'
+    | '/en/stays/with-terrace'
+    | '/stays/type/$categorySlug'
     | '/admin/'
     | '/staff/'
-    | '/en/apartamentai/'
-    | '/en/apie/'
+    | '/en/about/'
+    | '/en/stays/'
     | '/admin/bookings/$id'
     | '/admin/bookings/new'
     | '/admin/properties/new'
@@ -864,7 +968,7 @@ export interface FileRouteTypes {
     | '/api/public/v1/properties'
     | '/api/public/v1/quote'
     | '/api/staff/v1/rooms'
-    | '/en/apartamentai/tipas/$categorySlug'
+    | '/en/stays/type/$categorySlug'
     | '/admin/bookings/'
     | '/admin/properties/'
     | '/admin/properties/$id/edit'
@@ -879,37 +983,48 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/banketine-sale'
-    | '/dovanu-kuponai'
+    | '/availability'
+    | '/banquet-hall'
+    | '/cabin'
+    | '/contact'
+    | '/gift-vouchers'
     | '/home-v2'
-    | '/kontaktai'
-    | '/laisvi-kambariai'
-    | '/namelis'
-    | '/privatumo-politika'
+    | '/privacy-policy'
     | '/reset-password'
-    | '/restobaras'
+    | '/restaurant'
     | '/sauna'
     | '/sitemap.xml'
-    | '/taisykles'
-    | '/apartamentai/$propertyId'
-    | '/apartamentai/standartiniai'
-    | '/apartamentai/su-terasa'
+    | '/terms'
+    | '/about/house-rules'
+    | '/apartamentai/$'
     | '/api/track-view'
-    | '/apie/taisykles'
-    | '/en/banketine-sale'
-    | '/en/dovanu-kuponai'
+    | '/apie/$'
+    | '/banketine-sale/$'
+    | '/booking/confirmed'
+    | '/dovanu-kuponai/$'
+    | '/en/availability'
+    | '/en/banquet-hall'
+    | '/en/cabin'
+    | '/en/contact'
+    | '/en/gift-vouchers'
     | '/en/home-v2'
-    | '/en/kontaktai'
-    | '/en/laisvi-kambariai'
-    | '/en/namelis'
-    | '/en/privatumo-politika'
-    | '/en/restobaras'
+    | '/en/privacy-policy'
+    | '/en/restaurant'
     | '/en/sauna'
-    | '/en/taisykles'
-    | '/rezervacija/patvirtinta'
-    | '/apartamentai'
-    | '/apie'
+    | '/en/terms'
+    | '/kontaktai/$'
+    | '/laisvi-kambariai/$'
+    | '/namelis/$'
+    | '/privatumo-politika/$'
+    | '/restobaras/$'
+    | '/rezervacija/$'
+    | '/stays/$propertyId'
+    | '/stays/standard'
+    | '/stays/with-terrace'
+    | '/taisykles/$'
+    | '/about'
     | '/en'
+    | '/stays'
     | '/admin/analytics'
     | '/admin/content'
     | '/admin/contracts'
@@ -919,19 +1034,19 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/settings'
     | '/staff/$id'
-    | '/apartamentai/tipas/$categorySlug'
     | '/api/assistant/chat'
     | '/api/public/ical-sync'
     | '/api/public/notifications-cron'
-    | '/en/apartamentai/$propertyId'
-    | '/en/apartamentai/standartiniai'
-    | '/en/apartamentai/su-terasa'
-    | '/en/apie/taisykles'
-    | '/en/rezervacija/patvirtinta'
+    | '/en/about/house-rules'
+    | '/en/booking/confirmed'
+    | '/en/stays/$propertyId'
+    | '/en/stays/standard'
+    | '/en/stays/with-terrace'
+    | '/stays/type/$categorySlug'
     | '/admin'
     | '/staff'
-    | '/en/apartamentai'
-    | '/en/apie'
+    | '/en/about'
+    | '/en/stays'
     | '/admin/bookings/$id'
     | '/admin/bookings/new'
     | '/admin/properties/new'
@@ -942,7 +1057,7 @@ export interface FileRouteTypes {
     | '/api/public/v1/properties'
     | '/api/public/v1/quote'
     | '/api/staff/v1/rooms'
-    | '/en/apartamentai/tipas/$categorySlug'
+    | '/en/stays/type/$categorySlug'
     | '/admin/bookings'
     | '/admin/properties'
     | '/admin/properties/$id/edit'
@@ -958,44 +1073,55 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/en'
-    | '/apartamentai'
-    | '/apie'
+    | '/about'
     | '/auth'
-    | '/banketine-sale'
-    | '/dovanu-kuponai'
+    | '/availability'
+    | '/banquet-hall'
+    | '/cabin'
+    | '/contact'
+    | '/gift-vouchers'
     | '/home-v2'
-    | '/kontaktai'
-    | '/laisvi-kambariai'
-    | '/namelis'
-    | '/privatumo-politika'
+    | '/privacy-policy'
     | '/reset-password'
-    | '/restobaras'
+    | '/restaurant'
     | '/sauna'
     | '/sitemap.xml'
-    | '/taisykles'
+    | '/stays'
+    | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/staff'
-    | '/apartamentai/$propertyId'
-    | '/apartamentai/standartiniai'
-    | '/apartamentai/su-terasa'
+    | '/about/house-rules'
+    | '/apartamentai/$'
     | '/api/track-view'
-    | '/apie/taisykles'
-    | '/en/apartamentai'
-    | '/en/apie'
-    | '/en/banketine-sale'
-    | '/en/dovanu-kuponai'
+    | '/apie/$'
+    | '/banketine-sale/$'
+    | '/booking/confirmed'
+    | '/dovanu-kuponai/$'
+    | '/en/about'
+    | '/en/availability'
+    | '/en/banquet-hall'
+    | '/en/cabin'
+    | '/en/contact'
+    | '/en/gift-vouchers'
     | '/en/home-v2'
-    | '/en/kontaktai'
-    | '/en/laisvi-kambariai'
-    | '/en/namelis'
-    | '/en/privatumo-politika'
-    | '/en/restobaras'
+    | '/en/privacy-policy'
+    | '/en/restaurant'
     | '/en/sauna'
-    | '/en/taisykles'
-    | '/rezervacija/patvirtinta'
-    | '/apartamentai/'
-    | '/apie/'
+    | '/en/stays'
+    | '/en/terms'
+    | '/kontaktai/$'
+    | '/laisvi-kambariai/$'
+    | '/namelis/$'
+    | '/privatumo-politika/$'
+    | '/restobaras/$'
+    | '/rezervacija/$'
+    | '/stays/$propertyId'
+    | '/stays/standard'
+    | '/stays/with-terrace'
+    | '/taisykles/$'
+    | '/about/'
     | '/en/'
+    | '/stays/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/contracts'
@@ -1005,19 +1131,19 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/pricing'
     | '/_authenticated/admin/settings'
     | '/_authenticated/staff/$id'
-    | '/apartamentai/tipas/$categorySlug'
     | '/api/assistant/chat'
     | '/api/public/ical-sync'
     | '/api/public/notifications-cron'
-    | '/en/apartamentai/$propertyId'
-    | '/en/apartamentai/standartiniai'
-    | '/en/apartamentai/su-terasa'
-    | '/en/apie/taisykles'
-    | '/en/rezervacija/patvirtinta'
+    | '/en/about/house-rules'
+    | '/en/booking/confirmed'
+    | '/en/stays/$propertyId'
+    | '/en/stays/standard'
+    | '/en/stays/with-terrace'
+    | '/stays/type/$categorySlug'
     | '/_authenticated/admin/'
     | '/_authenticated/staff/'
-    | '/en/apartamentai/'
-    | '/en/apie/'
+    | '/en/about/'
+    | '/en/stays/'
     | '/_authenticated/admin/bookings/$id'
     | '/_authenticated/admin/bookings/new'
     | '/_authenticated/admin/properties/new'
@@ -1028,7 +1154,7 @@ export interface FileRouteTypes {
     | '/api/public/v1/properties'
     | '/api/public/v1/quote'
     | '/api/staff/v1/rooms'
-    | '/en/apartamentai/tipas/$categorySlug'
+    | '/en/stays/type/$categorySlug'
     | '/_authenticated/admin/bookings/'
     | '/_authenticated/admin/properties/'
     | '/_authenticated/admin/properties/$id/edit'
@@ -1045,23 +1171,34 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   EnRouteRoute: typeof EnRouteRouteWithChildren
-  ApartamentaiRoute: typeof ApartamentaiRouteWithChildren
-  ApieRoute: typeof ApieRouteWithChildren
+  AboutRoute: typeof AboutRouteWithChildren
   AuthRoute: typeof AuthRoute
-  BanketineSaleRoute: typeof BanketineSaleRoute
-  DovanuKuponaiRoute: typeof DovanuKuponaiRoute
+  AvailabilityRoute: typeof AvailabilityRoute
+  BanquetHallRoute: typeof BanquetHallRoute
+  CabinRoute: typeof CabinRoute
+  ContactRoute: typeof ContactRoute
+  GiftVouchersRoute: typeof GiftVouchersRoute
   HomeV2Route: typeof HomeV2Route
-  KontaktaiRoute: typeof KontaktaiRoute
-  LaisviKambariaiRoute: typeof LaisviKambariaiRoute
-  NamelisRoute: typeof NamelisRoute
-  PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  RestobarasRoute: typeof RestobarasRoute
+  RestaurantRoute: typeof RestaurantRoute
   SaunaRoute: typeof SaunaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  TaisyklesRoute: typeof TaisyklesRoute
+  StaysRoute: typeof StaysRouteWithChildren
+  TermsRoute: typeof TermsRoute
+  ApartamentaiSplatRoute: typeof ApartamentaiSplatRoute
   ApiTrackViewRoute: typeof ApiTrackViewRoute
-  RezervacijaPatvirtintaRoute: typeof RezervacijaPatvirtintaRoute
+  ApieSplatRoute: typeof ApieSplatRoute
+  BanketineSaleSplatRoute: typeof BanketineSaleSplatRoute
+  BookingConfirmedRoute: typeof BookingConfirmedRoute
+  DovanuKuponaiSplatRoute: typeof DovanuKuponaiSplatRoute
+  KontaktaiSplatRoute: typeof KontaktaiSplatRoute
+  LaisviKambariaiSplatRoute: typeof LaisviKambariaiSplatRoute
+  NamelisSplatRoute: typeof NamelisSplatRoute
+  PrivatumoPolitikaSplatRoute: typeof PrivatumoPolitikaSplatRoute
+  RestobarasSplatRoute: typeof RestobarasSplatRoute
+  RezervacijaSplatRoute: typeof RezervacijaSplatRoute
+  TaisyklesSplatRoute: typeof TaisyklesSplatRoute
   ApiAssistantChatRoute: typeof ApiAssistantChatRoute
   ApiPublicIcalSyncRoute: typeof ApiPublicIcalSyncRoute
   ApiPublicNotificationsCronRoute: typeof ApiPublicNotificationsCronRoute
@@ -1090,18 +1227,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/apartamentai': {
-      id: '/apartamentai'
-      path: '/apartamentai'
-      fullPath: '/apartamentai'
-      preLoaderRoute: typeof ApartamentaiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/apie': {
-      id: '/apie'
-      path: '/apie'
-      fullPath: '/apie'
-      preLoaderRoute: typeof ApieRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -1111,18 +1241,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/banketine-sale': {
-      id: '/banketine-sale'
-      path: '/banketine-sale'
-      fullPath: '/banketine-sale'
-      preLoaderRoute: typeof BanketineSaleRouteImport
+    '/availability': {
+      id: '/availability'
+      path: '/availability'
+      fullPath: '/availability'
+      preLoaderRoute: typeof AvailabilityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dovanu-kuponai': {
-      id: '/dovanu-kuponai'
-      path: '/dovanu-kuponai'
-      fullPath: '/dovanu-kuponai'
-      preLoaderRoute: typeof DovanuKuponaiRouteImport
+    '/banquet-hall': {
+      id: '/banquet-hall'
+      path: '/banquet-hall'
+      fullPath: '/banquet-hall'
+      preLoaderRoute: typeof BanquetHallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cabin': {
+      id: '/cabin'
+      path: '/cabin'
+      fullPath: '/cabin'
+      preLoaderRoute: typeof CabinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en': {
@@ -1132,6 +1276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gift-vouchers': {
+      id: '/gift-vouchers'
+      path: '/gift-vouchers'
+      fullPath: '/gift-vouchers'
+      preLoaderRoute: typeof GiftVouchersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home-v2': {
       id: '/home-v2'
       path: '/home-v2'
@@ -1139,32 +1290,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeV2RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kontaktai': {
-      id: '/kontaktai'
-      path: '/kontaktai'
-      fullPath: '/kontaktai'
-      preLoaderRoute: typeof KontaktaiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/laisvi-kambariai': {
-      id: '/laisvi-kambariai'
-      path: '/laisvi-kambariai'
-      fullPath: '/laisvi-kambariai'
-      preLoaderRoute: typeof LaisviKambariaiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/namelis': {
-      id: '/namelis'
-      path: '/namelis'
-      fullPath: '/namelis'
-      preLoaderRoute: typeof NamelisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privatumo-politika': {
-      id: '/privatumo-politika'
-      path: '/privatumo-politika'
-      fullPath: '/privatumo-politika'
-      preLoaderRoute: typeof PrivatumoPolitikaRouteImport
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1174,11 +1304,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/restobaras': {
-      id: '/restobaras'
-      path: '/restobaras'
-      fullPath: '/restobaras'
-      preLoaderRoute: typeof RestobarasRouteImport
+    '/restaurant': {
+      id: '/restaurant'
+      path: '/restaurant'
+      fullPath: '/restaurant'
+      preLoaderRoute: typeof RestaurantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sauna': {
@@ -1195,11 +1325,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/taisykles': {
-      id: '/taisykles'
-      path: '/taisykles'
-      fullPath: '/taisykles'
-      preLoaderRoute: typeof TaisyklesRouteImport
+    '/stays': {
+      id: '/stays'
+      path: '/stays'
+      fullPath: '/stays'
+      preLoaderRoute: typeof StaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -1216,33 +1353,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/apartamentai/': {
-      id: '/apartamentai/'
+    '/about/': {
+      id: '/about/'
       path: '/'
-      fullPath: '/apartamentai/'
-      preLoaderRoute: typeof ApartamentaiIndexRouteImport
-      parentRoute: typeof ApartamentaiRoute
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
+      parentRoute: typeof AboutRoute
     }
-    '/apartamentai/$propertyId': {
-      id: '/apartamentai/$propertyId'
-      path: '/$propertyId'
-      fullPath: '/apartamentai/$propertyId'
-      preLoaderRoute: typeof ApartamentaiPropertyIdRouteImport
-      parentRoute: typeof ApartamentaiRoute
+    '/about/house-rules': {
+      id: '/about/house-rules'
+      path: '/house-rules'
+      fullPath: '/about/house-rules'
+      preLoaderRoute: typeof AboutHouseRulesRouteImport
+      parentRoute: typeof AboutRoute
     }
-    '/apartamentai/standartiniai': {
-      id: '/apartamentai/standartiniai'
-      path: '/standartiniai'
-      fullPath: '/apartamentai/standartiniai'
-      preLoaderRoute: typeof ApartamentaiStandartiniaiRouteImport
-      parentRoute: typeof ApartamentaiRoute
-    }
-    '/apartamentai/su-terasa': {
-      id: '/apartamentai/su-terasa'
-      path: '/su-terasa'
-      fullPath: '/apartamentai/su-terasa'
-      preLoaderRoute: typeof ApartamentaiSuTerasaRouteImport
-      parentRoute: typeof ApartamentaiRoute
+    '/apartamentai/$': {
+      id: '/apartamentai/$'
+      path: '/apartamentai/$'
+      fullPath: '/apartamentai/$'
+      preLoaderRoute: typeof ApartamentaiSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/track-view': {
       id: '/api/track-view'
@@ -1251,19 +1381,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTrackViewRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/apie/': {
-      id: '/apie/'
-      path: '/'
-      fullPath: '/apie/'
-      preLoaderRoute: typeof ApieIndexRouteImport
-      parentRoute: typeof ApieRoute
+    '/apie/$': {
+      id: '/apie/$'
+      path: '/apie/$'
+      fullPath: '/apie/$'
+      preLoaderRoute: typeof ApieSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/apie/taisykles': {
-      id: '/apie/taisykles'
-      path: '/taisykles'
-      fullPath: '/apie/taisykles'
-      preLoaderRoute: typeof ApieTaisyklesRouteImport
-      parentRoute: typeof ApieRoute
+    '/banketine-sale/$': {
+      id: '/banketine-sale/$'
+      path: '/banketine-sale/$'
+      fullPath: '/banketine-sale/$'
+      preLoaderRoute: typeof BanketineSaleSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking/confirmed': {
+      id: '/booking/confirmed'
+      path: '/booking/confirmed'
+      fullPath: '/booking/confirmed'
+      preLoaderRoute: typeof BookingConfirmedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dovanu-kuponai/$': {
+      id: '/dovanu-kuponai/$'
+      path: '/dovanu-kuponai/$'
+      fullPath: '/dovanu-kuponai/$'
+      preLoaderRoute: typeof DovanuKuponaiSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/en/': {
       id: '/en/'
@@ -1272,32 +1416,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnIndexRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/apartamentai': {
-      id: '/en/apartamentai'
-      path: '/apartamentai'
-      fullPath: '/en/apartamentai'
-      preLoaderRoute: typeof EnApartamentaiRouteImport
+    '/en/about': {
+      id: '/en/about'
+      path: '/about'
+      fullPath: '/en/about'
+      preLoaderRoute: typeof EnAboutRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/apie': {
-      id: '/en/apie'
-      path: '/apie'
-      fullPath: '/en/apie'
-      preLoaderRoute: typeof EnApieRouteImport
+    '/en/availability': {
+      id: '/en/availability'
+      path: '/availability'
+      fullPath: '/en/availability'
+      preLoaderRoute: typeof EnAvailabilityRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/banketine-sale': {
-      id: '/en/banketine-sale'
-      path: '/banketine-sale'
-      fullPath: '/en/banketine-sale'
-      preLoaderRoute: typeof EnBanketineSaleRouteImport
+    '/en/banquet-hall': {
+      id: '/en/banquet-hall'
+      path: '/banquet-hall'
+      fullPath: '/en/banquet-hall'
+      preLoaderRoute: typeof EnBanquetHallRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/dovanu-kuponai': {
-      id: '/en/dovanu-kuponai'
-      path: '/dovanu-kuponai'
-      fullPath: '/en/dovanu-kuponai'
-      preLoaderRoute: typeof EnDovanuKuponaiRouteImport
+    '/en/cabin': {
+      id: '/en/cabin'
+      path: '/cabin'
+      fullPath: '/en/cabin'
+      preLoaderRoute: typeof EnCabinRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
+    '/en/contact': {
+      id: '/en/contact'
+      path: '/contact'
+      fullPath: '/en/contact'
+      preLoaderRoute: typeof EnContactRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
+    '/en/gift-vouchers': {
+      id: '/en/gift-vouchers'
+      path: '/gift-vouchers'
+      fullPath: '/en/gift-vouchers'
+      preLoaderRoute: typeof EnGiftVouchersRouteImport
       parentRoute: typeof EnRouteRoute
     }
     '/en/home-v2': {
@@ -1307,39 +1465,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnHomeV2RouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/kontaktai': {
-      id: '/en/kontaktai'
-      path: '/kontaktai'
-      fullPath: '/en/kontaktai'
-      preLoaderRoute: typeof EnKontaktaiRouteImport
+    '/en/privacy-policy': {
+      id: '/en/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/en/privacy-policy'
+      preLoaderRoute: typeof EnPrivacyPolicyRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/laisvi-kambariai': {
-      id: '/en/laisvi-kambariai'
-      path: '/laisvi-kambariai'
-      fullPath: '/en/laisvi-kambariai'
-      preLoaderRoute: typeof EnLaisviKambariaiRouteImport
-      parentRoute: typeof EnRouteRoute
-    }
-    '/en/namelis': {
-      id: '/en/namelis'
-      path: '/namelis'
-      fullPath: '/en/namelis'
-      preLoaderRoute: typeof EnNamelisRouteImport
-      parentRoute: typeof EnRouteRoute
-    }
-    '/en/privatumo-politika': {
-      id: '/en/privatumo-politika'
-      path: '/privatumo-politika'
-      fullPath: '/en/privatumo-politika'
-      preLoaderRoute: typeof EnPrivatumoPolitikaRouteImport
-      parentRoute: typeof EnRouteRoute
-    }
-    '/en/restobaras': {
-      id: '/en/restobaras'
-      path: '/restobaras'
-      fullPath: '/en/restobaras'
-      preLoaderRoute: typeof EnRestobarasRouteImport
+    '/en/restaurant': {
+      id: '/en/restaurant'
+      path: '/restaurant'
+      fullPath: '/en/restaurant'
+      preLoaderRoute: typeof EnRestaurantRouteImport
       parentRoute: typeof EnRouteRoute
     }
     '/en/sauna': {
@@ -1349,18 +1486,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnSaunaRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/en/taisykles': {
-      id: '/en/taisykles'
-      path: '/taisykles'
-      fullPath: '/en/taisykles'
-      preLoaderRoute: typeof EnTaisyklesRouteImport
+    '/en/stays': {
+      id: '/en/stays'
+      path: '/stays'
+      fullPath: '/en/stays'
+      preLoaderRoute: typeof EnStaysRouteImport
       parentRoute: typeof EnRouteRoute
     }
-    '/rezervacija/patvirtinta': {
-      id: '/rezervacija/patvirtinta'
-      path: '/rezervacija/patvirtinta'
-      fullPath: '/rezervacija/patvirtinta'
-      preLoaderRoute: typeof RezervacijaPatvirtintaRouteImport
+    '/en/terms': {
+      id: '/en/terms'
+      path: '/terms'
+      fullPath: '/en/terms'
+      preLoaderRoute: typeof EnTermsRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
+    '/kontaktai/$': {
+      id: '/kontaktai/$'
+      path: '/kontaktai/$'
+      fullPath: '/kontaktai/$'
+      preLoaderRoute: typeof KontaktaiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laisvi-kambariai/$': {
+      id: '/laisvi-kambariai/$'
+      path: '/laisvi-kambariai/$'
+      fullPath: '/laisvi-kambariai/$'
+      preLoaderRoute: typeof LaisviKambariaiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/namelis/$': {
+      id: '/namelis/$'
+      path: '/namelis/$'
+      fullPath: '/namelis/$'
+      preLoaderRoute: typeof NamelisSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privatumo-politika/$': {
+      id: '/privatumo-politika/$'
+      path: '/privatumo-politika/$'
+      fullPath: '/privatumo-politika/$'
+      preLoaderRoute: typeof PrivatumoPolitikaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/restobaras/$': {
+      id: '/restobaras/$'
+      path: '/restobaras/$'
+      fullPath: '/restobaras/$'
+      preLoaderRoute: typeof RestobarasSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rezervacija/$': {
+      id: '/rezervacija/$'
+      path: '/rezervacija/$'
+      fullPath: '/rezervacija/$'
+      preLoaderRoute: typeof RezervacijaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stays/': {
+      id: '/stays/'
+      path: '/'
+      fullPath: '/stays/'
+      preLoaderRoute: typeof StaysIndexRouteImport
+      parentRoute: typeof StaysRoute
+    }
+    '/stays/$propertyId': {
+      id: '/stays/$propertyId'
+      path: '/$propertyId'
+      fullPath: '/stays/$propertyId'
+      preLoaderRoute: typeof StaysPropertyIdRouteImport
+      parentRoute: typeof StaysRoute
+    }
+    '/stays/standard': {
+      id: '/stays/standard'
+      path: '/standard'
+      fullPath: '/stays/standard'
+      preLoaderRoute: typeof StaysStandardRouteImport
+      parentRoute: typeof StaysRoute
+    }
+    '/stays/with-terrace': {
+      id: '/stays/with-terrace'
+      path: '/with-terrace'
+      fullPath: '/stays/with-terrace'
+      preLoaderRoute: typeof StaysWithTerraceRouteImport
+      parentRoute: typeof StaysRoute
+    }
+    '/taisykles/$': {
+      id: '/taisykles/$'
+      path: '/taisykles/$'
+      fullPath: '/taisykles/$'
+      preLoaderRoute: typeof TaisyklesSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -1440,13 +1654,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffIdRouteImport
       parentRoute: typeof AuthenticatedStaffRoute
     }
-    '/apartamentai/tipas/$categorySlug': {
-      id: '/apartamentai/tipas/$categorySlug'
-      path: '/tipas/$categorySlug'
-      fullPath: '/apartamentai/tipas/$categorySlug'
-      preLoaderRoute: typeof ApartamentaiTipasCategorySlugRouteImport
-      parentRoute: typeof ApartamentaiRoute
-    }
     '/api/assistant/chat': {
       id: '/api/assistant/chat'
       path: '/api/assistant/chat'
@@ -1468,54 +1675,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicNotificationsCronRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en/apartamentai/': {
-      id: '/en/apartamentai/'
+    '/en/about/': {
+      id: '/en/about/'
       path: '/'
-      fullPath: '/en/apartamentai/'
-      preLoaderRoute: typeof EnApartamentaiIndexRouteImport
-      parentRoute: typeof EnApartamentaiRoute
+      fullPath: '/en/about/'
+      preLoaderRoute: typeof EnAboutIndexRouteImport
+      parentRoute: typeof EnAboutRoute
     }
-    '/en/apartamentai/$propertyId': {
-      id: '/en/apartamentai/$propertyId'
-      path: '/$propertyId'
-      fullPath: '/en/apartamentai/$propertyId'
-      preLoaderRoute: typeof EnApartamentaiPropertyIdRouteImport
-      parentRoute: typeof EnApartamentaiRoute
+    '/en/about/house-rules': {
+      id: '/en/about/house-rules'
+      path: '/house-rules'
+      fullPath: '/en/about/house-rules'
+      preLoaderRoute: typeof EnAboutHouseRulesRouteImport
+      parentRoute: typeof EnAboutRoute
     }
-    '/en/apartamentai/standartiniai': {
-      id: '/en/apartamentai/standartiniai'
-      path: '/standartiniai'
-      fullPath: '/en/apartamentai/standartiniai'
-      preLoaderRoute: typeof EnApartamentaiStandartiniaiRouteImport
-      parentRoute: typeof EnApartamentaiRoute
-    }
-    '/en/apartamentai/su-terasa': {
-      id: '/en/apartamentai/su-terasa'
-      path: '/su-terasa'
-      fullPath: '/en/apartamentai/su-terasa'
-      preLoaderRoute: typeof EnApartamentaiSuTerasaRouteImport
-      parentRoute: typeof EnApartamentaiRoute
-    }
-    '/en/apie/': {
-      id: '/en/apie/'
-      path: '/'
-      fullPath: '/en/apie/'
-      preLoaderRoute: typeof EnApieIndexRouteImport
-      parentRoute: typeof EnApieRoute
-    }
-    '/en/apie/taisykles': {
-      id: '/en/apie/taisykles'
-      path: '/taisykles'
-      fullPath: '/en/apie/taisykles'
-      preLoaderRoute: typeof EnApieTaisyklesRouteImport
-      parentRoute: typeof EnApieRoute
-    }
-    '/en/rezervacija/patvirtinta': {
-      id: '/en/rezervacija/patvirtinta'
-      path: '/rezervacija/patvirtinta'
-      fullPath: '/en/rezervacija/patvirtinta'
-      preLoaderRoute: typeof EnRezervacijaPatvirtintaRouteImport
+    '/en/booking/confirmed': {
+      id: '/en/booking/confirmed'
+      path: '/booking/confirmed'
+      fullPath: '/en/booking/confirmed'
+      preLoaderRoute: typeof EnBookingConfirmedRouteImport
       parentRoute: typeof EnRouteRoute
+    }
+    '/en/stays/': {
+      id: '/en/stays/'
+      path: '/'
+      fullPath: '/en/stays/'
+      preLoaderRoute: typeof EnStaysIndexRouteImport
+      parentRoute: typeof EnStaysRoute
+    }
+    '/en/stays/$propertyId': {
+      id: '/en/stays/$propertyId'
+      path: '/$propertyId'
+      fullPath: '/en/stays/$propertyId'
+      preLoaderRoute: typeof EnStaysPropertyIdRouteImport
+      parentRoute: typeof EnStaysRoute
+    }
+    '/en/stays/standard': {
+      id: '/en/stays/standard'
+      path: '/standard'
+      fullPath: '/en/stays/standard'
+      preLoaderRoute: typeof EnStaysStandardRouteImport
+      parentRoute: typeof EnStaysRoute
+    }
+    '/en/stays/with-terrace': {
+      id: '/en/stays/with-terrace'
+      path: '/with-terrace'
+      fullPath: '/en/stays/with-terrace'
+      preLoaderRoute: typeof EnStaysWithTerraceRouteImport
+      parentRoute: typeof EnStaysRoute
+    }
+    '/stays/type/$categorySlug': {
+      id: '/stays/type/$categorySlug'
+      path: '/type/$categorySlug'
+      fullPath: '/stays/type/$categorySlug'
+      preLoaderRoute: typeof StaysTypeCategorySlugRouteImport
+      parentRoute: typeof StaysRoute
     }
     '/_authenticated/admin/bookings/': {
       id: '/_authenticated/admin/bookings/'
@@ -1601,12 +1815,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiStaffV1RoomsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en/apartamentai/tipas/$categorySlug': {
-      id: '/en/apartamentai/tipas/$categorySlug'
-      path: '/tipas/$categorySlug'
-      fullPath: '/en/apartamentai/tipas/$categorySlug'
-      preLoaderRoute: typeof EnApartamentaiTipasCategorySlugRouteImport
-      parentRoute: typeof EnApartamentaiRoute
+    '/en/stays/type/$categorySlug': {
+      id: '/en/stays/type/$categorySlug'
+      path: '/type/$categorySlug'
+      fullPath: '/en/stays/type/$categorySlug'
+      preLoaderRoute: typeof EnStaysTypeCategorySlugRouteImport
+      parentRoute: typeof EnStaysRoute
     }
     '/_authenticated/admin/properties/$id/edit': {
       id: '/_authenticated/admin/properties/$id/edit'
@@ -1734,107 +1948,104 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface EnApartamentaiRouteChildren {
-  EnApartamentaiPropertyIdRoute: typeof EnApartamentaiPropertyIdRoute
-  EnApartamentaiStandartiniaiRoute: typeof EnApartamentaiStandartiniaiRoute
-  EnApartamentaiSuTerasaRoute: typeof EnApartamentaiSuTerasaRoute
-  EnApartamentaiIndexRoute: typeof EnApartamentaiIndexRoute
-  EnApartamentaiTipasCategorySlugRoute: typeof EnApartamentaiTipasCategorySlugRoute
+interface EnAboutRouteChildren {
+  EnAboutHouseRulesRoute: typeof EnAboutHouseRulesRoute
+  EnAboutIndexRoute: typeof EnAboutIndexRoute
 }
 
-const EnApartamentaiRouteChildren: EnApartamentaiRouteChildren = {
-  EnApartamentaiPropertyIdRoute: EnApartamentaiPropertyIdRoute,
-  EnApartamentaiStandartiniaiRoute: EnApartamentaiStandartiniaiRoute,
-  EnApartamentaiSuTerasaRoute: EnApartamentaiSuTerasaRoute,
-  EnApartamentaiIndexRoute: EnApartamentaiIndexRoute,
-  EnApartamentaiTipasCategorySlugRoute: EnApartamentaiTipasCategorySlugRoute,
+const EnAboutRouteChildren: EnAboutRouteChildren = {
+  EnAboutHouseRulesRoute: EnAboutHouseRulesRoute,
+  EnAboutIndexRoute: EnAboutIndexRoute,
 }
 
-const EnApartamentaiRouteWithChildren = EnApartamentaiRoute._addFileChildren(
-  EnApartamentaiRouteChildren,
-)
+const EnAboutRouteWithChildren =
+  EnAboutRoute._addFileChildren(EnAboutRouteChildren)
 
-interface EnApieRouteChildren {
-  EnApieTaisyklesRoute: typeof EnApieTaisyklesRoute
-  EnApieIndexRoute: typeof EnApieIndexRoute
+interface EnStaysRouteChildren {
+  EnStaysPropertyIdRoute: typeof EnStaysPropertyIdRoute
+  EnStaysStandardRoute: typeof EnStaysStandardRoute
+  EnStaysWithTerraceRoute: typeof EnStaysWithTerraceRoute
+  EnStaysIndexRoute: typeof EnStaysIndexRoute
+  EnStaysTypeCategorySlugRoute: typeof EnStaysTypeCategorySlugRoute
 }
 
-const EnApieRouteChildren: EnApieRouteChildren = {
-  EnApieTaisyklesRoute: EnApieTaisyklesRoute,
-  EnApieIndexRoute: EnApieIndexRoute,
+const EnStaysRouteChildren: EnStaysRouteChildren = {
+  EnStaysPropertyIdRoute: EnStaysPropertyIdRoute,
+  EnStaysStandardRoute: EnStaysStandardRoute,
+  EnStaysWithTerraceRoute: EnStaysWithTerraceRoute,
+  EnStaysIndexRoute: EnStaysIndexRoute,
+  EnStaysTypeCategorySlugRoute: EnStaysTypeCategorySlugRoute,
 }
 
-const EnApieRouteWithChildren =
-  EnApieRoute._addFileChildren(EnApieRouteChildren)
+const EnStaysRouteWithChildren =
+  EnStaysRoute._addFileChildren(EnStaysRouteChildren)
 
 interface EnRouteRouteChildren {
-  EnApartamentaiRoute: typeof EnApartamentaiRouteWithChildren
-  EnApieRoute: typeof EnApieRouteWithChildren
-  EnBanketineSaleRoute: typeof EnBanketineSaleRoute
-  EnDovanuKuponaiRoute: typeof EnDovanuKuponaiRoute
+  EnAboutRoute: typeof EnAboutRouteWithChildren
+  EnAvailabilityRoute: typeof EnAvailabilityRoute
+  EnBanquetHallRoute: typeof EnBanquetHallRoute
+  EnCabinRoute: typeof EnCabinRoute
+  EnContactRoute: typeof EnContactRoute
+  EnGiftVouchersRoute: typeof EnGiftVouchersRoute
   EnHomeV2Route: typeof EnHomeV2Route
-  EnKontaktaiRoute: typeof EnKontaktaiRoute
-  EnLaisviKambariaiRoute: typeof EnLaisviKambariaiRoute
-  EnNamelisRoute: typeof EnNamelisRoute
-  EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
-  EnRestobarasRoute: typeof EnRestobarasRoute
+  EnPrivacyPolicyRoute: typeof EnPrivacyPolicyRoute
+  EnRestaurantRoute: typeof EnRestaurantRoute
   EnSaunaRoute: typeof EnSaunaRoute
-  EnTaisyklesRoute: typeof EnTaisyklesRoute
+  EnStaysRoute: typeof EnStaysRouteWithChildren
+  EnTermsRoute: typeof EnTermsRoute
   EnIndexRoute: typeof EnIndexRoute
-  EnRezervacijaPatvirtintaRoute: typeof EnRezervacijaPatvirtintaRoute
+  EnBookingConfirmedRoute: typeof EnBookingConfirmedRoute
 }
 
 const EnRouteRouteChildren: EnRouteRouteChildren = {
-  EnApartamentaiRoute: EnApartamentaiRouteWithChildren,
-  EnApieRoute: EnApieRouteWithChildren,
-  EnBanketineSaleRoute: EnBanketineSaleRoute,
-  EnDovanuKuponaiRoute: EnDovanuKuponaiRoute,
+  EnAboutRoute: EnAboutRouteWithChildren,
+  EnAvailabilityRoute: EnAvailabilityRoute,
+  EnBanquetHallRoute: EnBanquetHallRoute,
+  EnCabinRoute: EnCabinRoute,
+  EnContactRoute: EnContactRoute,
+  EnGiftVouchersRoute: EnGiftVouchersRoute,
   EnHomeV2Route: EnHomeV2Route,
-  EnKontaktaiRoute: EnKontaktaiRoute,
-  EnLaisviKambariaiRoute: EnLaisviKambariaiRoute,
-  EnNamelisRoute: EnNamelisRoute,
-  EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
-  EnRestobarasRoute: EnRestobarasRoute,
+  EnPrivacyPolicyRoute: EnPrivacyPolicyRoute,
+  EnRestaurantRoute: EnRestaurantRoute,
   EnSaunaRoute: EnSaunaRoute,
-  EnTaisyklesRoute: EnTaisyklesRoute,
+  EnStaysRoute: EnStaysRouteWithChildren,
+  EnTermsRoute: EnTermsRoute,
   EnIndexRoute: EnIndexRoute,
-  EnRezervacijaPatvirtintaRoute: EnRezervacijaPatvirtintaRoute,
+  EnBookingConfirmedRoute: EnBookingConfirmedRoute,
 }
 
 const EnRouteRouteWithChildren =
   EnRouteRoute._addFileChildren(EnRouteRouteChildren)
 
-interface ApartamentaiRouteChildren {
-  ApartamentaiPropertyIdRoute: typeof ApartamentaiPropertyIdRoute
-  ApartamentaiStandartiniaiRoute: typeof ApartamentaiStandartiniaiRoute
-  ApartamentaiSuTerasaRoute: typeof ApartamentaiSuTerasaRoute
-  ApartamentaiIndexRoute: typeof ApartamentaiIndexRoute
-  ApartamentaiTipasCategorySlugRoute: typeof ApartamentaiTipasCategorySlugRoute
+interface AboutRouteChildren {
+  AboutHouseRulesRoute: typeof AboutHouseRulesRoute
+  AboutIndexRoute: typeof AboutIndexRoute
 }
 
-const ApartamentaiRouteChildren: ApartamentaiRouteChildren = {
-  ApartamentaiPropertyIdRoute: ApartamentaiPropertyIdRoute,
-  ApartamentaiStandartiniaiRoute: ApartamentaiStandartiniaiRoute,
-  ApartamentaiSuTerasaRoute: ApartamentaiSuTerasaRoute,
-  ApartamentaiIndexRoute: ApartamentaiIndexRoute,
-  ApartamentaiTipasCategorySlugRoute: ApartamentaiTipasCategorySlugRoute,
+const AboutRouteChildren: AboutRouteChildren = {
+  AboutHouseRulesRoute: AboutHouseRulesRoute,
+  AboutIndexRoute: AboutIndexRoute,
 }
 
-const ApartamentaiRouteWithChildren = ApartamentaiRoute._addFileChildren(
-  ApartamentaiRouteChildren,
-)
+const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
 
-interface ApieRouteChildren {
-  ApieTaisyklesRoute: typeof ApieTaisyklesRoute
-  ApieIndexRoute: typeof ApieIndexRoute
+interface StaysRouteChildren {
+  StaysPropertyIdRoute: typeof StaysPropertyIdRoute
+  StaysStandardRoute: typeof StaysStandardRoute
+  StaysWithTerraceRoute: typeof StaysWithTerraceRoute
+  StaysIndexRoute: typeof StaysIndexRoute
+  StaysTypeCategorySlugRoute: typeof StaysTypeCategorySlugRoute
 }
 
-const ApieRouteChildren: ApieRouteChildren = {
-  ApieTaisyklesRoute: ApieTaisyklesRoute,
-  ApieIndexRoute: ApieIndexRoute,
+const StaysRouteChildren: StaysRouteChildren = {
+  StaysPropertyIdRoute: StaysPropertyIdRoute,
+  StaysStandardRoute: StaysStandardRoute,
+  StaysWithTerraceRoute: StaysWithTerraceRoute,
+  StaysIndexRoute: StaysIndexRoute,
+  StaysTypeCategorySlugRoute: StaysTypeCategorySlugRoute,
 }
 
-const ApieRouteWithChildren = ApieRoute._addFileChildren(ApieRouteChildren)
+const StaysRouteWithChildren = StaysRoute._addFileChildren(StaysRouteChildren)
 
 interface ApiPublicV1BookingsRouteChildren {
   ApiPublicV1BookingsBookingNumberRoute: typeof ApiPublicV1BookingsBookingNumberRoute
@@ -1884,23 +2095,34 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   EnRouteRoute: EnRouteRouteWithChildren,
-  ApartamentaiRoute: ApartamentaiRouteWithChildren,
-  ApieRoute: ApieRouteWithChildren,
+  AboutRoute: AboutRouteWithChildren,
   AuthRoute: AuthRoute,
-  BanketineSaleRoute: BanketineSaleRoute,
-  DovanuKuponaiRoute: DovanuKuponaiRoute,
+  AvailabilityRoute: AvailabilityRoute,
+  BanquetHallRoute: BanquetHallRoute,
+  CabinRoute: CabinRoute,
+  ContactRoute: ContactRoute,
+  GiftVouchersRoute: GiftVouchersRoute,
   HomeV2Route: HomeV2Route,
-  KontaktaiRoute: KontaktaiRoute,
-  LaisviKambariaiRoute: LaisviKambariaiRoute,
-  NamelisRoute: NamelisRoute,
-  PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  RestobarasRoute: RestobarasRoute,
+  RestaurantRoute: RestaurantRoute,
   SaunaRoute: SaunaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  TaisyklesRoute: TaisyklesRoute,
+  StaysRoute: StaysRouteWithChildren,
+  TermsRoute: TermsRoute,
+  ApartamentaiSplatRoute: ApartamentaiSplatRoute,
   ApiTrackViewRoute: ApiTrackViewRoute,
-  RezervacijaPatvirtintaRoute: RezervacijaPatvirtintaRoute,
+  ApieSplatRoute: ApieSplatRoute,
+  BanketineSaleSplatRoute: BanketineSaleSplatRoute,
+  BookingConfirmedRoute: BookingConfirmedRoute,
+  DovanuKuponaiSplatRoute: DovanuKuponaiSplatRoute,
+  KontaktaiSplatRoute: KontaktaiSplatRoute,
+  LaisviKambariaiSplatRoute: LaisviKambariaiSplatRoute,
+  NamelisSplatRoute: NamelisSplatRoute,
+  PrivatumoPolitikaSplatRoute: PrivatumoPolitikaSplatRoute,
+  RestobarasSplatRoute: RestobarasSplatRoute,
+  RezervacijaSplatRoute: RezervacijaSplatRoute,
+  TaisyklesSplatRoute: TaisyklesSplatRoute,
   ApiAssistantChatRoute: ApiAssistantChatRoute,
   ApiPublicIcalSyncRoute: ApiPublicIcalSyncRoute,
   ApiPublicNotificationsCronRoute: ApiPublicNotificationsCronRoute,
