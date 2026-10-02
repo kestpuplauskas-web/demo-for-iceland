@@ -347,8 +347,9 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
       doc.text(k, sx, sy);
       doc.setFont(font, "bold");
       color(INK);
-      doc.text(v || "—", sx + 22, sy, { maxWidth: colW - 28 });
-      sy += 5;
+      const vl = doc.splitTextToSize(v || "—", colW - 30) as string[];
+      doc.text(vl, sx + 22, sy);
+      sy += 4.2 * vl.length + 0.8;
     }
   }
   y = Math.max(by, sy) + 6;
