@@ -32,10 +32,10 @@ export function ImageUploadField({
       const ext = file.type === "image/svg+xml" ? "svg" : "png";
       const path = `branding/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
       const { error } = await supabase.storage
-        .from("car-images")
+        .from("property-images")
         .upload(path, file, { contentType: file.type, upsert: false });
       if (error) throw error;
-      onChange(supabase.storage.from("car-images").getPublicUrl(path).data.publicUrl);
+      onChange(supabase.storage.from("property-images").getPublicUrl(path).data.publicUrl);
     } catch (e) {
       console.error(e);
       toast.error(t("settings.imageUpload.failed"));

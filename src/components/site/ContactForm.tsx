@@ -2,7 +2,7 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { useContent } from "@/content";
-import { contact } from "@/data/contact";
+import { useSiteContact } from "@/hooks/use-site-contact";
 import { submitInquiry } from "@/lib/inquiries.functions";
 import { sendContactMessageFn } from "@/lib/revoo.functions";
 
@@ -73,6 +73,7 @@ function Field({
 /** Contact form on /kontaktai. Sends through a server function; on backend
  *  failure it offers the plain e-mail route instead of losing the message. */
 export function ContactForm() {
+  const contact = useSiteContact();
   const { kontaktaiForm } = useContent();
   const formSchema = buildFormSchema(kontaktaiForm);
   const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
@@ -83,7 +84,7 @@ export function ContactForm() {
     setValues((current) => ({ ...current, [key]: value }));
 
   const mailtoHref = `mailto:${contact.email}?subject=${encodeURIComponent(
-    "Enquiry from manahlid.is",
+    `Enquiry from ${contact.name}`,
   )}&body=${encodeURIComponent(`${values.message}\n\n${values.name}\n${values.phone}`)}`;
 
   const handleSubmit = async (event: React.FormEvent) => {

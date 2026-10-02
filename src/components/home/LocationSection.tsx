@@ -5,7 +5,7 @@ import { MapPin } from "lucide-react";
 import { EnsoDivider } from "@/components/site/Enso";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
-import { contact } from "@/data/contact";
+import { useSiteContact } from "@/hooks/use-site-contact";
 import locationWinter from "@/assets/location-winter.jpg.asset.json";
 
 const LocationMap = lazy(() => import("@/components/home/LocationMap"));
@@ -15,6 +15,7 @@ function MapSkeleton() {
 }
 
 export function LocationSection() {
+  const contact = useSiteContact();
   const { common, home } = useContent();
   return (
     <section id="the-place" className="scroll-mt-24 overflow-x-clip bg-surface px-6 py-24 lg:px-12 lg:py-32">

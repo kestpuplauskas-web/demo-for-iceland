@@ -63,16 +63,16 @@ export const savePropertySettings = createServerFn({ method: "POST" })
   });
 /** Public (unauthenticated) brand information for the login page. */
 export const getPublicBranding = createServerFn({ method: "GET" }).handler(
-  async (): Promise<{ displayName: string; logoUrl: string; logoLightUrl: string; faviconUrl: string }> => {
+  async (): Promise<{ displayName: string; logoUrl: string; logoLightUrl: string; faviconUrl: string; phone: string; email: string; address: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("property_settings")
-      .select("display_name, brand_logo_url, brand_logo_light_url, brand_favicon_url")
+      .select("display_name, brand_logo_url, brand_logo_light_url, brand_favicon_url, phone, email, address, city, postal_code, country")
       .eq("scope", "global")
       .maybeSingle();
     if (error) {
       console.error("[getPublicBranding]", error.message);
-      return { displayName: "", logoUrl: "", logoLightUrl: "", faviconUrl: "" };
+      return { displayName: "", logoUrl: "", logoLightUrl: "", faviconUrl: "", phone: "", email: "", address: "" };
     }
     const row = (data ?? {}) as Record<string, unknown>;
     return {
@@ -80,6 +80,12 @@ export const getPublicBranding = createServerFn({ method: "GET" }).handler(
       logoUrl: String(row["brand_logo_url"] ?? ""),
       logoLightUrl: String(row["brand_logo_light_url"] ?? ""),
       faviconUrl: String(row["brand_favicon_url"] ?? ""),
+      phone: String(row["phone"] ?? ""),
+      email: String(row["email"] ?? ""),
+      address: [row["address"], [row["postal_code"], row["city"]].filter(Boolean).join(" ")]
+        .map((v) => String(v ?? "").trim())
+        .filter(Boolean)
+        .join(", "),
     };
   },
 );

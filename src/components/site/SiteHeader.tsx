@@ -1,3 +1,4 @@
+import { useSiteContact } from "@/hooks/use-site-contact";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ function isGroup(entry: NavEntry): entry is { label: string; items: NavLink[] } 
 }
 
 export function SiteHeader() {
+  const contact = useSiteContact();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -76,7 +78,7 @@ export function SiteHeader() {
         >
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-normal uppercase tracking-[0.14em] xl:text-xl">
-              Mánahlíð
+              {contact.name}
             </span>
             <span className="mt-1 text-[0.52rem] uppercase tracking-[0.28em] text-warm-white/60">
               Tröllaskagi · Iceland
