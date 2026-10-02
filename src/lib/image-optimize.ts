@@ -74,7 +74,7 @@ export async function optimizeImage(source: Blob | File): Promise<OptimizedImage
   }
 }
 
-/** Uploads an optimized WebP to the `car-images` bucket and returns the public URL. */
+/** Uploads an optimized WebP to the `property-images` bucket and returns the public URL. */
 export async function uploadOptimizedToStorage(
   source: Blob | File,
   folder: string,
@@ -106,14 +106,17 @@ export async function uploadOptimizedToStorage(
 
 /** Attempts to extract the storage path from a public URL. If not from this bucket — returns null. */
 export function extractCarImagesPath(url: string): string | null {
-  const marker = "/storage/v1/object/public/car-images/";
-  const idx = url.indexOf(marker);
-  if (idx === -1) return null;
-  return decodeURIComponent(url.slice(idx + marker.length));
+  for (const bucket of ["property-images", "car-images"]) {
+    const marker = `/storage/v1/object/public/${bucket}/`;
+    const idx = url.indexOf(marker);
+    if (idx !== -1) return decodeURIComponent(url.slice(idx + marker.length));
+  }
+  return null;
 }
 
 export async function removeFromStorage(url: string): Promise<void> {
   const path = extractCarImagesPath(url);
   if (!path) return;
-  await supabase.storage.from("property-images").remove([path]);
+  const bucket = url.includes("/public/car-images/") ? "car-images" : "property-images";
+  await supabase.storage.from(bucket).remove([path]);
 }
