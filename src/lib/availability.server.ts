@@ -13,15 +13,9 @@ function nightsBetween(from: string, to: string): number {
   return Math.max(0, Math.round((b - a) / 86_400_000));
 }
 
-function previousDay(date: string): string {
-  const time = Date.parse(`${date}T00:00:00Z`) - 86_400_000;
-  return new Date(time).toISOString().slice(0, 10);
-}
-
-/** Nights are [from, to-1]; occupied ranges are inclusive on both ends. */
+/** Both ranges are half-open [from, to): the checkout day is free for a new arrival. */
 function overlaps(from: string, to: string, occFrom: string, occTo: string): boolean {
-  const lastNight = previousDay(to);
-  return from <= occTo.slice(0, 10) && lastNight >= occFrom.slice(0, 10);
+  return from < occTo.slice(0, 10) && to > occFrom.slice(0, 10);
 }
 
 /** Runs tasks with a small concurrency cap so the Worker isn't flooded. */
