@@ -2,7 +2,7 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { useContent } from "@/content";
-import { contact } from "@/data/contact";
+import { useSiteContact } from "@/hooks/use-site-contact";
 import { submitInquiry } from "@/lib/inquiries.functions";
 import { sendContactMessageFn } from "@/lib/revoo.functions";
 

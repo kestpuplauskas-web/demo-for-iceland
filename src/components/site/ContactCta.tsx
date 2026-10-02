@@ -1,5 +1,5 @@
 import { useContent } from "@/content";
-import { contact } from "@/data/contact";
+import { useSiteContact } from "@/hooks/use-site-contact";
 
 /** Small closing block used on the quieter service pages. */
 export function ContactCta({ title, text }: { title: string; text?: string }) {

@@ -4,7 +4,7 @@ import { Enso } from "@/components/site/Enso";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { useContent, useLocale } from "@/content";
 import { footerNav } from "@/data/nav";
-import { contact } from "@/data/contact";
+import { useSiteContact } from "@/hooks/use-site-contact";
 
 export function SiteFooter() {
   const locale = useLocale();
