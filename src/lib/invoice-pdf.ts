@@ -256,8 +256,9 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
     [data.seller.phone, data.seller.email].filter(Boolean).join("  ·  "),
   ].filter(Boolean) as string[];
   for (const l of brandLines) {
-    doc.text(l, textX, y, { maxWidth: 95 });
-    y += 4.2;
+    const ll = doc.splitTextToSize(l, 95) as string[];
+    doc.text(ll, textX, y);
+    y += 4.2 * ll.length;
   }
   const brandBottom = y;
 
@@ -312,8 +313,9 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
   doc.setFont(font, "bold");
   doc.setFontSize(10);
   color(INK);
-  doc.text(data.buyer.name || "—", bx, by, { maxWidth: colW - 6 });
-  by += 5;
+  const bn = doc.splitTextToSize(data.buyer.name || "—", colW - 6) as string[];
+  doc.text(bn, bx, by);
+  by += 5 * bn.length;
   doc.setFont(font, "normal");
   doc.setFontSize(8.5);
   color(MUTED);
@@ -325,8 +327,9 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
     data.buyer.email,
   ].filter(Boolean) as string[];
   for (const l of buyerLines) {
-    doc.text(l, bx, by, { maxWidth: colW - 6 });
-    by += 4.2;
+    const ll = doc.splitTextToSize(l, colW - 6) as string[];
+    doc.text(ll, bx, by);
+    by += 4.2 * ll.length;
   }
   if (data.stay) {
     const s = data.stay;
@@ -347,8 +350,9 @@ export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
       doc.text(k, sx, sy);
       doc.setFont(font, "bold");
       color(INK);
-      doc.text(v || "—", sx + 22, sy, { maxWidth: colW - 28 });
-      sy += 5;
+      const vl = doc.splitTextToSize(v || "—", colW - 30) as string[];
+      doc.text(vl, sx + 22, sy);
+      sy += 4.2 * vl.length + 0.8;
     }
   }
   y = Math.max(by, sy) + 6;
