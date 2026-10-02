@@ -33,6 +33,8 @@ export type InvoiceRow = {
   total: number;
   notes: string;
   issued_by: string;
+  booking_number?: string;
+  stay?: InvoiceDocData["stay"];
 };
 
 function toDocData(row: InvoiceRow): InvoiceDocData {
@@ -50,6 +52,9 @@ function toDocData(row: InvoiceRow): InvoiceDocData {
     total: Number(row.total) || 0,
     notes: row.notes || "",
     issuedBy: row.issued_by || "",
+    bookingNumber: row.booking_number || "",
+    stay: row.stay ?? null,
+    status: "paid",
   };
 }
 

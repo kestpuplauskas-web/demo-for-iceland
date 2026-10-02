@@ -111,7 +111,9 @@ export async function generateInvoiceForBooking(
     address: settings.companyAddress?.trim() || settings.address?.trim() || "",
     iban: settings.iban?.trim() || "",
     bankName: settings.bankName?.trim() || "",
-    logoUrl: settings.invoiceLogoUrl?.trim() || "",
+    logoUrl: settings.invoiceLogoUrl?.trim() || settings.brandLogoUrl?.trim() || "",
+    phone: settings.phone?.trim() || "",
+    email: settings.email?.trim() || "",
   };
 
   const isCompanyBuyer = booking.client_type === "company";
@@ -151,7 +153,7 @@ export async function generateInvoiceForBooking(
       vat_amount: vatAmount,
       total,
       notes: settings.invoiceNotes || "",
-      issued_by: settings.invoiceIssuerName || "",
+      issued_by: settings.invoiceIssuerName || settings.displayName || settings.companyName || "",
     })
     .select("id")
     .single();

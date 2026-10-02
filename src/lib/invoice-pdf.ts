@@ -54,7 +54,10 @@ export type InvoicePartyData = {
   phone?: string;
   email?: string;
   logoUrl?: string;
+  brandName?: string;
 };
+
+export type InvoiceStay = { property: string; checkIn: string; checkOut: string; guests?: number };
 
 export type InvoiceDocData = {
   fullNumber: string;
@@ -70,6 +73,9 @@ export type InvoiceDocData = {
   total: number;
   notes: string;
   issuedBy: string;
+  bookingNumber?: string;
+  stay?: InvoiceStay | null;
+  status?: "paid" | "due";
 };
 
 const ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
@@ -143,212 +149,367 @@ function money(n: number) {
   }).format(Number(n) || 0);
 }
 
-async function loadImageAsDataUrl(url: string): Promise<string | null> {
+function usDate(v: string): string {
+  if (!v) return "";
+  const d = new Date(`${v.slice(0, 10)}T12:00:00Z`);
+  if (Number.isNaN(d.getTime())) return v;
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(d);
+}
+
+async function loadImageAsPng(url: string): Promise<{ data: string; w: number; h: number } | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
     const blob = await res.blob();
-    return await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(typeof reader.result === "string" ? reader.result : null);
-      reader.onerror = () => resolve(null);
-      reader.readAsDataURL(blob);
-    });
+    const objUrl = URL.createObjectURL(blob);
+    try {
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const i = new Image();
+        i.onload = () => resolve(i);
+        i.onerror = reject;
+        i.src = objUrl;
+      });
+      const w = img.naturalWidth || 600;
+      const h = img.naturalHeight || 200;
+      const scale = Math.min(1, 1200 / w) * (w < 400 ? 3 : 1);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return null;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      return { data: canvas.toDataURL("image/png"), w, h };
+    } finally {
+      URL.revokeObjectURL(objUrl);
+    }
   } catch {
     return null;
   }
 }
 
+// Palette (matches the brand: ink, aurora green, paper)
+const INK: [number, number, number] = [24, 31, 30];
+const MUTED: [number, number, number] = [110, 118, 116];
+const LINE: [number, number, number] = [222, 224, 220];
+const ACCENT: [number, number, number] = [62, 140, 104];
+const PAPER: [number, number, number] = [246, 244, 239];
+
 export async function buildInvoicePdf(data: InvoiceDocData): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const hasUnicodeFont = await registerUnicodeFont(doc);
   const font = hasUnicodeFont ? FONT : "helvetica";
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const marginX = 18;
-  const rightEdge = pageWidth - marginX;
-  let y = 20;
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const mx = 18;
+  const right = W - mx;
+  const sym = curSymbol(data.currency);
+  const cur = (n: number) => `${n < 0 ? "-" : ""}${sym}${money(Math.abs(n))}`;
+  const brand = data.seller.brandName || data.seller.name;
+  const color = (c: [number, number, number]) => doc.setTextColor(c[0], c[1], c[2]);
+  const label = (t: string, x: number, y: number, align: "left" | "right" = "left") => {
+    doc.setFont(font, "bold");
+    doc.setFontSize(7);
+    color(MUTED);
+    doc.setCharSpace(0.4);
+    doc.text(t.toUpperCase(), x, y, { align });
+    doc.setCharSpace(0);
+  };
 
+  // Top accent bar
+  doc.setFillColor(...INK);
+  doc.rect(0, 0, W, 4, "F");
+  doc.setFillColor(...ACCENT);
+  doc.rect(0, 4, W, 0.8, "F");
+
+  // Brand block
+  let y = 18;
+  let textX = mx;
   if (data.seller.logoUrl) {
-    const dataUrl = await loadImageAsDataUrl(data.seller.logoUrl);
-    if (dataUrl) {
+    const img = await loadImageAsPng(data.seller.logoUrl);
+    if (img) {
+      const maxH = 16;
+      const maxW = 48;
+      let h = maxH;
+      let w = (img.w / img.h) * h;
+      if (w > maxW) {
+        w = maxW;
+        h = (img.h / img.w) * w;
+      }
       try {
-        doc.addImage(dataUrl, "PNG", marginX, y - 5, 22, 22, undefined, "FAST");
+        doc.addImage(img.data, "PNG", mx, y - 4, w, h, undefined, "FAST");
+        y += h + 2;
       } catch {
-        // unsupported format — skip the logo, continue generating the rest of the invoice
+        /* skip logo */
       }
     }
   }
-
   doc.setFont(font, "bold");
-  doc.setFontSize(15);
-  doc.text(data.isVatInvoice ? "VAT INVOICE" : "INVOICE", rightEdge, y, { align: "right" });
-
+  doc.setFontSize(13);
+  color(INK);
+  doc.text(brand || "", textX, y);
+  y += 5;
   doc.setFont(font, "normal");
-  doc.setFontSize(10);
-  y += 7;
-  const numberLabel = data.fullNumber.includes("-")
-    ? `Series ${data.fullNumber.split("-")[0]} No. ${data.fullNumber.split("-").slice(1).join("-")}`
-    : `No. ${data.fullNumber}`;
-  doc.text(numberLabel, rightEdge, y, { align: "right" });
-  y += 5;
-  doc.text(`Invoice date ${data.issueDate}`, rightEdge, y, { align: "right" });
-  y += 5;
-  doc.text("Payment status: Paid", rightEdge, y, { align: "right" });
+  doc.setFontSize(8.5);
+  color(MUTED);
+  const brandLines = [
+    data.seller.address,
+    [data.seller.phone, data.seller.email].filter(Boolean).join("  ·  "),
+  ].filter(Boolean) as string[];
+  for (const l of brandLines) {
+    doc.text(l, textX, y, { maxWidth: 95 });
+    y += 4.2;
+  }
+  const brandBottom = y;
 
-  y = 48;
-  doc.setDrawColor(200);
-  doc.line(marginX, y, rightEdge, y);
+  // Title + meta (right)
+  let ry = 20;
+  doc.setFont(font, "bold");
+  doc.setFontSize(26);
+  color(INK);
+  doc.text("INVOICE", right, ry, { align: "right" });
+  ry += 9;
+  const meta: Array<[string, string]> = [
+    ["Invoice #", data.fullNumber],
+    ["Invoice date", usDate(data.issueDate)],
+  ];
+  if (data.bookingNumber) meta.push(["Booking #", data.bookingNumber]);
+  doc.setFontSize(9);
+  for (const [k, v] of meta) {
+    doc.setFont(font, "normal");
+    color(MUTED);
+    doc.text(k, right - 38, ry, { align: "right" });
+    doc.setFont(font, "bold");
+    color(INK);
+    doc.text(v, right, ry, { align: "right" });
+    ry += 5;
+  }
+  // Status pill
+  const paid = (data.status ?? "paid") === "paid";
+  const pill = paid ? "PAID" : "DUE";
+  doc.setFontSize(8);
+  const pw = doc.getTextWidth(pill) + 8;
+  doc.setFillColor(...(paid ? ACCENT : INK));
+  doc.roundedRect(right - pw, ry - 1, pw, 6, 3, 3, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFont(font, "bold");
+  doc.text(pill, right - pw / 2, ry + 3, { align: "center" });
+  ry += 9;
+
+  y = Math.max(brandBottom, ry) + 4;
+  doc.setDrawColor(...LINE);
+  doc.setLineWidth(0.3);
+  doc.line(mx, y, right, y);
   y += 8;
 
-  const colWidth = (pageWidth - marginX * 2 - 6) / 2;
-  const sellerX = marginX;
-  const buyerX = marginX + colWidth + 6;
-  let sy = y;
-  let by = y;
-
+  // Bill to / Stay details
+  const colW = (right - mx) / 2;
+  const bx = mx;
+  const sx = mx + colW + 6;
+  label("Bill to", bx, y);
+  if (data.stay) label("Stay details", sx, y);
+  let by = y + 5.5;
+  let sy = y + 5.5;
   doc.setFont(font, "bold");
-  doc.setFontSize(9);
-  doc.text("Seller", sellerX, sy);
-  doc.text("Buyer", buyerX, by);
+  doc.setFontSize(10);
+  color(INK);
+  doc.text(data.buyer.name || "—", bx, by, { maxWidth: colW - 6 });
+  by += 5;
   doc.setFont(font, "normal");
-  sy += 6;
-  by += 6;
-
-  const sellerLines = [
-    data.seller.name,
-    data.seller.code ? `Company code ${data.seller.code}` : "",
-    data.seller.vatCode ? `VAT payer code ${data.seller.vatCode}` : "",
-    data.seller.address,
-    [data.seller.bankName, data.seller.iban].filter(Boolean).join(" — "),
-  ].filter(Boolean);
+  doc.setFontSize(8.5);
+  color(MUTED);
   const buyerLines = [
-    data.buyer.name,
-    data.buyer.code ? `Company code ${data.buyer.code}` : "",
-    data.buyer.vatCode ? `VAT payer code ${data.buyer.vatCode}` : "",
+    data.buyer.code ? `ID / Reg. no. ${data.buyer.code}` : "",
+    data.buyer.vatCode ? `Tax ID ${data.buyer.vatCode}` : "",
     data.buyer.address,
     data.buyer.phone,
     data.buyer.email,
-  ].filter(Boolean);
-
-  for (const line of sellerLines) {
-    doc.text(String(line), sellerX, sy, { maxWidth: colWidth - 4 });
-    sy += 5;
+  ].filter(Boolean) as string[];
+  for (const l of buyerLines) {
+    doc.text(l, bx, by, { maxWidth: colW - 6 });
+    by += 4.2;
   }
-  for (const line of buyerLines) {
-    doc.text(String(line), buyerX, by, { maxWidth: colWidth - 4 });
-    by += 5;
+  if (data.stay) {
+    const s = data.stay;
+    const nights = Math.max(
+      0,
+      Math.round((new Date(s.checkOut).getTime() - new Date(s.checkIn).getTime()) / 86400000),
+    );
+    const rows: Array<[string, string]> = [
+      ["Property", s.property],
+      ["Check-in", usDate(s.checkIn)],
+      ["Check-out", usDate(s.checkOut)],
+      ["Length", `${nights} night${nights === 1 ? "" : "s"}${s.guests ? ` · ${s.guests} guest${s.guests === 1 ? "" : "s"}` : ""}`],
+    ];
+    doc.setFontSize(8.5);
+    for (const [k, v] of rows) {
+      doc.setFont(font, "normal");
+      color(MUTED);
+      doc.text(k, sx, sy);
+      doc.setFont(font, "bold");
+      color(INK);
+      doc.text(v || "—", sx + 22, sy, { maxWidth: colW - 28 });
+      sy += 5;
+    }
   }
+  y = Math.max(by, sy) + 6;
 
-  y = Math.max(sy, by) + 6;
-
-  type Col = { key: string; label: string; x: number; align: "left" | "right"; maxWidth?: number };
-  const cols: Col[] = data.isVatInvoice
+  // Line items table
+  const cols = data.isVatInvoice
     ? [
-        { key: "name", label: "Description", x: marginX, align: "left", maxWidth: 46 },
-        { key: "qty", label: "Qty", x: 70, align: "right" },
-        { key: "unit", label: "Unit", x: 74, align: "left", maxWidth: 12 },
-        { key: "unitPriceNet", label: "Price excl. VAT", x: 116, align: "right" },
-        { key: "lineNet", label: "Amount excl. VAT", x: 139, align: "right" },
-        { key: "lineVat", label: "VAT", x: 158, align: "right" },
-        { key: "vatRate", label: "VAT %", x: 170, align: "right" },
-        { key: "lineTotal", label: "Total", x: rightEdge, align: "right" },
+        { key: "name", label: "Description", x: mx + 3, align: "left" as const },
+        { key: "qty", label: "Qty", x: 112, align: "right" as const },
+        { key: "rate", label: "Rate", x: 138, align: "right" as const },
+        { key: "tax", label: "Tax", x: 162, align: "right" as const },
+        { key: "amount", label: "Amount", x: right - 3, align: "right" as const },
       ]
     : [
-        { key: "name", label: "Description", x: marginX, align: "left", maxWidth: 88 },
-        { key: "qty", label: "Qty", x: 122, align: "right" },
-        { key: "unit", label: "Unit", x: 126, align: "left", maxWidth: 20 },
-        { key: "unitPriceNet", label: "Price", x: 162, align: "right" },
-        { key: "lineTotal", label: "Amount", x: rightEdge, align: "right" },
+        { key: "name", label: "Description", x: mx + 3, align: "left" as const },
+        { key: "qty", label: "Qty", x: 130, align: "right" as const },
+        { key: "rate", label: "Rate", x: 158, align: "right" as const },
+        { key: "amount", label: "Amount", x: right - 3, align: "right" as const },
       ];
+  const descW = (data.isVatInvoice ? 112 - 14 : 130 - 14) - mx;
 
-  doc.setFont(font, "bold");
-  doc.setFontSize(data.isVatInvoice ? 6.5 : 7);
-  for (const c of cols) doc.text(c.label, c.x, y, { align: c.align });
-  y += 2;
-  doc.line(marginX, y, rightEdge, y);
-  y += 5;
+  const drawHeader = () => {
+    doc.setFillColor(...INK);
+    doc.rect(mx, y, right - mx, 8, "F");
+    doc.setFont(font, "bold");
+    doc.setFontSize(7.5);
+    doc.setTextColor(255, 255, 255);
+    doc.setCharSpace(0.3);
+    for (const c of cols) doc.text(c.label.toUpperCase(), c.x, y + 5.3, { align: c.align });
+    doc.setCharSpace(0);
+    y += 8;
+  };
+  drawHeader();
 
-  doc.setFont(font, "normal");
-  doc.setFontSize(data.isVatInvoice ? 7.5 : 8);
-  const sym = curSymbol(data.currency);
-  for (const item of data.lineItems) {
-    const nameLines = doc.splitTextToSize(item.name, (cols[0]?.maxWidth ?? 54) - 2) as string[];
-    const rowHeight = Math.max(6, nameLines.length * 4 + 2);
-    if (y + rowHeight > 255) {
+  doc.setFontSize(9);
+  data.lineItems.forEach((item, i) => {
+    const nameLines = doc.splitTextToSize(item.name, descW) as string[];
+    const unitLine = item.unit ? 1 : 0;
+    const rowH = Math.max(10, (nameLines.length + unitLine) * 4.2 + 4);
+    if (y + rowH > H - 60) {
       doc.addPage();
       y = 20;
+      drawHeader();
     }
+    if (i % 2 === 1) {
+      doc.setFillColor(...PAPER);
+      doc.rect(mx, y, right - mx, rowH, "F");
+    }
+    const ty = y + 5.5;
+    doc.setFont(font, "normal");
+    color(INK);
+    doc.text(nameLines, mx + 3, ty);
+    if (item.unit) {
+      doc.setFontSize(7.5);
+      color(MUTED);
+      doc.text(item.unit, mx + 3, ty + nameLines.length * 4.2);
+      doc.setFontSize(9);
+      color(INK);
+    }
+    const rate = data.isVatInvoice ? item.unitPriceNet : item.qty > 0 ? item.lineTotal / item.qty : item.lineTotal;
     for (const c of cols) {
-      let raw: string;
-      switch (c.key) {
-        case "name":
-          doc.text(nameLines, c.x, y);
-          continue;
-        case "qty":
-          raw = String(item.qty);
-          break;
-        case "unit":
-          raw = item.unit;
-          break;
-        case "unitPriceNet":
-          raw = `${money(item.unitPriceNet)} ${sym}`;
-          break;
-        case "lineNet":
-          raw = `${money(item.lineNet)} ${sym}`;
-          break;
-        case "lineVat":
-          raw = `${money(item.lineVat)} ${sym}`;
-          break;
-        case "vatRate":
-          raw = `${data.vatRate}%`;
-          break;
-        case "lineTotal":
-          raw = `${money(item.lineTotal)} ${sym}`;
-          break;
-        default:
-          raw = "";
-      }
-      doc.text(raw, c.x, y, { align: c.align, maxWidth: c.maxWidth });
+      let v = "";
+      if (c.key === "qty") v = String(item.qty);
+      else if (c.key === "rate") v = cur(rate);
+      else if (c.key === "tax") v = cur(item.lineVat);
+      else if (c.key === "amount") v = cur(data.isVatInvoice ? item.lineNet : item.lineTotal);
+      else continue;
+      doc.text(v, c.x, ty, { align: c.align });
     }
-    y += rowHeight;
-  }
+    y += rowH;
+    doc.setDrawColor(...LINE);
+    doc.line(mx, y, right, y);
+  });
 
-  y += 2;
-  doc.line(marginX, y, rightEdge, y);
+  // Totals
   y += 8;
-
-  doc.setFontSize(9);
-  doc.text(`Amount excl. VAT${data.isVatInvoice ? ` (${data.vatRate}%)` : ""}`, rightEdge - 42, y, { align: "right" });
-  doc.text(`${money(data.subtotalNet)} ${sym}`, rightEdge, y, { align: "right" });
-  y += 6;
-  if (data.isVatInvoice) {
-    doc.text(`VAT (${data.vatRate}%)`, rightEdge - 42, y, { align: "right" });
-    doc.text(`${money(data.vatAmount)} ${sym}`, rightEdge, y, { align: "right" });
+  const tlx = right - 70;
+  const totalRow = (k: string, v: string) => {
+    doc.setFont(font, "normal");
+    doc.setFontSize(9);
+    color(MUTED);
+    doc.text(k, tlx, y);
+    color(INK);
+    doc.text(v, right - 3, y, { align: "right" });
     y += 6;
-  }
+  };
+  totalRow("Subtotal", cur(data.isVatInvoice ? data.subtotalNet : data.total));
+  if (data.isVatInvoice) totalRow(`Tax (${data.vatRate}%)`, cur(data.vatAmount));
+  y += 1;
+  doc.setFillColor(...INK);
+  doc.roundedRect(tlx - 4, y - 5, right - tlx + 4, 12, 1.5, 1.5, "F");
   doc.setFont(font, "bold");
-  doc.text("Total amount", rightEdge - 42, y, { align: "right" });
-  doc.text(`${money(data.total)} ${sym}`, rightEdge, y, { align: "right" });
-  doc.setFont(font, "normal");
-  y += 12;
+  doc.setFontSize(10);
+  doc.setTextColor(255, 255, 255);
+  doc.text(paid ? "TOTAL PAID" : "TOTAL DUE", tlx, y + 2.6);
+  doc.setFontSize(13);
+  doc.text(`${cur(data.total)} ${data.currency.toUpperCase()}`, right - 3, y + 2.8, { align: "right" });
+  const totalsBottom = y + 12;
 
-  doc.setFontSize(9);
-  doc.text(`Amount in words: ${amountInWords(data.total, data.currency)}`, marginX, y, { maxWidth: rightEdge - marginX });
-  y += 14;
-
+  // Payment details + issued by (left of totals)
+  let py = totalsBottom - 30;
+  if (py < y - 20) py = y - 20;
+  const payLines = [
+    data.seller.name && data.seller.name !== brand ? data.seller.name : "",
+    data.seller.code ? `Reg. no. ${data.seller.code}` : "",
+    data.seller.vatCode ? `Tax ID ${data.seller.vatCode}` : "",
+    data.seller.bankName,
+    data.seller.iban ? `Account ${data.seller.iban}` : "",
+  ].filter(Boolean) as string[];
+  y = totalsBottom + 8;
+  if (payLines.length) {
+    label("Payment details", mx, y);
+    let ly = y + 5;
+    doc.setFont(font, "normal");
+    doc.setFontSize(8.5);
+    color(INK);
+    for (const l of payLines) {
+      doc.text(l, mx, ly, { maxWidth: colW });
+      ly += 4.2;
+    }
+    py = ly;
+  } else py = y;
   if (data.issuedBy) {
-    doc.text(`Invoice issued by: ${data.issuedBy}`, marginX, y);
-    y += 10;
+    label("Issued by", sx, y);
+    doc.setFont(font, "bold");
+    doc.setFontSize(9.5);
+    color(INK);
+    doc.text(data.issuedBy, sx, y + 5.5);
+    doc.setFont(font, "normal");
+    doc.setFontSize(8);
+    color(MUTED);
+    doc.text(`on behalf of ${brand}`, sx, y + 10);
   }
-  doc.text("Invoice accepted by: ______________________________", marginX, y);
+  y = Math.max(py, y + 12) + 6;
 
   if (data.notes) {
-    y += 14;
-    doc.setFontSize(8);
-    doc.setTextColor(120);
-    doc.text(data.notes, marginX, y, { maxWidth: rightEdge - marginX });
-    doc.setTextColor(0);
+    label("Notes", mx, y);
+    doc.setFont(font, "normal");
+    doc.setFontSize(8.5);
+    color(MUTED);
+    const nl = doc.splitTextToSize(data.notes, right - mx) as string[];
+    doc.text(nl, mx, y + 5);
+    y += 5 + nl.length * 4.2;
   }
 
+  // Footer on every page
+  const pages = doc.getNumberOfPages();
+  for (let p = 1; p <= pages; p++) {
+    doc.setPage(p);
+    doc.setFont(font, "bold");
+    doc.setFontSize(10);
+    color(ACCENT);
+    if (p === pages) doc.text(`Thank you for staying with ${brand || "us"}.`, W / 2, H - 22, { align: "center" });
+    doc.setDrawColor(...LINE);
+    doc.line(mx, H - 16, right, H - 16);
+    doc.setFont(font, "normal");
+    doc.setFontSize(7.5);
+    color(MUTED);
+    doc.text([brand, data.seller.email, data.seller.phone].filter(Boolean).join("  ·  "), mx, H - 11);
+    doc.text(`Page ${p} of ${pages}`, right, H - 11, { align: "right" });
+  }
+  doc.setTextColor(0);
   return doc;
 }

@@ -15,7 +15,45 @@ export const getInvoiceForBooking = createServerFn({ method: "POST" })
       .eq("booking_id", data.bookingId)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return row;
+    if (!row) return row;
+
+    const [{ data: s }, { data: b }] = await Promise.all([
+      context.supabase
+        .from("property_settings")
+        .select("display_name, company_name, brand_logo_url, invoice_logo_url, invoice_issuer_name, phone, email")
+        .eq("scope", "global")
+        .maybeSingle(),
+      context.supabase
+        .from("bookings")
+        .select("booking_number, date_from, date_to, guests, total_guests, properties(name)")
+        .eq("id", data.bookingId)
+        .maybeSingle(),
+    ]);
+    const st = (s ?? {}) as Record<string, string | null>;
+    const bk = (b ?? null) as Record<string, any> | null;
+    const r = row as Record<string, any>;
+    const seller = (r.seller ?? {}) as Record<string, string>;
+    const brandName = st.display_name || st.company_name || seller.name || "";
+    return {
+      ...r,
+      issued_by: r.issued_by || st.invoice_issuer_name || brandName,
+      seller: {
+        ...seller,
+        brandName,
+        logoUrl: seller.logoUrl || st.invoice_logo_url || st.brand_logo_url || "",
+        phone: seller.phone || st.phone || "",
+        email: seller.email || st.email || "",
+      },
+      booking_number: bk?.booking_number ?? "",
+      stay: bk
+        ? {
+            property: bk.properties?.name ?? "",
+            checkIn: bk.date_from,
+            checkOut: bk.date_to,
+            guests: Number(bk.total_guests ?? bk.guests ?? 0),
+          }
+        : null,
+    };
   });
 
 export const ensureInvoiceForBooking = createServerFn({ method: "POST" })
