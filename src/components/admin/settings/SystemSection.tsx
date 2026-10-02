@@ -25,6 +25,7 @@ import {
   listSystemSnapshots,
   restoreSystemSnapshot,
 } from "@/lib/system-snapshots.functions";
+import { clearDemoBookings } from "@/lib/setup.functions";
 
 export function SystemSection() {
   const { t } = useTranslation();
@@ -66,9 +67,44 @@ export function SystemSection() {
   });
 
   const latest = snapshots?.[0];
+  const clearDemo = useServerFn(clearDemoBookings);
+  const [confirmText, setConfirmText] = useState("");
+  const clearM = useMutation({
+    mutationFn: () => clearDemo({ data: { confirm: "DELETE" } }),
+    onSuccess: (r) => {
+      toast.success(`${r.deleted} bookings removed. A backup was saved first.`);
+      setConfirmText("");
+      qc.invalidateQueries();
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Cleanup failed"),
+  });
 
   return (
     <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Trash2 className="h-4 w-4" /> Clear demo bookings
+          </CardTitle>
+          <CardDescription>
+            Removes all bookings, invoices and payment records so a new hotel starts clean.
+            Properties, prices and settings stay. A backup is saved automatically and can be restored below.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="demo-confirm">Type DELETE to confirm</Label>
+            <Input id="demo-confirm" value={confirmText} onChange={(e) => setConfirmText(e.target.value)} autoComplete="off" />
+          </div>
+          <Button
+            variant="destructive"
+            disabled={confirmText !== "DELETE" || clearM.isPending}
+            onClick={() => clearM.mutate()}
+          >
+            {clearM.isPending ? "Clearing…" : "Clear all bookings"}
+          </Button>
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">

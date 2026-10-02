@@ -24,6 +24,7 @@ import { ApiAccessSection } from "@/components/admin/settings/ApiAccessSection";
 import { EmailTestSection } from "@/components/admin/settings/EmailTestSection";
 import { UsersSection } from "@/components/admin/settings/UsersSection";
 import { SystemSection } from "@/components/admin/settings/SystemSection";
+import { SetupChecklist } from "@/components/admin/settings/SetupChecklist";
 import { PLATFORM_NAME } from "@/lib/brand";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
 
@@ -217,6 +218,7 @@ function PropertySettingsPage() {
           </nav>
 
           <div className="min-w-0 flex-1">
+            <SetupChecklist />
             {loadingSettings ? (
               <div className="flex items-center gap-2 rounded-lg border p-8 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
