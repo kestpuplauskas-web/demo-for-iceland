@@ -128,7 +128,7 @@ function AdminLayout() {
             </span>
           </div>
           <a
-            href="https://dharma.revoo.lt/"
+            href="/"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setNavOpen(false)}
