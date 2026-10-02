@@ -15,6 +15,7 @@ function MapSkeleton() {
 }
 
 export function LocationSection() {
+  const contact = useSiteContact();
   const { common, home } = useContent();
   return (
     <section id="the-place" className="scroll-mt-24 overflow-x-clip bg-surface px-6 py-24 lg:px-12 lg:py-32">

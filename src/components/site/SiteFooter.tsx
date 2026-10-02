@@ -7,6 +7,7 @@ import { footerNav } from "@/data/nav";
 import { useSiteContact } from "@/hooks/use-site-contact";
 
 export function SiteFooter() {
+  const contact = useSiteContact();
   const locale = useLocale();
   const { common, legal } = useContent();
   const links = footerNav(locale);
@@ -18,7 +19,7 @@ export function SiteFooter() {
             <Enso className="h-9 w-9 text-warm-white/60" />
             <LocaleLink to="/" aria-label={common.brand} className="mt-5 inline-flex flex-col leading-none">
               <span className="font-display text-2xl font-normal uppercase tracking-[0.16em] text-warm-white">
-                Mánahlíð
+                {contact.name}
               </span>
               <span className="mt-2 text-[0.55rem] uppercase tracking-[0.28em] text-warm-white/55">
                 Tröllaskagi · Iceland
