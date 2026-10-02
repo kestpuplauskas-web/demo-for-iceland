@@ -153,7 +153,7 @@ export async function generateInvoiceForBooking(
       vat_amount: vatAmount,
       total,
       notes: settings.invoiceNotes || "",
-      issued_by: settings.invoiceIssuerName || "",
+      issued_by: settings.invoiceIssuerName || settings.displayName || settings.companyName || "",
     })
     .select("id")
     .single();
