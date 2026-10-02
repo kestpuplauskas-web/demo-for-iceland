@@ -68,7 +68,10 @@ function mockInvoiceData(
       address: values.companyAddress?.trim() || fallbackAddress || "",
       iban: values.iban?.trim() || "",
       bankName: values.bankName?.trim() || "",
-      logoUrl: values.invoiceLogoUrl?.trim() || "",
+      logoUrl: values.invoiceLogoUrl?.trim() || values.brandLogoUrl?.trim() || "",
+      brandName: values.displayName?.trim() || fallbackCompanyName || "",
+      phone: values.phone?.trim() || "",
+      email: values.email?.trim() || "",
     },
     buyer: {
       name: "Jonas Jonaitis (pavyzdys)",
@@ -83,7 +86,10 @@ function mockInvoiceData(
     vatAmount,
     total: subtotalNet + vatAmount,
     notes: values.invoiceNotes?.trim() || "",
-    issuedBy: values.invoiceIssuerName?.trim() || "",
+    issuedBy: values.invoiceIssuerName?.trim() || values.displayName?.trim() || fallbackCompanyName || "",
+    bookingNumber: "BK-2026-0001",
+    stay: { property: "Aurora Cabin", checkIn: "2026-10-15", checkOut: "2026-10-17", guests: 2 },
+    status: "paid",
   };
 }
 
