@@ -111,7 +111,9 @@ export async function generateInvoiceForBooking(
     address: settings.companyAddress?.trim() || settings.address?.trim() || "",
     iban: settings.iban?.trim() || "",
     bankName: settings.bankName?.trim() || "",
-    logoUrl: settings.invoiceLogoUrl?.trim() || "",
+    logoUrl: settings.invoiceLogoUrl?.trim() || settings.brandLogoUrl?.trim() || "",
+    phone: settings.phone?.trim() || "",
+    email: settings.email?.trim() || "",
   };
 
   const isCompanyBuyer = booking.client_type === "company";
