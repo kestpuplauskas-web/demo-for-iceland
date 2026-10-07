@@ -107,6 +107,7 @@ function BookingsPage() {
           {q.isLoading && <div className="text-muted-foreground">{t("common.loading")}</div>}
           {q.error && <div className="text-destructive">{(q.error as Error).message}</div>}
           {propsQ.data && q.data && (
+            <div data-view-ok>
             <BookingsGantt
               properties={(propsQ.data as any[]).map((p) => ({
                 id: p.id,
@@ -117,6 +118,7 @@ function BookingsPage() {
               onReschedule={(v) => rescheduleM.mutate(v)}
               rescheduling={rescheduleM.isPending}
             />
+            </div>
           )}
         </>
       ) : (
