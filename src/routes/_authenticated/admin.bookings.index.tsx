@@ -88,7 +88,7 @@ function BookingsPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="inline-flex rounded-md border bg-card p-0.5">
+          <div data-view-ok className="inline-flex rounded-md border bg-card p-0.5">
             <Button size="sm" variant={view === "timeline" ? "default" : "ghost"} onClick={() => setView("timeline")} className="h-8">
               <LayoutGrid className="h-4 w-4 mr-1" /> {t("bookings.viewCalendar")}
             </Button>
@@ -107,6 +107,7 @@ function BookingsPage() {
           {q.isLoading && <div className="text-muted-foreground">{t("common.loading")}</div>}
           {q.error && <div className="text-destructive">{(q.error as Error).message}</div>}
           {propsQ.data && q.data && (
+            <div data-view-ok>
             <BookingsGantt
               properties={(propsQ.data as any[]).map((p) => ({
                 id: p.id,
@@ -117,6 +118,7 @@ function BookingsPage() {
               onReschedule={(v) => rescheduleM.mutate(v)}
               rescheduling={rescheduleM.isPending}
             />
+            </div>
           )}
         </>
       ) : (
@@ -327,7 +329,7 @@ function BookingsTable({ rows, loading, onDelete }: { rows: Row[]; loading: bool
                 <TableCell className="text-right font-semibold text-primary">{formatCurrency(b.total_amount, 2)}</TableCell>
                 <TableCell className="text-right">
                   <div className="inline-flex items-center gap-1">
-                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setViewRow(b)} title={t("bookings.view")}>
+                    <Button data-nav="true" size="icon" variant="ghost" className="h-8 w-8" onClick={() => setViewRow(b)} title={t("bookings.view")}>
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button asChild size="icon" variant="ghost" className="h-8 w-8" title={t("bookings.edit")}>

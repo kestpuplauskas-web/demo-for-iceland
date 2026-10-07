@@ -490,7 +490,7 @@ export function BookingsGantt({
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelected(null)}>{t("common.close")}</Button>
             {selected && (
-              <Button onClick={() => { const id = selected.id; setSelected(null); navigate({ to: "/admin/bookings/$id", params: { id } }); }}>
+              <Button data-nav="true" onClick={() => { const id = selected.id; setSelected(null); navigate({ to: "/admin/bookings/$id", params: { id } }); }}>
                 <Pencil className="h-4 w-4 mr-1" /> {t("common.edit")}
               </Button>
             )}
