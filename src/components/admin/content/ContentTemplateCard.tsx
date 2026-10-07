@@ -147,7 +147,7 @@ export function ContentTemplateCard({
       <form onSubmit={form.handleSubmit(async (v) => { await onSave(v); })}>
         <CardHeader className="gap-1">
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <button
+            <button data-nav="true"
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
@@ -282,7 +282,7 @@ export function ContentTemplateCard({
             </Button>
           )}
           {(def.hasRichText || def.category === "whatsapp") && (
-            <Button type="button" variant="outline" onClick={() => setPreviewOpen(true)}>
+            <Button data-nav="true" type="button" variant="outline" onClick={() => setPreviewOpen(true)}>
               <Eye className="mr-2 h-4 w-4" />
               {t("content.ui.preview")}
             </Button>

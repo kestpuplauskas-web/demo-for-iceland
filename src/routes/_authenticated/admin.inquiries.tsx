@@ -83,7 +83,7 @@ function InquiriesPage() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-1 rounded-md border bg-card p-1">
           {filters.map((item) => (
-            <button
+            <button data-nav="true"
               key={item.key}
               type="button"
               onClick={() => setFilter(item.key)}
@@ -125,7 +125,7 @@ function InquiriesPage() {
             <ul className="divide-y">
               {rows.map((row) => (
                 <li key={row.id}>
-                  <button
+                  <button data-nav="true"
                     type="button"
                     onClick={() => open(row)}
                     className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-accent ${

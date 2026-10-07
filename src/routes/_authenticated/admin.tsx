@@ -10,6 +10,7 @@ import { getPropertySettings } from "@/lib/property-settings.functions";
 import { useDefaultLanguage } from "@/hooks/useDefaultLanguage";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
+import { ReadOnlyScope } from "@/components/admin/ReadOnlyScope";
 import { AssistantWidget } from "@/components/admin/assistant/AssistantWidget";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -190,9 +191,9 @@ function AdminLayout() {
             <div className="mb-4 rounded-md border border-brass-soft/60 bg-brass-soft/15 px-3 py-2 text-sm text-brass-foreground">
               {t("admin.readOnlyBanner")}
             </div>
-            <fieldset disabled className="m-0 min-w-0 border-0 p-0">
+            <ReadOnlyScope>
               <Outlet />
-            </fieldset>
+            </ReadOnlyScope>
           </>
         ) : (
           <Outlet />

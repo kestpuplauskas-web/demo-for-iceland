@@ -170,9 +170,9 @@ function PropertySettingsPage() {
 
   const navItems: { id: NavId; icon: string; title: string }[] = [
     ...SETTINGS_SECTIONS.map((s) => ({ id: s.id as NavId, icon: s.icon, title: t(s.titleKey) })),
-    { id: "integrations", icon: "🔌", title: t("settings.nav.integrations") },
+    ...(canEdit ? [{ id: "integrations" as NavId, icon: "🔌", title: t("settings.nav.integrations") }] : []),
     ...(isDeveloper ? [{ id: "api" as NavId, icon: "🔑", title: t("settings.nav.api") }] : []),
-    { id: "users", icon: "👥", title: t("settings.nav.users") },
+    ...(canEdit ? [{ id: "users" as NavId, icon: "👥", title: t("settings.nav.users") }] : []),
     ...(isDeveloper ? [{ id: "system" as NavId, icon: "🛠️", title: t("settings.nav.system") }] : []),
   ];
 
@@ -202,6 +202,7 @@ function PropertySettingsPage() {
                   <button
                     key={item.id}
                     type="button"
+                    data-nav="true"
                     onClick={() => setActive(item.id)}
                     className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors lg:w-full ${
                       isActive
@@ -224,13 +225,13 @@ function PropertySettingsPage() {
                 <Loader2 className="h-4 w-4 animate-spin" />
                 {t("common.loading")}
               </div>
-            ) : active === "users" ? (
+            ) : active === "users" && canEdit ? (
               <UsersSection canEdit={canEdit} canManage={isDeveloper} />
             ) : active === "system" && isDeveloper ? (
               <SystemSection />
             ) : active === "api" && isDeveloper ? (
               <ApiAccessSection canEdit={canEdit} />
-            ) : active === "integrations" ? (
+            ) : active === "integrations" && canEdit ? (
               <div className="space-y-4">
                 <IntegrationsSection items={integrations} />
                 <EmailTestSection canEdit={canEdit} />
