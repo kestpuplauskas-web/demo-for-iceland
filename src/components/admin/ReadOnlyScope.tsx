@@ -33,8 +33,8 @@ function apply(root: HTMLElement) {
     }
     const f = el as HTMLInputElement;
     if (f.type === "search" || f.closest("[data-view-ok]")) return;
-    if (f.tagName === "INPUT" || f.tagName === "TEXTAREA") f.readOnly = true;
-    if (f.tagName === "SELECT" || f.type === "checkbox" || f.type === "radio") f.disabled = true;
+    if ((f.tagName === "INPUT" || f.tagName === "TEXTAREA") && !f.readOnly) f.readOnly = true;
+    if ((f.tagName === "SELECT" || f.type === "checkbox" || f.type === "radio") && !f.disabled) f.disabled = true;
   });
 }
 
@@ -44,14 +44,22 @@ export function ReadOnlyScope({ children }: { children: ReactNode }) {
     const root = ref.current;
     if (!root) return;
     apply(root);
-    const obs = new MutationObserver(() => apply(root));
-    obs.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled"] });
+    let raf = 0;
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        apply(root);
+        document.querySelectorAll<HTMLElement>("[role=dialog], [role=alertdialog]").forEach(apply);
+      });
+    };
+    const obs = new MutationObserver(schedule);
+    obs.observe(root, { childList: true, subtree: true });
     // Dialogs render in portals outside the scope.
-    const portalObs = new MutationObserver(() => {
-      document.querySelectorAll<HTMLElement>("[role=dialog], [role=alertdialog]").forEach(apply);
-    });
+    const portalObs = new MutationObserver(schedule);
     portalObs.observe(document.body, { childList: true, subtree: true });
     return () => {
+      cancelAnimationFrame(raf);
       obs.disconnect();
       portalObs.disconnect();
     };
