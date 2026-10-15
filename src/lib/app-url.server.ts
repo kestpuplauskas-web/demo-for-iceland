@@ -1,5 +1,5 @@
 /** Atsarginis kanoninis adresas — naudojamas, kai kliento origin nežinomas. */
-export const APP_BASE_URL = "https://isdemo.revoo.site";
+export const APP_BASE_URL = "https://app.revoostay.com";
 
 /**
  * Grąžina absoliučią nuorodą.
