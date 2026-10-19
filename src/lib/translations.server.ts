@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 // Server-only: applying translations in the public API.
 // The `content_translations` table has no anon read access, so we read via
 // a privileged client — just like /v1/legal does. The caller has already
@@ -13,6 +14,7 @@ export async function loadDefaultLanguage(): Promise<string> {
     .from("property_settings")
     .select("default_language")
     .eq("scope", "global")
+    .eq("organization_id", DEFAULT_ORG_ID)
     .maybeSingle();
   return resolveDefaultLanguage((data as { default_language?: string } | null)?.default_language);
 }

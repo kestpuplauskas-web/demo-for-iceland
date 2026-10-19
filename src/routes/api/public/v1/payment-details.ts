@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/api/public/v1/payment-details")({
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/api/public/v1/payment-details")({
             .from("property_settings")
             .select("iban, bank_name, company_name")
             .eq("scope", "global")
+    .eq("organization_id", DEFAULT_ORG_ID)
             .maybeSingle();
           if (error) throw new Error(error.message);
           return apiJson(

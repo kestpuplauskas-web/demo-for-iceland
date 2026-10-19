@@ -1,3 +1,4 @@
+import { resolveOrgId } from "@/lib/org-scope";
 // Server-only: gathers non-sensitive context for the AI assistant (settings fields with
 // explanations and current values, properties summary).
 import lt from "@/i18n/locales/lt.json";
@@ -95,6 +96,7 @@ export async function loadSettingsForAssistant(supabase: AnySupabase): Promise<P
     .from("property_settings")
     .select("*")
     .eq("scope", "global")
+    .eq("organization_id", await resolveOrgId(supabase))
     .maybeSingle();
   return rowToSettings((data as Record<string, unknown> | null) ?? null);
 }
