@@ -13,6 +13,7 @@ import { resolvePeriod, type PeriodKey } from "@/lib/dashboard-period";
 import { propertyTypeLabelKey } from "@/lib/properties";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { formatNumber } from "@/lib/utils";
+import { WelcomeWizard } from "@/components/admin/WelcomeWizard";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -34,6 +35,7 @@ function AdminDashboard() {
 
   return (
     <div>
+      <WelcomeWizard />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">{t("dashboard.title")}</h1>
