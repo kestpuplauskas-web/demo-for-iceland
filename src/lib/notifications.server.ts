@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 // Server-only: el. laiškų siuntimo variklis (klientui ir administratoriui).
 // Naudoja `content_templates` šablonus, `property_settings` jungiklius ir
 // `booking_notifications` žurnalą, kad tas pats laiškas nebūtų siųstas du kartus.

@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 // Server-only: invoice generation for a booking once it becomes paid.
 // Generated EXACTLY ONCE per booking (idempotent).
 
