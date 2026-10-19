@@ -223,6 +223,20 @@ function AdminLayout() {
       </header>
 
       <main className="flex-1 overflow-x-hidden px-4 py-4 md:px-6 md:py-6">
+        {platform?.isPlatformAdmin && platform.managingOrgId && (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-md border border-brass-soft/60 bg-brass-soft/20 px-3 py-2 text-sm text-brass-foreground">
+            <span>
+              You are managing hotel: <strong>{platform.org?.name ?? "—"}</strong>
+            </span>
+            <button
+              type="button"
+              onClick={leaveHotel}
+              className="min-h-11 rounded-md border border-brass-soft px-3 py-1 font-medium hover:bg-brass-soft/30"
+            >
+              Back to platform
+            </button>
+          </div>
+        )}
         {readOnly ? (
           <>
             <div className="mb-4 rounded-md border border-brass-soft/60 bg-brass-soft/15 px-3 py-2 text-sm text-brass-foreground">
