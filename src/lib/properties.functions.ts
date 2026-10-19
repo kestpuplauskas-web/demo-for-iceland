@@ -33,7 +33,7 @@ const PROPERTY_ANON_COLUMNS =
 const PROPERTY_PUBLIC_COLUMNS = `${PROPERTY_ANON_COLUMNS}, location_note, ical_import_url, ical_last_sync_at, ical_last_status`;
 type PublicPropertyRow = Omit<
   PropertyRow,
-  "door_code" | "features" | "currency" | "dynamic_pricing_enabled" | "min_nightly_rate" | "max_nightly_rate" | "occupancy_pricing"
+  "door_code" | "features" | "currency" | "dynamic_pricing_enabled" | "min_nightly_rate" | "max_nightly_rate" | "occupancy_pricing" | "organization_id"
 > & {
   dynamic_pricing_enabled?: PropertyRow["dynamic_pricing_enabled"];
   min_nightly_rate?: PropertyRow["min_nightly_rate"];
