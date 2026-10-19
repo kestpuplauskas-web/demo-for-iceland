@@ -89,12 +89,13 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
 
 /* -------------------------------- duomenys ------------------------------- */
 
-export async function loadGlobalSettings(): Promise<PropertySettings> {
+export async function loadGlobalSettings(orgId: string = DEFAULT_ORG_ID): Promise<PropertySettings> {
   const db = await admin();
   const { data: row } = await db
     .from("property_settings")
     .select("*")
     .eq("scope", "global")
+    .eq("organization_id", orgId)
     .maybeSingle();
   const out = { ...DEFAULT_PROPERTY_SETTINGS } as Record<string, unknown>;
   if (row) {

@@ -86,8 +86,20 @@ export const registerHotel = createServerFn({ method: "POST" })
       throw new Error("We could not create your hotel. Please try again.");
     }
     const orgId = (org as { id: string }).id;
+    await supabaseAdmin
+      .from("organizations")
+      .update({ trial_ends_at: new Date(Date.now() + 14 * 86400000).toISOString() } as never)
+      .eq("id", orgId);
     await supabaseAdmin.from("organization_members").insert({ organization_id: orgId, user_id: userId } as never);
     await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "admin" } as never);
+    await supabaseAdmin.from("property_settings").insert({
+      scope: "global",
+      organization_id: orgId,
+      display_name: data.hotelName,
+      email: data.email,
+      invoice_series: "INV",
+      invoice_next_number: 1,
+    } as never);
 
     const actionLink = link.properties?.action_link;
     if (actionLink) {
