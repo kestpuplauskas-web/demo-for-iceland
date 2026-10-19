@@ -21,6 +21,7 @@ import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as GiftVouchersRouteImport } from './routes/gift-vouchers'
 import { Route as HomeV2RouteImport } from './routes/home-v2'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RestaurantRouteImport } from './routes/restaurant'
 import { Route as SaunaRouteImport } from './routes/sauna'
@@ -163,6 +164,11 @@ const HomeV2Route = HomeV2RouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -618,6 +624,7 @@ export interface FileRoutesByFullPath {
   '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
@@ -713,6 +720,7 @@ export interface FileRoutesByTo {
   '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
@@ -807,6 +815,7 @@ export interface FileRoutesById {
   '/gift-vouchers': typeof GiftVouchersRoute
   '/home-v2': typeof HomeV2Route
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/restaurant': typeof RestaurantRoute
   '/sauna': typeof SaunaRoute
@@ -906,6 +915,7 @@ export interface FileRouteTypes {
     | '/gift-vouchers'
     | '/home-v2'
     | '/privacy-policy'
+    | '/register'
     | '/reset-password'
     | '/restaurant'
     | '/sauna'
@@ -1001,6 +1011,7 @@ export interface FileRouteTypes {
     | '/gift-vouchers'
     | '/home-v2'
     | '/privacy-policy'
+    | '/register'
     | '/reset-password'
     | '/restaurant'
     | '/sauna'
@@ -1094,6 +1105,7 @@ export interface FileRouteTypes {
     | '/gift-vouchers'
     | '/home-v2'
     | '/privacy-policy'
+    | '/register'
     | '/reset-password'
     | '/restaurant'
     | '/sauna'
@@ -1193,6 +1205,7 @@ export interface RootRouteChildren {
   GiftVouchersRoute: typeof GiftVouchersRoute
   HomeV2Route: typeof HomeV2Route
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RestaurantRoute: typeof RestaurantRoute
   SaunaRoute: typeof SaunaRoute
@@ -1308,6 +1321,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -2126,6 +2146,7 @@ const rootRouteChildren: RootRouteChildren = {
   GiftVouchersRoute: GiftVouchersRoute,
   HomeV2Route: HomeV2Route,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RestaurantRoute: RestaurantRoute,
   SaunaRoute: SaunaRoute,

@@ -105,7 +105,15 @@ export const listUsersWithRoles = createServerFn({ method: "GET" })
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
 
-    const rows = (data ?? []) as Array<{ user_id: string; role: string; created_at: string }>;
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    const { data: mem } = await supabaseAdmin
+      .from("organization_members")
+      .select("user_id")
+      .eq("organization_id", (orgId as string | null) ?? "00000000-0000-0000-0000-000000000000");
+    const memberIds = new Set(((mem ?? []) as Array<{ user_id: string }>).map((m) => m.user_id));
+    const rows = ((data ?? []) as Array<{ user_id: string; role: string; created_at: string }>).filter((r) =>
+      memberIds.has(r.user_id),
+    );
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
     const info = new Map(
       (authUsers?.users ?? []).map((u) => [
