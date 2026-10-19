@@ -6,18 +6,22 @@ export type AvailabilityCalendar = { total: number; booked: Record<string, numbe
 export const getPublicAvailabilityCalendar = createServerFn({ method: "GET" }).handler(
   async (): Promise<AvailabilityCalendar> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [{ count, error: pErr }, { data, error: bErr }] = await Promise.all([
-      supabaseAdmin.from("properties").select("id", { count: "exact", head: true }).eq("is_active", true),
+    const { resolveSiteOrgId } = await import("@/lib/site-org.server");
+    const orgId = await resolveSiteOrgId();
+    const [{ data: props, error: pErr }, { data, error: bErr }] = await Promise.all([
+      supabaseAdmin.from("properties").select("id").eq("is_active", true).eq("organization_id", orgId),
       supabaseAdmin.rpc("get_active_booked_dates"),
     ]);
     if (pErr || bErr) {
       console.error("[availability-calendar]", pErr?.message ?? bErr?.message);
       throw new Error("Failed to load availability.");
     }
+    const ids = new Set((props ?? []).map((p) => p.id as string));
+    const count = ids.size;
     const today = new Date().toISOString().slice(0, 10);
     const limit = new Date(Date.now() + 400 * 86_400_000).toISOString().slice(0, 10);
     const perProp = new Map<string, Set<string>>();
-    for (const b of (data ?? []) as Array<{ property_id: string; date_from: string; date_to: string }>) {
+    for (const b of ((data ?? []) as Array<{ property_id: string; date_from: string; date_to: string }>).filter((x) => ids.has(x.property_id))) {
       const set = perProp.get(b.property_id) ?? new Set<string>();
       const d = new Date(`${b.date_from}T00:00:00Z`);
       const end = new Date(`${b.date_to}T00:00:00Z`);

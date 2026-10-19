@@ -68,11 +68,13 @@ export const savePropertySettings = createServerFn({ method: "POST" })
 export const getPublicBranding = createServerFn({ method: "GET" }).handler(
   async (): Promise<{ displayName: string; logoUrl: string; logoLightUrl: string; faviconUrl: string; phone: string; email: string; address: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { resolveSiteOrgId } = await import("@/lib/site-org.server");
+    const orgId = (await resolveSiteOrgId()) || DEFAULT_ORG_ID;
     const { data, error } = await supabaseAdmin
       .from("property_settings")
       .select("display_name, brand_logo_url, brand_logo_light_url, brand_favicon_url, phone, email, address, city, postal_code, country")
       .eq("scope", "global")
-      .eq("organization_id", DEFAULT_ORG_ID)
+      .eq("organization_id", orgId)
       .maybeSingle();
     if (error) {
       console.error("[getPublicBranding]", error.message);
