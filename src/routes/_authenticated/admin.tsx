@@ -1,10 +1,10 @@
-import { createFileRoute, Link, Outlet, useRouterState, Navigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link, Outlet, useRouterState, Navigate, useNavigate } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { BarChart3, Building2, Calendar, FileEdit, FileText, Globe, Home, Inbox, LayoutDashboard, LogOut, Menu, Settings2, Sparkles, Wallet , Tag } from "lucide-react";
 import { getMyRole } from "@/lib/properties.functions";
-import { getPlatformAccess } from "@/lib/platform.functions";
+import { getPlatformAccess, setManagedOrganization } from "@/lib/platform.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { getPropertySettings } from "@/lib/property-settings.functions";
@@ -33,12 +33,18 @@ function AdminLayout() {
     queryKey: ["property-settings"],
     queryFn: () => fetchSettings(),
   });
-  const brandName = settingsData?.settings.displayName?.trim() || "Revoo";
   const fetchPlatform = useServerFn(getPlatformAccess);
-  const { data: platform } = useQuery({ queryKey: ["platform-access"], queryFn: () => fetchPlatform() });
+  const manageOrg = useServerFn(setManagedOrganization);
+  const qc = useQueryClient();
+  const navigate = useNavigate();
+  const { data: platform, isLoading: platformLoading } = useQuery({ queryKey: ["platform-access"], queryFn: () => fetchPlatform() });
+  const brandName =
+    platform?.isPlatformAdmin && !platform.managingOrgId
+      ? "RevooStay"
+      : settingsData?.settings.displayName?.trim() || "Revoo";
   const { location } = useRouterState();
 
-  if (isLoading) {
+  if (isLoading || platformLoading) {
     return <div className="p-8 text-muted-foreground">{t("common.loading")}</div>;
   }
   if (!role?.isAdmin && !role?.isViewer) {
@@ -53,6 +59,11 @@ function AdminLayout() {
     );
   }
 
+  const platformMode = platform?.isPlatformAdmin === true && !platform.managingOrgId;
+  if (platformMode && location.pathname !== "/admin/platform") {
+    return <Navigate to="/admin/platform" replace />;
+  }
+
   const readOnly = !role.isAdmin;
   const roleLabel = role.isDeveloper
     ? t("settings.users.roleDeveloper")
@@ -61,7 +72,7 @@ function AdminLayout() {
       : t("settings.users.roleViewer");
 
   // Grouped from most to least frequently used.
-  const groups = [
+  const hotelGroups = [
     {
       label: t("nav.groupWorkspace"),
       links: [
@@ -86,12 +97,24 @@ function AdminLayout() {
       links: [
         { to: "/admin/settings", label: t("nav.generalSettings"), icon: Settings2 },
         { to: "/admin/contracts", label: t("nav.contracts"), icon: FileText },
-        ...(platform?.isPlatformAdmin
-          ? [{ to: "/admin/platform", label: "Platform", icon: Building2 }]
-          : []),
       ],
     },
   ];
+  const platformGroup = {
+    label: "Platform",
+    links: [{ to: "/admin/platform", label: "Platform overview", icon: Building2 }],
+  };
+  const groups = platformMode
+    ? [platformGroup]
+    : platform?.isPlatformAdmin
+      ? [...hotelGroups, platformGroup]
+      : hotelGroups;
+
+  const leaveHotel = async () => {
+    await manageOrg({ data: { id: null } });
+    await qc.invalidateQueries();
+    navigate({ to: "/admin/platform" });
+  };
 
   const navContent = (
     <>
@@ -200,6 +223,20 @@ function AdminLayout() {
       </header>
 
       <main className="flex-1 overflow-x-hidden px-4 py-4 md:px-6 md:py-6">
+        {platform?.isPlatformAdmin && platform.managingOrgId && (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-md border border-brass-soft/60 bg-brass-soft/20 px-3 py-2 text-sm text-brass-foreground">
+            <span>
+              You are managing hotel: <strong>{platform.org?.name ?? "—"}</strong>
+            </span>
+            <button
+              type="button"
+              onClick={leaveHotel}
+              className="min-h-11 rounded-md border border-brass-soft px-3 py-1 font-medium hover:bg-brass-soft/30"
+            >
+              Back to platform
+            </button>
+          </div>
+        )}
         {readOnly ? (
           <>
             <div className="mb-4 rounded-md border border-brass-soft/60 bg-brass-soft/15 px-3 py-2 text-sm text-brass-foreground">

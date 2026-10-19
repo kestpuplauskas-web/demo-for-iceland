@@ -931,6 +931,32 @@ export type Database = {
           },
         ]
       }
+      platform_admin_context: {
+        Row: {
+          organization_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          organization_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          organization_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_admin_context_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       platform_admins: {
         Row: {
           created_at: string
