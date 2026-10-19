@@ -1775,7 +1775,7 @@ export type Database = {
       can_access_org: { Args: { _org_id: string }; Returns: boolean }
       cancel_expired_pending_bookings: { Args: never; Returns: number }
       claim_invoice_number: {
-        Args: never
+        Args: { _org_id?: string }
         Returns: {
           number: number
           series: string
@@ -1786,6 +1786,7 @@ export type Database = {
         Returns: string
       }
       current_org_id: { Args: never; Returns: string }
+      default_org_id: { Args: never; Returns: string }
       get_active_booked_dates: {
         Args: never
         Returns: {
