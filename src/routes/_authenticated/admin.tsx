@@ -133,6 +133,14 @@ function AdminLayout() {
             <span className="mt-1 inline-block rounded-full border border-sidebar-border px-2 py-0.5 text-[11px] font-medium text-sidebar-foreground/90">
               {roleLabel}
             </span>
+            {platform?.org?.plan === "trial" && platform.org.trialEndsAt ? (
+              <span className="ml-1 mt-1 inline-block rounded-full bg-primary px-2 py-0.5 text-[11px] font-medium text-primary-foreground">
+                {(() => {
+                  const d = Math.max(0, Math.ceil((new Date(platform.org.trialEndsAt).getTime() - Date.now()) / 86400000));
+                  return `Trial: ${d} ${d === 1 ? "day" : "days"} left`;
+                })()}
+              </span>
+            ) : null}
           </div>
           <a
             href="/"

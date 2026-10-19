@@ -23,7 +23,7 @@ import { usePageTracking } from "@/hooks/usePageTracking";
 
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
-const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
+const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/register", "/api"];
 
 function isCorePath(pathname: string) {
   return CORE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));

@@ -1,3 +1,4 @@
+import { resolveOrgId } from "@/lib/org-scope";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -10,15 +11,17 @@ export const getSetupStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<SetupItem[]> => {
     await assertCanView(context);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: s } = await supabaseAdmin
+    const orgId = await resolveOrgId(context.supabase);
+    const { data: s } = await context.supabase
       .from("property_settings")
       .select("display_name, address, city, country, timezone, currency, phone, email, brand_logo_url, company_name")
       .eq("scope", "global")
+      .eq("organization_id", orgId)
       .maybeSingle();
-    const { data: props } = await supabaseAdmin
+    const { data: props } = await context.supabase
       .from("properties")
       .select("id, ical_import_url")
+      .eq("organization_id", orgId)
       .eq("is_active", true);
     const has = (v: unknown) => typeof v === "string" && v.trim().length > 0;
     const row = (s ?? {}) as Record<string, unknown>;

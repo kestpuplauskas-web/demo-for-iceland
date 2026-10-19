@@ -1,3 +1,4 @@
+import { resolveOrgId, DEFAULT_ORG_ID } from "@/lib/org-scope";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -12,6 +13,7 @@ export const getPropertySettings = createServerFn({ method: "GET" })
       .from("property_settings")
       .select("*")
       .eq("scope", "global")
+      .eq("organization_id", await resolveOrgId(context.supabase))
       .maybeSingle();
     if (error) {
       console.error("[getPropertySettings]", error.message);
@@ -43,12 +45,13 @@ export const savePropertySettings = createServerFn({ method: "POST" })
     const patch = {
       ...sectionToColumns(data.values),
       scope: "global",
+      organization_id: await resolveOrgId(context.supabase),
       updated_by: context.userId,
     };
 
     const { data: row, error } = await context.supabase
       .from("property_settings")
-      .upsert(patch as never, { onConflict: "scope" })
+      .upsert(patch as never, { onConflict: "organization_id,scope" })
       .select("*")
       .single();
 
@@ -69,6 +72,7 @@ export const getPublicBranding = createServerFn({ method: "GET" }).handler(
       .from("property_settings")
       .select("display_name, brand_logo_url, brand_logo_light_url, brand_favicon_url, phone, email, address, city, postal_code, country")
       .eq("scope", "global")
+      .eq("organization_id", DEFAULT_ORG_ID)
       .maybeSingle();
     if (error) {
       console.error("[getPublicBranding]", error.message);

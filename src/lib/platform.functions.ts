@@ -9,7 +9,19 @@ async function isPlatformAdmin(context: { supabase: any; userId: string }) {
 
 export const getPlatformAccess = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => ({ isPlatformAdmin: await isPlatformAdmin(context) }));
+  .handler(async ({ context }) => {
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    let org: { name: string; plan: string; trialEndsAt: string | null } | null = null;
+    if (orgId) {
+      const { data } = await context.supabase
+        .from("organizations")
+        .select("name, plan, trial_ends_at")
+        .eq("id", orgId as string)
+        .maybeSingle();
+      if (data) org = { name: data.name, plan: data.plan, trialEndsAt: data.trial_ends_at };
+    }
+    return { isPlatformAdmin: await isPlatformAdmin(context), org };
+  });
 
 export const listOrganizations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

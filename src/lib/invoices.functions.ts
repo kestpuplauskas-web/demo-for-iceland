@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -16,12 +17,14 @@ export const getInvoiceForBooking = createServerFn({ method: "POST" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!row) return row;
+    const r0 = row as Record<string, unknown>;
 
     const [{ data: s }, { data: b }] = await Promise.all([
       context.supabase
         .from("property_settings")
         .select("display_name, company_name, brand_logo_url, invoice_logo_url, invoice_issuer_name, phone, email")
         .eq("scope", "global")
+        .eq("organization_id", (r0 as { organization_id?: string }).organization_id ?? DEFAULT_ORG_ID)
         .maybeSingle(),
       context.supabase
         .from("bookings")

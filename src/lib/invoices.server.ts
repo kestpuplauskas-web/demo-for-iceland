@@ -1,3 +1,4 @@
+import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 // Server-only: invoice generation for a booking once it becomes paid.
 // Generated EXACTLY ONCE per booking (idempotent).
 
@@ -36,10 +37,12 @@ export async function generateInvoiceForBooking(
   }
   const booking = bookingRow as Record<string, any>;
 
+  const orgId: string = booking.organization_id ?? DEFAULT_ORG_ID;
   const { data: settingsRow } = await db
     .from("property_settings")
     .select("*")
     .eq("scope", "global")
+    .eq("organization_id", orgId)
     .maybeSingle();
   const settings = rowToSettings(settingsRow as Record<string, unknown> | null);
 
@@ -127,7 +130,7 @@ export async function generateInvoiceForBooking(
     email: String(booking.customer_email ?? ""),
   };
 
-  const { data: numberRows, error: numberError } = await db.rpc("claim_invoice_number");
+  const { data: numberRows, error: numberError } = await db.rpc("claim_invoice_number", { _org_id: orgId });
   if (numberError || !numberRows?.[0]) {
     console.error("[generateInvoiceForBooking:claim_invoice_number]", numberError?.message);
     return { created: false };
@@ -139,6 +142,7 @@ export async function generateInvoiceForBooking(
     .from("invoices")
     .insert({
       booking_id: bookingId,
+      organization_id: orgId,
       invoice_series: series ?? "",
       invoice_number: number,
       full_number: fullNumber,
