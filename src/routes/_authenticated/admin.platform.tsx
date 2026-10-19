@@ -61,7 +61,11 @@ function PlatformPage() {
             {data?.map((o) => (
               <TableRow key={o.id}>
                 <TableCell className="font-medium">{o.name}<div className="text-xs text-muted-foreground">{o.contact_email}</div></TableCell>
-                <TableCell>{o.subdomain}.revoostay.com</TableCell>
+                <TableCell>
+                  <a href={`/site/${o.subdomain}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    /site/{o.subdomain}
+                  </a>
+                </TableCell>
                 <TableCell className="capitalize">{o.plan}</TableCell>
                 <TableCell>{o.properties}</TableCell>
                 <TableCell>{o.members}</TableCell>
