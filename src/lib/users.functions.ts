@@ -56,6 +56,16 @@ export const inviteUser = createServerFn({ method: "POST" })
       });
     if (roleErr) throw new Error(roleErr.message);
 
+    // Attach the invited user to the inviter's hotel (organization).
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    if (orgId) {
+      await supabaseAdmin
+        .from("organization_members")
+        .upsert({ organization_id: orgId, user_id: newUserId } as never, {
+          onConflict: "organization_id,user_id",
+        });
+    }
+
     if (actionLink) {
       const { sendEmail } = await import("@/lib/notifications.server");
       const roleLabel =

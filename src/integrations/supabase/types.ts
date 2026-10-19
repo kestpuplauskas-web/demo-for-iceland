@@ -1772,6 +1772,7 @@ export type Database = {
     Functions: {
       admin_get_door_code: { Args: { _property_id: string }; Returns: string }
       analytics_summary: { Args: { _from: string; _to: string }; Returns: Json }
+      can_access_org: { Args: { _org_id: string }; Returns: boolean }
       cancel_expired_pending_bookings: { Args: never; Returns: number }
       claim_invoice_number: {
         Args: never
@@ -1784,6 +1785,7 @@ export type Database = {
         Args: { _created_by: string; _name: string }
         Returns: string
       }
+      current_org_id: { Args: never; Returns: string }
       get_active_booked_dates: {
         Args: never
         Returns: {
