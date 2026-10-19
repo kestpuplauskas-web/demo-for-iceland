@@ -125,10 +125,13 @@ export const getPropertyById = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
     const supabase = publicClient();
+    const { resolveSiteOrgId } = await import("@/lib/site-org.server");
+    const orgId = await resolveSiteOrgId();
     const { data: prop, error } = await supabase
       .from("properties")
       .select(PROPERTY_ANON_COLUMNS)
       .eq("id", data.id)
+      .eq("organization_id", orgId)
       .maybeSingle();
     if (error) {
       console.error("[getPropertyById]", error.message);
