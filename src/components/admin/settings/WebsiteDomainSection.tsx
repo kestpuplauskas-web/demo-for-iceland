@@ -47,7 +47,7 @@ export function WebsiteDomainSection({ canEdit }: { canEdit: boolean }) {
     );
   }
 
-  const freeUrl = `https://${data.subdomain}.revoostay.com`;
+  const freeUrl = `/site/${data.subdomain}`;
 
   return (
     <div className="space-y-4">
@@ -59,7 +59,7 @@ export function WebsiteDomainSection({ canEdit }: { canEdit: boolean }) {
           <CardDescription>Ready to use. Guests can book directly on this address.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap items-center gap-3">
-          <code className="rounded-md border bg-muted px-3 py-2 text-sm">{data.subdomain}.revoostay.com</code>
+          <code className="rounded-md border bg-muted px-3 py-2 text-sm">app.revoostay.com/site/{data.subdomain}</code>
           <Button variant="outline" asChild>
             <a href={freeUrl} target="_blank" rel="noopener noreferrer">
               View website <ExternalLink className="ml-1 h-4 w-4" />

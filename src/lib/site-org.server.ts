@@ -1,4 +1,4 @@
-import { getRequestHost } from "@tanstack/react-start/server";
+import { getCookie, getRequestHost } from "@tanstack/react-start/server";
 import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 
 const PLATFORM_DOMAIN = "revoostay.com";
@@ -22,7 +22,15 @@ export async function resolveSiteOrgId(): Promise<string> {
   } catch {
     host = null;
   }
-  const sub = subdomainFromHost(host);
+  let sub = subdomainFromHost(host);
+  if (!sub) {
+    try {
+      const c = getCookie("site_org");
+      if (c && /^[a-z0-9-]{1,63}$/.test(c) && !RESERVED.has(c)) sub = c;
+    } catch {
+      /* ignore */
+    }
+  }
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   if (!sub) {
     const h = (host ?? "").toLowerCase().split(":")[0].replace(/^www\./, "");

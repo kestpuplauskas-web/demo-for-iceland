@@ -57,6 +57,7 @@ import { Route as NamelisSplatRouteImport } from './routes/namelis.$'
 import { Route as PrivatumoPolitikaSplatRouteImport } from './routes/privatumo-politika.$'
 import { Route as RestobarasSplatRouteImport } from './routes/restobaras.$'
 import { Route as RezervacijaSplatRouteImport } from './routes/rezervacija.$'
+import { Route as SiteSlugRouteImport } from './routes/site.$slug'
 import { Route as StaysIndexRouteImport } from './routes/stays.index'
 import { Route as StaysPropertyIdRouteImport } from './routes/stays.$propertyId'
 import { Route as StaysStandardRouteImport } from './routes/stays.standard'
@@ -344,6 +345,11 @@ const RestobarasSplatRoute = RestobarasSplatRouteImport.update({
 const RezervacijaSplatRoute = RezervacijaSplatRouteImport.update({
   id: '/rezervacija/$',
   path: '/rezervacija/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteSlugRoute = SiteSlugRouteImport.update({
+  id: '/site/$slug',
+  path: '/site/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StaysIndexRoute = StaysIndexRouteImport.update({
@@ -658,6 +664,7 @@ export interface FileRoutesByFullPath {
   '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
   '/restobaras/$': typeof RestobarasSplatRoute
   '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/site/$slug': typeof SiteSlugRoute
   '/stays/$propertyId': typeof StaysPropertyIdRoute
   '/stays/standard': typeof StaysStandardRoute
   '/stays/with-terrace': typeof StaysWithTerraceRoute
@@ -749,6 +756,7 @@ export interface FileRoutesByTo {
   '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
   '/restobaras/$': typeof RestobarasSplatRoute
   '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/site/$slug': typeof SiteSlugRoute
   '/stays/$propertyId': typeof StaysPropertyIdRoute
   '/stays/standard': typeof StaysStandardRoute
   '/stays/with-terrace': typeof StaysWithTerraceRoute
@@ -849,6 +857,7 @@ export interface FileRoutesById {
   '/privatumo-politika/$': typeof PrivatumoPolitikaSplatRoute
   '/restobaras/$': typeof RestobarasSplatRoute
   '/rezervacija/$': typeof RezervacijaSplatRoute
+  '/site/$slug': typeof SiteSlugRoute
   '/stays/$propertyId': typeof StaysPropertyIdRoute
   '/stays/standard': typeof StaysStandardRoute
   '/stays/with-terrace': typeof StaysWithTerraceRoute
@@ -949,6 +958,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika/$'
     | '/restobaras/$'
     | '/rezervacija/$'
+    | '/site/$slug'
     | '/stays/$propertyId'
     | '/stays/standard'
     | '/stays/with-terrace'
@@ -1040,6 +1050,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika/$'
     | '/restobaras/$'
     | '/rezervacija/$'
+    | '/site/$slug'
     | '/stays/$propertyId'
     | '/stays/standard'
     | '/stays/with-terrace'
@@ -1139,6 +1150,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika/$'
     | '/restobaras/$'
     | '/rezervacija/$'
+    | '/site/$slug'
     | '/stays/$propertyId'
     | '/stays/standard'
     | '/stays/with-terrace'
@@ -1224,6 +1236,7 @@ export interface RootRouteChildren {
   PrivatumoPolitikaSplatRoute: typeof PrivatumoPolitikaSplatRoute
   RestobarasSplatRoute: typeof RestobarasSplatRoute
   RezervacijaSplatRoute: typeof RezervacijaSplatRoute
+  SiteSlugRoute: typeof SiteSlugRoute
   TaisyklesSplatRoute: typeof TaisyklesSplatRoute
   ApiAssistantChatRoute: typeof ApiAssistantChatRoute
   ApiPublicIcalSyncRoute: typeof ApiPublicIcalSyncRoute
@@ -1573,6 +1586,13 @@ declare module '@tanstack/react-router' {
       path: '/rezervacija/$'
       fullPath: '/rezervacija/$'
       preLoaderRoute: typeof RezervacijaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/site/$slug': {
+      id: '/site/$slug'
+      path: '/site/$slug'
+      fullPath: '/site/$slug'
+      preLoaderRoute: typeof SiteSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stays/': {
@@ -2165,6 +2185,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivatumoPolitikaSplatRoute: PrivatumoPolitikaSplatRoute,
   RestobarasSplatRoute: RestobarasSplatRoute,
   RezervacijaSplatRoute: RezervacijaSplatRoute,
+  SiteSlugRoute: SiteSlugRoute,
   TaisyklesSplatRoute: TaisyklesSplatRoute,
   ApiAssistantChatRoute: ApiAssistantChatRoute,
   ApiPublicIcalSyncRoute: ApiPublicIcalSyncRoute,
