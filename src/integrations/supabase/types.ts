@@ -783,6 +783,7 @@ export type Database = {
         Row: {
           contact_email: string | null
           created_at: string
+          custom_domain: string | null
           id: string
           name: string
           plan: string
@@ -795,6 +796,7 @@ export type Database = {
         Insert: {
           contact_email?: string | null
           created_at?: string
+          custom_domain?: string | null
           id?: string
           name: string
           plan?: string
@@ -807,6 +809,7 @@ export type Database = {
         Update: {
           contact_email?: string | null
           created_at?: string
+          custom_domain?: string | null
           id?: string
           name?: string
           plan?: string
