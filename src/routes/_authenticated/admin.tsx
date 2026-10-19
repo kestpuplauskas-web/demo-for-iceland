@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { BarChart3, Building2, Calendar, FileEdit, FileText, Globe, Home, Inbox, LayoutDashboard, LogOut, Menu, Settings2, Sparkles, Wallet , Tag } from "lucide-react";
 import { getMyRole } from "@/lib/properties.functions";
+import { getPlatformAccess } from "@/lib/platform.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { getPropertySettings } from "@/lib/property-settings.functions";
@@ -33,6 +34,8 @@ function AdminLayout() {
     queryFn: () => fetchSettings(),
   });
   const brandName = settingsData?.settings.displayName?.trim() || "Revoo";
+  const fetchPlatform = useServerFn(getPlatformAccess);
+  const { data: platform } = useQuery({ queryKey: ["platform-access"], queryFn: () => fetchPlatform() });
   const { location } = useRouterState();
 
   if (isLoading) {
@@ -83,9 +86,12 @@ function AdminLayout() {
       links: [
         { to: "/admin/settings", label: t("nav.generalSettings"), icon: Settings2 },
         { to: "/admin/contracts", label: t("nav.contracts"), icon: FileText },
+        ...(platform?.isPlatformAdmin
+          ? [{ to: "/admin/platform", label: "Platform", icon: Building2 }]
+          : []),
       ],
     },
-  ] as const;
+  ];
 
   const navContent = (
     <>
