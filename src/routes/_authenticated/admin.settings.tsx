@@ -24,6 +24,7 @@ import { ApiAccessSection } from "@/components/admin/settings/ApiAccessSection";
 import { EmailTestSection } from "@/components/admin/settings/EmailTestSection";
 import { UsersSection } from "@/components/admin/settings/UsersSection";
 import { SystemSection } from "@/components/admin/settings/SystemSection";
+import { WebsiteDomainSection } from "@/components/admin/settings/WebsiteDomainSection";
 import { SetupChecklist } from "@/components/admin/settings/SetupChecklist";
 import { PLATFORM_NAME } from "@/lib/brand";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
   }),
 });
 
-type NavId = SettingsSectionId | "integrations" | "api" | "users" | "system";
+type NavId = SettingsSectionId | "integrations" | "website" | "api" | "users" | "system";
 
 function PropertySettingsPage() {
   const { t } = useTranslation();
@@ -170,6 +171,7 @@ function PropertySettingsPage() {
 
   const navItems: { id: NavId; icon: string; title: string }[] = [
     ...SETTINGS_SECTIONS.map((s) => ({ id: s.id as NavId, icon: s.icon, title: t(s.titleKey) })),
+    { id: "website" as NavId, icon: "🌐", title: t("settings.nav.website", "Website & Domain") },
     ...(canEdit ? [{ id: "integrations" as NavId, icon: "🔌", title: t("settings.nav.integrations") }] : []),
     ...(isDeveloper ? [{ id: "api" as NavId, icon: "🔑", title: t("settings.nav.api") }] : []),
     ...(canEdit ? [{ id: "users" as NavId, icon: "👥", title: t("settings.nav.users") }] : []),
@@ -227,6 +229,8 @@ function PropertySettingsPage() {
               </div>
             ) : active === "users" && canEdit ? (
               <UsersSection canEdit={canEdit} canManage={isDeveloper} />
+            ) : active === "website" ? (
+              <WebsiteDomainSection canEdit={canEdit} />
             ) : active === "system" && isDeveloper ? (
               <SystemSection />
             ) : active === "api" && isDeveloper ? (

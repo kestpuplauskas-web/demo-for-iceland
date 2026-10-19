@@ -23,8 +23,19 @@ export async function resolveSiteOrgId(): Promise<string> {
     host = null;
   }
   const sub = subdomainFromHost(host);
-  if (!sub) return DEFAULT_ORG_ID;
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  if (!sub) {
+    const h = (host ?? "").toLowerCase().split(":")[0].replace(/^www\./, "");
+    if (!h || h.endsWith(`.${PLATFORM_DOMAIN}`) || h === PLATFORM_DOMAIN || !h.includes(".")) return DEFAULT_ORG_ID;
+    const { data: byDomain } = await supabaseAdmin
+      .from("organizations")
+      .select("id, status")
+      .in("custom_domain", [h, `www.${h}`])
+      .maybeSingle();
+    if (!byDomain) return DEFAULT_ORG_ID;
+    if (byDomain.status === "blocked") return "00000000-0000-0000-0000-000000000000";
+    return byDomain.id as string;
+  }
   const { data } = await supabaseAdmin
     .from("organizations")
     .select("id, status")
