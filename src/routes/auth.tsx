@@ -154,6 +154,12 @@ function LoginPage() {
                 {t("auth.backToLogin")}
               </button>
             )}
+            {mode === "login" && (
+              <p>
+                New hotel?{" "}
+                <Link to="/register" className="underline underline-offset-4 hover:text-paper">Start free trial</Link>
+              </p>
+            )}
             <div>
               <Link to="/" className="text-xs hover:text-paper">
                 {t("auth.home")}
