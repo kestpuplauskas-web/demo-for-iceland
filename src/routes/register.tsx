@@ -13,9 +13,9 @@ export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
       { title: "Start your free trial | RevooStay" },
-      { name: "description", content: "Create your hotel control panel and booking website on RevooStay. 14 days free." },
+      { name: "description", content: "Create your hotel control panel and booking website on RevooStay. 2 months free." },
       { property: "og:title", content: "Start your free trial | RevooStay" },
-      { property: "og:description", content: "Create your hotel control panel and booking website on RevooStay. 14 days free." },
+      { property: "og:description", content: "Create your hotel control panel and booking website on RevooStay. 2 months free." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -101,7 +101,7 @@ function RegisterPage() {
           ) : (
             <>
               <div>
-                <p className="label-caps mb-3 text-[0.7rem] text-aurora">14 days free · no card needed</p>
+                <p className="label-caps mb-3 text-[0.7rem] text-aurora">2 months free · no card needed</p>
                 <h1 className="text-5xl font-light">Create your hotel</h1>
                 <p className="mt-2 text-sm text-muted-foreground">Your control panel and booking website, ready in a minute.</p>
               </div>

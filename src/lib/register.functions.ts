@@ -86,9 +86,11 @@ export const registerHotel = createServerFn({ method: "POST" })
       throw new Error("We could not create your hotel. Please try again.");
     }
     const orgId = (org as { id: string }).id;
+    const trialEnd = new Date();
+    trialEnd.setMonth(trialEnd.getMonth() + 2);
     await supabaseAdmin
       .from("organizations")
-      .update({ trial_ends_at: new Date(Date.now() + 14 * 86400000).toISOString() } as never)
+      .update({ trial_ends_at: trialEnd.toISOString() } as never)
       .eq("id", orgId);
     await supabaseAdmin.from("organization_members").insert({ organization_id: orgId, user_id: userId } as never);
     await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "admin" } as never);
@@ -113,7 +115,7 @@ export const registerHotel = createServerFn({ method: "POST" })
               <p>Hi ${data.fullName.replace(/[<>&"]/g, "")},</p>
               <p>Welcome to RevooStay. Confirm your email to open the control panel for <strong>${data.hotelName.replace(/[<>&"]/g, "")}</strong>.</p>
               <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Confirm email</a></p>
-              <p style="font-size:13px;color:#666">Your free 14-day trial starts today. If you did not sign up, ignore this email.</p>
+              <p style="font-size:13px;color:#666">Your free 2-month trial starts today. If you did not sign up, ignore this email.</p>
             </div>`,
         });
       } catch (e) {
