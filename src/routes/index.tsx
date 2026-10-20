@@ -9,6 +9,8 @@ export const Route = createFileRoute("/")({
   ...(home as object),
   beforeLoad: async () => {
     // The SaaS app address only shows sign-in; hotel websites live at /site/<hotel> or on their own domain.
-    if (await isPlatformHost()) throw redirect({ to: "/auth", replace: true });
+    const r = await isPlatformHost();
+    if (r.site) throw redirect({ to: "/site/$slug", params: { slug: r.site }, replace: true });
+    if (r.platform) throw redirect({ to: "/auth", replace: true });
   },
 } as never);

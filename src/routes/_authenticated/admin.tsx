@@ -166,7 +166,7 @@ function AdminLayout() {
             ) : null}
           </div>
           <a
-            href="/"
+            href={platform?.org?.subdomain ? `/site/${platform.org.subdomain}` : "/"}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setNavOpen(false)}
