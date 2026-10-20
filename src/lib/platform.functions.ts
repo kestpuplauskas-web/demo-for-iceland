@@ -24,14 +24,14 @@ export const getPlatformAccess = createServerFn({ method: "GET" })
       managingOrgId = (data?.organization_id as string | null) ?? null;
     }
     const { data: orgId } = await context.supabase.rpc("current_org_id");
-    let org: { id: string; name: string; plan: string; trialEndsAt: string | null } | null = null;
+    let org: { id: string; name: string; plan: string; trialEndsAt: string | null; subdomain: string | null } | null = null;
     if (orgId) {
       const { data } = await context.supabase
         .from("organizations")
-        .select("id, name, plan, trial_ends_at")
+        .select("id, name, plan, trial_ends_at, subdomain")
         .eq("id", orgId as string)
         .maybeSingle();
-      if (data) org = { id: data.id, name: data.name, plan: data.plan, trialEndsAt: data.trial_ends_at };
+      if (data) org = { id: data.id, name: data.name, plan: data.plan, trialEndsAt: data.trial_ends_at, subdomain: (data.subdomain as string | null) ?? null };
     }
     return { isPlatformAdmin: admin, managingOrgId, org };
   });

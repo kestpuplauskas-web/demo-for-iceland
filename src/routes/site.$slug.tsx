@@ -1,19 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { homeRoute } from "@/pages/home";
+import { rememberSite } from "@/lib/site-entry.functions";
 
-/** Opens a hotel's public website on the main domain: remembers the hotel and shows its homepage. */
+const home = homeRoute("en") as unknown as {
+  head: () => Record<string, unknown>;
+  loader: (a: { context: unknown }) => Promise<unknown>;
+  component: () => React.ReactNode;
+};
+
+/** A hotel's public website on the app domain: app.revoostay.com/site/<hotel>. */
 export const Route = createFileRoute("/site/$slug")({
-  server: {
-    handlers: {
-      GET: async ({ params }) => {
-        const slug = params.slug.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 63);
-        return new Response(null, {
-          status: 302,
-          headers: {
-            Location: "/",
-            "Set-Cookie": `site_org=${slug}; Path=/; Max-Age=2592000; SameSite=Lax; Secure`,
-          },
-        });
-      },
-    },
+  beforeLoad: async ({ params }) => {
+    const slug = params.slug.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9-]/g, "").slice(0, 63);
+    if (!slug) throw notFound();
+    await rememberSite({ data: { slug } });
   },
+  head: home.head as never,
+  loader: home.loader as never,
+  component: home.component,
 });
