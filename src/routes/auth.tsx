@@ -161,9 +161,14 @@ function LoginPage() {
               </p>
             )}
             <div>
-              <Link to="/" className="text-xs hover:text-paper">
+              <a
+                href="https://revoostay.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs hover:text-paper"
+              >
                 {t("auth.home")}
-              </Link>
+              </a>
             </div>
           </div>
         </div>
