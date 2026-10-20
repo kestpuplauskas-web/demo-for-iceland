@@ -9,18 +9,20 @@ export const Route = createFileRoute("/api/public/v1/properties")({
       },
       GET: async ({ request }) => {
         const { withApiAuth, apiJson } = await import("@/lib/api-auth.server");
-        return withApiAuth(request, "/v1/properties", async ({ headers }) => {
+        return withApiAuth(request, "/v1/properties", async ({ headers, orgId }) => {
           const { publicApiClient, publicProperty, PROPERTY_PUBLIC_COLUMNS } = await import(
             "@/lib/api-public.server"
           );
           const { loadDefaultLanguage, loadTranslations, applyPropertyTranslations } = await import(
             "@/lib/translations.server"
           );
-          const supabase = publicApiClient();
+          // Hotel-scoped read after API-key check; anon role cannot filter by hotel.
+          const { supabaseAdmin: supabase } = await import("@/integrations/supabase/client.server");
           const { data, error } = await supabase
             .from("properties")
             .select(PROPERTY_PUBLIC_COLUMNS)
             .eq("is_active", true)
+            .eq("organization_id", orgId)
             .order("sort_order", { ascending: true })
             .order("created_at", { ascending: true });
           if (error) throw new Error(error.message);

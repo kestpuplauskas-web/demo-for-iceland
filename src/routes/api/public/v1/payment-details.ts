@@ -1,4 +1,3 @@
-import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/api/public/v1/payment-details")({
@@ -10,13 +9,13 @@ export const Route = createFileRoute("/api/public/v1/payment-details")({
       },
       GET: async ({ request }) => {
         const { withApiAuth, apiJson } = await import("@/lib/api-auth.server");
-        return withApiAuth(request, "/v1/payment-details", async ({ headers }) => {
+        return withApiAuth(request, "/v1/payment-details", async ({ headers, orgId }) => {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           const { data, error } = await supabaseAdmin
             .from("property_settings")
             .select("iban, bank_name, company_name")
             .eq("scope", "global")
-    .eq("organization_id", DEFAULT_ORG_ID)
+            .eq("organization_id", orgId)
             .maybeSingle();
           if (error) throw new Error(error.message);
           return apiJson(

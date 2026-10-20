@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
         return withApiAuth(
           request,
           "/v1/bookings",
-          async ({ headers }) => {
+          async ({ headers, orgId }) => {
             const { z } = await import("zod");
             const schema = z.object({
               property_id: z.string().uuid(),
@@ -63,11 +63,13 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
             const { publicApiClient, occupiedRangesFor, rangesOverlap } = await import(
               "@/lib/api-public.server"
             );
-            const supabase = publicApiClient();
+            // Hotel-scoped read after API-key check; anon role cannot filter by hotel.
+          const { supabaseAdmin: supabase } = await import("@/integrations/supabase/client.server");
             const { data: prop, error } = await supabase
               .from("properties")
               .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active, currency")
               .eq("id", d.property_id)
+              .eq("organization_id", orgId)
               .maybeSingle();
             if (error) throw new Error(error.message);
             if (!prop || !prop.is_active) {
@@ -124,6 +126,7 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
               .from("bookings")
               .insert({
                 property_id: d.property_id,
+                organization_id: orgId,
                 date_from: d.date_from,
                 date_to: d.date_to,
                 guests,

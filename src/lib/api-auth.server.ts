@@ -70,6 +70,8 @@ function clientIp(request: Request): string {
 
 type Ctx = {
   client: ApiClient;
+  /** Hotel whose data this request may read/write. */
+  orgId: string;
   ip: string;
   headers: Record<string, string>;
 };
@@ -101,7 +103,7 @@ export async function withApiAuth(
   const keyHash = await hashApiKey(token);
   const { data: row, error } = await supabaseAdmin
     .from("api_clients")
-    .select("id, name, allowed_origins, is_active")
+    .select("id, name, allowed_origins, is_active, organization_id")
     .eq("key_hash", keyHash)
     .maybeSingle();
 
@@ -127,6 +129,19 @@ export async function withApiAuth(
 
   const ip = clientIp(request);
 
+  // The platform's own websites (app.revoostay.com/site/<hotel>) call with the internal key and name the hotel;
+  // any other key is locked to the hotel it was issued for.
+  const { readEnvOptional } = await import("@/lib/runtime-env.server");
+  const internalKeys = ["REVOO_API_KEY", "REVOO_API_KEY_DEV", "REVOO_API_KEY_PROD"]
+    .map((n) => readEnvOptional(n))
+    .filter((v): v is string => Boolean(v));
+  const siteOrg = request.headers.get("x-site-org") ?? "";
+  const { DEFAULT_ORG_ID } = await import("@/lib/org-scope");
+  const orgId =
+    internalKeys.includes(token) && /^[0-9a-f-]{36}$/i.test(siteOrg)
+      ? siteOrg.toLowerCase()
+      : ((row as { organization_id?: string | null }).organization_id ?? DEFAULT_ORG_ID);
+
   if (options.rateLimit && options.rateLimit > 0) {
     const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
     const { count } = await supabaseAdmin
@@ -150,7 +165,7 @@ export async function withApiAuth(
     .eq("id", client.id);
 
   try {
-    return await handler({ client, ip, headers });
+    return await handler({ client, orgId, ip, headers });
   } catch (e) {
     console.error(`[api:${path}]`, e instanceof Error ? e.message : e);
     return apiError("server_error", "Request failed", 500, headers);
