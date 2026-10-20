@@ -7,20 +7,15 @@ import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getPublicBranding } from "@/lib/property-settings.functions";
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { PLATFORM_NAME } from "@/lib/brand";
-import { useTranslation } from "react-i18next";
 import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: `Sign in | ${PLATFORM_NAME}` },
-      { name: "description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
-      { property: "og:title", content: `Sign in | ${PLATFORM_NAME}` },
-      { property: "og:description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
+      { title: "Sign in | RevooStay" },
+      { name: "description", content: "Sign in to the RevooStay administration panel." },
+      { property: "og:title", content: "Sign in | RevooStay" },
+      { property: "og:description", content: "Sign in to the RevooStay administration panel." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
