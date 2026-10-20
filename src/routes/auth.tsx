@@ -7,20 +7,17 @@ import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getPublicBranding } from "@/lib/property-settings.functions";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
 import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: `Sign in | ${PLATFORM_NAME}` },
-      { name: "description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
-      { property: "og:title", content: `Sign in | ${PLATFORM_NAME}` },
-      { property: "og:description", content: `Sign in to the ${PLATFORM_NAME} administration panel.` },
+      { title: "Sign in | RevooStay" },
+      { name: "description", content: "Sign in to the RevooStay administration panel." },
+      { property: "og:title", content: "Sign in | RevooStay" },
+      { property: "og:description", content: "Sign in to the RevooStay administration panel." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -33,17 +30,10 @@ function LoginPage() {
   const navigate = useNavigate();
   const fetchRole = useServerFn(getMyRole);
   const sendReset = useServerFn(requestPasswordReset);
-  const fetchBranding = useServerFn(getPublicBranding);
-  const { data: branding } = useQuery({
-    queryKey: ["public-branding"],
-    queryFn: () => fetchBranding(),
-    staleTime: 5 * 60 * 1000,
-  });
   const [mode, setMode] = useState<"login" | "forgot">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [logoFailed, setLogoFailed] = useState(false);
 
   useEffect(() => {
     const goToDestination = async () => {
@@ -87,22 +77,16 @@ function LoginPage() {
     }
   };
 
-  const logoSrc = branding?.logoLightUrl || branding?.logoUrl || "";
-  const logoEl = (cls: string) =>
-    logoSrc && !logoFailed ? (
-      <img src={logoSrc} onError={() => setLogoFailed(true)} alt={branding?.displayName || PLATFORM_NAME} className={cls} />
-    ) : (
-      <span className="font-display text-3xl font-light tracking-[0.2em] text-paper">
-        {branding?.displayName || PLATFORM_NAME}
-      </span>
-    );
+  const wordmark = (cls: string) => (
+    <span className={cls}>RevooStay</span>
+  );
 
   return (
     <div className="site-theme min-h-screen bg-ink lg:grid lg:grid-cols-2">
       {/* Kairė pusė — prisijungimas */}
       <div className="flex min-h-screen items-center justify-center px-6 py-12 lg:min-h-0">
         <div className="w-full max-w-sm space-y-8">
-          <div className="lg:hidden">{logoEl("h-12 w-auto object-contain")}</div>
+          <div className="lg:hidden">{wordmark("font-display text-3xl font-light tracking-[0.2em] text-paper")}</div>
           <div>
             <p className="label-caps mb-3 text-[0.7rem] text-aurora">Staff &amp; admin access</p>
             <h1 className="text-5xl font-light">
@@ -179,7 +163,7 @@ function LoginPage() {
         <img src={heroAurora.url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          {logoEl("max-h-40 w-auto max-w-[22rem] object-contain")}
+          {wordmark("font-display text-4xl font-light tracking-[0.2em] text-paper")}
         </div>
       </div>
     </div>
