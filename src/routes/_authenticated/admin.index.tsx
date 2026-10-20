@@ -13,7 +13,7 @@ import { resolvePeriod, type PeriodKey } from "@/lib/dashboard-period";
 import { propertyTypeLabelKey } from "@/lib/properties";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { formatNumber } from "@/lib/utils";
-import { WelcomeWizard } from "@/components/admin/WelcomeWizard";
+import { WelcomeWizard, useSetupStatus } from "@/components/admin/WelcomeWizard";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -32,6 +32,17 @@ function AdminDashboard() {
     queryKey: ["dashboard-stats", period.from, period.to],
     queryFn: () => fetchStats({ data: { from: period.from, to: period.to } }),
   });
+
+  const { data: setup } = useSetupStatus();
+  const hasRooms = setup?.find((i) => i.key === "properties")?.ok ?? true;
+
+  if (!hasRooms) {
+    return (
+      <div>
+        <WelcomeWizard />
+      </div>
+    );
+  }
 
   return (
     <div>
