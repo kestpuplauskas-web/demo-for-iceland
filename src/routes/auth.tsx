@@ -34,7 +34,6 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [logoFailed, setLogoFailed] = useState(false);
 
   useEffect(() => {
     const goToDestination = async () => {
@@ -78,15 +77,9 @@ function LoginPage() {
     }
   };
 
-  const logoSrc = branding?.logoLightUrl || branding?.logoUrl || "";
-  const logoEl = (cls: string) =>
-    logoSrc && !logoFailed ? (
-      <img src={logoSrc} onError={() => setLogoFailed(true)} alt={branding?.displayName || PLATFORM_NAME} className={cls} />
-    ) : (
-      <span className="font-display text-3xl font-light tracking-[0.2em] text-paper">
-        {branding?.displayName || PLATFORM_NAME}
-      </span>
-    );
+  const wordmark = (cls: string) => (
+    <span className={cls}>RevooStay</span>
+  );
 
   return (
     <div className="site-theme min-h-screen bg-ink lg:grid lg:grid-cols-2">
