@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/public/v1/quote")({
         return withApiAuth(
           request,
           "/v1/quote",
-          async ({ headers }) => {
+          async ({ headers, orgId }) => {
             const { z } = await import("zod");
             const schema = z.object({
               property_id: z.string().uuid(),
@@ -45,6 +45,7 @@ export const Route = createFileRoute("/api/public/v1/quote")({
               .from("properties")
               .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active, currency")
               .eq("id", d.property_id)
+              .eq("organization_id", orgId)
               .maybeSingle();
             if (error) throw new Error(error.message);
             if (!prop || !prop.is_active) {

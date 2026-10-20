@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/public/v1/availability")({
       },
       GET: async ({ request }) => {
         const { withApiAuth, apiJson, apiError } = await import("@/lib/api-auth.server");
-        return withApiAuth(request, "/v1/availability", async ({ headers }) => {
+        return withApiAuth(request, "/v1/availability", async ({ headers, orgId }) => {
           const { z } = await import("zod");
           const url = new URL(request.url);
           const schema = z.object({
@@ -25,7 +25,14 @@ export const Route = createFileRoute("/api/public/v1/availability")({
           if (!parsed.success) {
             return apiError("bad_request", "Invalid query parameters", 400, headers);
           }
-          const { occupiedRangesFor, rangesOverlap } = await import("@/lib/api-public.server");
+          const { occupiedRangesFor, rangesOverlap, publicApiClient } = await import("@/lib/api-public.server");
+          const { data: prop } = await publicApiClient()
+            .from("properties")
+            .select("id")
+            .eq("id", parsed.data.property_id)
+            .eq("organization_id", orgId)
+            .maybeSingle();
+          if (!prop) return apiError("not_found", "Property not found", 404, headers);
           const occupied = await occupiedRangesFor(parsed.data.property_id);
           const { from, to } = parsed.data;
           const inWindow =
