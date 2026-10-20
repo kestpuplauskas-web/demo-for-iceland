@@ -7,6 +7,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import heroAurora from "@/assets/hero-aurora.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -28,12 +30,6 @@ function LoginPage() {
   const navigate = useNavigate();
   const fetchRole = useServerFn(getMyRole);
   const sendReset = useServerFn(requestPasswordReset);
-  const fetchBranding = useServerFn(getPublicBranding);
-  const { data: branding } = useQuery({
-    queryKey: ["public-branding"],
-    queryFn: () => fetchBranding(),
-    staleTime: 5 * 60 * 1000,
-  });
   const [mode, setMode] = useState<"login" | "forgot">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
