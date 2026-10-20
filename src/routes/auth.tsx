@@ -86,7 +86,7 @@ function LoginPage() {
       {/* Kairė pusė — prisijungimas */}
       <div className="flex min-h-screen items-center justify-center px-6 py-12 lg:min-h-0">
         <div className="w-full max-w-sm space-y-8">
-          <div className="lg:hidden">{logoEl("h-12 w-auto object-contain")}</div>
+          <div className="lg:hidden">{wordmark("font-display text-3xl font-light tracking-[0.2em] text-paper")}</div>
           <div>
             <p className="label-caps mb-3 text-[0.7rem] text-aurora">Staff &amp; admin access</p>
             <h1 className="text-5xl font-light">
@@ -163,7 +163,7 @@ function LoginPage() {
         <img src={heroAurora.url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          {logoEl("max-h-40 w-auto max-w-[22rem] object-contain")}
+          {wordmark("font-display text-4xl font-light tracking-[0.2em] text-paper")}
         </div>
       </div>
     </div>
