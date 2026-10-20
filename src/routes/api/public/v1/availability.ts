@@ -26,7 +26,7 @@ export const Route = createFileRoute("/api/public/v1/availability")({
             return apiError("bad_request", "Invalid query parameters", 400, headers);
           }
           const { occupiedRangesFor, rangesOverlap, publicApiClient } = await import("@/lib/api-public.server");
-          const { data: prop } = await publicApiClient()
+          const { data: prop } = await (await import("@/integrations/supabase/client.server")).supabaseAdmin
             .from("properties")
             .select("id")
             .eq("id", parsed.data.property_id)

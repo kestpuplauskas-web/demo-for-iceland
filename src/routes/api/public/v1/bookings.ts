@@ -63,7 +63,8 @@ export const Route = createFileRoute("/api/public/v1/bookings")({
             const { publicApiClient, occupiedRangesFor, rangesOverlap } = await import(
               "@/lib/api-public.server"
             );
-            const supabase = publicApiClient();
+            // Hotel-scoped read after API-key check; anon role cannot filter by hotel.
+          const { supabaseAdmin: supabase } = await import("@/integrations/supabase/client.server");
             const { data: prop, error } = await supabase
               .from("properties")
               .select("id, price_per_night, price_tiers, extra_services, max_guests, is_active, currency")

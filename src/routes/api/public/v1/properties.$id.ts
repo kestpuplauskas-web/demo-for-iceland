@@ -20,7 +20,8 @@ export const Route = createFileRoute("/api/public/v1/properties/$id")({
           const { loadDefaultLanguage, loadTranslations, applyPropertyTranslations } = await import(
             "@/lib/translations.server"
           );
-          const supabase = publicApiClient();
+          // Hotel-scoped read after API-key check; anon role cannot filter by hotel.
+          const { supabaseAdmin: supabase } = await import("@/integrations/supabase/client.server");
           const { data, error } = await supabase
             .from("properties")
             .select(PROPERTY_PUBLIC_COLUMNS)
