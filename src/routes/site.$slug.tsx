@@ -17,5 +17,10 @@ export const Route = createFileRoute("/site/$slug")({
   },
   head: home.head as never,
   loader: home.loader as never,
-  component: home.component,
+  component: SiteHome,
 });
+
+function SiteHome() {
+  const C = home.component;
+  return <C />;
+}
