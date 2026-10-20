@@ -41,6 +41,9 @@ function currentHost(): string | null {
 
 async function revooFetch(path: string, init?: RequestInit): Promise<unknown> {
   const { baseUrl, apiKey } = resolveRevooConfig(currentHost());
+  // Only the hotel whose website the guest is on.
+  const { resolveSiteOrgId } = await import("@/lib/site-org.server");
+  const siteOrg = await resolveSiteOrgId();
 
   let response: Response;
   try {
@@ -52,6 +55,7 @@ async function revooFetch(path: string, init?: RequestInit): Promise<unknown> {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         Accept: "application/json",
+        "X-Site-Org": siteOrg,
         ...(init?.headers ?? {}),
       },
     });

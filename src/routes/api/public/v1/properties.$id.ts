@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/public/v1/properties/$id")({
       },
       GET: async ({ request, params }) => {
         const { withApiAuth, apiJson, apiError } = await import("@/lib/api-auth.server");
-        return withApiAuth(request, "/v1/properties/:id", async ({ headers }) => {
+        return withApiAuth(request, "/v1/properties/:id", async ({ headers, orgId }) => {
           const { z } = await import("zod");
           const parsed = z.string().uuid().safeParse(params.id);
           if (!parsed.success) {
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/api/public/v1/properties/$id")({
             .select(PROPERTY_PUBLIC_COLUMNS)
             .eq("id", parsed.data)
             .eq("is_active", true)
+            .eq("organization_id", orgId)
             .maybeSingle();
           if (error) throw new Error(error.message);
           if (!data) return apiError("not_found", "Property not found", 404, headers);
