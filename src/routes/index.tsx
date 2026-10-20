@@ -1,5 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { homeRoute } from "@/pages/home";
+import { isPlatformHost } from "@/lib/site-entry.functions";
 
-export const Route = createFileRoute("/")(homeRoute("en") as never);
+const home = homeRoute("en");
+
+export const Route = createFileRoute("/")({
+  ...(home as object),
+  beforeLoad: async () => {
+    // The SaaS app address only shows sign-in; hotel websites live at /site/<hotel> or on their own domain.
+    if (await isPlatformHost()) throw redirect({ to: "/auth", replace: true });
+  },
+} as never);

@@ -1,4 +1,4 @@
-import { getCookie, getRequestHost } from "@tanstack/react-start/server";
+import { getCookie, getRequestHost, getRequestHeader, getRequestUrl } from "@tanstack/react-start/server";
 import { DEFAULT_ORG_ID } from "@/lib/org-scope";
 
 const PLATFORM_DOMAIN = "revoostay.com";
@@ -23,6 +23,15 @@ export async function resolveSiteOrgId(): Promise<string> {
     host = null;
   }
   let sub = subdomainFromHost(host);
+  if (!sub) {
+    // /site/<hotel> in the page address (or the page that called a server function)
+    const fromPath = (u: string | undefined | null) => {
+      const m = u ? /\/site\/([a-z0-9-]{1,63})(?:[/?#]|$)/i.exec(u) : null;
+      return m ? m[1].toLowerCase() : null;
+    };
+    try { sub = fromPath(getRequestUrl().pathname) ?? fromPath(getRequestHeader("referer")); } catch { /* ignore */ }
+    if (sub && RESERVED.has(sub)) sub = null;
+  }
   if (!sub) {
     try {
       const c = getCookie("site_org");
