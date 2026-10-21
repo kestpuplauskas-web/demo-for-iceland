@@ -82,6 +82,7 @@ function PropertySettingsPage() {
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["property-settings"] });
+      qc.invalidateQueries({ queryKey: ["setup-status"] });
       toast.success(t("settings.saved"));
     },
     onError: (e) =>
@@ -221,7 +222,15 @@ function PropertySettingsPage() {
           </nav>
 
           <div className="min-w-0 flex-1">
-            <SetupChecklist />
+            <SetupChecklist
+              onNavigate={(target) => {
+                if (target === "properties") {
+                  navigate({ to: "/admin/properties" });
+                } else {
+                  setActive(target as NavId);
+                }
+              }}
+            />
             {loadingSettings ? (
               <div className="flex items-center gap-2 rounded-lg border p-8 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
