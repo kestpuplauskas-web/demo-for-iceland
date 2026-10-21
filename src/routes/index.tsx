@@ -13,4 +13,4 @@ export const Route = createFileRoute("/")({
     if (r.site) throw redirect({ to: "/site/$slug", params: { slug: r.site }, replace: true });
     if (r.platform) throw redirect({ to: "/auth", replace: true });
   },
-} as never);
+});
