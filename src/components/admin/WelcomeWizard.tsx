@@ -9,7 +9,14 @@ import { Progress } from "@/components/ui/progress";
 
 export function useSetupStatus() {
   const fetchStatus = useServerFn(getSetupStatus);
-  return useQuery({ queryKey: ["setup-status"], queryFn: () => fetchStatus() });
+  // Always re-check on open: rooms/logo are saved on other pages that don't invalidate this cache.
+  return useQuery({
+    queryKey: ["setup-status"],
+    queryFn: () => fetchStatus(),
+    staleTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+  });
 }
 
 /** First-login launchpad: guides a new hotel to a live booking website. */
