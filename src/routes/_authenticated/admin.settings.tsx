@@ -238,7 +238,7 @@ function PropertySettingsPage() {
                 {t("common.loading")}
               </div>
             ) : active === "users" && canEdit ? (
-              <UsersSection canEdit={canEdit} canManage={isDeveloper} />
+              <UsersSection canEdit={canEdit} canManage={canEdit || isDeveloper} isDeveloper={isDeveloper} />
             ) : active === "website" ? (
               <WebsiteDomainSection canEdit={canEdit} />
             ) : active === "system" && isDeveloper ? (
