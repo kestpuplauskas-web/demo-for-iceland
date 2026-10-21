@@ -49,7 +49,15 @@ function fmt(value: string | null | undefined, withTime = false) {
     : d.toLocaleDateString("lt-LT");
 }
 
-export function UsersSection({ canEdit, canManage }: { canEdit: boolean; canManage: boolean }) {
+export function UsersSection({
+  canEdit,
+  canManage,
+  isDeveloper = false,
+}: {
+  canEdit: boolean;
+  canManage: boolean;
+  isDeveloper?: boolean;
+}) {
   const { t } = useTranslation();
   const invite = useServerFn(inviteUser);
   const fetchUsers = useServerFn(listUsersWithRoles);
@@ -158,7 +166,9 @@ export function UsersSection({ canEdit, canManage }: { canEdit: boolean; canMana
                   <SelectItem value="admin">{t("settings.users.roleAdmin")}</SelectItem>
                   <SelectItem value="housekeeper">{t("settings.users.roleHousekeeper")}</SelectItem>
                   <SelectItem value="viewer">{t("settings.users.roleViewer")}</SelectItem>
-                  <SelectItem value="developer">{t("settings.users.roleDeveloper")}</SelectItem>
+                  {isDeveloper && (
+                    <SelectItem value="developer">{t("settings.users.roleDeveloper")}</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
