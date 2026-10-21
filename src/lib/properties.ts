@@ -8,7 +8,6 @@ export type PropertyTypeValue = (typeof PROPERTY_TYPES)[number]["value"];
 
 export const AMENITIES = [
   "wifi",
-  "kitchen",
   "parking",
   "air_conditioning",
   "washing_machine",
