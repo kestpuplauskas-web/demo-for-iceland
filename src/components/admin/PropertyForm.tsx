@@ -5,7 +5,6 @@ import {
   AMENITIES,
   AMENITY_LABEL_KEYS,
   BED_TYPES,
-  PROPERTY_TYPES,
   ROOM_KINDS,
   EXTRA_SERVICE_PRESETS,
   EXTRA_CALCS,
@@ -19,6 +18,7 @@ import {
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { NumberInput } from "@/components/NumberInput";
+import { RoomTypeSelect } from "@/components/admin/RoomTypeSelect";
 
 export type PropertyFormValues = {
   name: string;
