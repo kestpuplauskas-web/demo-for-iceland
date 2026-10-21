@@ -1251,7 +1251,7 @@
       "saveName": "Save",
       "sending": "Sending…",
       "roleDeveloper": "Developer",
-      "developerOnlyHint": "Only a developer can invite or remove users.",
+      "developerOnlyHint": "Only a hotel administrator can invite or remove staff.",
       "roleViewer": "Viewer"
     },
     "validation": {
