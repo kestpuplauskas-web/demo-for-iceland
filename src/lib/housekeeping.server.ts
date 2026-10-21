@@ -128,3 +128,27 @@ export function taskStatusForRoomStatus(status: string): "laukia" | "vykdoma" | 
   if (status === "tvarkoma") return "vykdoma";
   return "laukia";
 }
+
+const NO_ORG = "00000000-0000-0000-0000-000000000000";
+
+/** Active hotel's room ids — every housekeeping read/write is limited to these. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function orgPropertyIds(admin: any, orgId: string | null): Promise<string[]> {
+  const { data } = await admin
+    .from("properties")
+    .select("id")
+    .eq("organization_id", orgId ?? NO_ORG);
+  return ((data ?? []) as { id: string }[]).map((p) => p.id);
+}
+
+/** Throws if the room does not belong to the hotel. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function assertPropertyInOrg(admin: any, orgId: string | null, propertyId: string) {
+  const { data } = await admin
+    .from("properties")
+    .select("id")
+    .eq("id", propertyId)
+    .eq("organization_id", orgId ?? NO_ORG)
+    .maybeSingle();
+  if (!data) throw new Error("Room not found");
+}

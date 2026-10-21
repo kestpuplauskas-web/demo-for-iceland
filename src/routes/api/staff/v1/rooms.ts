@@ -10,7 +10,7 @@ export const Route = createFileRoute("/api/staff/v1/rooms")({
       },
       GET: async ({ request }) => {
         const { withStaffAuth, apiJson } = await import("@/lib/staff-api-auth.server");
-        return withStaffAuth(request, async ({ headers, userId }) => {
+        return withStaffAuth(request, async ({ headers, userId, orgId, propertyIds: ids }) => {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           const { loadGlobalSettings } = await import("@/lib/notifications.server");
           const { localToday, computeDayWork } = await import("@/lib/housekeeping.server");
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/api/staff/v1/rooms")({
           const { data: properties } = await supabaseAdmin
             .from("properties")
             .select("id, name, sort_order")
+            .eq("organization_id", orgId ?? "00000000-0000-0000-0000-000000000000")
             .eq("is_active", true)
             .order("sort_order", { ascending: true });
 
@@ -35,19 +36,25 @@ export const Route = createFileRoute("/api/staff/v1/rooms")({
             .select(
               "property_id, date_from, date_to, status, adults_count, children_count, infants_count, check_in_time, check_out_time, customer_name, extras",
             )
+            .in("property_id", ids)
             .neq("status", "cancelled")
             .lte("date_from", date)
             .gte("date_to", date);
 
-          const { data: statuses } = await supabaseAdmin.from("room_status").select("*");
+          const { data: statuses } = await supabaseAdmin
+            .from("room_status")
+            .select("*")
+            .in("property_id", ids);
           const { data: tasks } = await supabaseAdmin
             .from("housekeeping_tasks")
             .select("property_id, status, assigned_to, assigned_at")
-            .eq("service_date", date);
+            .eq("service_date", date)
+            .in("property_id", ids);
           const { data: comments } = await supabaseAdmin
             .from("housekeeping_comments")
             .select("property_id")
-            .eq("service_date", date);
+            .eq("service_date", date)
+            .in("property_id", ids);
 
           const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
           const emailOf = new Map((authUsers?.users ?? []).map((u) => [u.id, u.email ?? ""]));

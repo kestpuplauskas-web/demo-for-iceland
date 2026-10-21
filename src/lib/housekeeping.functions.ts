@@ -19,9 +19,13 @@ export const getHousekeepingWeek = createServerFn({ method: "POST" })
     const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
     const last = days[days.length - 1]!;
 
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    const { orgPropertyIds } = await import("@/lib/housekeeping.server");
+    const ids = await orgPropertyIds(supabaseAdmin, (orgId as string | null) ?? null);
     const { data: properties } = await supabaseAdmin
       .from("properties")
       .select("id, name, sort_order")
+      .eq("organization_id", orgId ?? "00000000-0000-0000-0000-000000000000")
       .eq("is_active", true)
       .order("sort_order", { ascending: true });
 
@@ -30,18 +34,24 @@ export const getHousekeepingWeek = createServerFn({ method: "POST" })
       .select(
         "property_id, date_from, date_to, status, adults_count, children_count, infants_count, check_in_time, check_out_time, customer_name, extras",
       )
+      .in("property_id", ids)
       .neq("status", "cancelled")
       .lte("date_from", last)
       .gte("date_to", start);
 
-    const { data: statuses } = await supabaseAdmin.from("room_status").select("*");
+    const { data: statuses } = await supabaseAdmin
+      .from("room_status")
+      .select("*")
+      .in("property_id", ids);
     const { data: tasks } = await supabaseAdmin
       .from("housekeeping_tasks")
       .select("property_id, service_date, status, assigned_to")
+      .in("property_id", ids)
       .in("service_date", days);
     const { data: comments } = await supabaseAdmin
       .from("housekeeping_comments")
       .select("property_id, service_date")
+      .in("property_id", ids)
       .in("service_date", days);
 
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
@@ -116,9 +126,13 @@ export const getHousekeepingDay = createServerFn({ method: "POST" })
     const settings = await loadGlobalSettings();
     const date = data.date ?? localToday(settings.timezone);
 
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    const { orgPropertyIds } = await import("@/lib/housekeeping.server");
+    const ids = await orgPropertyIds(supabaseAdmin, (orgId as string | null) ?? null);
     const { data: properties } = await supabaseAdmin
       .from("properties")
       .select("id, name, sort_order")
+      .eq("organization_id", orgId ?? "00000000-0000-0000-0000-000000000000")
       .eq("is_active", true)
       .order("sort_order", { ascending: true });
 
@@ -127,18 +141,24 @@ export const getHousekeepingDay = createServerFn({ method: "POST" })
       .select(
         "property_id, date_from, date_to, status, adults_count, children_count, infants_count, check_in_time, check_out_time, customer_name, extras",
       )
+      .in("property_id", ids)
       .neq("status", "cancelled")
       .lte("date_from", date)
       .gte("date_to", date);
 
-    const { data: statuses } = await supabaseAdmin.from("room_status").select("*");
+    const { data: statuses } = await supabaseAdmin
+      .from("room_status")
+      .select("*")
+      .in("property_id", ids);
     const { data: tasks } = await supabaseAdmin
       .from("housekeeping_tasks")
       .select("property_id, status, assigned_to")
+      .in("property_id", ids)
       .eq("service_date", date);
     const { data: comments } = await supabaseAdmin
       .from("housekeeping_comments")
       .select("id, property_id, author_id, author_role, body, created_at")
+      .in("property_id", ids)
       .eq("service_date", date)
       .order("created_at", { ascending: true });
 
@@ -215,6 +235,11 @@ export const setHousekeepingStatus = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    {
+      const { assertPropertyInOrg } = await import("@/lib/housekeeping.server");
+      const { data: orgId } = await context.supabase.rpc("current_org_id");
+      await assertPropertyInOrg(supabaseAdmin, (orgId as string | null) ?? null, data.propertyId);
+    }
     const { taskStatusForRoomStatus } = await import("@/lib/housekeeping.server");
 
     const { error } = await supabaseAdmin
@@ -256,6 +281,11 @@ export const assignHousekeepingTask = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    {
+      const { assertPropertyInOrg } = await import("@/lib/housekeeping.server");
+      const { data: orgId } = await context.supabase.rpc("current_org_id");
+      await assertPropertyInOrg(supabaseAdmin, (orgId as string | null) ?? null, data.propertyId);
+    }
     const { error } = await supabaseAdmin.from("housekeeping_tasks").upsert(
       {
         property_id: data.propertyId,
@@ -284,6 +314,11 @@ export const addHousekeepingComment = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    {
+      const { assertPropertyInOrg } = await import("@/lib/housekeeping.server");
+      const { data: orgId } = await context.supabase.rpc("current_org_id");
+      await assertPropertyInOrg(supabaseAdmin, (orgId as string | null) ?? null, data.propertyId);
+    }
     const { error } = await supabaseAdmin.from("housekeeping_comments").insert({
       property_id: data.propertyId,
       service_date: data.date,
@@ -309,6 +344,11 @@ export const setHousekeepingIssue = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    {
+      const { assertPropertyInOrg } = await import("@/lib/housekeeping.server");
+      const { data: orgId } = await context.supabase.rpc("current_org_id");
+      await assertPropertyInOrg(supabaseAdmin, (orgId as string | null) ?? null, data.propertyId);
+    }
     const { error } = await supabaseAdmin.from("room_status").upsert(
       {
         property_id: data.propertyId,
