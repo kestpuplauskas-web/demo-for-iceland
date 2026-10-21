@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Settings2 } from "lucide-react";
@@ -58,6 +58,7 @@ function PropertySettingsPage() {
   const fetchSettings = useServerFn(getPropertySettings);
   const saveSettings = useServerFn(savePropertySettings);
   const qc = useQueryClient();
+  const navigate = useNavigate();
 
   const [active, setActive] = useState<NavId>("general");
 
