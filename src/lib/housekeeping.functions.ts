@@ -327,9 +327,11 @@ export const listHousekeepers = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
     const { data: roles } = await supabaseAdmin
-      .from("user_roles")
+      .from("organization_members")
       .select("user_id, role")
+      .eq("organization_id", (orgId as string | null) ?? "00000000-0000-0000-0000-000000000000")
       .in("role", ["housekeeper", "admin"]);
     const ids = new Set((roles ?? []).map((r) => r.user_id as string));
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
