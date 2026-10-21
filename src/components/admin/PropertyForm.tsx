@@ -5,7 +5,6 @@ import {
   AMENITIES,
   AMENITY_LABEL_KEYS,
   BED_TYPES,
-  PROPERTY_TYPES,
   ROOM_KINDS,
   EXTRA_SERVICE_PRESETS,
   EXTRA_CALCS,
@@ -19,6 +18,7 @@ import {
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { useAdminCurrency } from "@/lib/use-admin-currency";
 import { NumberInput } from "@/components/NumberInput";
+import { RoomTypeSelect } from "@/components/admin/RoomTypeSelect";
 
 export type PropertyFormValues = {
   name: string;
@@ -166,20 +166,10 @@ export function PropertyForm({
             className="mt-1 w-full rounded border px-2 py-1"
           />
         </label>
-        <label className="text-sm">
+        <div className="text-sm">
           {t("properties.form.type")}
-          <select
-            value={v.propertyType}
-            onChange={(e) => set("propertyType", e.target.value)}
-            className="mt-1 w-full rounded border px-2 py-1"
-          >
-            {PROPERTY_TYPES.map((ty) => (
-              <option key={ty.value} value={ty.value}>
-                {t(ty.labelKey)}
-              </option>
-            ))}
-          </select>
-        </label>
+          <RoomTypeSelect value={v.propertyType} onChange={(val) => set("propertyType", val)} />
+        </div>
         <label className="text-sm md:col-span-2">
           {t("properties.form.description")}
           <textarea

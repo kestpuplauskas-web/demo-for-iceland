@@ -50,6 +50,13 @@
       "when": 1792566435717,
       "tag": "0006_org_scoped_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792566812665,
+      "tag": "0007_room_types",
+      "breakpoints": true
     }
   ]
 }
