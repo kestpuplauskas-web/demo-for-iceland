@@ -64,24 +64,43 @@ export const inviteUser = createServerFn({ method: "POST" })
 
     if (actionLink) {
       const { sendEmail } = await import("@/lib/notifications.server");
+      const { data: settingsRow } = await supabaseAdmin
+        .from("property_settings")
+        .select("display_name")
+        .eq("scope", "global")
+        .eq("organization_id", orgId as string)
+        .maybeSingle();
+      let hotelName = ((settingsRow as { display_name?: string | null } | null)?.display_name ?? "").trim();
+      if (!hotelName) {
+        const { data: org } = await supabaseAdmin
+          .from("organizations" as never)
+          .select("name")
+          .eq("id", orgId as string)
+          .maybeSingle();
+        hotelName = ((org as { name?: string | null } | null)?.name ?? "").trim() || "your hotel";
+      }
+      const esc = (s: string) =>
+        s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+      const safeHotel = esc(hotelName);
       const roleLabel =
         data.role === "admin"
-        ? "administratoriaus"
-        : data.role === "developer"
-          ? "programuotojo"
-          : data.role === "viewer"
-            ? "viewer"
-            : "housekeeper";
+          ? "an administrator"
+          : data.role === "developer"
+            ? "a developer"
+            : data.role === "viewer"
+              ? "a viewer"
+              : "a housekeeper";
       await sendEmail({
         to: data.email,
-        subject: "Kvietimas prisijungti prie Dharma Stay sistemos",
+        subject: `You're invited to join ${hotelName}`,
         html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
-            <p>Sveiki,</p>
-            <p>Jums sukurta ${roleLabel} paskyra Dharma Stay valdymo sistemoje.</p>
-            <p>Click the link to create your password:</p>
+            <p>Hello,</p>
+            <p>You have been invited to join <strong>${safeHotel}</strong> as ${roleLabel}.</p>
+            <p>Click the button below to create your password:</p>
             <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Create password</a></p>
             <p style="font-size:13px;color:#666">If the button doesn't work, copy this link:<br>${actionLink}</p>
+            <p style="font-size:13px;color:#666">${safeHotel}</p>
           </div>
         `,
       });
