@@ -12,7 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Eye, Inbox, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { Eye, Inbox, Info, TrendingDown, TrendingUp, Users } from "lucide-react";
 
 import { Progress } from "@/components/ui/progress";
 import { formatNumber } from "@/lib/utils";
@@ -167,6 +167,23 @@ function AnalyticsPage() {
 
   return (
     <div>
+      <div role="note" className="mb-6 flex gap-3 rounded-lg border bg-muted/40 p-4 text-sm">
+        <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+        <div className="space-y-1">
+          <p className="font-semibold">Analytics are collected from your hotel website.</p>
+          <p className="text-muted-foreground">
+            Don't have a website yet?{" "}
+            <a href="mailto:support@revoostay.com" className="font-medium text-primary underline underline-offset-2">
+              Contact our support team
+            </a>{" "}
+            and we'll build one for you. Already have one?{" "}
+            <a href="/admin/settings" className="font-medium text-primary underline underline-offset-2">
+              Add your domain and DNS records
+            </a>{" "}
+            in Settings.
+          </p>
+        </div>
+      </div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">{t("analytics.title")}</h1>
