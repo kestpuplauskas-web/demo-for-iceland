@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdmin, assertCanView, assertDeveloper } from "./users.server";
+import { assertAdmin, assertCanManageUsers, assertCanView, isDeveloperRole } from "./users.server";
 
 export const inviteUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -16,7 +16,12 @@ export const inviteUser = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await assertDeveloper(context);
+    await assertCanManageUsers(context);
+    if (data.role === "developer" && !(await isDeveloperRole(context))) {
+      throw new Error("Only a developer can invite another developer.");
+    }
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    if (!orgId) throw new Error("No hotel selected.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { appLink } = await import("@/lib/app-url.server");
@@ -49,22 +54,13 @@ export const inviteUser = createServerFn({ method: "POST" })
       });
     }
 
-    const { error: roleErr } = await supabaseAdmin
-      .from("user_roles")
-      .upsert({ user_id: newUserId, role: data.role } as never, {
-        onConflict: "user_id,role",
+    // Role is stored per hotel membership only.
+    const { error: memberErr } = await supabaseAdmin
+      .from("organization_members")
+      .upsert({ organization_id: orgId, user_id: newUserId, role: data.role } as never, {
+        onConflict: "organization_id,user_id",
       });
-    if (roleErr) throw new Error(roleErr.message);
-
-    // Attach the invited user to the inviter's hotel (organization).
-    const { data: orgId } = await context.supabase.rpc("current_org_id");
-    if (orgId) {
-      await supabaseAdmin
-        .from("organization_members")
-        .upsert({ organization_id: orgId, user_id: newUserId, role: data.role } as never, {
-          onConflict: "organization_id,user_id",
-        });
-    }
+    if (memberErr) throw new Error(memberErr.message);
 
     if (actionLink) {
       const { sendEmail } = await import("@/lib/notifications.server");
@@ -148,12 +144,17 @@ export const deleteUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ userId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertDeveloper(context);
+    await assertCanManageUsers(context);
     if (data.userId === context.userId) throw new Error("You cannot delete your own account.");
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
+    if (!orgId) throw new Error("No hotel selected.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-    await supabaseAdmin.from("user_roles").delete().eq("user_id", data.userId);
-    const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
+    // Remove the person from this hotel only; other hotels keep their access.
+    const { error } = await supabaseAdmin
+      .from("organization_members")
+      .delete()
+      .eq("organization_id", orgId)
+      .eq("user_id", data.userId);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
