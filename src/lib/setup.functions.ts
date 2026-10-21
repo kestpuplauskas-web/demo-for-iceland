@@ -18,14 +18,24 @@ export const getSetupStatus = createServerFn({ method: "GET" })
       .eq("scope", "global")
       .eq("organization_id", orgId)
       .maybeSingle();
-    const { data: props } = await context.supabase
+    // Signed-in users can't read iCal feed URLs (column privilege), so count rooms
+    // with the user client and read iCal status with the admin client, scoped to this hotel.
+    const { data: props, error: propsErr } = await context.supabase
       .from("properties")
-      .select("id, ical_import_url")
+      .select("id")
       .eq("organization_id", orgId)
       .eq("is_active", true);
+    if (propsErr) throw new Error(propsErr.message);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { count: icalCount } = await supabaseAdmin
+      .from("properties")
+      .select("id", { count: "exact", head: true })
+      .eq("organization_id", orgId)
+      .eq("is_active", true)
+      .not("ical_import_url", "is", null)
+      .neq("ical_import_url", "");
     const has = (v: unknown) => typeof v === "string" && v.trim().length > 0;
     const row = (s ?? {}) as Record<string, unknown>;
-    const icalCount = (props ?? []).filter((p) => has(p.ical_import_url)).length;
     return [
       { key: "name", label: "Hotel name", ok: has(row.display_name), hint: "General → Display name" },
       { key: "address", label: "Address and city", ok: has(row.address) && has(row.city), hint: "General → Address" },
