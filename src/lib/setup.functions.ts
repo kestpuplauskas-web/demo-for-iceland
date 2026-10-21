@@ -45,7 +45,7 @@ export const getSetupStatus = createServerFn({ method: "GET" })
       { key: "company", label: "Company details for invoices", ok: has(row.company_name), hint: "Invoices → Company name" },
       { key: "properties", label: "At least one active property", ok: (props ?? []).length > 0, hint: "Manage → Properties" },
       { key: "email", label: "Email sending service", ok: Boolean(process.env["RESEND_API_KEY"]), hint: "Needs an email service key — ask your developer" },
-      { key: "ical", label: "Channel calendars (Booking.com, Airbnb)", ok: icalCount > 0, hint: `${icalCount} of ${(props ?? []).length} properties linked — optional` },
+      { key: "ical", label: "Channel calendars (Booking.com, Airbnb)", ok: (icalCount ?? 0) > 0, hint: `${icalCount ?? 0} of ${(props ?? []).length} properties linked — optional` },
     ];
   });
 
