@@ -134,7 +134,7 @@ function AdminLayout() {
               return (
                 <Link
                   key={l.to}
-                  to={l.to}
+                  to={l.to as never}
                   onClick={() => setNavOpen(false)}
                   className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
                     active

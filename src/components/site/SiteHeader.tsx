@@ -33,7 +33,7 @@ export function SiteHeader() {
       scrollToId(AVAILABILITY_SECTION_ID);
       return;
     }
-    void navigate({ to: homePath, hash: AVAILABILITY_SECTION_ID }).then(() => {
+    void navigate({ to: homePath, hash: AVAILABILITY_SECTION_ID } as never).then(() => {
       window.setTimeout(() => scrollToId(AVAILABILITY_SECTION_ID), 80);
     });
   };
