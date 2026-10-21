@@ -43,6 +43,13 @@
       "when": 1792407777119,
       "tag": "0005_platform_admin_scoped_access",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792566435717,
+      "tag": "0006_org_scoped_roles",
+      "breakpoints": true
     }
   ]
 }
