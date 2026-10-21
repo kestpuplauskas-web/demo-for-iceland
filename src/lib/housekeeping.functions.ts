@@ -45,13 +45,13 @@ export const getHousekeepingWeek = createServerFn({ method: "POST" })
       .in("property_id", ids);
     const { data: tasks } = await supabaseAdmin
       .from("housekeeping_tasks")
-      .in("property_id", ids)
       .select("property_id, service_date, status, assigned_to")
+      .in("property_id", ids)
       .in("service_date", days);
     const { data: comments } = await supabaseAdmin
       .from("housekeeping_comments")
-      .in("property_id", ids)
       .select("property_id, service_date")
+      .in("property_id", ids)
       .in("service_date", days);
 
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
@@ -152,13 +152,13 @@ export const getHousekeepingDay = createServerFn({ method: "POST" })
       .in("property_id", ids);
     const { data: tasks } = await supabaseAdmin
       .from("housekeeping_tasks")
-      .in("property_id", ids)
       .select("property_id, status, assigned_to")
+      .in("property_id", ids)
       .eq("service_date", date);
     const { data: comments } = await supabaseAdmin
       .from("housekeeping_comments")
-      .in("property_id", ids)
       .select("id, property_id, author_id, author_role, body, created_at")
+      .in("property_id", ids)
       .eq("service_date", date)
       .order("created_at", { ascending: true });
 

@@ -16,6 +16,9 @@ function allowedOrigins(): string[] {
 export type StaffCtx = {
   userId: string;
   role: "admin" | "housekeeper";
+  /** Hotel the user is working in; all reads/writes are limited to it. */
+  orgId: string | null;
+  propertyIds: string[];
   headers: Record<string, string>;
 };
 
@@ -71,9 +74,27 @@ export async function withStaffAuth(
     return apiError("forbidden", "No staff role", 403, headers);
   }
 
+  // Resolve the user's current hotel with their own token (current_org_id uses auth.uid()).
+  const userDb = createClient<Database>(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    global: { headers: { Authorization: `Bearer ${token}` } },
+  });
+  const { data: orgIdRaw } = await userDb.rpc("current_org_id");
+  const orgId = (orgIdRaw as string | null) ?? null;
+  const { orgPropertyIds } = await import("./housekeeping.server");
+  const propertyIds = await orgPropertyIds(supabaseAdmin, orgId);
+
+  // Any /rooms/:id/* call must target a room of this hotel.
+  const m = new URL(request.url).pathname.match(/\/api\/staff\/v1\/rooms\/([^/]+)/);
+  if (m && !propertyIds.includes(decodeURIComponent(m[1]!))) {
+    return apiError("not_found", "Room not found", 404, headers);
+  }
+
   try {
     return await handler({
       userId: verified.userId,
+      orgId,
+      propertyIds,
       role: isAdmin ? "admin" : "housekeeper",
       headers,
     });
