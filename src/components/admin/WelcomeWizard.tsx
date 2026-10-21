@@ -91,7 +91,7 @@ export function WelcomeWizard() {
                 <span className="text-sm font-medium text-primary">Done</span>
               ) : (
                 <Button asChild variant={active ? "default" : "outline"} className="min-h-11">
-                  <Link to={s.to}>
+                  <Link to={s.to as "/admin/settings" | "/admin/properties"}>
                     {s.cta} <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>

@@ -75,7 +75,7 @@ export function propertyRoute(locale: Locale) {
         if (slug !== params.propertyId) {
           throw redirect({
             to: localizePath("/stays/$propertyId", locale) as never,
-            params: { propertyId: slug },
+            params: { propertyId: slug } as never,
             search: search as never,
             statusCode: 301,
           });
