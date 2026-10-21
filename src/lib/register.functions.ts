@@ -92,7 +92,7 @@ export const registerHotel = createServerFn({ method: "POST" })
       .from("organizations")
       .update({ trial_ends_at: trialEnd.toISOString() } as never)
       .eq("id", orgId);
-    await supabaseAdmin.from("organization_members").insert({ organization_id: orgId, user_id: userId } as never);
+    await supabaseAdmin.from("organization_members").insert({ organization_id: orgId, user_id: userId, role: "admin" } as never);
     await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "admin" } as never);
     await supabaseAdmin.from("property_settings").insert({
       scope: "global",

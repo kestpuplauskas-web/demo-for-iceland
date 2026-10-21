@@ -61,7 +61,7 @@ export const inviteUser = createServerFn({ method: "POST" })
     if (orgId) {
       await supabaseAdmin
         .from("organization_members")
-        .upsert({ organization_id: orgId, user_id: newUserId } as never, {
+        .upsert({ organization_id: orgId, user_id: newUserId, role: data.role } as never, {
           onConflict: "organization_id,user_id",
         });
     }
@@ -99,21 +99,14 @@ export const listUsersWithRoles = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertCanView(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: orgId } = await context.supabase.rpc("current_org_id");
     const { data, error } = await supabaseAdmin
-      .from("user_roles")
+      .from("organization_members")
       .select("user_id, role, created_at")
+      .eq("organization_id", (orgId as string | null) ?? "00000000-0000-0000-0000-000000000000")
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
-
-    const { data: orgId } = await context.supabase.rpc("current_org_id");
-    const { data: mem } = await supabaseAdmin
-      .from("organization_members")
-      .select("user_id")
-      .eq("organization_id", (orgId as string | null) ?? "00000000-0000-0000-0000-000000000000");
-    const memberIds = new Set(((mem ?? []) as Array<{ user_id: string }>).map((m) => m.user_id));
-    const rows = ((data ?? []) as Array<{ user_id: string; role: string; created_at: string }>).filter((r) =>
-      memberIds.has(r.user_id),
-    );
+    const rows = (data ?? []) as Array<{ user_id: string; role: string; created_at: string }>;
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
     const info = new Map(
       (authUsers?.users ?? []).map((u) => [
